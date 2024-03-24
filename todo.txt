@@ -1,0 +1,4 @@
+Start here: https://akveo.github.io/react-native-ui-kitten/docs/guides/configure-navigation#create-navigator
+Go to Configure navigation
+
+Figma design: https://www.figma.com/file/rGTHwMLhN6JR3HiJVvjU1j/Localeyez?type=design&node-id=5-2&mode=design
