@@ -2,13 +2,29 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Menu from './pages/Menu';
-import AdminLogin from './pages/admin/login/Login';
+import Login from './pages/Login';
+/**
+ * Admin Pages
+*/
 import AdminNewBusinessHome from './pages/admin/new_businesses/Home';
+
+/**
+ * Business Pages
+*/
+import BusProfProHome from './pages/business/profile/promos/Home';
+
+/**
+ * Shopper Pages
+*/
+import ShopperHome from './pages/shopper/Home';
+
+import AdminLogin from './pages/admin/login/Login';
 import AdminNewBusinessView from './pages/admin/new_businesses/NewView';
 import AdminAllBusinessHome from './pages/admin/all_businesses/Home';
 import AdminAllBusinessView from './pages/admin/all_businesses/AllView';
 import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
+
 import OnboardingStart from './pages/onboarding/Start';
 import OnboardingChoose from './pages/onboarding/Choose';
 import LoginBusiness from './pages/business/login/Login';
@@ -16,7 +32,7 @@ import SignupBusinessStepOne from './pages/business/signup/StepOne';
 import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
 import SignupBusinessStepThree from './pages/business/signup/StepThree';
 import SignupBusinessStepFour from './pages/business/signup/StepFour';
-import BusProfProHome from './pages/business/profile/promos/Home';
+
 import BusProfProAdd from './pages/business/profile/promos/Add';
 import BusProfProEdit from './pages/business/profile/promos/Edit';
 import BusProfProDelete from './pages/business/profile/promos/Delete';
@@ -49,7 +65,7 @@ import SignupUserFreeTwo from './pages/shopper/signup/pricing/FreeStepTwo';
 import SignupUserMonthlyOne from './pages/shopper/signup/pricing/MonthlyStepOne';
 import SignupUserMonthlyTwo from './pages/shopper/signup/pricing/MonthlyStepTwo';
 import SignupUserMonthlyThree from './pages/shopper/signup/pricing/MonthlyStepThree';
-import ShopperHome from './pages/shopper/Home';
+
 import ShopperAccHome from './pages/shopper/account/Home';
 import ShopperAccEdit from './pages/shopper/account/Edit';
 import ShopperAccIntHome from './pages/shopper/account/interests/Home';
@@ -85,6 +101,7 @@ const {Navigator, Screen} = createStackNavigator();
 
 const HomeNavigator = () => (
   <Navigator screenOptions={{headerShown: false}}>
+    <Screen name="Login" component={Login} />
     <Screen name="Menu" component={Menu} />
     <Screen name="AdminLogin" component={AdminLogin} />
     <Screen name="AdminNewBusinessHome" component={AdminNewBusinessHome} />

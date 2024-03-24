@@ -6,7 +6,7 @@ import { ContactCard } from '../../../components/ContactCard';
 import { Divider } from '@ui-kitten/components';
 import { BotNav } from '../../../components/BotNav';
 import { Layout } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
 import { TextTwo } from '../../../components/TextTwo';
 
 const SupportView = (props) => 

@@ -3,7 +3,7 @@ import { Layout } from '@ui-kitten/components';
 import { ButtonPrimary } from '../components/ButtonPrimary';
 import { SafeAreaView, View } from 'react-native';
 
-const Menu = (props) => 
+const Menu = (props: any) => 
 {
     const handleAdminLogin = () =>
     {

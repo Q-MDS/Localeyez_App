@@ -5,7 +5,7 @@ import { TopNavLrgTitleIcon } from '../../../components/TopNavLrgTitleIcon';
 import { BotNav } from '../../../components/BotNav';
 import { ListIconRowThree } from '../../../components/ListIconRowThree';
 import { Layout } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
 
 const Home = (props) => 
 {
