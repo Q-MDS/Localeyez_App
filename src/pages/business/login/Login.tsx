@@ -8,14 +8,19 @@ import { SafeAreaView, ScrollView, View, Image, TouchableOpacity  } from 'react-
 import { Layout } from '@ui-kitten/components';
 import TextTwo from '../../../components/TextTwo';
 
-const Login = (props) => 
+const Login = (props: any) => 
 {
-    const [email, setEmail] = useState('');
+    const [credOne, setCredOne] = useState('business@gmail.com');
+    const [credTwo, setCredTwo] = useState('123456');
 
     const handleLogin = () => 
     {
-        console.log('Login as a business...');
         props.navigation.navigate('BusinessDashboard');
+    }
+
+    const handleRememberMe = () => 
+    {
+        console.log('Remember me...');
     }
 
     const handleReset = () => 
@@ -32,7 +37,7 @@ const Login = (props) =>
         <SafeAreaView style={{flex: 1}}>
             <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             
-                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%'}}>
+                <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'center', width: '100%'}}>
                     <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
                         <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
                     </View>
@@ -41,24 +46,24 @@ const Login = (props) =>
                             <View style={{ marginTop: 20 }} />
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelEmail label="Email" value={email} setValue={setEmail} placeholder="Enter email" />
+                            <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelPassword label="Password" placeholder="Enter password" />
+                            <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" />
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
                                 <Checkbox label="Remember me" />
                                 </Layout>
-                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
+                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
                                     <TextTwo title="Forgot password?&nbsp;" textalign="right" />
                                     <TouchableOpacity onPress={handleReset}>
                                         <TextTwo title="Reset" underline="underline" textalign="right" />
                                     </TouchableOpacity>
                                 </Layout>
                             </Layout>
-                            <View style={{ marginTop: 15 }} />
+                            <View style={{ marginTop: 35 }} />
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
-                            <View style={{ marginTop: 25 }} />
+                            <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
                                 <TextTwo title="Don't have an account? " textalign="center" />
                                 <TouchableOpacity onPress={handleSignup} >

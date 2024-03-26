@@ -1,6 +1,16 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+
+import OnboardingStart from './pages/onboarding/Start';
+import OnboardingChoose from './pages/onboarding/Choose';
+import LoginBusiness from './pages/business/login/Login';
+import SignupBusinessStepOne from './pages/business/signup/StepOne';
+import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
+import SignupBusinessStepThree from './pages/business/signup/StepThree';
+import SignupBusinessStepFour from './pages/business/signup/StepFour';
+
+
 import Menu from './pages/Menu';
 import Login from './pages/Login';
 /**
@@ -25,13 +35,9 @@ import AdminAllBusinessView from './pages/admin/all_businesses/AllView';
 import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
 
-import OnboardingStart from './pages/onboarding/Start';
-import OnboardingChoose from './pages/onboarding/Choose';
-import LoginBusiness from './pages/business/login/Login';
-import SignupBusinessStepOne from './pages/business/signup/StepOne';
-import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
-import SignupBusinessStepThree from './pages/business/signup/StepThree';
-import SignupBusinessStepFour from './pages/business/signup/StepFour';
+
+
+
 
 import BusProfProAdd from './pages/business/profile/promos/Add';
 import BusProfProEdit from './pages/business/profile/promos/Edit';
@@ -101,6 +107,14 @@ const {Navigator, Screen} = createStackNavigator();
 
 const HomeNavigator = () => (
   <Navigator screenOptions={{headerShown: false}}>
+    <Screen name="OnboardingStart" component={OnboardingStart} />
+    <Screen name="OnboardingChoose" component={OnboardingChoose} />
+    <Screen name="LoginBusiness" component={LoginBusiness} />
+    <Screen name="SignupBusinessStepOne" component={SignupBusinessStepOne} />
+    <Screen name="SignupBusinessStepTwo" component={SignupBusinessStepTwo} />
+    <Screen name="SignupBusinessStepThree" component={SignupBusinessStepThree} />
+    <Screen name="SignupBusinessStepFour" component={SignupBusinessStepFour} />
+
     <Screen name="Login" component={Login} />
     <Screen name="Menu" component={Menu} />
     <Screen name="AdminLogin" component={AdminLogin} />
@@ -110,13 +124,7 @@ const HomeNavigator = () => (
     <Screen name="AdminAllBusinessView" component={AdminAllBusinessView} />
     <Screen name="AdminSupportHome" component={AdminSupportHome} />
     <Screen name="AdminSupportView" component={AdminSupportView} />
-    <Screen name="OnboardingStart" component={OnboardingStart} />
-    <Screen name="OnboardingChoose" component={OnboardingChoose} />
-    <Screen name="LoginBusiness" component={LoginBusiness} />
-    <Screen name="SignupBusinessStepOne" component={SignupBusinessStepOne} />
-    <Screen name="SignupBusinessStepTwo" component={SignupBusinessStepTwo} />
-    <Screen name="SignupBusinessStepThree" component={SignupBusinessStepThree} />
-    <Screen name="SignupBusinessStepFour" component={SignupBusinessStepFour} />
+    
     <Screen name="BusProfProHome" component={BusProfProHome} />
     <Screen name="BusProfProAdd" component={BusProfProAdd} />
     <Screen name="BusProfProEdit" component={BusProfProEdit} />

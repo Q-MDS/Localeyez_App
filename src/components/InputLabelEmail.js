@@ -3,17 +3,17 @@ import { Input } from '@ui-kitten/components';
 
 export const InputLabelEmail = (props) => 
 {
-    const [value, setValue] = React.useState();
+    // const [value, setValue] = React.useState();
 
     return (
         <Input
             label={props.label}
             placeholder={props.placeholder}
             keyboardType="email-address"
-            value={value}
+            value={props.value}
             size="large"
             style={{ borderRadius: 15 }}
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={props.setValue}
         />
     );
 };

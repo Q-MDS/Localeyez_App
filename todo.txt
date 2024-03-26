@@ -2,3 +2,45 @@ Start here: https://akveo.github.io/react-native-ui-kitten/docs/guides/configure
 Go to Configure navigation
 
 Figma design: https://www.figma.com/file/rGTHwMLhN6JR3HiJVvjU1j/Localeyez?type=design&node-id=5-2&mode=design
+
+-------------------------------------------------------------------------------------------------------------
+1. Async-storage examples:
+STORE
+=====
+let user = {
+    name: 'John Doe',
+    age: 30,
+    email: 'john.doe@example.com'
+};
+
+// Stringify the user object
+let stringifiedUser = JSON.stringify(user);
+
+// Store the stringified user object
+AsyncStorage.setItem('user', stringifiedUser);
+
+RETRIEVE
+========
+// Retrieve the stringified user object
+let stringifiedUser = await AsyncStorage.getItem('user');
+
+// Parse it back into an object
+let user = JSON.parse(stringifiedUser);
+
+// Now you can access the individual values
+console.log(user.name);  // 'John Doe'
+console.log(user.age);   // 30
+console.log(user.email); // 'john.doe@example.com'
+
+CHECK IF DATA EXISTS
+====================
+const checkData = async (key) => {
+  const value = await AsyncStorage.getItem(key);
+  if(value !== null) {
+    console.log('Data exists');
+  } else {
+    console.log('No data with this key');
+  }
+}
+
+checkData('user');

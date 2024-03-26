@@ -4,16 +4,15 @@ import { StyleSheet } from 'react-native';
 
 export const InputMultiline = (props) => {
 
-  const [value, setValue] = React.useState();
 
   return (
     <Input
         label={props.label}
         placeholder={props.placeholder}
-        value={value}
+        value={props.value}
         multiline={true}
         textStyle={styles.inputTextStyle}
-        onChangeText={nextValue => setValue(nextValue)}
+        onChangeText={props.setValue}
     />
   );
 };
