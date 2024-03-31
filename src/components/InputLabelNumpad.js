@@ -11,6 +11,7 @@ export const InputLabelNumpad = (props) => {
         keyboardType="number-pad"
         style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
         onChangeText={props.setValue}
+        onChange={props.onChange}
     />
   );
 };

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import MainStyles from '../../../assets/styles/MainStyles';
+import AccordianCheckboxList from '../../../components/AccordianCheckboxList';
 import Collapsible from 'react-native-collapsible';
 import { Checkbox } from '../../../components/Checkbox';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
@@ -16,8 +17,86 @@ const StepThree = (props) =>
 
     const handleSubmit = () =>
     {
-        props.navigation.navigate('SignupBusinessStepFour');
+		console.log('shoppingData', shoppingData);
+        // props.navigation.navigate('SignupBusinessStepFour');
     }
+
+    const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7"];
+    const selfCare = ["Childres", "Old Age Pensioners", "Community Projects", "Conservation"];
+    // const shopping = {
+    //     topics: {
+    //         "Fashion & Beauty": ["Clothing", "Shoes"],
+    //         "Home": ["Furniture", "Fixtures & Fittings"],
+    //         "Groceries": ["Food & Beverage", "Local Markets & Homemade Goods"],
+    //         "Hardware & Electrical": [],
+    //         "Stationary & Gifts": ["Pens", "Paper"],
+    //         "Children": ["Toys"]
+    //     }
+    //};
+	const shopping = [
+		{ "id": 1, "type": 0, "item": "Fashion & Beauty", "checked": false }, 
+		{ "id": 2, "type": 1, "item": "Clothing", "checked": false }, 
+		{ "id": 3, "type": 1, "item": "Shoes", "checked": false }, 
+		{ "id": 4, "type": 0, "item": "Home", "checked": false }, 
+		{ "id": 5, "type": 1, "item": "Furniture", "checked": false }, 
+		{ "id": 6, "type": 1, "item": "Fixtures & Fittings", "checked": false }];
+	const [shoppingData, setShoppingData] = useState(travel);
+	
+	const travel = [
+		{ "id": 1, "type": 0, "item": "Accomodation", "checked": false }, 
+		{ "id": 2, "type": 1, "item": "Hotels", "checked": false }, 
+		{ "id": 3, "type": 1, "item": "Guest Lodges", "checked": false }, 
+		{ "id": 4, "type": 1, "item": "BnB's", "checked": false }, 
+		{ "id": 5, "type": 0, "item": "Transport", "checked": false }, 
+		{ "id": 6, "type": 1, "item": "Taxis", "checked": false },
+		{ "id": 7, "type": 1, "item": "Trains", "checked": false },
+		{ "id": 8, "type": 0, "item": "Travel Agents", "checked": false }];
+	const [travelData, setTravelData] = useState(travel);
+	
+	const health = [
+		{ "id": 1, "type": 0, "item": "Sports & Recreation", "checked": false }, 
+		{ "id": 3, "type": 1, "item": "Gyms", "checked": false }, 
+		{ "id": 4, "type": 1, "item": "Sports Clubs", "checked": false }, 
+		{ "id": 5, "type": 1, "item": "Spa's", "checked": false }, 
+		{ "id": 6, "type": 1, "item": "Outdoor Activities", "checked": false }, 
+		{ "id": 7, "type": 0, "item": "Doctors & Specialists", "checked": false }, 
+		{ "id": 8, "type": 1, "item": "General Practitioners", "checked": false }, 
+		{ "id": 9, "type": 1, "item": "Physicians", "checked": false },
+		{ "id": 10, "type": 1, "item": "Physiotherapists", "checked": false },
+		{ "id": 11, "type": 1, "item": "Chiropractors", "checked": false },
+		{ "id": 12, "type": 0, "item": "Health Stores & Pharmacies", "checked": false },
+		{ "id": 13, "type": 0, "item": "Health Stores & Pharmacies", "checked": false },
+		{ "id": 14, "type": 0, "item": "Ambulances & Emergency Contacts", "checked": false }];
+	const [healthData, setHealthData] = useState(health);
+	
+	const entertainment = [
+		{ "id": 1, "type": 0, "item": "Eat & Drink", "checked": false }, 
+		{ "id": 2, "type": 1, "item": "Restaurants", "checked": false }, 
+		{ "id": 3, "type": 1, "item": "Bars", "checked": false }, 
+		{ "id": 4, "type": 1, "item": "Clubs", "checked": false }, 
+		{ "id": 5, "type": 1, "item": "Coffee Shops", "checked": false }, 
+		{ "id": 6, "type": 0, "item": "Activities", "checked": false }, 
+		{ "id": 7, "type": 1, "item": "Movies", "checked": false }, 
+		{ "id": 8, "type": 1, "item": "Entertainment Centres", "checked": false },
+		{ "id": 9, "type": 1, "item": "Arts", "checked": false },
+		{ "id": 10, "type": 1, "item": "Outdoor Leisure", "checked": false },
+		{ "id": 11, "type": 0, "item": "Events", "checked": false },
+		{ "id": 12, "type": 1, "item": "Music", "checked": false },
+		{ "id": 13, "type": 1, "item": "Arts", "checked": false }];
+	const [entertainmentData, setEntertainmentData] = useState(entertainment);
+	
+	const education = [
+		{ "id": 1, "type": 0, "item": "Events", "checked": false }, 
+		{ "id": 2, "type": 1, "item": "Preschools", "checked": false }, 
+		{ "id": 3, "type": 1, "item": "Primary Schools", "checked": false }, 
+		{ "id": 4, "type": 1, "item": "Secondary Schools", "checked": false }, 
+		{ "id": 5, "type": 1, "item": "Tertiary Education", "checked": false }, 
+		{ "id": 6, "type": 0, "item": "Learning", "checked": false }, 
+		{ "id": 7, "type": 1, "item": "Courses", "checked": false }, 
+		{ "id": 8, "type": 1, "item": "E-Learning", "checked": false },
+		{ "id": 9, "type": 0, "item": "Employment", "checked": false },
+		{ "id": 10, "type": 1, "item": "Recruitment Agencies", "checked": false }];
+	const [educationData, setEducationData] = useState(education);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -26,68 +105,15 @@ const StepThree = (props) =>
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Layout style={[MainStyles.layout_container]}>
                     <Label title="Choose which sector your business falls under:" textalign="left" mb={25} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
-                            <TitleThree title="Shopping" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Collapsible collapsed={isCollapsed}>
-                        <Checkbox label="Fashion & Beauty" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                        <View style={{ marginTop: 5 }} />
-                        <Checkbox label="Home" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                        <View style={{ marginTop: 5 }} />
-                        <Checkbox label="Groceries" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                        <View style={{ marginTop: 5 }} />
-                        <Checkbox label="Hardware & Electrical" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                        <View style={{ marginTop: 5 }} />
-                        <Checkbox label="Stationary & Gifts" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                        <View style={{ marginTop: 5 }} />
-                        <Checkbox label="Children" isChecked={checked} onchange={nextChecked => setChecked(nextChecked)} />
-                    </Collapsible>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Travel" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Health & Wellness" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Entertainemnt" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Education & Employment" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Services" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setIsCollapsed(!isCollapsed)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title="Community" mb={5} flex={1} onPress={() => setIsCollapsed(!isCollapsed)}  />
-                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                        </View>
-                    </TouchableOpacity>
-                    <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+                        <AccordianCheckboxList title="Shopping" data={shopping} updateData={setShoppingData} bgColor="#F5F5F5" />
+                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
+                        <AccordianCheckboxList title="Travel" data={travel} updateData={setTravelData} bgColor="#F5F5F5" />
+                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
+                        <AccordianCheckboxList title="Health & Wellness" data={health} updateData={setHealthData} bgColor="#F5F5F5" />
+                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
+                        <AccordianCheckboxList title="Entertainment" data={entertainment} updateData={setEntertainmentData} bgColor="#F5F5F5" />
+                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
+                        <AccordianCheckboxList title="Educaton & Employment" data={education} updateData={setEducationData} bgColor="#F5F5F5" />
                     <ButtonPrimary name="Submit" width="100%" marginTop={25} onpress={handleSubmit}/>
                 </Layout>
                 

@@ -7,7 +7,7 @@ import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import TextTwo from '../../../components/TextTwo';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Layout, Avatar } from '@ui-kitten/components';
 
 
@@ -18,9 +18,11 @@ const StepOne = (props) =>
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     const chkProfile = async () => 
     {
+        // await DbUtils.clear();
         const isProfile = await DbUtils.checkData('business_profile');
 
         if (!isProfile)
@@ -36,20 +38,21 @@ const StepOne = (props) =>
     const createProfile = async () => 
     {
         const profileData = {
-            email: 'john@doe.com',
-            first_name: 'John',
-            last_name: 'Doe',
-            password: 'password',
-            contact_number: '1234567890',
-            company_name: 'Company Name',
-            location: [{address_one: '123 Main St', address_two: '', city: 'City', province: 'Province', zip: '12345'}],
-            business_bio: 'Business Bio', 
+            email: '',
+            first_name: '',
+            last_name: '',
+            password: '',
+            contact_number: '',
+            company_name: '',
+            location: [{address_one: '', address_two: '', city: '', province: '', zip: ''}],
+            business_bio: '', 
             isLocal: true,
-            sm_x: "http://x.com",   
-            sm_inst: "http://inst.com",   
-            sm_fb: "http://fb.com",   
-            sm_linkedin: "http://linkedin.com",   
-            sm_www: "http://www.website.com",   
+            sm_x: '',   
+            sm_inst: '',   
+            sm_fb: '',   
+            sm_linkedin: '',   
+            sm_www: '',
+
         }
         let stringified = JSON.stringify(profileData);
         DbUtils.setItem('business_profile', stringified);
@@ -57,11 +60,16 @@ const StepOne = (props) =>
 
     const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('business_profile');
-        setEmail(JSON.parse(profile).email);
-        setFirstName(JSON.parse(profile).first_name);
-        setLastName(JSON.parse(profile).last_name);
-        console.log('profile step 1: ', profile);
+        const profile = await DbUtils.getItem('business_profile')
+        .then((profile) => 
+        {
+            setEmail(JSON.parse(profile).email);
+            setFirstName(JSON.parse(profile).first_name);
+            setLastName(JSON.parse(profile).last_name);
+            setPassword(JSON.parse(profile).password);
+
+            setIsLoading(false);
+        });
     }
 
     const updProfile = async (key, newValue) => 
@@ -70,6 +78,7 @@ const StepOne = (props) =>
         const profileData = JSON.parse(profileDataString);
       
         profileData[key] = newValue;
+        console.log('key: ', key, ' newValue: ', newValue, ' profileData: ', profileData);
       
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
@@ -87,11 +96,16 @@ const StepOne = (props) =>
         }
     }, [profileExists === true]);
 
-    const handleNext = () => 
+    useEffect(() => {
+        console.log('Oh poo');
+    }, [firstName]);
+
+    const handleNext = async () => 
     {
-        updProfile('email', email);
-        updProfile('first_name', firstName);
-        updProfile('last_name', lastName);
+        await updProfile('email', email);
+        await updProfile('first_name', firstName);
+        await updProfile('last_name', lastName);
+        await updProfile('password', password);
 
         props.navigation.navigate('SignupBusinessStepTwo');
     }
@@ -99,6 +113,15 @@ const StepOne = (props) =>
     const handleLogin = () => 
     {
         props.navigation.navigate('LoginBusiness');
+    }
+
+    if (isLoading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
 
     return (
@@ -118,7 +141,7 @@ const StepOne = (props) =>
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Last Name" value={lastName} setValue={setLastName} placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabelPassword placeholder="Enter password" label="Password" />
+                    <InputLabelPassword placeholder="Enter password" label="Password" value={password} setValue={setPassword} />
                     <View style={{ marginTop: 15 }} />
                     <InputLabelPassword placeholder="Confirm password" label="Confirm Password" />
                     <View style={{ marginTop: 25 }} />

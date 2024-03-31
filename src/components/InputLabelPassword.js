@@ -11,7 +11,7 @@ const AlertIcon = (props) => (
 
 export const InputLabelPassword = (props) => {
 
-  const [value, setValue] = React.useState('');
+//   const [value, setValue] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
   const toggleSecureEntry = () => {
@@ -40,14 +40,14 @@ export const InputLabelPassword = (props) => {
 
   return (
     <Input
-      value={value}
+      value={props.value}
       label={props.label}
       placeholder={props.placeholder}
       accessoryRight={renderIcon}
       secureTextEntry={secureTextEntry}
       style={{ borderRadius: 15 }}
       size="large"
-      onChangeText={nextValue => setValue(nextValue)}
+      onChangeText={props.setValue}
     />
   );
 };

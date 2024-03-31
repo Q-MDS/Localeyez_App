@@ -7,9 +7,9 @@ export const Checkbox = (props) =>
 
     return (
         <CheckBox
-            checked={props.isChecked}
-            onChange={props.onchange}
-            style={{ width: '100%'}}
+            checked={props.checked}
+            onChange={props.onChange}
+            style={{ width: props.width, marginBottom: props.mb}}
         >
             {props.label}
         </CheckBox>
