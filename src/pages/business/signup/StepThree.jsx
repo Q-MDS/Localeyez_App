@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import DbUtils from '../../../services/DbUtils'; 
 import MainStyles from '../../../assets/styles/MainStyles';
 import AccordianCheckboxList from '../../../components/AccordianCheckboxList';
 import Collapsible from 'react-native-collapsible';
 import { Checkbox } from '../../../components/Checkbox';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Layout, Divider, Icon } from '@ui-kitten/components';
 import { Label } from '../../../components/Label';
 import { TitleThree } from '../../../components/TitleThree';
@@ -15,6 +15,7 @@ const StepThree = (props) =>
 {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [checked, setChecked] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
     const handleSubmit = async () =>
     {
@@ -156,6 +157,25 @@ const StepThree = (props) =>
       
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
+
+	useEffect(() => 
+	{
+		console.log('The screen has been rendered');
+		
+		// Set a timeout to set isLoading to false after 1 second
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 200);
+	}, []);
+
+	if (isLoading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

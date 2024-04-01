@@ -11,6 +11,7 @@ export const InputLabel = (props) => {
         placeholder={props.placeholder}
         value={props.value}
         onChangeText={props.setValue}
+		textStyle={{ paddingStart: 0, marginStart: 0}}
         style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
     />
   );

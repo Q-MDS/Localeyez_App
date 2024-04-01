@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import DbUtils from '../../../../../services/DbUtils';
 import MainStyles from '../../../../../assets/styles/MainStyles';
+import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
 import { SafeAreaView, ScrollView, View } from 'react-native';
@@ -10,11 +13,82 @@ import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
 import { Label } from '../../../../../components/Label';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
+import CustomIcon from '../../../../../components/CustomIcon';
+import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 
 const Edit = (props) => 
 {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-console.log('Selected Profile', selectedIndex);
+	const [businessId, setBusinessId] = useState('');
+	const [token, setToken] = useState('');
+	const [companyName, setCompanyName] = useState('');
+	const [businessBio, setBusinessBio] = useState('');
+	const [addressOne, setAddressOne] = useState('');
+    const [addressTwo, setAddressTwo] = useState('');
+    const [city, setCity] = useState('');
+    const [province, setProvince] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+	const [xUrl, setXUrl] = useState('');
+    const [instgramUrl, setInstagramUrl] = useState('');
+    const [facebookUrl, setFacebookUrl] = useState('');
+    const [linkedinUrl, setLinkedinUrl] = useState('');
+    const [wwwUrl, setWwwUrl] = useState('');
+
+	const getProfile = async () => 
+    {
+        const profile = await DbUtils.getItem('business_profile');
+		const parsedProfile = JSON.parse(profile);
+
+		setCompanyName(parsedProfile.company_name);
+		setBusinessBio(parsedProfile.business_bio);
+		setAddressOne(parsedProfile.location[0].address_one);
+		setAddressTwo(parsedProfile.location[0].address_two);
+		setCity(parsedProfile.location[0].city);
+		setProvince(parsedProfile.location[0].province);
+		setZipCode(parsedProfile.location[0].zip);
+		setContactNumber(parsedProfile.contact_number);
+		setXUrl(parsedProfile.sm_x);
+		setInstagramUrl(parsedProfile.sm_inst);
+		setFacebookUrl(parsedProfile.sm_fb);
+		setLinkedinUrl(parsedProfile.sm_linkedin);
+		setWwwUrl(parsedProfile.sm_www);
+		// setIsLoading(false);
+
+        // console.log('Business Edit Profile: ', parsedProfile);
+    }
+
+	const getBusniessId = async () => 
+	{
+		const id = await DbUtils.getItem('business_id');
+		
+		setBusinessId(id);
+	}
+
+	const getToken = async () => 
+	{
+		const token = await DbUtils.getItem('token');
+		
+		setToken(token);
+	}
+
+	useFocusEffect(React.useCallback(() => 
+	{
+		setSelectedIndex(0);
+	}, []));
+
+	useEffect(() => 
+	{
+		const fetchProfile = async () => 
+		{
+			await getProfile();
+			await getBusniessId();
+			await getToken();
+		};
+
+		fetchProfile();
+	}, []);
+
     if (selectedIndex === 0) 
     {
         console.log('Goto Business Sectors');
@@ -22,12 +96,49 @@ console.log('Selected Profile', selectedIndex);
     
     if (selectedIndex === 1) 
     {
-        props.navigation.navigate('BusProfSectorsEdit');
+        props.navigation.navigate('BusProfSectorsEdit', {selectedIndex: 1});
     }
 
-    const handleSubmit = () => 
+	const updProfile = async (key, newValue) => 
+    {
+        const profileDataString = await DbUtils.getItem('business_profile');
+        const profileData = JSON.parse(profileDataString);
+      
+        profileData[key] = newValue;
+      
+        await DbUtils.setItem('business_profile', JSON.stringify(profileData));
+    };
+
+    const handleSubmit = async () => 
     {
         console.log('Submit Changes');
+		await updProfile('company_name', companyName);
+		await updProfile('contact_number', contactNumber);
+		await updProfile('location', [{ address_one: addressOne, address_two: addressTwo, city: city, province: province, zip: zipCode }]);
+		await updProfile('business_bio', businessBio);
+		await updProfile('sm_x', xUrl);
+		await updProfile('sm_inst', instgramUrl);
+		await updProfile('sm_fb', facebookUrl);
+		await updProfile('sm_linkedin', linkedinUrl);
+		await updProfile('sm_www', wwwUrl);
+
+		// Will need to send this to the server
+		const data = {
+			business_id: businessId,
+			company_name: companyName,
+			contact_number: contactNumber,
+			location: [{ address_one: addressOne, address_two: addressTwo, city: city, province: province, zip: zipCode }],
+			business_bio: businessBio,
+			sm_x: xUrl,
+			sm_inst: instgramUrl,
+			sm_fb: facebookUrl,
+			sm_linkedin: linkedinUrl,
+			sm_www: wwwUrl,
+		}
+
+		const res = await updBusinessProfile(token, data);
+
+		// console.log('Res: ', res);
         props.navigation.navigate('BusProfProHome');
     }
 
@@ -52,32 +163,37 @@ console.log('Selected Profile', selectedIndex);
                         <TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
                     </Layout>
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Name" placeholder="Maria's Diner" />
+                    <InputLabel label="Company Name" value={companyName} setValue={setCompanyName} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Phone Number" placeholder="(123) 456 7890)" />
+                    <InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Location" placeholder={`Address line 1${"\n"}Address line 2${"\n"}Suburb${"\n"}City${"\n"}Province${"\n"}Zip Code`} />
+					<Label title="Location" textalign="left" fontweight="bold" mb={5} />
+					<InputLabel label="" value={addressOne} setValue={setAddressOne} placeholder="Address Line 1" />
+					<InputLabel label="" value={addressTwo} setValue={setAddressTwo} placeholder="Address Line 2" mt={5} />
+					<InputLabel label="" value={city} setValue={setCity} placeholder="City" mt={5} />
+					<InputLabel label="" value={province} setValue={setProvince} placeholder="Province" mt={5} />
+					<InputLabel label="" value={zipCode} setValue={setZipCode} placeholder="Zip Code" mt={5} />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" placeholder={`Write a description up to 120 characters`} />
+                    <InputMultiline label="Business Bio" value={businessBio} setValue={setBusinessBio} placeholder={`Write a description up to 120 characters`} />
                     <View style={{ marginTop: 15 }} />
                     <View style={{ marginTop: 15 }} />
                     <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
-                    <Icon name="twitter-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write X URL here" />
+                    <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
+                    <InputLabel value={xUrl} setValue={setXUrl} placeholder="Write Facebook URL here" />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="linkedin-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write Instagram URL here" />
+                    <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
+                    <InputLabel value={instgramUrl} setValue={setInstagramUrl} placeholder="Write Instagram URL here" />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="facebook-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write Facebook URL here" />
+                    <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
+                    <InputLabel value={facebookUrl} setValue={setFacebookUrl} placeholder="Write Facebook URL here" />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="linkedin-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write Linkedin URL here" />
+                    <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
+                    <InputLabel value={linkedinUrl} setValue={setLinkedinUrl} placeholder="Write Linkedin URL here" />
                     <View style={{ marginTop: 10 }} />
                     <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write Website URL here" />
+                    <InputLabel value={wwwUrl} setValue={setWwwUrl} placeholder="Write Website URL here" />
                     <View style={{ marginTop: 25 }} />
-                    <ButtonPrimary name="Next" width="100%" onpress={handleSubmit}/>
+                    <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit}/>
                 </Layout>
             </ScrollView>
         </SafeAreaView>

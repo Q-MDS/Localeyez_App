@@ -12,7 +12,6 @@ import { Text, Icon } from '@ui-kitten/components';
 
 export const TextIcon = (props) => 
 {
-    console.log('props: ', props);
     return (
     <View style={[styles.container, {marginTop: props.mt, marginBottom: props.mb}]}>
         <Text status="primary" style={[styles.text, {fontSize: props.fontsize, paddingStart: props.pl}]}>{props.title}</Text>

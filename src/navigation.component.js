@@ -13,7 +13,8 @@ import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
 import SignupBusinessStepThree from './pages/business/signup/StepThree';
 import SignupBusinessStepFour from './pages/business/signup/StepFour';
 import BusProfProHome from './pages/business/profile/promos/Home';
-
+import BusProfEdit from './pages/business/profile/edit/business_profile/Edit';
+import BusProfSectorsEdit from './pages/business/profile/edit/business_sectors/Edit';
 
 
 
@@ -48,8 +49,8 @@ import BusProfEvtAdd from './pages/business/profile/events/Add';
 import BusProfEvtEdit from './pages/business/profile/events/Edit';
 import BusProfEvtDelete from './pages/business/profile/events/Delete';
 import BusProfEvtAddEditBack from './pages/business/profile/events/BackMessage';
-import BusProfEdit from './pages/business/profile/edit/business_profile/Edit';
-import BusProfSectorsEdit from './pages/business/profile/edit/business_sectors/Edit';
+
+
 import BusProfSectorsAdd from './pages/business/profile/edit/business_sectors/Add';
 import ReviewList from './pages/business/reviews/List';
 import ReviewView from './pages/business/reviews/View';

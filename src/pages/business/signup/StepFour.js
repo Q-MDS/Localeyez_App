@@ -55,8 +55,6 @@ const StepFour = (props) =>
 		}
     }
 
-	
-
 	useEffect(() => 
 	{
 		getProfile();

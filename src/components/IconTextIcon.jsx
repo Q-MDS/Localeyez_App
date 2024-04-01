@@ -4,7 +4,6 @@ import { Text, Icon } from '@ui-kitten/components';
 
 export const IconTextIcon = (props) => 
 {
-    console.log('props: ', props);
     return (
         <TouchableOpacity style={{ width: '100%' }} onPress={() => props.navigation.navigate(props.onpress)} >
             <View style={styles.container}>

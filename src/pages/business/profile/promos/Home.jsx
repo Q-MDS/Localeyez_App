@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { SafeAreaView, TouchableOpacity, Image, View } from 'react-native';
 import { Layout, Divider, Icon } from '@ui-kitten/components';
@@ -12,12 +14,66 @@ import { TabsPromoEvent } from '../../../../components/TabsPromoEvent';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { TitleFour } from '../../../../components/TitleFour';
+import CustomIcon from '../../../../components/CustomIcon';
 
 const Home = (props) => 
 {
-    const [selectedBotTab, setSelectedBotTab] = React.useState(1);
-    const [selectedTab, setSelectedTab] = React.useState(0);
-    
+    const [selectedBotTab, setSelectedBotTab] = useState(1);
+    const [selectedTab, setSelectedTab] = useState(0);
+	const [companyName, setCompanyName] = useState('');
+	const [businessBio, setBusinessBio] = useState('');
+	const [addressOne, setAddressOne] = useState('');
+    const [addressTwo, setAddressTwo] = useState('');
+    const [city, setCity] = useState('');
+    const [province, setProvince] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+	const [xUrl, setXUrl] = useState('');
+    const [instgramUrl, setInstagramUrl] = useState('');
+    const [facebookUrl, setFacebookUrl] = useState('');
+    const [linkedinUrl, setLinkedinUrl] = useState('');
+    const [wwwUrl, setWwwUrl] = useState('');
+
+	const getProfile = async () => 
+    {
+        const profile = await DbUtils.getItem('business_profile');
+		const parsedProfile = JSON.parse(profile);
+
+		setCompanyName(parsedProfile.company_name);
+		setBusinessBio(parsedProfile.business_bio);
+		setAddressOne(parsedProfile.location[0].address_one);
+		setAddressTwo(parsedProfile.location[0].address_two);
+		setCity(parsedProfile.location[0].city);
+		setProvince(parsedProfile.location[0].province);
+		setZipCode(parsedProfile.location[0].zip);
+		setContactNumber(parsedProfile.contact_number);
+		setXUrl(parsedProfile.sm_x);
+		setInstagramUrl(parsedProfile.sm_inst);
+		setFacebookUrl(parsedProfile.sm_fb);
+		setLinkedinUrl(parsedProfile.sm_linkedin);
+		setWwwUrl(parsedProfile.sm_www);
+    }
+
+	useFocusEffect(React.useCallback(() => 
+	{
+		const fetchProfile = async () => 
+		{
+			await getProfile();
+		};
+
+		fetchProfile();
+	}, []));
+	// );
+	// useEffect(() => 
+	// {
+	// 	const fetchProfile = async () => 
+	// 	{
+	// 		await getProfile();
+	// 	};
+
+	// 	fetchProfile();
+	// }, []);
+
     const handleEditProfile = () => 
     {
         props.navigation.navigate('BusProfEdit');
@@ -60,9 +116,15 @@ const Home = (props) =>
                 </Layout>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f5f5f5', paddingTop: 10, paddingBottom: 10, paddingEnd: 15 }} >
-                    <Icon name="globe-outline" fill="#8C89B7" style={{ width: 32, height: 32 }} />
-                    <Icon name="facebook-outline" fill="#8C89B7" style={{ width: 32, height: 32 }} />
-                    <Icon name="linkedin-outline" fill="#8C89B7" style={{ width: 32, height: 32 }} />
+					{xUrl && <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />}
+					<View style={{ marginLeft: 8 }} />
+					{instgramUrl && <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />}
+					<View style={{ marginLeft: 10 }} />
+					{facebookUrl && <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					<View style={{ marginLeft: 10 }} />
+					{linkedinUrl && <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					<View style={{ marginLeft: 8 }} />
+                    {wwwUrl && <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />}
                     <View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 1, borderRadius: 60, padding:  20, backgroundColor: '#f9f9ff' }} >
                         <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64, borderRadius: 32 }} />
                     </View>
@@ -70,12 +132,12 @@ const Home = (props) =>
                 </Layout>
                 <ScrollView>
                     <Layout style={[MainStyles.layout_container, {backgroundColor: '#f5f5f5'}]}>    
-                        <TitleOne title="Business Name" />
+                        <TitleOne title={companyName} />
                         <View style={{ marginTop: 10 }} />
-                        <TextTwo title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur numquam quisquam." />
+                        <TextTwo title={businessBio} />
                         <View style={{ marginTop: 15 }} />
-                        <IconText title="18 Street Name, Suburb, City, 3992" iconname="compass-outline" fontsize={14} width={18} />
-                        <IconText title="+27 939 0202" iconname="phone-call-outline" fontsize={14} width={18} />
+                        <IconText title={`${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipCode}`} iconname="compass-outline" fontsize={14} width={18} />
+                        <IconText title={contactNumber} iconname="phone-call-outline" fontsize={14} width={18} />
                         <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={18} />
                         <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
                         <TabsPromoEvent onchange={setSelectedTab} />

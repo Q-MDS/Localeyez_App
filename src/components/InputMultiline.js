@@ -23,5 +23,7 @@ const styles = StyleSheet.create({
     },
     inputTextStyle: {
       minHeight: 64,
+	  paddingStart: 0,
+	  marginStart: 0
     },
   });

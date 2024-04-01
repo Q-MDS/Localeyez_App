@@ -11,7 +11,6 @@ import { Layout, Divider } from '@ui-kitten/components';
 
 const NewView = (props) => 
 {
-    console.log('View Props: ', {...props});
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <TopNavArrowTitle title="New Business Name" alignment="center" navigation={props.navigation} />

@@ -11,6 +11,7 @@ import { Label } from '../../../components/Label';
 import { Checkbox } from '../../../components/Checkbox';
 import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
+import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 
 const StepTwo = (props) => 
 {
@@ -53,7 +54,7 @@ const StepTwo = (props) =>
             setIsLoading(false);
         });
 
-        console.log('profile step 2: ', profile);
+        // console.log('profile step 2: ', profile);
     }
 
     const updProfile = async (key, newValue) => 
@@ -118,7 +119,7 @@ const StepTwo = (props) =>
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />
-                    <InputLabelNumpad label="Contact Number (for business)" value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
+					<InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Company" value={companyName} setValue={setCompanyName} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
