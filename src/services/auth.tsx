@@ -12,12 +12,27 @@ export const isLoggedIn = async (token: string) =>
 
 export const register = async (data: any) =>
 {
-	const response = await api.post('/api/register/', data);
+	// const response = await api.post('/api/register/', data);
+	console.log('Registering...');
 
-	return response.data;
+	try {
+		const response = await api.post('/api/register/', data);
+	
+		if (response.status === 200) {
+		  return response.data;
+		} else {
+		  throw new Error('Login failed');
+		}
+	  } catch (error) {
+		console.error(error);
+		throw error;
+	  }
+
+	// return response.data;
 };
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => 
+{
     try {
       const response = await api.post('/api/login', {
         email,

@@ -25,7 +25,8 @@ const MainStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 30,
-        position: 'absolute'
+        position: 'absolute',
+		
     },
     card_review: {
         flexDirection: 'column',

@@ -5,6 +5,7 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import { AppNavigator } from './src/navigation.component';
 import { default as theme } from './custom-theme.json';
+import Toast from 'react-native-toast-message';
 
 const App = () => (
     <>
@@ -14,6 +15,7 @@ const App = () => (
                 <AppNavigator />
             </ApplicationProvider>
         </AuthProvider>
+		<Toast />
     </>
 );
 

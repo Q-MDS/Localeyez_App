@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DbUtils from '../../../services/DbUtils'; 
+import CustomIcon from '../../../components/CustomIcon';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
@@ -146,16 +147,17 @@ const StepTwo = (props) =>
                     </Layout>
                     <View style={{ marginTop: 15 }} />
                     <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
-                    <Icon name="twitter-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                    {/* <Icon name="twitter-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} /> */}
+					<CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
                     <InputLabel placeholder="Write X URL here" value={xUrl} setValue={setXUrl} />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="linkedin-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+					<CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
                     <InputLabel placeholder="Write Instagram URL here" value={instgramUrl} setValue={setInstagramUrl} />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="facebook-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+					<CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
                     <InputLabel placeholder="Write Facebook URL here" value={facebookUrl} setValue={setFacebookUrl} />
                     <View style={{ marginTop: 10 }} />
-                    <Icon name="linkedin-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+					<CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
                     <InputLabel placeholder="Write Linkedin URL here" value={linkedinUrl} setValue={setLinkedinUrl} />
                     <View style={{ marginTop: 10 }} />
                     <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />

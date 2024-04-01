@@ -4,11 +4,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import OnboardingStart from './pages/onboarding/Start';
 import OnboardingChoose from './pages/onboarding/Choose';
+/**
+ * Business Pages
+*/
 import LoginBusiness from './pages/business/login/Login';
 import SignupBusinessStepOne from './pages/business/signup/StepOne';
 import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
 import SignupBusinessStepThree from './pages/business/signup/StepThree';
 import SignupBusinessStepFour from './pages/business/signup/StepFour';
+import BusProfProHome from './pages/business/profile/promos/Home';
+
+
 
 
 import Menu from './pages/Menu';
@@ -18,10 +24,8 @@ import Login from './pages/Login';
 */
 import AdminNewBusinessHome from './pages/admin/new_businesses/Home';
 
-/**
- * Business Pages
-*/
-import BusProfProHome from './pages/business/profile/promos/Home';
+
+
 
 /**
  * Shopper Pages
@@ -34,9 +38,6 @@ import AdminAllBusinessHome from './pages/admin/all_businesses/Home';
 import AdminAllBusinessView from './pages/admin/all_businesses/AllView';
 import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
-
-
-
 
 
 import BusProfProAdd from './pages/business/profile/promos/Add';

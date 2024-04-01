@@ -52,6 +52,14 @@ const StepOne = (props) =>
             sm_fb: '',   
             sm_linkedin: '',   
             sm_www: '',
+			shoppingData: [],
+			travelData: [],
+			healthData: [],
+			entertainmentData: [],
+			educationData: [],
+			propertyData: [],
+			servicesData: [],
+			communityData: [],
 
         }
         let stringified = JSON.stringify(profileData);
@@ -78,7 +86,7 @@ const StepOne = (props) =>
         const profileData = JSON.parse(profileDataString);
       
         profileData[key] = newValue;
-        console.log('key: ', key, ' newValue: ', newValue, ' profileData: ', profileData);
+        // console.log('key: ', key, ' newValue: ', newValue, ' profileData: ', profileData);
       
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
@@ -96,9 +104,9 @@ const StepOne = (props) =>
         }
     }, [profileExists === true]);
 
-    useEffect(() => {
-        console.log('Oh poo');
-    }, [firstName]);
+    // useEffect(() => {
+    //     console.log('Oh poo');
+    // }, [firstName]);
 
     const handleNext = async () => 
     {

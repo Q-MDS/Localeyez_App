@@ -44,3 +44,12 @@ const checkData = async (key) => {
 }
 
 checkData('user');
+---------------------------------------------------------------------------------------------------------------------------------------
+
+react-native-vector-icons 
+
+See these IOS & Android install directions
+https://www.npmjs.com/package/react-native-vector-icons#installation
+
+
+https://oblador.github.io/react-native-vector-icons/
