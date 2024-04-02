@@ -60,7 +60,8 @@ const StepOne = (props) =>
 			propertyData: [],
 			servicesData: [],
 			communityData: [],
-
+			displayIamge: '',
+			bannerImage: ''
         }
         let stringified = JSON.stringify(profileData);
         DbUtils.setItem('business_profile', stringified);

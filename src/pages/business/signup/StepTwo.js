@@ -119,9 +119,11 @@ const StepTwo = (props) =>
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />
-					<InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
+					<InputLabel label="Company" value={companyName} setValue={setCompanyName} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company" value={companyName} setValue={setCompanyName} placeholder="Company name" />
+
+                    <Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
+					<InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
                     <InputLabel placeholder="Address line 1" value={addressOne} setValue={setAddressOne} label="Location" />
                     <View style={{ marginTop: 5 }} />

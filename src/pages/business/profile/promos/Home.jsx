@@ -33,6 +33,7 @@ const Home = (props) =>
     const [facebookUrl, setFacebookUrl] = useState('');
     const [linkedinUrl, setLinkedinUrl] = useState('');
     const [wwwUrl, setWwwUrl] = useState('');
+	const [displayImage, setDisplayImage] = useState('');
 
 	const getProfile = async () => 
     {
@@ -52,6 +53,7 @@ const Home = (props) =>
 		setFacebookUrl(parsedProfile.sm_fb);
 		setLinkedinUrl(parsedProfile.sm_linkedin);
 		setWwwUrl(parsedProfile.sm_www);
+		setDisplayImage(parsedProfile.displayImage);
     }
 
 	useFocusEffect(React.useCallback(() => 
@@ -111,8 +113,10 @@ const Home = (props) =>
                 </Layout>
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
 
-                <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 180, width: '100%' }}>
-                    <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
+                <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
+                    {/* <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} /> */}
+                    {/* <Image source={{ uri:displayImage }} style={{ width: '100%', height: 180 }} /> */}
+					{displayImage ? <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200 }} /> : null}
                 </Layout>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f5f5f5', paddingTop: 10, paddingBottom: 10, paddingEnd: 15 }} >

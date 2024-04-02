@@ -4,9 +4,6 @@ import { Datepicker, Layout } from '@ui-kitten/components';
 
 export const DateSelect = (props) => 
 {
-    // const [date, setDate] = React.useState(new Date());
-console.log('Date thingy: ', props );
-
     return (
         <Layout
         style={styles.container}

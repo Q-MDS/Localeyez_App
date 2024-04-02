@@ -5368,6 +5368,11 @@ minimist@^1.2.6:
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
+mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
+
 mkdirp@^0.5.1:
   version "0.5.6"
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.6.tgz"
@@ -5931,6 +5936,11 @@ react-native-eva-icons@^1.3.1:
   resolved "https://registry.npmjs.org/react-native-eva-icons/-/react-native-eva-icons-1.3.1.tgz"
   integrity sha512-emd/aYXuOacuDVTx0SJoLi+xsOdCNdljQB3PTNCM9AQ3m/smG0X1TN0+ihelPO7MqoHzaH0h6lbANtwxGUy8Fw==
 
+react-native-flipper@^0.164.0:
+  version "0.164.0"
+  resolved "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.164.0.tgz"
+  integrity sha512-iJhIe3rqx6okuzBp4AJsTa2b8VRAOGzoLRFx/4HGbaGvu8AurZjz8TTQkhJsRma8dsHN2b6KKZPvGGW3wdWzvA==
+
 react-native-gesture-handler@^2.15.0:
   version "2.15.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.15.0.tgz"
@@ -5941,6 +5951,11 @@ react-native-gesture-handler@^2.15.0:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-image-picker@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.1.2.tgz"
+  integrity sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==
 
 react-native-masked-text@^1.13.0:
   version "1.13.0"
@@ -6057,6 +6072,28 @@ react@18.2.0:
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
+
+reactotron-core-client@2.9.3:
+  version "2.9.3"
+  resolved "https://registry.npmjs.org/reactotron-core-client/-/reactotron-core-client-2.9.3.tgz"
+  integrity sha512-Z+PdYPi2ZsMyibH4251R2QpnIVrpgRoIFJYjeDF7LyomizkrOAugZDnTUNtUhVAqDb0eEWi4qaxUeEfnvZsn4w==
+  dependencies:
+    reactotron-core-contract "0.2.3"
+
+reactotron-core-contract@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.npmjs.org/reactotron-core-contract/-/reactotron-core-contract-0.2.3.tgz"
+  integrity sha512-GMeulATwiTsAqRnTKLWgM4gG3pUxAuspW412SWutHIW0fZNEOiHg8bWTEQURhm1WZj+u4tmdbkPiIWBfH8fvvQ==
+
+reactotron-react-native@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.npmjs.org/reactotron-react-native/-/reactotron-react-native-5.1.5.tgz"
+  integrity sha512-wPiRx5DBX4p/57SAjTdxhv5RLktHoSbNuRrC73o7IPyO30Q+Xgu+SJxCKDFYxlpFtv3cuUkUhF0lx7tXPhUxWw==
+  dependencies:
+    mitt "^3.0.1"
+    reactotron-core-client "2.9.3"
+  optionalDependencies:
+    react-native-flipper "^0.164.0"
 
 readable-stream@^3.4.0:
   version "3.6.2"

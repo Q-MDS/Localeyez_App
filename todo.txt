@@ -45,6 +45,8 @@ const checkData = async (key) => {
 
 checkData('user');
 ---------------------------------------------------------------------------------------------------------------------------------------
+*** NB NB NB ***
+VECTOR ICONS
 
 react-native-vector-icons 
 
@@ -53,3 +55,44 @@ https://www.npmjs.com/package/react-native-vector-icons#installation
 
 
 https://oblador.github.io/react-native-vector-icons/
+
+---------------------------------------------------------------------------------------------------------------------------------------
+*** NB NB NB ***
+IMAGE PICKER
+Yes, it could be a permissions issue. On Android, you need to request the READ_EXTERNAL_STORAGE permission to access the photo library, and on iOS, you need to add the NSPhotoLibraryUsageDescription key to your Info.plist file.
+
+However, starting from version 3.0.0, react-native-image-picker should handle permissions automatically on Android. On iOS, you still need to add the usage description to your Info.plist.
+---------------------------------------------------------------------------------------------------------------------------------------
+
+To add multiple arrays to async item:
+CREATE & STORE
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storeData = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem('@storage_Key', jsonValue)
+  } catch (e) {
+    // saving error
+    console.log(e);
+  }
+}
+
+// Call the function with your array
+storeData(['item1', 'item2']);
+
+ADD ANOTHER ARRAY
+const addData = async (newArray) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@storage_Key')
+    let currentArray = jsonValue != null ? JSON.parse(jsonValue) : [];
+    const updatedArray = [...currentArray, ...newArray];
+    await AsyncStorage.setItem('@storage_Key', JSON.stringify(updatedArray));
+  } catch(e) {
+    // read error
+    console.log(e);
+  }
+}
+
+// Call the function with your new array
+addData(['item3', 'item4']);

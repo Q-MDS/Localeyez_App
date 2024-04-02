@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Image } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import { TitleFour } from '../../../../../components/TitleFour';
 import TextTwo from '../../../../../components/TextTwo';
@@ -16,9 +17,12 @@ import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import CustomIcon from '../../../../../components/CustomIcon';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 
+
 const Edit = (props) => 
 {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+	const [displayImage, setDisplayImage] = useState(null);
+	const [bannerImage, setBannerImage] = useState(null);
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
 	const [companyName, setCompanyName] = useState('');
@@ -53,9 +57,11 @@ const Edit = (props) =>
 		setFacebookUrl(parsedProfile.sm_fb);
 		setLinkedinUrl(parsedProfile.sm_linkedin);
 		setWwwUrl(parsedProfile.sm_www);
+		setDisplayImage(parsedProfile.displayImage);
+		setBannerImage(parsedProfile.bannerImage);
 		// setIsLoading(false);
 
-        // console.log('Business Edit Profile: ', parsedProfile);
+        console.log('Business Edit Profile: ', parsedProfile.bannerImage);
     }
 
 	const getBusniessId = async () => 
@@ -71,6 +77,48 @@ const Edit = (props) =>
 		
 		setToken(token);
 	}
+
+	const chooseDisplayImage = () => 
+	{
+		let options = {
+		  mediaType: 'photo',
+		  maxWidth: 640,
+		  maxHeight: 360,
+		  quality: 1,
+		};
+	
+		launchImageLibrary(options, response => 
+		{
+		  if (response.didCancel) {
+			console.log('User cancelled image picker');
+		  } else if (response.error) {
+			console.log('ImagePicker Error: ', response.error);
+		  } else {
+			setDisplayImage(response.assets[0].uri);
+		  }
+		});
+	};
+
+	const chooseBannerImage = () => 
+	{
+		let options = {
+		  mediaType: 'photo',
+		  maxWidth: 640,
+		  maxHeight: 360,
+		  quality: 1,
+		};
+	
+		launchImageLibrary(options, response => 
+		{
+		  if (response.didCancel) {
+			console.log('User cancelled image picker');
+		  } else if (response.error) {
+			console.log('ImagePicker Error: ', response.error);
+		  } else {
+			setBannerImage(response.assets[0].uri);
+		  }
+		});
+	};
 
 	useFocusEffect(React.useCallback(() => 
 	{
@@ -88,6 +136,32 @@ const Edit = (props) =>
 
 		fetchProfile();
 	}, []);
+
+	useEffect(() => 
+	{
+		console.log('Go on, update displayImage in async-storage');
+
+		const updateDisplayImage = async () => 
+		{
+			await updProfile('displayImage', displayImage);
+		};
+
+		updateDisplayImage();
+		
+	}, [displayImage]);
+
+	useEffect(() => 
+	{
+		console.log('Go on, update bannerImage in async-storage');
+
+		const updateBannerImage = async () => 
+		{
+			await updProfile('bannerImage', bannerImage);
+		};
+
+		updateBannerImage();
+
+	}, [bannerImage]);
 
     if (selectedIndex === 0) 
     {
@@ -134,11 +208,13 @@ const Edit = (props) =>
 			sm_fb: facebookUrl,
 			sm_linkedin: linkedinUrl,
 			sm_www: wwwUrl,
+			display_image: displayImage,
+			banner_image: bannerImage,
 		}
 
 		const res = await updBusinessProfile(token, data);
 
-		// console.log('Res: ', res);
+		// console.log('Res: ', res);;
         props.navigation.navigate('BusProfProHome');
     }
 
@@ -149,22 +225,29 @@ const Edit = (props) =>
             <ScrollView style={{ width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                     <TitleFour title="Upload Display Picture" mb={10} />
-                    <Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-                        <Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-                        <TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
-                        <TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
-                        <TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
-                    </Layout>
+					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
+						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
+							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
+							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
+							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
+							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
+							{displayImage && <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+						</Layout>
+					</TouchableOpacity>
                     <TitleFour title="Upload Banner Picture" mt={15} mb={10} />
-                    <Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-                        <Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-                        <TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
-                        <TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
-                        <TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
-                    </Layout>
+					<TouchableOpacity onPress={chooseBannerImage} style={{ width: '100%' }}>
+						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
+							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
+							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
+							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
+							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
+							{bannerImage && <Image source={{ uri: bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+						</Layout>
+					</TouchableOpacity>
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Company Name" value={companyName} setValue={setCompanyName} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
+					<Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
                     <InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
 					<Label title="Location" textalign="left" fontweight="bold" mb={5} />

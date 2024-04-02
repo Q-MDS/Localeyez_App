@@ -1,3 +1,6 @@
+if (__DEV__) {
+    import("./ReactotronConfig" /* webpackMode: "eager" */).then(() => console.log("Reactotron Configured"));
+}
 import React from 'react';
 import { AuthProvider } from './src/services/AuthContext';
 import * as eva from '@eva-design/eva';

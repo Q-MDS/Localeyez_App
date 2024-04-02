@@ -16,7 +16,7 @@ const Edit = (props) =>
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
 	const [shoppingData, setShoppingData] = useState([]);
-	const [showShopping, setShowShopping] = useState([[{"category": "Fashion & Beauty", "id": 1, "type": 0}, {"category": "Clothing", "id": 2, "type": 1}, {"category": "Home", "id": 4, "type": 0}, {"category": "Furniture", "id": 5, "type": 1}, {"category": "Fixtures & Fittings", "id": 6, "type": 1}]]);
+	const [showShopping, setShowShopping] = useState([]);
 	const [travelData, setTravelData] = useState([]);
 	const [showTravel, setShowTravel] = useState([]);
 	const [healthData, setHealthData] = useState([]);
@@ -80,7 +80,6 @@ const Edit = (props) =>
 
 	useEffect(() => 
 	{
-		console.log('shoppingData: ', shoppingData);
 		const showShopping = shoppingData.filter(obj => obj.checked).map(obj => ({ id: obj.id, category: obj.item, type: obj.type }));
 		setShowShopping(showShopping);
 		const showTravel = travelData.filter(obj => obj.checked).map(obj => ({ id: obj.id, category: obj.item, type: obj.type }));
@@ -98,8 +97,6 @@ const Edit = (props) =>
 		const showCommunity = communityData.filter(obj => obj.checked).map(obj => ({ id: obj.id, category: obj.item, type: obj.type }));
 		setShowCommunity(showCommunity);
 	}, [!isLoading]);
-
-	
     
     if (selectedIndex === 0) 
     {
@@ -113,8 +110,8 @@ const Edit = (props) =>
 
     const handleAddSector = () => 
     {
-        console.log('Fuck joe biden');
-        props.navigation.navigate('BusProfSectorsAdd')
+        // console.log('Fuck joe biden');
+        props.navigation.navigate('BusProfSectorsAdd');
     }
 
     return (
@@ -125,7 +122,7 @@ const Edit = (props) =>
                 <Layout style={[MainStyles.layout_container, {width: '100%'}]}>
                 {/* <Layout style={[{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#ff0000', flex: 1, height: '100%'}]}> */}
                     <View style={{ flex: 1, width: '100%' }}>
-                    	<TextTwo title="Current Business Sectors" fontsize={24} mb={10} />
+                    	<TextTwo title="Current Business Sectors" fontsize={20} mb={10} />
 						<ScrollView>
 							<Layout style={{ backgroundColor: '#f8f8fc', width: '100%', borderRadius: 10, padding: 20, marginTop: 10 }}>
 								<TextTwo title="Shopping" fontsize={20} />

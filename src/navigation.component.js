@@ -15,7 +15,8 @@ import SignupBusinessStepFour from './pages/business/signup/StepFour';
 import BusProfProHome from './pages/business/profile/promos/Home';
 import BusProfEdit from './pages/business/profile/edit/business_profile/Edit';
 import BusProfSectorsEdit from './pages/business/profile/edit/business_sectors/Edit';
-
+import BusProfProAdd from './pages/business/profile/promos/Add';
+import BusProfProEdit from './pages/business/profile/promos/Edit';
 
 
 import Menu from './pages/Menu';
@@ -41,8 +42,7 @@ import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
 
 
-import BusProfProAdd from './pages/business/profile/promos/Add';
-import BusProfProEdit from './pages/business/profile/promos/Edit';
+
 import BusProfProDelete from './pages/business/profile/promos/Delete';
 import BusProProAddEditBack from './pages/business/profile/promos/BackMessage';
 import BusProfEvtAdd from './pages/business/profile/events/Add';
