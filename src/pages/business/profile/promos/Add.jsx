@@ -10,13 +10,11 @@ import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
 import { SelectSingle } from '../../../../components/SelectSingle';
-import { SelectMulti } from '../../../../components/SelectMulti';
 import { InputLabel } from '../../../../components/InputLabel';
 import TextTwo from '../../../../components/TextTwo';
 import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
-import { Caption } from 'react-native-paper';
 
 const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
 
@@ -94,7 +92,6 @@ const Add = (props) =>
 
     const handleUpload = async () => 
     {
-		// Do api call here
 		const promotionData = [{
 			businessId: businessId,
             sector: sector,
@@ -119,7 +116,7 @@ const Add = (props) =>
 		addData(promotionData);
 
 		// Send to server
-		/*try 
+		try 
 		{
 			const res = await addPromotion(token, promotionData);
 			
@@ -138,25 +135,25 @@ const Add = (props) =>
 				topOffset: 30,
 				bottomOffset: 40,
 			});
-		}*/
+		}
     }
 
-	const addData = async (newArray) => {
-		try {
-			console.log('Adding to async storage...');
-		  const jsonValue = await DbUtils.getItem('promotions');
-		  let parsedValue = jsonValue != null ? JSON.parse(jsonValue) : [];
-		  console.log('Current array:', parsedValue);
-		let currentArray = Array.isArray(parsedValue) ? parsedValue : [];
-		  //let currentArray = jsonValue != null ? JSON.parse(jsonValue) : [];
-		  const updatedArray = [...currentArray, ...newArray];
-		  await DbUtils.setItem('promotions', JSON.stringify(updatedArray));
-
-		} catch(e) {
-		  // read error
+	const addData = async (newArray) => 
+	{
+		try 
+		{
+			const jsonValue = await DbUtils.getItem('promotions');
+			let parsedValue = jsonValue != null ? JSON.parse(jsonValue) : [];
+			let currentArray = Array.isArray(parsedValue) ? parsedValue : [];
+			const updatedArray = [...currentArray, ...newArray];
+			
+			await DbUtils.setItem('promotions', JSON.stringify(updatedArray));
+		} 
+		catch(e) 
+		{
 		  console.log(e);
 		}
-	  }
+	}
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -185,7 +182,7 @@ const Add = (props) =>
                 <View style={{ marginTop: 15 }} />
                 <InputLabel label="Price" value={price} setValue={setPrice} placeholder="Write product price" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Sale Item (Optional)" value={saleItemOP} setValue={setSaleItemOP} placeholder="Origonal price" />
+                <InputLabel label="Sale Item (Optional)" value={saleItemOP} setValue={setSaleItemOP} placeholder="Original price" />
                 <InputLabel mt={5} value={saleItemMP} setValue={setSaleItemMP} placeholder="Marked down price" />
                 <View style={{ marginTop: 15 }} />
                 <TitleFour title="Promotion Start Date" mb={10} />

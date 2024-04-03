@@ -29,14 +29,34 @@ const data = [
   '23:00',
 ];
 
-export const TimeSelect = (props) => {
+export const TimeSelect = (props: any): React.ReactElement => 
+{
 
-const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(props.time));
-const displayValue = data[selectedIndex.row];
+	const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(props.time, 1));
 
-const renderOption = (title) => (
-    <SelectItem title={title} />
-  );
+	let displayValue: string = '';
+	if (!Array.isArray(selectedIndex)) 
+	{
+    	displayValue = data[selectedIndex.row];
+  	}
+
+	const handleSelect = (index: IndexPath | IndexPath[]) => 
+	{
+		let singleIndex: IndexPath;
+		if (Array.isArray(index)) {
+			singleIndex = index[0];
+		} else {
+			singleIndex = index;
+		}
+		setSelectedIndex(singleIndex);
+		const selectedValue = data[singleIndex.row];
+		props.onSelect(selectedValue);
+	};
+
+	const renderOption = (title: string) => 
+	(
+    	<SelectItem title={title} />
+  	);
 
   return (
     <Layout
@@ -48,7 +68,7 @@ const renderOption = (title) => (
         placeholder='Default'
         value={displayValue}
         selectedIndex={selectedIndex}
-        onSelect={(index) => setSelectedIndex(index)}
+        onSelect={handleSelect}
       >
         {data.map(renderOption)}
       </Select>

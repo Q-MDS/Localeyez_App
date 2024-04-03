@@ -16,7 +16,13 @@ import BusProfProHome from './pages/business/profile/promos/Home';
 import BusProfEdit from './pages/business/profile/edit/business_profile/Edit';
 import BusProfSectorsEdit from './pages/business/profile/edit/business_sectors/Edit';
 import BusProfProAdd from './pages/business/profile/promos/Add';
+import BusProProAddEditBack from './pages/business/profile/promos/BackMessage';
+import BusProfEvtAdd from './pages/business/profile/events/Add';
+import BusProfEvtAddEditBack from './pages/business/profile/events/BackMessage';
+
 import BusProfProEdit from './pages/business/profile/promos/Edit';
+import BusProfProDelete from './pages/business/profile/promos/Delete';
+
 
 
 import Menu from './pages/Menu';
@@ -33,22 +39,15 @@ import AdminNewBusinessHome from './pages/admin/new_businesses/Home';
  * Shopper Pages
 */
 import ShopperHome from './pages/shopper/Home';
-
 import AdminLogin from './pages/admin/login/Login';
 import AdminNewBusinessView from './pages/admin/new_businesses/NewView';
 import AdminAllBusinessHome from './pages/admin/all_businesses/Home';
 import AdminAllBusinessView from './pages/admin/all_businesses/AllView';
 import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
-
-
-
-import BusProfProDelete from './pages/business/profile/promos/Delete';
-import BusProProAddEditBack from './pages/business/profile/promos/BackMessage';
-import BusProfEvtAdd from './pages/business/profile/events/Add';
 import BusProfEvtEdit from './pages/business/profile/events/Edit';
 import BusProfEvtDelete from './pages/business/profile/events/Delete';
-import BusProfEvtAddEditBack from './pages/business/profile/events/BackMessage';
+
 
 
 import BusProfSectorsAdd from './pages/business/profile/edit/business_sectors/Add';

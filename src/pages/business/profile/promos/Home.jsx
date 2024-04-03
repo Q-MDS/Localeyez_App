@@ -20,6 +20,7 @@ const Home = (props) =>
 {
     const [selectedBotTab, setSelectedBotTab] = useState(1);
     const [selectedTab, setSelectedTab] = useState(0);
+	const [promotions, setPromotions] = useState([]);
 	const [companyName, setCompanyName] = useState('');
 	const [businessBio, setBusinessBio] = useState('');
 	const [addressOne, setAddressOne] = useState('');
@@ -56,25 +57,25 @@ const Home = (props) =>
 		setDisplayImage(parsedProfile.displayImage);
     }
 
+	const getPromotions = async () => 
+	{
+		const data = await DbUtils.getItem('promotions');
+		const parsedData = JSON.parse(data);
+
+		setPromotions(parsedData);
+		// console.log('Promotions: ', parsedData);
+	}
+
 	useFocusEffect(React.useCallback(() => 
 	{
 		const fetchProfile = async () => 
 		{
 			await getProfile();
+			await getPromotions();
 		};
 
 		fetchProfile();
 	}, []));
-	// );
-	// useEffect(() => 
-	// {
-	// 	const fetchProfile = async () => 
-	// 	{
-	// 		await getProfile();
-	// 	};
-
-	// 	fetchProfile();
-	// }, []);
 
     const handleEditProfile = () => 
     {
@@ -104,7 +105,7 @@ const Home = (props) =>
                     <TouchableOpacity style={{ flex: 1 }} onPress={handleEditProfile}>
                         <IconText title="Edit Profile" iconname="edit" fontsize={12} width={18} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flex: 1 }} onPress={() => handleEditProfile()}>
+                    <TouchableOpacity style={{ flex: 1 }} onPress={() => handleAddEvent()}>
                         <IconText title="Add Event" iconname="plus-circle" fontsize={12} width={18} />
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }} onPress={handleAddPromo}>
@@ -173,10 +174,34 @@ const Home = (props) =>
                                     <TextOne title="You have no events listed" />
                                     <ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
                                 </Layout>
+
                                 <View style={{ marginTop: 10 }} />
+
                                 <TouchableOpacity onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
+
                                 <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+
+								<View>
+								<TextOne title="Events" />
+									{promotions.map((record, index) => (
+									<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
+										<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
+										<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+											<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
+										</View>
+										<TitleFour title={record.eventTitle} fontsize={16} mt={10} />
+										<TextTwo title={record.description} />
+										<TextTwo title={record.businessName} fontweight='bold' mt={10} width="100%" />
+										<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
+											<IconText title={`$${record.price}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+											<IconText title={record.time} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+										</View>
+										</Layout>
+									</TouchableOpacity>
+									))}
+								</View>
+
+                                    {/* <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
                                         <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
                                     </View>
                                     <TitleFour title="Event Title" fontsize={16} mt={10} />
@@ -185,8 +210,9 @@ const Home = (props) =>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
                                         <IconText title="$200" iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
                                         <IconText title="11PM 05.03.2024" iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-                                    </View>
+                                    </View> */}
                                 </Layout>
+
                             </TouchableOpacity>
                             </View>
                         )}
