@@ -11,6 +11,7 @@ export const SelectSingle = (props: any): React.ReactElement =>
 	{
     	displayValue = props.options[selectedIndex.row];
 		// props.onselect(displayValue);
+		// Make a small change - frikken IOS sucks
   	}
 
 	  const handleSelect = (index: IndexPath | IndexPath[]) => 

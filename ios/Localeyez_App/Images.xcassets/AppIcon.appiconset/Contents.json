@@ -3,7 +3,7 @@
         {
             "expected-size": "180",
             "filename": "180.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "3x",
             "size": "60x60"
@@ -11,7 +11,7 @@
         {
             "expected-size": "80",
             "filename": "80.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "2x",
             "size": "40x40"
@@ -19,7 +19,7 @@
         {
             "expected-size": "120",
             "filename": "120.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "3x",
             "size": "40x40"
@@ -27,7 +27,7 @@
         {
             "expected-size": "120",
             "filename": "120.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "2x",
             "size": "60x60"
@@ -35,7 +35,7 @@
         {
             "expected-size": "57",
             "filename": "57.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "1x",
             "size": "57x57"
@@ -43,7 +43,7 @@
         {
             "expected-size": "58",
             "filename": "58.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "2x",
             "size": "29x29"
@@ -51,7 +51,7 @@
         {
             "expected-size": "29",
             "filename": "29.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "1x",
             "size": "29x29"
@@ -59,7 +59,7 @@
         {
             "expected-size": "87",
             "filename": "87.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "3x",
             "size": "29x29"
@@ -67,7 +67,7 @@
         {
             "expected-size": "114",
             "filename": "114.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "2x",
             "size": "57x57"
@@ -75,7 +75,7 @@
         {
             "expected-size": "40",
             "filename": "40.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "2x",
             "size": "20x20"
@@ -83,7 +83,7 @@
         {
             "expected-size": "60",
             "filename": "60.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "iphone",
             "scale": "3x",
             "size": "20x20"
@@ -91,7 +91,7 @@
         {
             "expected-size": "1024",
             "filename": "1024.png",
-            "folder": "images.xcassets/AppIcon.appiconset/",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
             "idiom": "ios-marketing",
             "scale": "1x",
             "size": "1024x1024"
