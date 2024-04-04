@@ -90,6 +90,11 @@ const Add = (props) =>
 		});
 	};
 
+	const handleSector = (sector) => 
+	{
+		setSector(sector);
+	};
+
     const handleUpload = async () => 
     {
 		const promotionData = [{
@@ -162,7 +167,7 @@ const Add = (props) =>
         <ScrollView>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                 <TitleFour title="Choose which business sector(s) your promotion falls under:" />
-				<SelectSingle options={sectors} onselect={setSector} />
+				<SelectSingle options={sectors} onSelect={handleSector} />
                 <TitleFour title="Upload Display Picture" mb={10} />
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >

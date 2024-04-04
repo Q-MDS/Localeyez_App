@@ -4,9 +4,22 @@ import { Text } from '@ui-kitten/components';
 
 const TextTwo = (props) => (
     <>
-        <Text status="primary" style={[styles.text, { lineHeight: props.lineheight, textDecorationLine: props.underline, textAlign: props.textalign, fontWeight: props.fontweight, marginTop: props.mt, marginBottom: props.mb, width: props.width, fontSize: props.fontsize}]}>{props.title}</Text>
+        <Text status="primary" style={[styles.text, 
+		{ 
+			lineHeight: props.lineheight, 
+			textDecorationLine: props.underline, 
+			textAlign: props.textalign, 
+			fontWeight: props.fontweight, 
+			marginTop: props.mt, 
+			marginBottom: props.mb, 
+			width: props.width, 
+			fontSize: props.fontsize, 
+			flex: props.flex,
+			paddingStart: props.ps
+		}]}>{props.title}</Text>
     </>
 );
+//style={{ textDecorationLine: 'line-through' }} 
 
 const styles = StyleSheet.create(
 {

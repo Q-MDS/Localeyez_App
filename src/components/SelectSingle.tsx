@@ -10,15 +10,28 @@ export const SelectSingle = (props: any): React.ReactElement =>
 	if (!Array.isArray(selectedIndex)) 
 	{
     	displayValue = props.options[selectedIndex.row];
-		props.onselect(displayValue);
+		// props.onselect(displayValue);
   	}
+
+	  const handleSelect = (index: IndexPath | IndexPath[]) => 
+	  {
+		  let singleIndex: IndexPath;
+		  if (Array.isArray(index)) {
+			  singleIndex = index[0];
+		  } else {
+			  singleIndex = index;
+		  }
+		  setSelectedIndex(singleIndex);
+		  const selectedValue = props.options[singleIndex.row];
+		  props.onSelect(selectedValue);
+	  };
 
 	return (
 		<Layout style={styles.container} level="1">
 			<Select
 			selectedIndex={selectedIndex}
 			placeholder="Default"
-			onSelect={index => setSelectedIndex(index)}
+			onSelect={handleSelect}
 			value={displayValue}>
 			{props.options.map((option: string, index: number) => (
 				<SelectItem key={index} title={option} />

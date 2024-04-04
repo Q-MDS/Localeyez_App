@@ -3,7 +3,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { SafeAreaView, TouchableOpacity, Image, View } from 'react-native';
-import { Layout, Divider, Icon } from '@ui-kitten/components';
+import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
 import { TopNavTitle } from '../../../../components/TopNavTitle';
 import { IconText } from '../../../../components/IconText';
 import { TitleOne } from '../../../../components/TitleOne';
@@ -21,6 +21,7 @@ const Home = (props) =>
     const [selectedBotTab, setSelectedBotTab] = useState(1);
     const [selectedTab, setSelectedTab] = useState(0);
 	const [promotions, setPromotions] = useState([]);
+	const [events, setEvents] = useState([]);
 	const [companyName, setCompanyName] = useState('');
 	const [businessBio, setBusinessBio] = useState('');
 	const [addressOne, setAddressOne] = useState('');
@@ -66,12 +67,22 @@ const Home = (props) =>
 		// console.log('Promotions: ', parsedData);
 	}
 
+	const getEvents = async () => 
+	{
+		const data = await DbUtils.getItem('events');
+		const parsedData = JSON.parse(data);
+
+		setEvents(parsedData);
+		console.log('Events: ', parsedData);
+	}
+
 	useFocusEffect(React.useCallback(() => 
 	{
 		const fetchProfile = async () => 
 		{
 			await getProfile();
 			await getPromotions();
+			await getEvents();
 		};
 
 		fetchProfile();
@@ -97,6 +108,14 @@ const Home = (props) =>
         console.log('Set bottom nav index to 1');
         setSelectedBotTab(1);
     }, []);
+
+	function formatDate(dateString) 
+	{
+		if (dateString === "") return "No date set.";
+		const date = new Date(dateString);
+		const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+		return formattedDate;
+	  }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -136,7 +155,7 @@ const Home = (props) =>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>
                 <ScrollView>
-                    <Layout style={[MainStyles.layout_container, {backgroundColor: '#f5f5f5'}]}>    
+                    <Layout style={[MainStyles.layout_container, {backgroundColor: '#f5f5f5', paddingStart: 15, paddingEnd: 15}]}>    
                         <TitleOne title={companyName} />
                         <View style={{ marginTop: 10 }} />
                         <TextTwo title={businessBio} />
@@ -153,9 +172,36 @@ const Home = (props) =>
                                 <ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
                             </Layout>
                             <View style={{ marginTop: 10 }} />
-                            <TouchableOpacity onPress={() => props.navigation.navigate('BusProfProEdit')}>
-                                <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+							{promotions.map((record, index) => (
+									<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
+										{/* <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} > */}
+										<Card style={{ marginBottom: 15 }}>
+											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+												{record.diaplyImage 
+												? 
+												<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
+												:
+												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+												}
+											</View>
+											<TitleFour title={record.title} fontsize={16} mt={10} />
+											<TextTwo title={record.caption} />
+											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
+											<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
+												<IconText title={`R${record.saleItemMp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+												<TextTwo title={`R${record.saleItemOp}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
+												<IconText title={formatDate(record.startDate)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+											</View>
+										</Card>
+										{/* </Layout> */}
+									</TouchableOpacity>
+									))}
+
+                            {/* <TouchableOpacity onPress={() => props.navigation.navigate('BusProfProEdit')}>
+                                <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} > */}
+
+
+                                    {/* <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
                                         <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
                                     </View>
                                     <TitleFour title="Promotion Title" fontsize={16} mt={10} />
@@ -164,9 +210,9 @@ const Home = (props) =>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
                                         <IconText title="$200" iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
                                         <IconText title="11PM 05.03.2024" iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-                                    </View>
-                                </Layout>
-                            </TouchableOpacity>
+                                    </View> */}
+                                {/* </Layout>
+                            </TouchableOpacity> */}
                         </View>
                         ) : (
                             <View style={{ width: '100%' }}>
@@ -179,42 +225,38 @@ const Home = (props) =>
 
                                 <TouchableOpacity onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
 
-                                <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
+									<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
 
-								<View>
-								<TextOne title="Events" />
-									{promotions.map((record, index) => (
-									<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
-										<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
-										<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-											<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
+										<View style={{ width: '100%' }}>
+											<TextOne title="Events" />
+											{events.map((record, index) => (
+											<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
+												<Card style={{ marginBottom: 15 }}>
+													<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+														{record.diaplyImage 
+														? 
+														<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
+														:
+														<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+														}
+													</View>
+													<TitleFour title={record.title} fontsize={16} mt={10} />
+													<TextTwo title={record.caption} />
+													<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
+													{/* <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} > */}
+														<IconText title={formatDate(record.startDate)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+														{/* <TextTwo title={`R${record.saleItemOp}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} /> */}
+														<IconText title={record.locAddOne} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+													{/* </View> */}
+												</Card>
+											</TouchableOpacity>
+											))}
 										</View>
-										<TitleFour title={record.eventTitle} fontsize={16} mt={10} />
-										<TextTwo title={record.description} />
-										<TextTwo title={record.businessName} fontweight='bold' mt={10} width="100%" />
-										<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-											<IconText title={`$${record.price}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-											<IconText title={record.time} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-										</View>
-										</Layout>
-									</TouchableOpacity>
-									))}
-								</View>
 
-                                    {/* <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-                                        <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
-                                    </View>
-                                    <TitleFour title="Event Title" fontsize={16} mt={10} />
-                                    <TextTwo title="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
-                                    <TextTwo title="Business Name" fontweight='bold' mt={10} width="100%" />
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-                                        <IconText title="$200" iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-                                        <IconText title="11PM 05.03.2024" iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-                                    </View> */}
-                                </Layout>
+									</Layout>
 
-                            </TouchableOpacity>
-                            </View>
+                            	</TouchableOpacity>
+						</View>
                         )}
                     </Layout>
                 </ScrollView>
