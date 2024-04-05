@@ -55,8 +55,8 @@ const Login = (props: any) =>
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
-                            <View style={{ marginTop: 25 }} />
-                            <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" />
+                            {/* <View style={{ marginTop: 25 }} /> */}
+                            {/* <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" /> */}
                             <View style={{ marginTop: 15 }} />
                             {/*<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
