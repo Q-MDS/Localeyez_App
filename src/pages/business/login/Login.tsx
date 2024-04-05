@@ -7,6 +7,7 @@ import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { Layout } from '@ui-kitten/components';
 import TextTwo from '../../../components/TextTwo';
+import { InputLabel } from '../../../components/InputLabel';
 
 const Login = (props: any) => 
 {
@@ -44,21 +45,15 @@ const Login = (props: any) =>
                     </View>
                     <ScrollView style={{ width: '100%', padding: 30 }}>
                         <View style={{ flex: 1 }}>
-
-						<View>
-							<TouchableOpacity onPress={() => props.navigation.navigate('OnboardingChoose')}>
-							<Text style={{ color: '#000000', fontSize: 32 }}>Render section</Text>
-							</TouchableOpacity>
-						</View>
-
                             <View style={{ marginTop: 20 }} />
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
-                            {/* <View style={{ marginTop: 25 }} /> */}
-                            <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" />
+                            <View style={{ marginTop: 25 }} />
+							<InputLabel label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter Password" secureTextEntry={true} />
+                            {/* <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" /> */}
                             <View style={{ marginTop: 15 }} />
-                            {/*<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
+                            <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
                                 <Checkbox label="Remember me" />
                                 </Layout>
@@ -68,7 +63,7 @@ const Login = (props: any) =>
                                         <TextTwo title="Reset" underline="underline" textalign="right" />
                                     </TouchableOpacity>
                                 </Layout>
-                            </Layout>*/}
+                            </Layout>
                             <View style={{ marginTop: 35 }} />
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
                             <View style={{ marginTop: 15 }} />

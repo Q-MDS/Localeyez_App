@@ -10,6 +10,7 @@ export const InputLabel = (props) => {
         label={props.label}
         placeholder={props.placeholder}
         value={props.value}
+		secureTextEntry={props.secureTextEntry}
         onChangeText={props.setValue}
 		textStyle={{ paddingStart: 0, marginStart: 0}}
         style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}

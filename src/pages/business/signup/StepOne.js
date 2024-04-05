@@ -150,9 +150,11 @@ const StepOne = (props) =>
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Last Name" value={lastName} setValue={setLastName} placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabelPassword placeholder="Enter password" label="Password" value={password} setValue={setPassword} />
+                    {/* <InputLabelPassword placeholder="Enter password" label="Password" value={password} setValue={setPassword} /> */}
+					<InputLabel label="Password" value={password} setValue={setPassword} placeholder="Enter Password" secureTextEntry={true} />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabelPassword placeholder="Confirm password" label="Confirm Password" />
+					<InputLabel label="Confirm Password" placeholder=" Confirm Password" secureTextEntry={true} />
+                    {/* <InputLabelPassword placeholder="Confirm password" label="Confirm Password" /> */}
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
