@@ -20,6 +20,7 @@ const Choose = (props) =>
 
     return (
 		<View>
+			<View style={{ height: 100 }}></View>
 			<TouchableOpacity onPress={() => handleUserLogin()}>
 				<Text style={{ color: 'black' }}>User Login</Text>
 			</TouchableOpacity>
