@@ -31,13 +31,12 @@ const Choose = (props) =>
                         <Layout style={{ flexDirection: 'column', flex: 1, alignItems: 'center', width: '100%' }}>
                             <Layout style={{ width: '100%', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                 <TextOne title="Sign up or login as a user"/>
-                                <ButtonPrimary name="User" width={200} marginTop={15} onPress={handleUserLogin} />
+                                <ButtonPrimary name="User" width={200} marginTop={15} onpress={handleUserLogin} />
                             </Layout>
                             <Layout style={{ width: '100%', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                 <TextOne title="Sign up or login as a business"/>
-                                <ButtonPrimary name="Business" width={200} marginTop={15} onPress={handleBusinessLogin}/>
+                                <ButtonPrimary name="Business" width={200} marginTop={15} onpress={handleBusinessLogin}/>
                             </Layout>
-                            
                         </Layout>
                     </Layout>
                 </View>

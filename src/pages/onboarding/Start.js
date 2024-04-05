@@ -28,7 +28,7 @@ const Start = (props) =>
                             </View>
                             <Layout style={{ width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' }}>
 							{/* <TouchableOpacity onPress={() => handleGetStarted()}> */}
-                            	<ButtonPrimary name="Get Started" width="100%" onPress={handleGetStarted} />
+                            	<ButtonPrimary name="Get Started" width="100%" onpress={handleGetStarted} />
 							{/* </TouchableOpacity> */}
                         </Layout>
                     </Layout>
