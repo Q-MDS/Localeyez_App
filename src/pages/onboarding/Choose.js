@@ -1,10 +1,5 @@
 import React from 'react';
-import MainStyles from '../../assets/styles/MainStyles';
-import { TitleOne } from '../../components/TitleOne';
-import TextOne from '../../components/TextOne';
-import { ButtonPrimary } from '../../components/ButtonPrimary';
-import { SafeAreaView, View, Image, TouchableOpacity, Text  } from 'react-native';
-import { Layout } from '@ui-kitten/components';
+import { View, TouchableOpacity, Text  } from 'react-native';
 
 const Choose = (props) => 
 {
