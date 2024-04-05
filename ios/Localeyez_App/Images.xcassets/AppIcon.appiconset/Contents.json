@@ -89,6 +89,14 @@
             "size": "20x20"
         },
         {
+            "expected-size": "120",
+            "filename": "120.png",
+            "folder": "Images.xcassets/AppIcon.appiconset/",
+            "idiom": "iphone",
+            "scale": "1x",
+            "size": "120x120"
+        },
+        {
             "expected-size": "1024",
             "filename": "1024.png",
             "folder": "Images.xcassets/AppIcon.appiconset/",
