@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { TitleOne } from '../../../components/TitleOne';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
@@ -35,18 +35,23 @@ const Login = (props: any) =>
 
     return (
         <SafeAreaView style={{flex: 1}}>
-			<View>
-				<Text style={{ color: '#000000' }}>Render section</Text>
-			</View>
-            {/* <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            
-                <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'center', width: '100%'}}>
+			
+            <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                 <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'center', width: '100%'}}>
                     <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
                         <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
                     </View>
                     <ScrollView style={{ width: '100%', padding: 30 }}>
                         <View style={{ flex: 1 }}>
-                            <View style={{ marginTop: 20 }} />
+
+						<View>
+							<TouchableOpacity onPress={() => props.navigation.navigate('BusinessDashboard')}>
+							<Text style={{ color: '#000000', fontSize: 32 }}>Render section</Text>
+							</TouchableOpacity>
+						</View>
+
+                            {/*<View style={{ marginTop: 20 }} />
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
@@ -72,11 +77,11 @@ const Login = (props: any) =>
                                 <TouchableOpacity onPress={handleSignup} >
                                     <TextTwo title="Sign up" fontweight="bold" underline="underline" />
                                 </TouchableOpacity>
-                            </Layout>
+                            </Layout>*/}
                         </View>
-                    </ScrollView>
+                    </ScrollView> 
                 </View>
-            </Layout> */}
+            </Layout>
         </SafeAreaView>
     );
 };
