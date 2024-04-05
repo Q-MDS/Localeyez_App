@@ -46,19 +46,19 @@ const Login = (props: any) =>
                         <View style={{ flex: 1 }}>
 
 						<View>
-							<TouchableOpacity onPress={() => props.navigation.navigate('BusinessDashboard')}>
+							<TouchableOpacity onPress={() => props.navigation.navigate('OnboardingChoose')}>
 							<Text style={{ color: '#000000', fontSize: 32 }}>Render section</Text>
 							</TouchableOpacity>
 						</View>
 
-                            {/*<View style={{ marginTop: 20 }} />
+                            <View style={{ marginTop: 20 }} />
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
                             <View style={{ marginTop: 25 }} />
                             <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" />
                             <View style={{ marginTop: 15 }} />
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
+                            {/*<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
                                 <Checkbox label="Remember me" />
                                 </Layout>
@@ -71,13 +71,13 @@ const Login = (props: any) =>
                             </Layout>
                             <View style={{ marginTop: 35 }} />
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
-                            <View style={{ marginTop: 15 }} />
+                            <View style={{ marginTop: 15 }} />*/}
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
                                 <TextTwo title="Don't have an account? " textalign="center" />
                                 <TouchableOpacity onPress={handleSignup} >
                                     <TextTwo title="Sign up" fontweight="bold" underline="underline" />
                                 </TouchableOpacity>
-                            </Layout>*/}
+                            </Layout>
                         </View>
                     </ScrollView> 
                 </View>
