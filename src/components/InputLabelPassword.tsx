@@ -1,24 +1,24 @@
 import React from 'react';
 import { TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
-import { Icon, Input, Text } from '@ui-kitten/components';
+import { Icon, IconElement, Input, Text } from '@ui-kitten/components';
 
-const AlertIcon = (props) => (
-  <Icon
-    {...props}
-    name='alert-circle-outline'
-  />
-);
+const AlertIcon = (props: any): IconElement => (
+	<Icon
+	  {...props}
+	  name='alert-circle-outline'
+	/>
+  );
 
-export const InputLabelPassword = (props) => {
+export const InputLabelPassword = (props: any): React.ReactElement => {
 
-//   const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
-  const toggleSecureEntry = () => {
+  const toggleSecureEntry = (): void => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  const renderIcon = (props) => (
+  const renderIcon = (props: any): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Icon
         {...props}
@@ -27,12 +27,12 @@ export const InputLabelPassword = (props) => {
     </TouchableWithoutFeedback>
   );
 
-  const renderCaption = ()=> {
+  const renderCaption = (): React.ReactElement => {
     return (
       <View style={styles.captionContainer}>
         {AlertIcon(styles.captionIcon)}
         <Text style={styles.captionText}>
-            Should contain at least 8 symbols
+			Should contain at least 8 characters
         </Text>
       </View>
     );
@@ -41,13 +41,15 @@ export const InputLabelPassword = (props) => {
   return (
     <Input
       value={props.value}
-      label={props.label}
+      label='Password'
       placeholder={props.placeholder}
       accessoryRight={renderIcon}
+	  caption={renderCaption}
       secureTextEntry={secureTextEntry}
       style={{ borderRadius: 15 }}
       size="large"
       onChangeText={props.setValue}
+	  textStyle={{ marginStart: 0}}
     />
   );
 };

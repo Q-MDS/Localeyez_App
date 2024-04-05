@@ -13,6 +13,7 @@ export const InputLabelEmail = (props) =>
             value={props.value}
             size="large"
             style={{ borderRadius: 15 }}
+			textStyle={{ paddingLeft: 0 }}
             onChangeText={props.setValue}
         />
     );

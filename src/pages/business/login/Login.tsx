@@ -56,7 +56,7 @@ const Login = (props: any) =>
                             <View style={{ marginTop: 25 }} />
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
                             {/* <View style={{ marginTop: 25 }} /> */}
-                            {/* <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" /> */}
+                            <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" />
                             <View style={{ marginTop: 15 }} />
                             {/*<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
@@ -68,10 +68,10 @@ const Login = (props: any) =>
                                         <TextTwo title="Reset" underline="underline" textalign="right" />
                                     </TouchableOpacity>
                                 </Layout>
-                            </Layout>
+                            </Layout>*/}
                             <View style={{ marginTop: 35 }} />
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
-                            <View style={{ marginTop: 15 }} />*/}
+                            <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
                                 <TextTwo title="Don't have an account? " textalign="center" />
                                 <TouchableOpacity onPress={handleSignup} >
