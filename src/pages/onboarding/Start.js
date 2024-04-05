@@ -3,7 +3,7 @@ import MainStyles from '../../assets/styles/MainStyles';
 import TitleZero from '../../components/TitleZero';
 import TextOne from '../../components/TextOne';
 import { ButtonPrimary } from '../../components/ButtonPrimary';
-import { SafeAreaView, View, Image  } from 'react-native';
+import { SafeAreaView, View, Image, TouchableOpacity  } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
 const Start = (props) => 
@@ -27,7 +27,9 @@ const Start = (props) =>
                                 <TextOne textAlign="center" title="Support locally with Localeyez" />
                             </View>
                             <Layout style={{ width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                            <ButtonPrimary name="Get Started" onpress={handleGetStarted} width="100%" />
+							{/* <TouchableOpacity onPress={() => handleGetStarted()}> */}
+                            	<ButtonPrimary name="Get Started" width="100%" onPress={handleGetStarted} />
+							{/* </TouchableOpacity> */}
                         </Layout>
                     </Layout>
                 </View>
