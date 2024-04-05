@@ -1,12 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
 import OnboardingStart from './pages/onboarding/Start';
 import OnboardingChoose from './pages/onboarding/Choose';
-/**
- * Business Pages
-*/
 import LoginBusiness from './pages/business/login/Login';
 import SignupBusinessStepOne from './pages/business/signup/StepOne';
 import SignupBusinessStepTwo from './pages/business/signup/StepTwo';
@@ -19,25 +15,11 @@ import BusProfProAdd from './pages/business/profile/promos/Add';
 import BusProProAddEditBack from './pages/business/profile/promos/BackMessage';
 import BusProfEvtAdd from './pages/business/profile/events/Add';
 import BusProfEvtAddEditBack from './pages/business/profile/events/BackMessage';
-
 import BusProfProEdit from './pages/business/profile/promos/Edit';
 import BusProfProDelete from './pages/business/profile/promos/Delete';
-
-
-
 import Menu from './pages/Menu';
 import Login from './pages/Login';
-/**
- * Admin Pages
-*/
 import AdminNewBusinessHome from './pages/admin/new_businesses/Home';
-
-
-
-
-/**
- * Shopper Pages
-*/
 import ShopperHome from './pages/shopper/Home';
 import AdminLogin from './pages/admin/login/Login';
 import AdminNewBusinessView from './pages/admin/new_businesses/NewView';
@@ -47,9 +29,6 @@ import AdminSupportHome from './pages/admin/support/Home';
 import AdminSupportView from './pages/admin/support/SupportView';
 import BusProfEvtEdit from './pages/business/profile/events/Edit';
 import BusProfEvtDelete from './pages/business/profile/events/Delete';
-
-
-
 import BusProfSectorsAdd from './pages/business/profile/edit/business_sectors/Add';
 import ReviewList from './pages/business/reviews/List';
 import ReviewView from './pages/business/reviews/View';
@@ -72,7 +51,6 @@ import SignupUserFreeTwo from './pages/shopper/signup/pricing/FreeStepTwo';
 import SignupUserMonthlyOne from './pages/shopper/signup/pricing/MonthlyStepOne';
 import SignupUserMonthlyTwo from './pages/shopper/signup/pricing/MonthlyStepTwo';
 import SignupUserMonthlyThree from './pages/shopper/signup/pricing/MonthlyStepThree';
-
 import ShopperAccHome from './pages/shopper/account/Home';
 import ShopperAccEdit from './pages/shopper/account/Edit';
 import ShopperAccIntHome from './pages/shopper/account/interests/Home';
@@ -115,7 +93,6 @@ const HomeNavigator = () => (
     <Screen name="SignupBusinessStepTwo" component={SignupBusinessStepTwo} />
     <Screen name="SignupBusinessStepThree" component={SignupBusinessStepThree} />
     <Screen name="SignupBusinessStepFour" component={SignupBusinessStepFour} />
-
     <Screen name="Login" component={Login} />
     <Screen name="Menu" component={Menu} />
     <Screen name="AdminLogin" component={AdminLogin} />
