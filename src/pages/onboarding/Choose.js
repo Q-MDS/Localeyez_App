@@ -15,7 +15,7 @@ const Choose = (props) =>
 
     const handleBusinessLogin = () => 
     {
-        props.navigation.navigate('LoginBusiness');
+        props.navigation.navigate('SignupBusinessStepOne');
     }
 
     return (

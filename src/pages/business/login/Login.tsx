@@ -75,7 +75,7 @@ const Login = (props: any) =>
                 </View>
             </Layout>
         </SafeAreaView>
-    )
-}
+    );
+};
 
 export default Login;
