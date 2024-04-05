@@ -1,38 +1,37 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
-// import { TitleOne } from '../../../components/TitleOne';
-// import { InputLabelEmail } from '../../../components/InputLabelEmail';
-// import { InputLabelPassword } from '../../../components/InputLabelPassword';
-// import { Checkbox } from '../../../components/Checkbox';
-// import { ButtonPrimary } from '../../../components/ButtonPrimary';
-// import { SafeAreaView, ScrollView, View, Image, TouchableOpacity  } from 'react-native';
-// import { Layout } from '@ui-kitten/components';
-// import TextTwo from '../../../components/TextTwo';
+import { TitleOne } from '../../../components/TitleOne';
+import { InputLabelEmail } from '../../../components/InputLabelEmail';
+import { InputLabelPassword } from '../../../components/InputLabelPassword';
+import { Checkbox } from '../../../components/Checkbox';
+import { ButtonPrimary } from '../../../components/ButtonPrimary';
+import { Layout } from '@ui-kitten/components';
+import TextTwo from '../../../components/TextTwo';
 
 const Login = (props: any) => 
 {
-    // const [credOne, setCredOne] = useState('business@gmail.com');
-    // const [credTwo, setCredTwo] = useState('123456');
+    const [credOne, setCredOne] = useState('business@gmail.com');
+    const [credTwo, setCredTwo] = useState('123456');
 
-    // const handleLogin = () => 
-    // {
-    //     props.navigation.navigate('BusinessDashboard');
-    // }
+    const handleLogin = () => 
+    {
+        props.navigation.navigate('BusinessDashboard');
+    }
 
-    // const handleRememberMe = () => 
-    // {
-    //     console.log('Remember me...');
-    // }
+    const handleRememberMe = () => 
+    {
+        console.log('Remember me...');
+    }
 
-    // const handleReset = () => 
-    // {
-    //     console.log('Reset password...');
-    // }
+    const handleReset = () => 
+    {
+        console.log('Reset password...');
+    }
 
-    // const handleSignup = () => 
-    // {
-    //     props.navigation.navigate('SignupBusinessStepOne');
-    // }
+    const handleSignup = () => 
+    {
+        props.navigation.navigate('SignupBusinessStepOne');
+    }
 
     return (
         <SafeAreaView style={{flex: 1}}>
