@@ -19,33 +19,14 @@ const Choose = (props) =>
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <Layout style={MainStyles.layout_container_grid}>
-            
-                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'flex-start', width: '100%' }}>
-                    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
-                        <Image source={require('../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
-                    </View>
-					<TouchableOpacity onPress={() => handleUserLogin()}>
-					<Text style={{ color: 'black' }}>User Login</Text>
-
-					</TouchableOpacity>
-                    {/* <Layout style={[MainStyles.layout_container]}>
-                        <TitleOne title="Choose which option applies to you:" textAlign="center" />
-                        <Layout style={{ flexDirection: 'column', flex: 1, alignItems: 'center', width: '100%' }}>
-                            <Layout style={{ width: '100%', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                <TextOne title="Sign up or login as a user"/>
-                                <ButtonPrimary name="User" width={200} marginTop={15} onpress={handleUserLogin} />
-                            </Layout>
-                            <Layout style={{ width: '100%', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                <TextOne title="Sign up or login as a business"/>
-                                <ButtonPrimary name="Business" width={200} marginTop={15} onpress={handleBusinessLogin}/>
-                            </Layout>
-                        </Layout>
-                    </Layout> */}
-                </View>
-            </Layout>
-        </SafeAreaView>
+		<View>
+			<TouchableOpacity onPress={() => handleUserLogin()}>
+				<Text style={{ color: 'black' }}>User Login</Text>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => handleBusinessLogin()}>
+				<Text style={{ color: 'black' }}>Business Login</Text>
+			</TouchableOpacity>
+		</View>
     )
 }
 
