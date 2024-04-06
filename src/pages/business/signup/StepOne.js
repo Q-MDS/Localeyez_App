@@ -5,11 +5,10 @@ import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
-import { InputLabelPassword } from '../../../components/InputLabelPassword';
+import { InputPassword } from '../../../components/InputPassword';
 import TextTwo from '../../../components/TextTwo';
-import { SafeAreaView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Layout, Avatar } from '@ui-kitten/components';
-
 
 const StepOne = (props) => 
 {
@@ -20,20 +19,20 @@ const StepOne = (props) =>
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
-    const chkProfile = async () => 
-    {
-        // await DbUtils.clear();
-        const isProfile = await DbUtils.checkData('business_profile');
+    // const chkProfile = async () => 
+    // {
+    //     // await DbUtils.clear();
+    //     const isProfile = await DbUtils.checkData('business_profile');
 
-        if (!isProfile)
-        {
-            createProfile();
-        } 
-        else 
-        {
-            setProfileExists(true);
-        }
-    }
+    //     if (!isProfile)
+    //     {
+    //         createProfile();
+    //     } 
+    //     else 
+    //     {
+    //         setProfileExists(true);
+    //     }
+    // }
 
     const createProfile = async () => 
     {
@@ -64,7 +63,10 @@ const StepOne = (props) =>
 			bannerImage: ''
         }
         let stringified = JSON.stringify(profileData);
-        DbUtils.setItem('business_profile', stringified);
+        await DbUtils.setItem('business_profile', stringified);
+
+		setIsLoading(false);
+		setProfileExists(true);
     }
 
     const getProfile = async () => 
@@ -94,7 +96,8 @@ const StepOne = (props) =>
 
     useEffect(() => 
     {
-        chkProfile();
+        // chkProfile();
+		createProfile();
     }, []);
 
     useEffect(() => 
@@ -104,10 +107,6 @@ const StepOne = (props) =>
             getProfile();
         }
     }, [profileExists === true]);
-
-    // useEffect(() => {
-    //     console.log('Oh poo');
-    // }, [firstName]);
 
     const handleNext = async () => 
     {
@@ -137,7 +136,7 @@ const StepOne = (props) =>
         <SafeAreaView style={{ flex: 1 }}>
             <TopNavArrowTitle title="Create your Account" alignment="start" navigation={props.navigation} />
             {/* <DividerTop /> */}
-            {/* <ScrollView> */}
+            <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
@@ -150,11 +149,9 @@ const StepOne = (props) =>
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Last Name" value={lastName} setValue={setLastName} placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-                    {/* <InputLabelPassword placeholder="Enter password" label="Password" value={password} setValue={setPassword} /> */}
-					<InputLabel label="Password" value={password} setValue={setPassword} placeholder="Enter Password" secureTextEntry={true} />
+					<InputPassword label="Password" value={password} setValue={setPassword} placeholder="Enter Password" />
                     <View style={{ marginTop: 15 }} />
-					<InputLabel label="Confirm Password" placeholder=" Confirm Password" secureTextEntry={true} />
-                    {/* <InputLabelPassword placeholder="Confirm password" label="Confirm Password" /> */}
+					<InputPassword label="Confirm Password" placeholder=" Confirm Password" />
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
@@ -164,7 +161,7 @@ const StepOne = (props) =>
                         </TouchableOpacity>
                     </Layout>
                 </Layout>
-            {/* </ScrollView> */}
+            </ScrollView>
         </SafeAreaView>
     );
 };

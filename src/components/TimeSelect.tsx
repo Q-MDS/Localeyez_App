@@ -53,9 +53,9 @@ export const TimeSelect = (props: any): React.ReactElement =>
 		props.onSelect(selectedValue);
 	};
 
-	const renderOption = (title: string) => 
+	const renderOption = (title: string, index: number) => 
 	(
-    	<SelectItem title={title} />
+    	<SelectItem key={index} title={title} />
   	);
 
   return (

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import DbUtils from '../../services/DbUtils';
 import MainStyles from '../../assets/styles/MainStyles';
 import TitleZero from '../../components/TitleZero';
 import TextOne from '../../components/TextOne';
@@ -12,6 +13,12 @@ const Start = (props) =>
     {
         props.navigation.navigate('OnboardingChoose');
     }
+
+	// Used only for dev testing
+	useEffect(() => 
+	{
+		DbUtils.clear();
+	}, []);
 
     return (
         <SafeAreaView style={{flex: 1}}>

@@ -172,7 +172,7 @@ const Home = (props) =>
                                 <ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
                             </Layout>
                             <View style={{ marginTop: 10 }} />
-							{promotions.map((record, index) => (
+							{promotions && promotions.map((record, index) => (
 									<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
 										{/* <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} > */}
 										<Card style={{ marginBottom: 15 }}>
@@ -229,7 +229,7 @@ const Home = (props) =>
 
 										<View style={{ width: '100%' }}>
 											<TextOne title="Events" />
-											{events.map((record, index) => (
+											{events && events.map((record, index) => (
 											<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
 												<Card style={{ marginBottom: 15 }}>
 													<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >

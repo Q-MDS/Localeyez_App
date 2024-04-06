@@ -96,3 +96,17 @@ const addData = async (newArray) => {
 
 // Call the function with your new array
 addData(['item3', 'item4']);
+======================================================================================
+IOS Testing
+1. Start, goto signup - spinning wheel
+2. Kill app - restart
+3. Goes into signup 1 - must be async-storage
+4. All password inputs not working
+5. Icon for sm
+6. Axios ok - not returning successfully to app
+
+
+Pikuniq
+Localeyez
+Aqord - frontend app, Jack
+One
