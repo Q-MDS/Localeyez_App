@@ -18,6 +18,8 @@ const StepOne = (props) =>
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+	const [isPasswordFocused, setIsPasswordFocused] = React.useState(false);
+	const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = React.useState(false);
 
     // const chkProfile = async () => 
     // {
@@ -149,9 +151,24 @@ const StepOne = (props) =>
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Last Name" value={lastName} setValue={setLastName} placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-					<InputPassword label="Password" value={password} setValue={setPassword} placeholder="Enter Password" />
+					<InputPassword 
+					label="Password" 
+					value={password} 
+					setValue={setPassword} 
+					placeholder="Enter Password" 
+					secureTextEntry={isPasswordFocused}
+					isPassword={isPasswordFocused}
+					onFocusPassword={() => setIsPasswordFocused(true)}
+					onFocusConfirm={() =>setIsConfirmPasswordFocused(false)}
+					/>
                     <View style={{ marginTop: 15 }} />
-					<InputPassword label="Confirm Password" placeholder=" Confirm Password" />
+					<InputPassword 
+					label="Confirm Password" 
+					placeholder=" Confirm Password" 
+					secureTextEntry={isConfirmPasswordFocused}
+					onFocusPassword={() => setIsPasswordFocused(false)}
+					onFocusConfirm={() =>setIsConfirmPasswordFocused(true)}
+					/>
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
