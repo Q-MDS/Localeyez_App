@@ -51,7 +51,6 @@ const Login = (props: any) =>
                             <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
                             <View style={{ marginTop: 25 }} />
 							<InputLabel label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter Password" secureTextEntry={true} />
-                            {/* <InputLabelPassword label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter password" /> */}
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
