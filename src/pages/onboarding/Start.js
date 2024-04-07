@@ -17,7 +17,8 @@ const Start = (props) =>
 	// Used only for dev testing
 	useEffect(() => 
 	{
-		DbUtils.clear();
+		// QQQ: Uncomment to clear the database :: Dev testing only
+		// DbUtils.clear();
 	}, []);
 
     return (

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
 import { SafeAreaView, ScrollView, View, Image } from 'react-native';
@@ -14,11 +16,40 @@ import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 
 const Add = (props) => 
 {
+	const [promotion, setPromotion] = useState([]);
+
     const today = new Date();
     const fiveDaysFromNow = new Date();
     fiveDaysFromNow.setDate(today.getDate() + 5);
     const [eventStartDate, setEventStartDate] = React.useState(new Date());
     const [eventEndDate, setEventEndDate] = React.useState(fiveDaysFromNow);
+
+	console.log('Edit event for id: ', props.route.params.id);
+
+	const getPromotions = async () => 
+	{
+		const data = await DbUtils.getItem('promotions');
+		const parsedData = JSON.parse(data);
+
+		setPromotion(parsedData[Number(props.route.params.id)]);
+		console.log('Promotions: ', promotion);
+	}
+
+	const showPromotion = () => 
+	{
+
+	}
+
+	useFocusEffect(React.useCallback(() => 
+	{
+		const fetchPromotions = async () => 
+		{
+			await getPromotions();
+			showPromotion();
+		};
+
+		fetchPromotions();
+	}, []));
 
     const handleUpload = () => 
     {

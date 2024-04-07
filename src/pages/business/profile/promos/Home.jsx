@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
-import { SafeAreaView, TouchableOpacity, Image, View } from 'react-native';
-import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
+import { SafeAreaView, TouchableOpacity, Image, View, StyleSheet } from 'react-native';
+import { Layout, Divider, Icon, Card, Tab, TabView, Text } from '@ui-kitten/components';
 import { TopNavTitle } from '../../../../components/TopNavTitle';
 import { IconText } from '../../../../components/IconText';
 import { TitleOne } from '../../../../components/TitleOne';
@@ -19,6 +19,7 @@ import CustomIcon from '../../../../components/CustomIcon';
 const Home = (props) => 
 {
     const [selectedBotTab, setSelectedBotTab] = useState(1);
+	const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [selectedTab, setSelectedTab] = useState(0);
 	const [promotions, setPromotions] = useState([]);
 	const [events, setEvents] = useState([]);
@@ -88,19 +89,30 @@ const Home = (props) =>
 		fetchProfile();
 	}, []));
 
-    const handleEditProfile = () => 
+	const handleEditProfile = () => 
     {
         props.navigation.navigate('BusProfEdit');
     };
 
-    const handleAddPromo = () => 
+	const handleAddPromo = () => 
     {
         props.navigation.navigate('BusProfProAdd');
+    };
+
+	const handleEditPromo = () => 
+    {
+		console.log('Edit promo pressed');
+        props.navigation.navigate('BusProfProEdit', { id: 1 });
     };
 
     const handleAddEvent = () => 
     {
         props.navigation.navigate('BusProfEvtAdd');
+    };
+
+    const handleEditEvent = () => 
+    {
+        props.navigation.navigate('BusProfEvtEdit');
     };
 
     useEffect(() => 
@@ -134,8 +146,6 @@ const Home = (props) =>
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
 
                 <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
-                    {/* <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} /> */}
-                    {/* <Image source={{ uri:displayImage }} style={{ width: '100%', height: 180 }} /> */}
 					{displayImage ? <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200 }} /> : null}
                 </Layout>
 
@@ -164,18 +174,20 @@ const Home = (props) =>
                         <IconText title={contactNumber} iconname="phone-call-outline" fontsize={14} width={18} />
                         <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={18} />
                         <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-                        <TabsPromoEvent onchange={setSelectedTab} />
-                        {selectedTab === 0 ? (
-                        <View style={{ width: '100%' }}>
-                            <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-                                <TextOne title="You have no promotions listed" />
-                                <ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
-                            </Layout>
-                            <View style={{ marginTop: 10 }} />
-							{promotions && promotions.map((record, index) => (
-									<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
-										{/* <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} > */}
-										<Card style={{ marginBottom: 15 }}>
+						
+						<TabView
+							selectedIndex={selectedIndex}
+							onSelect={index => setSelectedIndex(index)}
+							style={{ width: '100%' }}
+						>
+						<Tab title='Promotions'>			
+							<Layout style={styles.tabContainer}>
+								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+									<TextOne title="You have no promotions listed" />
+									<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
+								</Layout>
+								{promotions && promotions.map((record, index) => (
+										<Card style={{ width: '100%', marginBottom: 15 }}  onPress={handleEditPromo}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
 												{record.diaplyImage 
 												? 
@@ -193,77 +205,50 @@ const Home = (props) =>
 												<IconText title={formatDate(record.startDate)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
 											</View>
 										</Card>
-										{/* </Layout> */}
-									</TouchableOpacity>
 									))}
-
-                            {/* <TouchableOpacity onPress={() => props.navigation.navigate('BusProfProEdit')}>
-                                <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} > */}
-
-
-                                    {/* <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-                                        <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
-                                    </View>
-                                    <TitleFour title="Promotion Title" fontsize={16} mt={10} />
-                                    <TextTwo title="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
-                                    <TextTwo title="Business Name" fontweight='bold' mt={10} width="100%" />
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-                                        <IconText title="$200" iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-                                        <IconText title="11PM 05.03.2024" iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-                                    </View> */}
-                                {/* </Layout>
-                            </TouchableOpacity> */}
-                        </View>
-                        ) : (
-                            <View style={{ width: '100%' }}>
-                                <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-                                    <TextOne title="You have no events listed" />
-                                    <ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
-                                </Layout>
-
-                                <View style={{ marginTop: 10 }} />
-
-                                <TouchableOpacity onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
-
-									<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', padding: 15, }} >
-
-										<View style={{ width: '100%' }}>
-											<TextOne title="Events" />
-											{events && events.map((record, index) => (
-											<TouchableOpacity key={index} onPress={() => props.navigation.navigate('BusProfEvtEdit')}>
-												<Card style={{ marginBottom: 15 }}>
-													<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-														{record.diaplyImage 
-														? 
-														<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
-														:
-														<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
-														}
-													</View>
-													<TitleFour title={record.title} fontsize={16} mt={10} />
-													<TextTwo title={record.caption} />
-													<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
-													{/* <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} > */}
-														<IconText title={formatDate(record.startDate)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-														{/* <TextTwo title={`R${record.saleItemOp}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} /> */}
-														<IconText title={record.locAddOne} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-													{/* </View> */}
-												</Card>
-											</TouchableOpacity>
-											))}
-										</View>
-
-									</Layout>
-
-                            	</TouchableOpacity>
-						</View>
-                        )}
-                    </Layout>
-                </ScrollView>
-            <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-            <BotNavBusiness selected={selectedBotTab}/>
-        </SafeAreaView>
+							</Layout>
+						</Tab>
+						<Tab title='Events'>
+							<Layout style={styles.tabContainer}>
+								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+									<TextOne title="You have no events listed" />
+									<ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
+								</Layout>
+								{events && events.map((record, index) => 
+								(
+										<Card style={{ width: '100%', marginBottom: 15 }} onPress={handleEditEvent}>
+											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+												{record.diaplyImage 
+												? 
+												<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
+												:
+												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+												}
+											</View>
+											<TitleFour title={record.title} fontsize={16} mt={10} />
+											<TextTwo title={record.caption} />
+											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
+											<IconText title={formatDate(record.startDate)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+											<IconText title={record.locAddOne} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+										</Card>
+								))}
+							</Layout>
+						</Tab>
+					</TabView>
+				</Layout>
+			</ScrollView>
+		<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+		<BotNavBusiness selected={selectedBotTab}/>
+	</SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	tabContainer: {
+	  alignItems: 'center',
+	  justifyContent: 'center',
+	  width: '100%'
+	},
+  });
 
 export default Home;

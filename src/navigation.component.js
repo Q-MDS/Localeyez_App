@@ -107,10 +107,10 @@ const HomeNavigator = () => (
     <Screen name="BusProfProAdd" component={BusProfProAdd} />
     <Screen name="BusProfProEdit" component={BusProfProEdit} />
     <Screen name="BusProfProDelete" component={BusProfProDelete} />
-    <Screen name="BusProfEvtDelete" component={BusProfEvtDelete} />
-    <Screen name="BusProProAddEditBack" component={BusProProAddEditBack} />
     <Screen name="BusProfEvtAdd" component={BusProfEvtAdd} />
     <Screen name="BusProfEvtEdit" component={BusProfEvtEdit} />
+    <Screen name="BusProfEvtDelete" component={BusProfEvtDelete} />
+    <Screen name="BusProProAddEditBack" component={BusProProAddEditBack} />
     <Screen name="BusProfEvtAddEditBack" component={BusProfEvtAddEditBack} />
     <Screen name="BusProfEdit" component={BusProfEdit} />
     <Screen name="BusProfSectorsEdit" component={BusProfSectorsEdit} />

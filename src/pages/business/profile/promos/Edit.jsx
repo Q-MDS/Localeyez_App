@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
 import { SafeAreaView, ScrollView, View, Image } from 'react-native';
@@ -10,13 +12,43 @@ import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 
-const Add = (props) => 
+const Edit = (props) => 
 {
     const today = new Date();
     const fiveDaysFromNow = new Date();
     fiveDaysFromNow.setDate(today.getDate() + 5);
+	const [promoRecord, setPromoRecord] = useState([]);
+	const [promoTitle, setPromoTitle] = useState('');
     const [promoStartDate, setPromoStartDate] = React.useState(new Date());
     const [promoEndDate, setPromoEndDate] = React.useState(fiveDaysFromNow);
+
+	console.log('Edit promo for id :: ', props.route.params.id);
+
+	const getPromotions = async () => 
+	{
+		const data = await DbUtils.getItem('promotions');
+		const parsedData = JSON.parse(data);
+console.log('Parsed Data :xxx: ', parsedData);
+		// setPromoRecord(parsedData[Number(props.route.params.id)]);
+		setPromoRecord(parsedData[1]);
+		console.log('Promotions::', promoRecord);
+	}
+
+	const showPromotion = () => 
+	{
+		setPromoTitle(promoRecord.title);
+	}
+
+	useFocusEffect(React.useCallback(() => 
+	{
+		const fetchPromotions = async () => 
+		{
+			await getPromotions();
+			showPromotion();
+		};
+
+		fetchPromotions();
+	}, []));
 
     const handleUpload = () => 
     {
@@ -38,7 +70,7 @@ const Add = (props) =>
                     <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} />
                 </Layout>
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Title" placeholder="Cake Sale!" />
+                <InputLabel label="Promotion Title" value={promoTitle} setValue={setPromoTitle} placeholder="Cake Sale!" />
                 <View style={{ marginTop: 15 }} />
                 <InputMultiline label="Promotion Caption" placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit." />
                 <View style={{ marginTop: 15 }} />
@@ -73,4 +105,4 @@ const Add = (props) =>
     );
 };
 
-export default Add;
+export default Edit;
