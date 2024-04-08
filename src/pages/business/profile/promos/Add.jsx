@@ -117,15 +117,20 @@ const Add = (props) =>
             created: new Date().toLocaleDateString()
         }];
         let stringified = JSON.stringify(promotionData);
-        // await DbUtils.setItem('promotions', stringified);
-		addData(promotionData);
 
 		// Send to server
+		let insertId = 0;
 		try 
 		{
+			console.log('promotionData', promotionData);
 			const res = await addPromotion(token, promotionData);
+			console.log('res', res);
+			if (res.status)
+			{
+				insertId = res.data;
+				console.log('Promotion uploaded successfully', insertId);
+			}
 			
-			props.navigation.navigate('BusProfProHome');
 		} 
 		catch (error) 
 		{
@@ -141,6 +146,31 @@ const Add = (props) =>
 				bottomOffset: 40,
 			});
 		}
+
+		const record = [{
+			remoteId: insertId,
+			businessId: businessId,
+            sector: sector,
+            diaplyImage: displayImage,
+            title: promoTitle,
+            caption: promoCaption,
+            description: promoDescription,
+            price: price,
+            saleItemOp: saleItemOP, 
+            saleItemMp: saleItemMP, 
+            startDate: promoStartDate,
+            endDate: promoEndDate,   
+            locAddOne: address1,   
+            locAddTwo: address2,   
+            locCity: city,   
+            locProvince: province,   
+            locZipCode: zipCode,   
+            created: new Date().toLocaleDateString()
+        }];
+        
+		addData(record);
+
+		props.navigation.navigate('BusProfProHome');
     }
 
 	const addData = async (newArray) => 

@@ -17,9 +17,19 @@ export const addPromotion = async (token: string, data: any) =>
 		headers: { Authorization: `Bearer ${token}` },
 	});
 
-	console.log('Add promotion response: ', response.data);
 	return response.data;
 }
+
+export const updPromotion = async (token: string, data: any) => 
+	{
+		const response = await api.post('/api/upd_promotion/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+	
+		console.log('Apdate promotion response: ', response.data);
+		return response.data;
+	}
 
 export const addEvent = async (token: string, data: any) => 
 {
@@ -31,6 +41,5 @@ export const addEvent = async (token: string, data: any) =>
 		headers: { Authorization: `Bearer ${token}` },
 	});
 
-	console.log('Add event response: ', response.data);
 	return response.data;
 }

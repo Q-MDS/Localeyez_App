@@ -99,10 +99,10 @@ const Home = (props) =>
         props.navigation.navigate('BusProfProAdd');
     };
 
-	const handleEditPromo = () => 
+	const handleEditPromo = (index) => 
     {
-		console.log('Edit promo pressed');
-        props.navigation.navigate('BusProfProEdit', { id: 1 });
+		console.log('Edit promo pressed: ', index);
+        props.navigation.navigate('BusProfProEdit', { id: index });
     };
 
     const handleAddEvent = () => 
@@ -187,7 +187,7 @@ const Home = (props) =>
 									<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
 								</Layout>
 								{promotions && promotions.map((record, index) => (
-										<Card style={{ width: '100%', marginBottom: 15 }}  onPress={handleEditPromo}>
+										<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
 												{record.diaplyImage 
 												? 
@@ -216,7 +216,7 @@ const Home = (props) =>
 								</Layout>
 								{events && events.map((record, index) => 
 								(
-										<Card style={{ width: '100%', marginBottom: 15 }} onPress={handleEditEvent}>
+										<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={handleEditEvent}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
 												{record.diaplyImage 
 												? 
