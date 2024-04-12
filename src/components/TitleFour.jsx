@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         textAlign: 'left',
         width: '100%',
+		color: '#000'
     },
   });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../services/DbUtils'; 
 import CustomIcon from '../../../components/CustomIcon';
 import MainStyles from '../../../assets/styles/MainStyles';
@@ -13,48 +13,110 @@ import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native'
 import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 
+const initialState = {
+	email: null,
+	contactNumber: null,
+	companyName: null,
+	addressOne: null,
+	addressTwo: null,
+	city: null,
+	province: null,
+	zipCode: null,
+	businessBio: null,
+	xUrl: null,
+	instagramUrl: null,
+	facebookUrl: null,
+	linkedinUrl: null,
+	wwwUrl: null,
+	isLocal: null,
+};
+
+function reducer(state, action) 
+{
+	switch (action.type) 
+	{
+	  case 'SET_SIGNUP_TWO':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
+
 const StepTwo = (props) => 
 {
-    const [contactNumber, setContactNumber] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [addressOne, setAddressOne] = useState('');
-    const [addressTwo, setAddressTwo] = useState('');
-    const [city, setCity] = useState('');
-    const [province, setProvince] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [businessBio, setBusinessBio] = useState('');
-    const [xUrl, setXUrl] = useState('');
-    const [instgramUrl, setInstagramUrl] = useState('');
-    const [facebookUrl, setFacebookUrl] = useState('');
-    const [linkedinUrl, setLinkedinUrl] = useState('');
-    const [wwwUrl, setWwwUrl] = useState('');
-    const [isLocal, setIsLocal] = useState('');
+    // const [contactNumber, setContactNumber] = useState('');
+    // const [companyName, setCompanyName] = useState('');
+    // const [addressOne, setAddressOne] = useState('');
+    // const [addressTwo, setAddressTwo] = useState('');
+    // const [city, setCity] = useState('');
+    // const [province, setProvince] = useState('');
+    // const [zipCode, setZipCode] = useState('');
+    // const [businessBio, setBusinessBio] = useState('');
+    // const [xUrl, setXUrl] = useState('');
+    // const [instgramUrl, setInstagramUrl] = useState('');
+    // const [facebookUrl, setFacebookUrl] = useState('');
+    // const [linkedinUrl, setLinkedinUrl] = useState('');
+    // const [wwwUrl, setWwwUrl] = useState('');
+    // const [isLocal, setIsLocal] = useState('');
+
+	const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(true);
+
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'SET_SIGNUP_TWO',
+			payload: {...state, [name]: newValue}
+		});
+	}
 
     const getProfile = async () => 
     {
         const profile = await DbUtils.getItem('business_profile')
         .then((profile) => 
         {
-            setContactNumber(JSON.parse(profile).contact_number);
-            setCompanyName(JSON.parse(profile).company_name);
-            setAddressOne(JSON.parse(profile).location[0].address_one);
-            setAddressTwo(JSON.parse(profile).location[0].address_two);
-            setCity(JSON.parse(profile).location[0].city);
-            setProvince(JSON.parse(profile).location[0].province);
-            setZipCode(JSON.parse(profile).location[0].zip);
-            setBusinessBio(JSON.parse(profile).business_bio);
-            setXUrl(JSON.parse(profile).sm_x);
-            setInstagramUrl(JSON.parse(profile).sm_inst);
-            setFacebookUrl(JSON.parse(profile).sm_fb);
-            setLinkedinUrl(JSON.parse(profile).sm_linkedin);
-            setWwwUrl(JSON.parse(profile).sm_www);
-            setIsLocal(JSON.parse(profile).isLocal);
+			console.log('profile step 2: ', profile);
+			dispatch(
+			{
+				type: 'SET_SIGNUP_TWO',
+				payload: 
+				{
+					contactNumber: JSON.parse(profile).contact_number,
+					companyName: JSON.parse(profile).company_name,
+					addressOne: JSON.parse(profile).loc_add_one,
+					addressTwo: JSON.parse(profile).loc_add_two,
+					city: JSON.parse(profile).loc_city,
+					province: JSON.parse(profile).loc_province,
+					zipCode: JSON.parse(profile).loc_zip_code,
+					isLocal: JSON.parse(profile).is_local,
+					businessBio: JSON.parse(profile).business_bio,
+					xUrl: JSON.parse(profile).sm_x,
+					instagramUrl: JSON.parse(profile).sm_inst,
+					facebookUrl: JSON.parse(profile).sm_fb,
+					linkedinUrl: JSON.parse(profile).sm_linkedin,
+					wwwUrl: JSON.parse(profile).sm_www,
+				},
+			});
+            // setContactNumber(JSON.parse(profile).contact_number);
+            // setCompanyName(JSON.parse(profile).company_name);
+            // setAddressOne(JSON.parse(profile).location[0].address_one);
+            // setAddressTwo(JSON.parse(profile).location[0].address_two);
+            // setCity(JSON.parse(profile).location[0].city);
+            // setProvince(JSON.parse(profile).location[0].province);
+            // setZipCode(JSON.parse(profile).location[0].zip);
+            // setBusinessBio(JSON.parse(profile).business_bio);
+            // setXUrl(JSON.parse(profile).sm_x);
+            // setInstagramUrl(JSON.parse(profile).sm_inst);
+            // setFacebookUrl(JSON.parse(profile).sm_fb);
+            // setLinkedinUrl(JSON.parse(profile).sm_linkedin);
+            // setWwwUrl(JSON.parse(profile).sm_www);
+            // setIsLocal(JSON.parse(profile).isLocal);
 
             setIsLoading(false);
         });
 
-        // console.log('profile step 2: ', profile);
+        
     }
 
     const updProfile = async (key, newValue) => 
@@ -63,20 +125,19 @@ const StepTwo = (props) =>
         const profileData = JSON.parse(profileDataString);
       
         profileData[key] = newValue;
-        // console.log('key: ', key, ' newValue: ', newValue, ' profileData: ', profileData);
       
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
 
-    const updProfileLocation = async (key, subKey, newValue) => 
-    {
-        const profileDataString = await DbUtils.getItem('business_profile');
-        const profileData = JSON.parse(profileDataString);
+    // const updProfileLocation = async (key, subKey, newValue) => 
+    // {
+    //     const profileDataString = await DbUtils.getItem('business_profile');
+    //     const profileData = JSON.parse(profileDataString);
 
-        profileData['location'][0][subKey] = newValue;
+    //     profileData['location'][0][subKey] = newValue;
       
-        await DbUtils.setItem('business_profile', JSON.stringify(profileData));
-    };
+    //     await DbUtils.setItem('business_profile', JSON.stringify(profileData));
+    // };
 
     useEffect(() => 
     {
@@ -94,20 +155,20 @@ const StepTwo = (props) =>
 
     const handleNext = async () => 
     {
-        await updProfile('contact_number', contactNumber);
-        await updProfile('company_name', companyName);
-        await updProfileLocation('location', 'address_one', addressOne);
-        await updProfileLocation('location', 'address_two', addressTwo);
-        await updProfileLocation('location', 'city', city);
-        await updProfileLocation('location', 'province', province);
-        await updProfileLocation('location', 'zip', zipCode);
-        await updProfile('business_bio', businessBio);
-        await updProfile('isLocal', isLocal);
-        await updProfile('sm_x', xUrl);
-        await updProfile('sm_inst', instgramUrl);
-        await updProfile('sm_fb', facebookUrl);
-        await updProfile('sm_linkedin', linkedinUrl);
-        await updProfile('sm_www', wwwUrl);
+        await updProfile('contact_number', state.contactNumber);
+        await updProfile('company_name', state.companyName);
+        await updProfile('loc_add_one', state.addressOne);
+        await updProfile('loc_add_two', state.addressTwo);
+        await updProfile('loc_city', state.city);
+        await updProfile('loc_province', state.province);
+        await updProfile('loc_zip_code', state.zipCode);
+        await updProfile('business_bio', state.businessBio);
+        await updProfile('isLocal', state.isLocal);
+        await updProfile('sm_x', state.xUrl);
+        await updProfile('sm_inst', state.instgramUrl);
+        await updProfile('sm_fb', state.facebookUrl);
+        await updProfile('sm_linkedin', state.linkedinUrl);
+        await updProfile('sm_www', state.wwwUrl);
         
         props.navigation.navigate('SignupBusinessStepThree');
     }
@@ -119,52 +180,49 @@ const StepTwo = (props) =>
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />
-					<InputLabel label="Company" value={companyName} setValue={setCompanyName} placeholder="Company name" />
+					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
-
                     <Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
-					<InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
+					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel placeholder="Address line 1" value={addressOne} setValue={setAddressOne} label="Location" />
+                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="Address line 2" value={addressTwo} setValue={setAddressTwo} />
+                    <InputLabel placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="City" value={city} setValue={setCity} />
+                    <InputLabel placeholder="City" name="city" value={state.city} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="Province" value={province} setValue={setProvince} />
+                    <InputLabel placeholder="Province" name="province" value={state.province} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="ZIP Code" value={zipCode} setValue={setZipCode} />
+                    <InputLabel placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline placeholder="Write a short description up to 120 characters about your business" label="Business Bio" value={businessBio} setValue={setBusinessBio} />
+                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your business" />
                     <View style={{ marginTop: 15 }} />
                     <Label title="Are a small & local business?" textalign="left" fontweight="bold" mb={5} />
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-                        {/* <Checkbox label="Yes" isChecked={!isLocal ? true : false} onChange={() => setIsLocal(true)} />
-                        <Checkbox label="No" isChecked={isLocal ? true : false} onChange={() => setIsLocal(false)} /> */}
                         <Toggle
-                            checked={isLocal}
-                            onChange={() => setIsLocal(!isLocal)}
+                            checked={state.isLocal}
+                            onChange={() => setIsLocal(!state.isLocal)}
                             >
-                            <Text category='p2'>{isLocal ? 'Yes' : 'No'}</Text>
+                            <Text category='p2'>{state.isLocal ? 'Yes' : 'No'}</Text>
                         </Toggle>
                     </Layout>
                     <View style={{ marginTop: 15 }} />
                     <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
                     {/* <Icon name="twitter-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} /> */}
 					<CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel placeholder="Write X URL here" value={xUrl} setValue={setXUrl} />
+                    <InputLabel name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" />
                     <View style={{ marginTop: 10 }} />
 					<CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel placeholder="Write Instagram URL here" value={instgramUrl} setValue={setInstagramUrl} />
+                    <InputLabel name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
                     <View style={{ marginTop: 10 }} />
 					<CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel placeholder="Write Facebook URL here" value={facebookUrl} setValue={setFacebookUrl} />
+                    <InputLabel name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
                     <View style={{ marginTop: 10 }} />
 					<CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel placeholder="Write Linkedin URL here" value={linkedinUrl} setValue={setLinkedinUrl} />
+                    <InputLabel name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
                     <View style={{ marginTop: 10 }} />
                     <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel placeholder="Write Website URL here" value={wwwUrl} setValue={setWwwUrl} />
+                    <InputLabel name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} placeholder="Write Website URL here" />
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                 </Layout>

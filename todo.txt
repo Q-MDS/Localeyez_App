@@ -110,3 +110,16 @@ Pikuniq
 Localeyez
 Aqord - frontend app, Jack
 One
+
+- First time login: wont have details, go signup
+- Fill out 3 page, submit -> bus setup home page
+- User checks out, adds a pic etc...
+- Clicks on briefcase - HOME/DASHBOARD
+
+Now...
+- User loads app and lands at login screen
+- Enter details
+- PHP: Api login -> detect user type*
+- PHP: Must send business profile*, promotions and events
+- APP: Clear items in AS, bus prof, promo, event => Add to AsyncStorage
+- APP: Signup clears business_profile, ? promotions ?, ? events ?

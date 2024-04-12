@@ -11,8 +11,9 @@ export const InputPassword = (props: any) => {
         placeholder={props.placeholder}
         value={props.value}
 		secureTextEntry={props.secureTextEntry}
-        onChangeText={props.setValue}
-		textStyle={{ paddingStart: 0, marginStart: 0}}
+        onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+		textStyle={{ paddingStart: 0, marginStart: 0, color: '#8C89B7'}}
+		size="large"
         style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
 		onFocus={() => {
 			props.onFocusPassword(true);

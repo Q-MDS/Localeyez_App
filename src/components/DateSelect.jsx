@@ -6,13 +6,16 @@ export const DateSelect = (props) =>
 {
     return (
         <Layout
-        style={styles.container}
+        style={[styles.container]}
         level='1'
         >
 
       <Datepicker
         date={props.value}
-        onSelect={nextDate => props.setDate(nextDate)}
+		name={props.name}
+		onSelect={newValue => props.onChange(props.name, newValue)}
+		controlStyle={{paddingStart: 0, marginStart: 0}}
+		status='basic'
       />
 
         </Layout>

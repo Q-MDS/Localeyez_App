@@ -1,3 +1,6 @@
+if (__DEV__) {
+	require("./ReactotronConfig");
+}
 import React from 'react';
 import { AuthProvider } from './src/services/AuthContext';
 import * as eva from '@eva-design/eva';

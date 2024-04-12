@@ -212,9 +212,16 @@ const Edit = (props) =>
 			banner_image: bannerImage,
 		}
 
-		const res = await updBusinessProfile(token, data);
+		try 
+		{
+			const res = await updBusinessProfile(token, data);
+			console.log('Res: ', res);
+		}
+		catch (error)
+		{
+			console.log('Error updating business profile: ', error);
+		}
 
-		// console.log('Res: ', res);;
         props.navigation.navigate('BusProfProHome');
     }
 

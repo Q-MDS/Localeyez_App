@@ -74,7 +74,6 @@ const Home = (props) =>
 		const parsedData = JSON.parse(data);
 
 		setEvents(parsedData);
-		console.log('Events: ', parsedData);
 	}
 
 	useFocusEffect(React.useCallback(() => 
@@ -110,9 +109,9 @@ const Home = (props) =>
         props.navigation.navigate('BusProfEvtAdd');
     };
 
-    const handleEditEvent = () => 
+    const handleEditEvent = (index) => 
     {
-        props.navigation.navigate('BusProfEvtEdit');
+        props.navigation.navigate('BusProfEvtEdit', { id: index });
     };
 
     useEffect(() => 
@@ -189,20 +188,20 @@ const Home = (props) =>
 								{promotions && promotions.map((record, index) => (
 										<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-												{record.diaplyImage 
+												{record.display_image 
 												? 
-												<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
+												<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
 												:
 												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
 												}
 											</View>
-											<TitleFour title={record.title} fontsize={16} mt={10} />
-											<TextTwo title={record.caption} />
+											<TitleFour title={record.promo_title} fontsize={16} mt={10}  />
+											<TextTwo title={record.promo_caption} />
 											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
 											<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-												<IconText title={`R${record.saleItemMp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-												<TextTwo title={`R${record.saleItemOp}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
-												<IconText title={formatDate(record.startDate)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+												<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+												<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
+												<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
 											</View>
 										</Card>
 									))}
@@ -216,20 +215,20 @@ const Home = (props) =>
 								</Layout>
 								{events && events.map((record, index) => 
 								(
-										<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={handleEditEvent}>
+										<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={() => handleEditEvent(index)}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-												{record.diaplyImage 
+												{record.display_image 
 												? 
-												<Image source={{ uri: record.diaplyImage }} style={{ width: '100%', height: '100%' }} /> 
+												<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
 												:
 												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
 												}
 											</View>
-											<TitleFour title={record.title} fontsize={16} mt={10} />
-											<TextTwo title={record.caption} />
+											<TitleFour title={record.event_title} fontsize={16} mt={10} />
+											<TextTwo title={record.event_caption} />
 											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
-											<IconText title={formatDate(record.startDate)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-											<IconText title={record.locAddOne} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+											<IconText title={formatDate(record.start_date)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+											<IconText title={record.loc_add_one} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
 										</Card>
 								))}
 							</Layout>

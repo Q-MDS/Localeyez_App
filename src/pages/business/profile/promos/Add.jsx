@@ -15,8 +15,19 @@ import TextTwo from '../../../../components/TextTwo';
 import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
+import DropdownSingle from '../../../../components/DropdownSingle';
 
-const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
+// const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
+const sectors = [
+	{ label: 'Shopping', value: 'Shopping' }, 
+	{ label: 'Travel', value: 'Travel' }, 
+	{ label: 'Health & Wellness', value: 'Health & Wellness' }, 
+	{ label: 'Entertainment', value: 'Entertainment' }, 
+	{ label: 'Education & Employment', value: 'Education & Employment' }, 
+	{ label: 'Property', value: 'Property' }, 
+	{ label: 'Services', value: 'Services' }, 
+	{ label: 'Community', value: 'Community' }
+];
 
 const Add = (props) => 
 {
@@ -107,8 +118,8 @@ const Add = (props) =>
             price: price,
             saleItemOp: saleItemOP, 
             saleItemMp: saleItemMP, 
-            startDate: promoStartDate,
-            endDate: promoEndDate,   
+            startDate: promoStartDate.toLocaleDateString(),
+            endDate: promoEndDate.toLocaleDateString(),   
             locAddOne: address1,   
             locAddTwo: address2,   
             locCity: city,   
@@ -130,7 +141,6 @@ const Add = (props) =>
 				insertId = res.data;
 				console.log('Promotion uploaded successfully', insertId);
 			}
-			
 		} 
 		catch (error) 
 		{
@@ -197,7 +207,10 @@ const Add = (props) =>
         <ScrollView>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                 <TitleFour title="Choose which business sector(s) your promotion falls under:" />
-				<SelectSingle options={sectors} onSelect={handleSector} />
+				<View style={{ flex: 1, width: '100%' }} >
+						<DropdownSingle data={sectors} value={sector} arb={setSector} />
+					</View>
+				{/* <SelectSingle options={sectors} onSelect={handleSector} /> */}
                 <TitleFour title="Upload Display Picture" mb={10} />
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >

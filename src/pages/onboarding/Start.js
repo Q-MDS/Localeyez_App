@@ -14,10 +14,10 @@ const Start = (props) =>
         props.navigation.navigate('OnboardingChoose');
     }
 
-	// Used only for dev testing
 	useEffect(() => 
 	{
-		// QQQ: Uncomment to clear the database :: Dev testing only
+		// Leaving clear here for security purposes. If user is logged out and the app is started there should be no data in the db.
+		// Commenting out for testing purposes.
 		// DbUtils.clear();
 	}, []);
 

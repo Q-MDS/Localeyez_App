@@ -7,14 +7,16 @@ export const InputLabelEmail = (props) =>
 
     return (
         <Input
+			name={props.name}
             label={props.label}
             placeholder={props.placeholder}
             keyboardType="email-address"
             value={props.value}
             size="large"
-            style={{ borderRadius: 15 }}
-			textStyle={{ paddingLeft: 0 }}
-            onChangeText={props.setValue}
+            style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
+			textStyle={{ paddingStart: 0, marginStart: 0, color: '#8C89B7'}}
+            // onChangeText={props.setValue}
+			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
         />
     );
 };

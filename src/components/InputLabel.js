@@ -8,12 +8,15 @@ export const InputLabel = (props) => {
   return (
     <Input
         label={props.label}
+		name={props.name}
         placeholder={props.placeholder}
         value={props.value}
 		secureTextEntry={props.secureTextEntry}
-        onChangeText={props.setValue}
-		textStyle={{ paddingStart: 0, marginStart: 0}}
+        onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+		size="large"
+		textStyle={{ paddingStart: 0, marginStart: 0, color: '#8C89B7'}}
         style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
+		status='basic'
     />
   );
 };

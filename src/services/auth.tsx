@@ -31,23 +31,26 @@ export const register = async (data: any) =>
 	// return response.data;
 };
 
-export const login = async (email: string, password: string) => 
+export const login = async (credOne: string, credTwo: string) => 
 {
-    try {
-      const response = await api.post('/api/login', {
-        email,
-        password
-      });
+    try 
+	{
+		const response = await api.post('/api/login', {credOne, credTwo});
   
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        throw new Error('Login failed');
-      }
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+		if (response.status === 200) 
+		{
+			return response.data;
+		} 
+		else 
+		{
+			throw new Error('Login failed');
+		}
+	} 
+	catch (error) 
+	{
+		console.error(error);
+		throw error;
+	}
   };
 
 export const logOut = async (token: string) =>

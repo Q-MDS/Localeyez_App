@@ -8,11 +8,13 @@ export const InputMultiline = (props) => {
   return (
     <Input
         label={props.label}
+		name={props.name}
         placeholder={props.placeholder}
         value={props.value}
         multiline={true}
-        textStyle={styles.inputTextStyle}
-        onChangeText={props.setValue}
+		textStyle={{ paddingStart: 0, marginStart: 0, color: '#8C89B7'}}
+        status='basic'
+		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
     />
   );
 };

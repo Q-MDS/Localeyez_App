@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import DbUtils from '../../../services/DbUtils';
+import { login } from '../../../services/auth';
+import Toast from 'react-native-toast-message';
 import { SafeAreaView, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { TitleOne } from '../../../components/TitleOne';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
@@ -11,12 +14,77 @@ import { InputLabel } from '../../../components/InputLabel';
 
 const Login = (props: any) => 
 {
-    const [credOne, setCredOne] = useState('business@gmail.com');
+    const [credOne, setCredOne] = useState('Harry@gmail.com');
     const [credTwo, setCredTwo] = useState('123456');
 
-    const handleLogin = () => 
+    const handleLogin = async () => 
     {
-        props.navigation.navigate('BusinessDashboard');
+		// Clear the local storage
+		await DbUtils.clear();
+
+		// Auth on server
+		const res = await login(credOne, credTwo);
+		const status = res.status;
+
+		if (status)
+		{
+			const businessId = res.business_id;
+			const token = res.token;
+			const businessProfile = res.business_profile;
+			const promotions = res.promotions;
+			const events = res.events;
+
+			console.log('Token at login:', token);
+
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Login accepted',
+				text2: 'Going to the business dashboard',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+
+			let jsonBusinessId = JSON.stringify(businessId);
+			await DbUtils.setItem('business_id', jsonBusinessId);
+        	
+			let jsonToken = JSON.stringify(token);
+        	await DbUtils.setItem('token', jsonToken);
+
+			let jsonBusinessProfile = JSON.stringify(businessProfile);
+        	await DbUtils.setItem('business_profile', jsonBusinessProfile);
+			console.log('business_profile:', jsonBusinessProfile);
+
+			let jsonPromotions = JSON.stringify(promotions);
+        	await DbUtils.setItem('promotions', jsonPromotions);
+
+			let jsonEvents = JSON.stringify(events);
+        	await DbUtils.setItem('events', jsonEvents);
+
+			props.navigation.navigate('BusinessDashboard');
+		} 
+		else 
+		{
+			Toast.show({
+				type: 'error',
+				position: 'bottom',
+				text1: 'Invalid login details',
+				text2: 'Please try again.',
+				visibilityTime: 4000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		}
+
+		// console.log('Login response xxx:', res.status);
+		// // console.log('Login response xxx:', res.business_profile);
+		// console.log('Promotions:', res.promotions);
+		// console.log('Events:', res.events);
+
+        
     }
 
     const handleRememberMe = () => 

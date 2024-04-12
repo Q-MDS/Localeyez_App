@@ -16,8 +16,46 @@ import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { TimeSelect } from '../../../../components/TimeSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
+import DropdownSingle from '../../../../components/DropdownSingle';
 
-const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
+// const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
+const sectors = [
+	{ label: 'Shopping', value: 'Shopping' }, 
+	{ label: 'Travel', value: 'Travel' }, 
+	{ label: 'Health & Wellness', value: 'Health & Wellness' }, 
+	{ label: 'Entertainment', value: 'Entertainment' }, 
+	{ label: 'Education & Employment', value: 'Education & Employment' }, 
+	{ label: 'Property', value: 'Property' }, 
+	{ label: 'Services', value: 'Services' }, 
+	{ label: 'Community', value: 'Community' }
+];
+
+const data = [
+    { label: '00:00', value: '00:00' },
+    { label: '01:00', value: '01:00' },
+    { label: '02:00', value: '02:00' },
+    { label: '03:00', value: '03:00' },
+    { label: '04:00', value: '04:00' },
+    { label: '05:00', value: '05:00' },
+    { label: '06:00', value: '06:00' },
+    { label: '07:00', value: '07:00' },
+    { label: '08:00', value: '08:00' },
+    { label: '09:00', value: '09:00' },
+    { label: '10:00', value: '10:00' },
+    { label: '11:00', value: '11:00' },
+    { label: '12:00', value: '12:00' },
+    { label: '13:00', value: '13:00' },
+    { label: '14:00', value: '14:00' },
+    { label: '15:00', value: '15:00' },
+    { label: '16:00', value: '16:00' },
+    { label: '17:00', value: '17:00' },
+    { label: '18:00', value: '18:00' },
+    { label: '19:00', value: '19:00' },
+    { label: '20:00', value: '20:00' },
+    { label: '21:00', value: '21:00' },
+    { label: '22:00', value: '22:00' },
+    { label: '23:00', value: '23:00' },
+  ];
 
 const Add = (props) => 
 {
@@ -126,18 +164,23 @@ const Add = (props) =>
         }];
         let stringified = JSON.stringify(promotionData);
         
-		addData(promotionData);
+		// addData(promotionData);
 
 		// Send to server
+		let insertId = 0;
 		try 
 		{
 			const res = await addEvent(token, promotionData);
-			
-			props.navigation.navigate('BusProfProHome');
+			console.log('res', res);
+			if (res.status)
+			{
+				insertId = res.data;
+				console.log('Event uploaded successfully', insertId);
+			}
 		} 
 		catch (error) 
 		{
-			// console.error("XXX", error);
+			console.error("XXX", error);
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
@@ -149,6 +192,30 @@ const Add = (props) =>
 				bottomOffset: 40,
 			});
 		}
+
+		const record = [{
+			remoteId: insertId,
+			businessId: businessId,
+            sector: sector,
+            diaplyImage: displayImage,
+            title: eventTitle,
+            caption: eventCaption,
+            description: eventDescription,
+            startDate: eventStartDate,
+            endDate: eventEndDate,   
+            startTime: eventStartTime,
+            endTime: eventEndTime,   
+            locAddOne: address1,   
+            locAddTwo: address2,   
+            locCity: city,   
+            locProvince: province,   
+            locZipCode: zipCode,   
+            created: new Date().toLocaleDateString()
+        }];
+        
+		addData(record);
+
+		props.navigation.navigate('BusProfProHome');
     }
 
 	const addData = async (newArray) => 
@@ -175,7 +242,9 @@ const Add = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                     <TitleFour title="Choose which business sector(s) your event falls under:" />
-                    <SelectSingle options={sectors} onSelect={handleSector} />
+					<View style={{ flex: 1, width: '100%' }} >
+						<DropdownSingle data={sectors} value={sector} arb={setSector} />
+					</View>
                     <TitleFour title="Upload Display Picture" mb={10} />
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
@@ -200,14 +269,23 @@ const Add = (props) =>
                     <DateSelect value={eventEndDate} setDate={setEventEndDate} />
                     <View style={{ marginTop: 15 }} />
                     <TitleFour title="Event Time" />
+					<View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} />
+                        <DropdownSingle data={data} value={eventStartTime} arb={setEventStartTime} />
+                    </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} />
+                        <DropdownSingle data={data} value={eventEndTime} arb={setEventEndTime} />
+                    </View>
+
+                    {/* <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} />
                         <TimeSelect time={8} mt={10} onSelect={handleStartTime} />
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} />
                         <TimeSelect time={12} mt={10} onSelect={handleEndTime} />
-                    </View>
+                    </View> */}
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Event Location (Optional)" value={address1} setValue={setAddress1} placeholder="Address line 1" />
                     <View style={{ marginTop: 5 }} />
