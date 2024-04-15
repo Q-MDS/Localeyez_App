@@ -55,7 +55,6 @@ const Login = (props: any) =>
 
 			let jsonBusinessProfile = JSON.stringify(businessProfile);
         	await DbUtils.setItem('business_profile', jsonBusinessProfile);
-			console.log('business_profile:', jsonBusinessProfile);
 
 			let jsonPromotions = JSON.stringify(promotions);
         	await DbUtils.setItem('promotions', jsonPromotions);

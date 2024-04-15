@@ -17,16 +17,17 @@ const StepThree = (props) =>
     const [checked, setChecked] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
+	console.log('Load me');
     const handleSubmit = async () =>
     {
-		await updProfile('shoppingData', shoppingData);
-		await updProfile('travelData', travelData);
-		await updProfile('healthData', healthData);
-		await updProfile('entertainmentData', entertainmentData);
-		await updProfile('educationData', educationData);
-		await updProfile('propertyData', propertyData);
-		await updProfile('servicesData', servicesData);
-		await updProfile('communityData', communityData);
+		await updProfile('shopping_data', shoppingData);
+		await updProfile('travel_data', travelData);
+		await updProfile('health_data', healthData);
+		await updProfile('entertainment_data', entertainmentData);
+		await updProfile('education_data', educationData);
+		await updProfile('property_data', propertyData);
+		await updProfile('services_data', servicesData);
+		await updProfile('community_data', communityData);
 
         props.navigation.navigate('SignupBusinessStepFour');
     }

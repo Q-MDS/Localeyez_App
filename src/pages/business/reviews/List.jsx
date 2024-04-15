@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from "react";
+import DbUtils from "../../../services/DbUtils";
+import Toast from 'react-native-toast-message';
+import { getBusinessReviews } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
+import { ReviewCard } from "../../../components/ReviewCard";
 import { TopNavBusReviews } from "../../../components/TopNavBusReviews";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
 import { SafeAreaView, ScrollView } from "react-native";
@@ -8,12 +12,76 @@ import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components
 const ReviewList = (props) => 
 {
     const [selectedBotTab, setSelectedBotTab] = useState(2);
+	const [token, setToken] = useState('');
+	const [businessId, setBusinessId] = useState('');
+	const [isReady, setIsReady] = useState(false);
+	const [averageRating, setAverageRating] = useState('0');
+	const [reviews, setReviews] = useState([]);
 
-    useEffect(() => 
-    {
-        console.log('Set bottom nav index to 1');
-        setSelectedBotTab(2);
-    }, []);
+	const getToken = async () => 
+	{
+		const token = await DbUtils.getItem('token');
+		
+		setToken(JSON.parse(token));
+	}
+
+	const getBusniessId = async () => 
+	{
+		const id = await DbUtils.getItem('business_id');
+		
+		setBusinessId(JSON.parse(id));
+	}
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getBusniessId();
+			await getToken();
+			setIsReady(true);
+		};
+
+		fetchData();
+	}, []);
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			try 
+			{
+				console.log('Fetching reviews...');
+				const data = [{business_id: businessId}];
+				let params = JSON.stringify(data);
+
+				const res = await getBusinessReviews(token, params);
+
+				setAverageRating(res.data.average_rating);
+				setReviews(res.data.reviews);
+
+			} 
+			catch (error) 
+			{
+				Toast.show({
+					type: 'error',
+					position: 'bottom',
+					text1: 'There was an error fetching the reviews.',
+					text2: 'Please try again.',
+					visibilityTime: 4000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+			}
+		};
+
+		if (isReady) 
+		{
+			// Your code here...
+			console.log('Gonna fetch the daya now...', token, businessId);
+			fetchData();
+		}
+	}, [isReady]);
 
     const handelView = () => 
     {
@@ -22,66 +90,19 @@ const ReviewList = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <TopNavBusReviews title='Your Reviews' />
+            <TopNavBusReviews title='Your Reviews' rating={averageRating} />
                 <ScrollView>
                     <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" onPress={() => handelView()} >
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
-                                <Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>Trevor D.</Text>
-                            </Layout>
-                            <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                            <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >
-                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} >
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16 }} />
-                                </Layout>
-                                <Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>Great value for money!</Text>
-                                <Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore.</Text>
-                            </Layout>
-                        </Card>
-                        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" >
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Avatar source={require('../../../assets/images/list_icon_td.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
-                                <Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>Robert J.</Text>
-                            </Layout>
-                            <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                            <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >
-                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} >
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                </Layout>
-                                <Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>Very happy with the service</Text>
-                                <Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore.</Text>
-                            </Layout>
-                        </Card>
-                        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" >
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Avatar source={require('../../../assets/images/list_icon_td.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
-                                <Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>Robert J.</Text>
-                            </Layout>
-                            <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                            <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >
-                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} >
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                    <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                </Layout>
-                                <Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>Very happy with the service</Text>
-                                <Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore.</Text>
-                            </Layout>
-                        </Card>
-
+					{reviews.map((review, index) => (
+  					<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+					))}
+						{/* <ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." />
+						<ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." />
+						<ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." /> */}
                     </Layout>
                 </ScrollView>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-                <BotNavBusiness selected={selectedBotTab}/>
+                <BotNavBusiness selected={2}/>
             </SafeAreaView>
     );
 };

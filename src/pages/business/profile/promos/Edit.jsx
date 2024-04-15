@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DbUtils from '../../../../services/DbUtils';
 import { updPromotion } from '../../../../services/api_helper';
@@ -52,10 +51,10 @@ function reducer(state, action)
 {
 	switch (action.type) 
 	{
-	  case 'SET_PROMOTION':
-		return { ...state, ...action.payload };
-	  default:
-		throw new Error();
+	  	case 'SET_PROMOTION':
+			return { ...state, ...action.payload };
+	  	default:
+			throw new Error();
 	}
 }
 
@@ -68,13 +67,20 @@ const Edit = (props) =>
 	const [token, setToken] = useState('');
 	const [sector, setSector] = useState('');
 
-	console.log('Edit promo for id :: ', props.route.params.id);
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'SET_PROMOTION',
+			payload: {...state, [name]: newValue}
+		});
+	}
 
 	const getPromotions = async () => 
 	{
 		const data = await DbUtils.getItem('promotions');
 		const parsedData = JSON.parse(data);
-		console.log('Parsed Data :xxx: ', parsedData[props.route.params.id]);
+		
 		showPromotion(parsedData[props.route.params.id]);
 	}
 
@@ -82,7 +88,7 @@ const Edit = (props) =>
 	{
 		const token = await DbUtils.getItem('token');
 		
-		setToken(token);
+		setToken(JSON.parse(token));
 	}
 
 	const showPromotion = (record) => 
@@ -114,15 +120,6 @@ const Edit = (props) =>
 		});
 	};
 
-	function handleInputChange(name, newValue) 
-	{
-		dispatch(
-		{
-			type: 'SET_PROMOTION',
-			payload: {...state, [name]: newValue}
-		});
-	}
-
 	useEffect(() => 
 	{
 		const fetchPromotions = async () => 
@@ -132,7 +129,7 @@ const Edit = (props) =>
 		};
 
 		fetchPromotions();
-	}, [])
+	}, []);
 
 	const chooseDisplayImage = () => 
 	{
@@ -199,7 +196,6 @@ const Edit = (props) =>
 		});
 	  
 		// Save the updated array back to async-storage
-		console.log('FUCK: ', updatedData);
 		await DbUtils.setItem('promotions', JSON.stringify(updatedData));
 
 		// Send to server
@@ -229,11 +225,9 @@ const Edit = (props) =>
 			let record = JSON.stringify(promotionData);
 
 			const res = await updPromotion(token, record);
-			// console.log('Update promotion result: ', res);
 		} 
 		catch (error) 
 		{
-			console.error("XXX", error);
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
@@ -251,13 +245,13 @@ const Edit = (props) =>
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <TopNavBackTitleIcon title="Edit Promotion" alignment="start" navigation={props.navigation} goBackTo="BusProProAddEditBack" goDelete="BusProfProDelete" />
+        <TopNavBackTitleIcon title="Edit Promotion" alignment="start" navigation={props.navigation} goBackTo="BusProProAddEditBack" goDelete="BusProfProDelete" deleteId={remoteId} />
         <DividerTop />
         <ScrollView>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
 				<TitleFour title="Choose which business sector(s) your event falls under:" />
 					<View style={{ flex: 1, width: '100%' }} >
-						<DropdownSingle data={sectors} value={state.sector} arb={setSector} />
+						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>
                 <TitleFour title="Edit Promotion Display Image" mb={10} />
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>

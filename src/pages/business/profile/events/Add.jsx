@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { addEvent } from '../../../../services/api_helper';
@@ -9,7 +9,6 @@ import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from 'react-n
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
-import { SelectSingle } from '../../../../components/SelectSingle';
 import { InputLabel } from '../../../../components/InputLabel';
 import TextTwo from '../../../../components/TextTwo';
 import { InputMultiline } from '../../../../components/InputMultiline';
@@ -18,7 +17,34 @@ import { TimeSelect } from '../../../../components/TimeSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import DropdownSingle from '../../../../components/DropdownSingle';
 
-// const sectors = ['Select...', 'Shopping', 'Travel', 'Health & Wellness', 'Entertainment', 'Education & Employment', 'Property', 'Services', 'Community'];
+const initialState = {
+	sector: null,
+	displayImage: null,
+	title: null,
+	caption: null,
+	desc: null,
+	startDate: null,
+	endDate: null,
+	startTime: null,
+	endTime: null,
+	addressOne: null,
+	addressTwo: null,
+	city: null,
+	province: null,
+	zipCode: null,
+};
+
+function reducer(state, action) 
+{
+	switch (action.type) 
+	{
+	  case 'ADD_EVENT':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
+
 const sectors = [
 	{ label: 'Shopping', value: 'Shopping' }, 
 	{ label: 'Travel', value: 'Travel' }, 
@@ -59,35 +85,47 @@ const data = [
 
 const Add = (props) => 
 {
+	const [state, dispatch] = useReducer(reducer, initialState);
+
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
-	const [sector, setSector] = useState('');
-	const [displayImage, setDisplayImage] = useState(null);
-	const [eventTitle, setEventTitle] = useState('');
-	const [eventCaption, setEventCaption] = useState('');
-	const [eventDescription, setEventDescription] = useState('');
-	const [eventStartDate, setEventStartDate] = useState('');
-    const [eventEndDate, setEventEndDate] = useState('');
-	const [eventStartTime, setEventStartTime] = useState('');
-    const [eventEndTime, setEventEndTime] = useState('');
-	const [address1, setAddress1] = useState('');
-	const [address2, setAddress2] = useState('');
-	const [city, setCity] = useState('');
-	const [province, setProvince] = useState('');
-	const [zipCode, setZipCode] = useState('');
+
+	// const [sector, setSector] = useState('');
+	// const [displayImage, setDisplayImage] = useState(null);
+	// const [eventTitle, setEventTitle] = useState('');
+	// const [eventCaption, setEventCaption] = useState('');
+	// const [eventDescription, setEventDescription] = useState('');
+	// const [eventStartDate, setEventStartDate] = useState('');
+    // const [eventEndDate, setEventEndDate] = useState('');
+	// const [eventStartTime, setEventStartTime] = useState('');
+    // const [eventEndTime, setEventEndTime] = useState('');
+	// const [address1, setAddress1] = useState('');
+	// const [address2, setAddress2] = useState('');
+	// const [city, setCity] = useState('');
+	// const [province, setProvince] = useState('');
+	// const [zipCode, setZipCode] = useState('');
+
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'ADD_EVENT',
+			payload: {...state, [name]: newValue}
+		});
+	}
 
 	const getBusniessId = async () => 
 	{
 		const id = await DbUtils.getItem('business_id');
 		
-		setBusinessId(id);
+		setBusinessId(JSON.parse(id));
 	}
 
 	const getToken = async () => 
 	{
 		const token = await DbUtils.getItem('token');
 		
-		setToken(token);
+		setToken(JSON.parse(token));
 	}
 
 	useEffect(() => 
@@ -122,7 +160,7 @@ const Add = (props) =>
 			} 
 			else 
 			{
-				setDisplayImage(response.assets[0].uri);
+				handleInputChange('displayImage', response.assets[0].uri);
 			}
 		});
 	};
@@ -144,34 +182,32 @@ const Add = (props) =>
 
 	const handleUpload = async () => 
     {
-		const promotionData = [{
-			businessId: businessId,
-            sector: sector,
-            diaplyImage: displayImage,
-            title: eventTitle,
-            caption: eventCaption,
-            description: eventDescription,
-            startDate: eventStartDate,
-            endDate: eventEndDate,   
-            startTime: eventStartTime,
-            endTime: eventEndTime,   
-            locAddOne: address1,   
-            locAddTwo: address2,   
-            locCity: city,   
-            locProvince: province,   
-            locZipCode: zipCode,   
+		const eventData = [{
+			business_id: businessId,
+            sector: state.sector,
+            display_image: state.displayImage,
+            event_title: state.title,
+            event_caption: state.caption,
+            event_description: state.desc,
+            start_date: state.startDate,
+            end_date: state.endDate,   
+            start_time: state.startTime,
+            end_time: state.endTime,   
+            loc_add_one: state.addressOne,   
+            loc_add_two: state.addressTwo,   
+            loc_city: state.city,   
+            loc_province: state.province,   
+            loc_zip_code: state.zipCode,   
             created: new Date().toLocaleDateString()
         }];
-        let stringified = JSON.stringify(promotionData);
+        let stringified = JSON.stringify(eventData);
         
-		// addData(promotionData);
-
 		// Send to server
 		let insertId = 0;
 		try 
 		{
-			const res = await addEvent(token, promotionData);
-			console.log('res', res);
+			const res = await addEvent(token, eventData);
+			
 			if (res.status)
 			{
 				insertId = res.data;
@@ -180,7 +216,6 @@ const Add = (props) =>
 		} 
 		catch (error) 
 		{
-			console.error("XXX", error);
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
@@ -194,22 +229,22 @@ const Add = (props) =>
 		}
 
 		const record = [{
-			remoteId: insertId,
-			businessId: businessId,
-            sector: sector,
-            diaplyImage: displayImage,
-            title: eventTitle,
-            caption: eventCaption,
-            description: eventDescription,
-            startDate: eventStartDate,
-            endDate: eventEndDate,   
-            startTime: eventStartTime,
-            endTime: eventEndTime,   
-            locAddOne: address1,   
-            locAddTwo: address2,   
-            locCity: city,   
-            locProvince: province,   
-            locZipCode: zipCode,   
+			id: insertId,
+			business_id: businessId,
+            sector: state.sector,
+            display_image: state.displayImage,
+            event_title: state.title,
+            event_caption: state.caption,
+            event_desc: state.desc,
+            start_date: state.startDate,
+            end_date: state.endDate,   
+            start_time: state.startTime,
+            end_time: state.endTime,   
+            loc_add_one: state.addressOne,   
+			loc_add_two: state.addressTwo,   
+			loc_city: state.city,   
+			loc_province: state.province,   
+			loc_zip_code: state.zipCode,    
             created: new Date().toLocaleDateString()
         }];
         
@@ -243,7 +278,7 @@ const Add = (props) =>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                     <TitleFour title="Choose which business sector(s) your event falls under:" />
 					<View style={{ flex: 1, width: '100%' }} >
-						<DropdownSingle data={sectors} value={sector} arb={setSector} />
+						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>
                     <TitleFour title="Upload Display Picture" mb={10} />
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
@@ -252,50 +287,41 @@ const Add = (props) =>
 							<TextTwo title="Add an image for the banner of your event" textalign="center" fontsize={13} mb={10} />
 							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
 							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
-							{displayImage && <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Event Title" value={eventTitle} setValue={setEventTitle} placeholder="Event Title" />
+                    <InputLabel label="Event Title" name="title" value={state.title} onChange={handleInputChange} placeholder="Event Title" />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Caption" value={eventCaption} setValue={setEventCaption} placeholder="Write a description up to 120 characters" />
+                    <InputMultiline label="Event Caption" name="caption" value={state.caption} onChange={handleInputChange} placeholder="Write a description up to 120 characters" />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Description" value={eventDescription} setValue={setEventDescription} placeholder="Write a longer description of the event up to 500 characters" />
+                    <InputMultiline label="Event Description" name="desc" value={state.desc} onChange={handleInputChange} placeholder="Write a longer description of the event up to 500 characters" />
                     <View style={{ marginTop: 15 }} />
                     <TitleFour title="Event Start Date" mb={10} />
-                    <DateSelect value={eventStartDate} setDate={setEventStartDate} />
+					<DateSelect name="startDate" value={state.startDate} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
                     <TitleFour title="Event End Date" mb={10} />
-                    <DateSelect value={eventEndDate} setDate={setEventEndDate} />
+                    <DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
                     <TitleFour title="Event Time" />
 					<View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} />
-                        <DropdownSingle data={data} value={eventStartTime} arb={setEventStartTime} />
+						<DropdownSingle name="startTime" data={data} value={state.startTime} onChange={handleInputChange} />
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} />
-                        <DropdownSingle data={data} value={eventEndTime} arb={setEventEndTime} />
+						<DropdownSingle name="endTime" data={data} value={state.endTime} onChange={handleInputChange} />
                     </View>
-
-                    {/* <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} />
-                        <TimeSelect time={8} mt={10} onSelect={handleStartTime} />
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} />
-                        <TimeSelect time={12} mt={10} onSelect={handleEndTime} />
-                    </View> */}
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Event Location (Optional)" value={address1} setValue={setAddress1} placeholder="Address line 1" />
+                    <InputLabel label="Event Location (Optional)" name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address line 1" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel value={address2} setValue={setAddress2} placeholder="Address line 2" />
+                    <InputLabel name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address line 2" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel value={city} setValue={setCity} placeholder="City" />
+                    <InputLabel name="city" value={state.city} onChange={handleInputChange} placeholder="City" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel value={province} setValue={setProvince} placeholder="Province" />
+                    <InputLabel name="province" value={state.province} onChange={handleInputChange} placeholder="Province" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel value={zipCode} setValue={setZipCode} placeholder="ZIP Code" />
+                    <InputLabel name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="ZIP Code" />
                     <ButtonPrimary name="Upload Event" width="100%" marginTop={25} onpress={handleUpload}/>
                 </Layout>
             </ScrollView>

@@ -76,7 +76,7 @@ const StepTwo = (props) =>
         const profile = await DbUtils.getItem('business_profile')
         .then((profile) => 
         {
-			console.log('profile step 2: ', profile);
+			console.log('XXXXXXXXXXX222: ', profile);
 			dispatch(
 			{
 				type: 'SET_SIGNUP_TWO',
@@ -115,8 +115,6 @@ const StepTwo = (props) =>
 
             setIsLoading(false);
         });
-
-        
     }
 
     const updProfile = async (key, newValue) => 
@@ -163,9 +161,9 @@ const StepTwo = (props) =>
         await updProfile('loc_province', state.province);
         await updProfile('loc_zip_code', state.zipCode);
         await updProfile('business_bio', state.businessBio);
-        await updProfile('isLocal', state.isLocal);
+        await updProfile('is_local', state.isLocal);
         await updProfile('sm_x', state.xUrl);
-        await updProfile('sm_inst', state.instgramUrl);
+        await updProfile('sm_inst', state.instagramUrl);
         await updProfile('sm_fb', state.facebookUrl);
         await updProfile('sm_linkedin', state.linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);

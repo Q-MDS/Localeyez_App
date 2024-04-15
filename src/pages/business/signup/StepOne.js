@@ -120,12 +120,6 @@ const StepOne = (props) =>
 				},
 			});
 
-
-            // setEmail(JSON.parse(profile).email);
-            // setFirstName(JSON.parse(profile).first_name);
-            // setLastName(JSON.parse(profile).last_name);
-            // setPassword(JSON.parse(profile).password);
-
             setIsLoading(false);
         });
     }

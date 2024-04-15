@@ -10,9 +10,11 @@ const BackAction = (props) => (
 
 export const TopNavBackTitleIcon = (props) => 
 {
+	console.log('Eggs: ' + props.deleteId);
     const deletePage = props.goDelete;
+	const deleteId = props.deleteId;
     const DeleteAction = (props) => (
-        <TopNavigationAction icon={deleteIcon} onPress={() => props.navigation.navigate(deletePage)} />
+        <TopNavigationAction icon={deleteIcon} onPress={() => props.navigation.navigate(deletePage, {deleteId: deleteId})} />
     );
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
@@ -17,65 +17,100 @@ import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import CustomIcon from '../../../../../components/CustomIcon';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 
+const initialState = {
+	businessId: null,
+	displayImage: null,
+	bannerImage: null,
+	email: null,
+	contactNumber: null,
+	companyName: null,
+	addressOne: null,
+	addressTwo: null,
+	city: null,
+	province: null,
+	zipCode: null,
+	businessBio: null,
+	xUrl: null,
+	instagramUrl: null,
+	facebookUrl: null,
+	linkedinUrl: null,
+	wwwUrl: null,
+	isLocal: null,
+};
+
+function reducer(state, action) 
+{
+	switch (action.type) 
+	{
+	  case 'EDIT_BUS_PROFILE':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
 
 const Edit = (props) => 
 {
+	const [state, dispatch] = useReducer(reducer, initialState);
+
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-	const [displayImage, setDisplayImage] = useState(null);
-	const [bannerImage, setBannerImage] = useState(null);
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
-	const [companyName, setCompanyName] = useState('');
-	const [businessBio, setBusinessBio] = useState('');
-	const [addressOne, setAddressOne] = useState('');
-    const [addressTwo, setAddressTwo] = useState('');
-    const [city, setCity] = useState('');
-    const [province, setProvince] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-	const [xUrl, setXUrl] = useState('');
-    const [instgramUrl, setInstagramUrl] = useState('');
-    const [facebookUrl, setFacebookUrl] = useState('');
-    const [linkedinUrl, setLinkedinUrl] = useState('');
-    const [wwwUrl, setWwwUrl] = useState('');
+
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'EDIT_BUS_PROFILE',
+			payload: {...state, [name]: newValue}
+		});
+	}
 
 	const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('business_profile');
-		const parsedProfile = JSON.parse(profile);
-
-		setCompanyName(parsedProfile.company_name);
-		setBusinessBio(parsedProfile.business_bio);
-		setAddressOne(parsedProfile.location[0].address_one);
-		setAddressTwo(parsedProfile.location[0].address_two);
-		setCity(parsedProfile.location[0].city);
-		setProvince(parsedProfile.location[0].province);
-		setZipCode(parsedProfile.location[0].zip);
-		setContactNumber(parsedProfile.contact_number);
-		setXUrl(parsedProfile.sm_x);
-		setInstagramUrl(parsedProfile.sm_inst);
-		setFacebookUrl(parsedProfile.sm_fb);
-		setLinkedinUrl(parsedProfile.sm_linkedin);
-		setWwwUrl(parsedProfile.sm_www);
-		setDisplayImage(parsedProfile.displayImage);
-		setBannerImage(parsedProfile.bannerImage);
-		// setIsLoading(false);
-
-        console.log('Business Edit Profile: ', parsedProfile.bannerImage);
+        const profile = await DbUtils.getItem('business_profile')
+		.then((profile) => 
+        {
+			dispatch(
+			{
+				type: 'EDIT_BUS_PROFILE',
+				payload: 
+				{
+					businessId: JSON.parse(profile).id,
+					displayImage: JSON.parse(profile).display_image,
+					bannerImage: JSON.parse(profile).banner_image,
+					email: JSON.parse(profile).email,
+					contactNumber: JSON.parse(profile).contact_number,
+					companyName: JSON.parse(profile).company_name,
+					addressOne: JSON.parse(profile).loc_add_one,
+					addressTwo: JSON.parse(profile).loc_add_two,
+					city: JSON.parse(profile).loc_city,
+					province: JSON.parse(profile).loc_province,
+					zipCode: JSON.parse(profile).loc_zip_code,
+					businessBio: JSON.parse(profile).business_bio,
+					xUrl: JSON.parse(profile).sm_x,
+					instagramUrl: JSON.parse(profile).sm_inst,
+					facebookUrl: JSON.parse(profile).sm_fb,
+					linkedinUrl: JSON.parse(profile).sm_linkedin,
+					wwwUrl: JSON.parse(profile).sm_www,
+					isLocal: JSON.parse(profile).is_local,
+				},
+			});
+        });
     }
 
 	const getBusniessId = async () => 
 	{
 		const id = await DbUtils.getItem('business_id');
 		
-		setBusinessId(id);
+		setBusinessId(JSON.parse(id));
 	}
 
 	const getToken = async () => 
 	{
 		const token = await DbUtils.getItem('token');
 		
-		setToken(token);
+		setToken(JSON.parse(token));
 	}
 
 	const chooseDisplayImage = () => 
@@ -89,12 +124,17 @@ const Edit = (props) =>
 	
 		launchImageLibrary(options, response => 
 		{
-		  if (response.didCancel) {
+		  if (response.didCancel) 
+		  {
 			console.log('User cancelled image picker');
-		  } else if (response.error) {
+		  } 
+		  else if (response.error) 
+		  {
 			console.log('ImagePicker Error: ', response.error);
-		  } else {
-			setDisplayImage(response.assets[0].uri);
+		  } 
+		  else 
+		  {
+			handleInputChange('displayImage', response.assets[0].uri);
 		  }
 		});
 	};
@@ -110,13 +150,18 @@ const Edit = (props) =>
 	
 		launchImageLibrary(options, response => 
 		{
-		  if (response.didCancel) {
-			console.log('User cancelled image picker');
-		  } else if (response.error) {
-			console.log('ImagePicker Error: ', response.error);
-		  } else {
-			setBannerImage(response.assets[0].uri);
-		  }
+		  	if (response.didCancel) 
+		  	{
+				console.log('User cancelled image picker');
+		  	}			 
+			else if (response.error) 
+			{
+				console.log('ImagePicker Error: ', response.error);
+			} 
+			else 
+			{
+				handleInputChange('bannerImage', response.assets[0].uri);
+			}
 		});
 	};
 
@@ -139,29 +184,25 @@ const Edit = (props) =>
 
 	useEffect(() => 
 	{
-		console.log('Go on, update displayImage in async-storage');
-
 		const updateDisplayImage = async () => 
 		{
-			await updProfile('displayImage', displayImage);
+			await updProfile('displayImage', state.displayImage);
 		};
 
 		updateDisplayImage();
 		
-	}, [displayImage]);
+	}, [state.displayImage]);
 
 	useEffect(() => 
 	{
-		console.log('Go on, update bannerImage in async-storage');
-
 		const updateBannerImage = async () => 
 		{
-			await updProfile('bannerImage', bannerImage);
+			await updProfile('bannerImage', state.bannerImage);
 		};
 
 		updateBannerImage();
 
-	}, [bannerImage]);
+	}, [state.bannerImage]);
 
     if (selectedIndex === 0) 
     {
@@ -185,37 +226,45 @@ const Edit = (props) =>
 
     const handleSubmit = async () => 
     {
-        console.log('Submit Changes');
-		await updProfile('company_name', companyName);
-		await updProfile('contact_number', contactNumber);
-		await updProfile('location', [{ address_one: addressOne, address_two: addressTwo, city: city, province: province, zip: zipCode }]);
-		await updProfile('business_bio', businessBio);
-		await updProfile('sm_x', xUrl);
-		await updProfile('sm_inst', instgramUrl);
-		await updProfile('sm_fb', facebookUrl);
-		await updProfile('sm_linkedin', linkedinUrl);
-		await updProfile('sm_www', wwwUrl);
+		await updProfile('company_name', state.companyName);
+		await updProfile('contact_number', state.contactNumber);
+		await updProfile('loc_add_one', state.addressOne);
+		await updProfile('loc_add_two', state.addressTwo);
+		await updProfile('loc_city', state.city);
+		await updProfile('loc_province', state.province);
+		await updProfile('loc_zip_code', state.zipCode);
+		await updProfile('business_bio', state.businessBio);
+		await updProfile('sm_x', state.xUrl);
+		await updProfile('sm_inst', state.instagramUrl);
+		await updProfile('sm_fb', state.facebookUrl);
+		await updProfile('sm_linkedin', state.linkedinUrl);
+		await updProfile('sm_www', state.wwwUrl);
+		await updProfile('display_image', state.displayImage);
+		await updProfile('banner_image', state.bannerImage);
 
 		// Will need to send this to the server
 		const data = {
 			business_id: businessId,
-			company_name: companyName,
-			contact_number: contactNumber,
-			location: [{ address_one: addressOne, address_two: addressTwo, city: city, province: province, zip: zipCode }],
-			business_bio: businessBio,
-			sm_x: xUrl,
-			sm_inst: instgramUrl,
-			sm_fb: facebookUrl,
-			sm_linkedin: linkedinUrl,
-			sm_www: wwwUrl,
-			display_image: displayImage,
-			banner_image: bannerImage,
+			company_name: state.companyName,
+			contact_number: state.contactNumber,
+			loc_add_one: state.addressOne,
+			loc_add_two: state.addressTwo,
+			loc_city: state.city,
+			loc_province: state.province,
+			loc_zip_code: state.zipCode,
+			business_bio: state.businessBio,
+			sm_x: state.xUrl,
+			sm_inst: state.instagramUrl,
+			sm_fb: state.facebookUrl,
+			sm_linkedin: state.linkedinUrl,
+			sm_www: state.wwwUrl,
+			display_image: state.displayImage,
+			banner_image: state.bannerImage,
 		}
 
 		try 
 		{
 			const res = await updBusinessProfile(token, data);
-			console.log('Res: ', res);
 		}
 		catch (error)
 		{
@@ -238,7 +287,7 @@ const Edit = (props) =>
 							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
 							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
 							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
-							{displayImage && <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
                     <TitleFour title="Upload Banner Picture" mt={15} mb={10} />
@@ -248,40 +297,40 @@ const Edit = (props) =>
 							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
 							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
 							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
-							{bannerImage && <Image source={{ uri: bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Name" value={companyName} setValue={setCompanyName} placeholder="Company name" />
+                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
 					<Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
-                    <InputPhoneNumber value={contactNumber} setValue={setContactNumber} placeholder="(123) 456 7890" />
+                    <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
 					<Label title="Location" textalign="left" fontweight="bold" mb={5} />
-					<InputLabel label="" value={addressOne} setValue={setAddressOne} placeholder="Address Line 1" />
-					<InputLabel label="" value={addressTwo} setValue={setAddressTwo} placeholder="Address Line 2" mt={5} />
-					<InputLabel label="" value={city} setValue={setCity} placeholder="City" mt={5} />
-					<InputLabel label="" value={province} setValue={setProvince} placeholder="Province" mt={5} />
-					<InputLabel label="" value={zipCode} setValue={setZipCode} placeholder="Zip Code" mt={5} />
+					<InputLabel name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" />
+					<InputLabel name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} />
+					<InputLabel name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} />
+					<InputLabel name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} />
+					<InputLabel name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" value={businessBio} setValue={setBusinessBio} placeholder={`Write a description up to 120 characters`} />
+                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} />
                     <View style={{ marginTop: 15 }} />
                     <View style={{ marginTop: 15 }} />
                     <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
                     <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel value={xUrl} setValue={setXUrl} placeholder="Write Facebook URL here" />
+                    <InputLabel name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
                     <View style={{ marginTop: 10 }} />
                     <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel value={instgramUrl} setValue={setInstagramUrl} placeholder="Write Instagram URL here" />
+                    <InputLabel name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
                     <View style={{ marginTop: 10 }} />
                     <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel value={facebookUrl} setValue={setFacebookUrl} placeholder="Write Facebook URL here" />
+                    <InputLabel name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
                     <View style={{ marginTop: 10 }} />
                     <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel value={linkedinUrl} setValue={setLinkedinUrl} placeholder="Write Linkedin URL here" />
+                    <InputLabel name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
                     <View style={{ marginTop: 10 }} />
                     <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel value={wwwUrl} setValue={setWwwUrl} placeholder="Write Website URL here" />
+                    <InputLabel name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" />
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit}/>
                 </Layout>

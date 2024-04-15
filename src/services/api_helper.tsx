@@ -6,7 +6,7 @@ export const updBusinessProfile = async (token: string, data: any) =>
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
-
+console.log('response from updBusinessProfile:', response.data);
 	return response.data;
 };
 
@@ -16,18 +16,27 @@ export const addPromotion = async (token: string, data: any) =>
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
-
+	
 	return response.data;
 }
 
 export const updPromotion = async (token: string, data: any) => 
 {
-	console.log('Token FJB 1: ', token);
 	const response = await api.post('/api/upd_promotion/', data,
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
-	console.log('Response from updPromotion:', response.data);
+	
+	return response.data;
+}
+
+export const delPromotion = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_promotion/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
 	return response.data;
 }
 
@@ -52,5 +61,25 @@ export const addEvent = async (token: string, data: any) =>
 		headers: { Authorization: `Bearer ${token}` },
 	});
 
+	return response.data;
+}
+
+export const delEvent = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_event/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
+export const getBusinessReviews = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/business_reviews/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
 	return response.data;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
@@ -16,47 +16,111 @@ import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { TitleFour } from '../../../../components/TitleFour';
 import CustomIcon from '../../../../components/CustomIcon';
 
+const initialState = {
+	displayImage: null,
+	companyName: null,
+	contactNumber: null,
+	businessBio: null,
+	addressOne: null,
+	addressTwo: null,
+	city: null,
+	province: null,
+	zipCode: null,
+	xUrl: null,
+	instagramUrl: null,
+	facebookUrl: null,
+	linkedinUrl: null,
+	wwwUrl: null,
+};
+
+function reducer(state, action) 
+{
+	switch (action.type) 
+	{
+	  case 'BUSINESS_PROFILE':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
+
 const Home = (props) => 
 {
+	const [state, dispatch] = useReducer(reducer, initialState);
+
     const [selectedBotTab, setSelectedBotTab] = useState(1);
 	const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [selectedTab, setSelectedTab] = useState(0);
 	const [promotions, setPromotions] = useState([]);
 	const [events, setEvents] = useState([]);
-	const [companyName, setCompanyName] = useState('');
-	const [businessBio, setBusinessBio] = useState('');
-	const [addressOne, setAddressOne] = useState('');
-    const [addressTwo, setAddressTwo] = useState('');
-    const [city, setCity] = useState('');
-    const [province, setProvince] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-	const [xUrl, setXUrl] = useState('');
-    const [instgramUrl, setInstagramUrl] = useState('');
-    const [facebookUrl, setFacebookUrl] = useState('');
-    const [linkedinUrl, setLinkedinUrl] = useState('');
-    const [wwwUrl, setWwwUrl] = useState('');
-	const [displayImage, setDisplayImage] = useState('');
+
+	// const [companyName, setCompanyName] = useState('');
+    // const [contactNumber, setContactNumber] = useState('');
+	// const [businessBio, setBusinessBio] = useState('');
+	// const [addressOne, setAddressOne] = useState('');
+    // const [addressTwo, setAddressTwo] = useState('');
+    // const [city, setCity] = useState('');
+    // const [province, setProvince] = useState('');
+    // const [zipCode, setZipCode] = useState('');
+	// const [xUrl, setXUrl] = useState('');
+    // const [instgramUrl, setInstagramUrl] = useState('');
+    // const [facebookUrl, setFacebookUrl] = useState('');
+    // const [linkedinUrl, setLinkedinUrl] = useState('');
+    // const [wwwUrl, setWwwUrl] = useState('');
+	// const [displayImage, setDisplayImage] = useState('');
+
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'BUSINESS_PROFILE',
+			payload: {...state, [name]: newValue}
+		});
+	}
 
 	const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('business_profile');
-		const parsedProfile = JSON.parse(profile);
+        const profile = await DbUtils.getItem('business_profile')
+		.then((profile) => 
+        {
+			dispatch(
+			{
+				type: 'BUSINESS_PROFILE',
+				payload: 
+				{
+					displayImage: JSON.parse(profile).display_image,
+					companyName: JSON.parse(profile).company_name,
+					businessBio: JSON.parse(profile).business_bio,
+					contactNumber: JSON.parse(profile).contact_number,
+					addressOne: JSON.parse(profile).loc_add_one,
+					addressTwo: JSON.parse(profile).loc_add_two,
+					city: JSON.parse(profile).loc_city,
+					province: JSON.parse(profile).loc_province,
+					zipCode: JSON.parse(profile).loc_zip_code,
+					xUrl: JSON.parse(profile).sm_x,
+					instagramUrl: JSON.parse(profile).sm_inst,
+					facebookUrl: JSON.parse(profile).sm_fb,
+					linkedinUrl: JSON.parse(profile).sm_linkedin,
+					wwwUrl: JSON.parse(profile).sm_www,
+				},
+			});
+		});
+		// const parsedProfile = JSON.parse(profile);
 
-		setCompanyName(parsedProfile.company_name);
-		setBusinessBio(parsedProfile.business_bio);
-		setAddressOne(parsedProfile.location[0].address_one);
-		setAddressTwo(parsedProfile.location[0].address_two);
-		setCity(parsedProfile.location[0].city);
-		setProvince(parsedProfile.location[0].province);
-		setZipCode(parsedProfile.location[0].zip);
-		setContactNumber(parsedProfile.contact_number);
-		setXUrl(parsedProfile.sm_x);
-		setInstagramUrl(parsedProfile.sm_inst);
-		setFacebookUrl(parsedProfile.sm_fb);
-		setLinkedinUrl(parsedProfile.sm_linkedin);
-		setWwwUrl(parsedProfile.sm_www);
-		setDisplayImage(parsedProfile.displayImage);
+		// setCompanyName(parsedProfile.company_name);
+		// setBusinessBio(parsedProfile.business_bio);
+		// setAddressOne(parsedProfile.location[0].address_one);
+		// setAddressTwo(parsedProfile.location[0].address_two);
+		// setCity(parsedProfile.location[0].city);
+		// setProvince(parsedProfile.location[0].province);
+		// setZipCode(parsedProfile.location[0].zip);
+		// setContactNumber(parsedProfile.contact_number);
+		// setXUrl(parsedProfile.sm_x);
+		// setInstagramUrl(parsedProfile.sm_inst);
+		// setFacebookUrl(parsedProfile.sm_fb);
+		// setLinkedinUrl(parsedProfile.sm_linkedin);
+		// setWwwUrl(parsedProfile.sm_www);
+		// setDisplayImage(parsedProfile.displayImage);
     }
 
 	const getPromotions = async () => 
@@ -135,29 +199,29 @@ const Home = (props) =>
                     <TouchableOpacity style={{ flex: 1 }} onPress={handleEditProfile}>
                         <IconText title="Edit Profile" iconname="edit" fontsize={12} width={18} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flex: 1 }} onPress={() => handleAddEvent()}>
-                        <IconText title="Add Event" iconname="plus-circle" fontsize={12} width={18} />
-                    </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }} onPress={handleAddPromo}>
                         <IconText title="Add Promotion" iconname="plus-circle" fontsize={12} width={18} />
+                    </TouchableOpacity>
+					<TouchableOpacity style={{ flex: 1 }} onPress={() => handleAddEvent()}>
+                        <IconText title="Add Event" iconname="plus-circle" fontsize={12} width={18} />
                     </TouchableOpacity>
                 </Layout>
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
 
                 <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
-					{displayImage ? <Image source={{ uri: displayImage }} style={{ width: '100%', height: 200 }} /> : null}
+					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200 }} /> : null}
                 </Layout>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f5f5f5', paddingTop: 10, paddingBottom: 10, paddingEnd: 15 }} >
-					{xUrl && <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.xUrl && <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />}
 					<View style={{ marginLeft: 8 }} />
-					{instgramUrl && <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.instgramUrl && <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />}
 					<View style={{ marginLeft: 10 }} />
-					{facebookUrl && <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.facebookUrl && <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />}
 					<View style={{ marginLeft: 10 }} />
-					{linkedinUrl && <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.linkedinUrl && <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />}
 					<View style={{ marginLeft: 8 }} />
-                    {wwwUrl && <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />}
+                    {state.wwwUrl && <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />}
                     <View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 1, borderRadius: 60, padding:  20, backgroundColor: '#f9f9ff' }} >
                         <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64, borderRadius: 32 }} />
                     </View>
@@ -165,12 +229,12 @@ const Home = (props) =>
                 </Layout>
                 <ScrollView>
                     <Layout style={[MainStyles.layout_container, {backgroundColor: '#f5f5f5', paddingStart: 15, paddingEnd: 15}]}>    
-                        <TitleOne title={companyName} />
+                        <TitleOne title={state.companyName} />
                         <View style={{ marginTop: 10 }} />
-                        <TextTwo title={businessBio} />
+                        <TextTwo title={state.businessBio} />
                         <View style={{ marginTop: 15 }} />
-                        <IconText title={`${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipCode}`} iconname="compass-outline" fontsize={14} width={18} />
-                        <IconText title={contactNumber} iconname="phone-call-outline" fontsize={14} width={18} />
+                        <IconText title={`${state.addressOne}, ${state.addressTwo}, ${state.city}, ${state.province}, ${state.zipCode}`} iconname="compass-outline" fontsize={14} width={18} />
+                        <IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={18} />
                         <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={18} />
                         <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
 						

@@ -25,6 +25,7 @@ const StepFour = (props) =>
 
     const handelGetStarted = async () => 
     {
+		// console.log('Business Profile: ', businessProfile);
 		const res = await register(businessProfile);
 
 		if (res.status)

@@ -15,13 +15,15 @@ export const register = async (data: any) =>
 	// const response = await api.post('/api/register/', data);
 	console.log('Registering...');
 
+	// console.log('Response:', data);
 	try {
 		const response = await api.post('/api/register/', data);
+		// console.log('Response:', response);
 	
 		if (response.status === 200) {
 		  return response.data;
 		} else {
-		  throw new Error('Login failed');
+		  throw new Error('Register failed');
 		}
 	  } catch (error) {
 		console.error(error);

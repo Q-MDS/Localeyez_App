@@ -22,11 +22,13 @@ const BusinessDashboard = (props) =>
     const gotoAddEvent = () => 
     {
         console.log('Go to add event');
+		props.navigation.navigate('BusProfEvtAdd');
     }
 
     const gotoAddPromotion = () => 
     {
         console.log('Go to add promotion');
+		props.navigation.navigate('BusProfProAdd');
     }
 
     return (
@@ -45,8 +47,8 @@ const BusinessDashboard = (props) =>
                         <Text category="s2" style={{ textAlign: 'center', fontWeight: 'bold' }}>Total number of views:</Text>
                         <TextTwo title="251" textalign="center" fontsize={72} />
                     </Card>
-                    <ButtonPrimary name="Add Event" width="100%" marginTop={40} onpress={gotoAddEvent} />
                     <ButtonSecondary name="Add Promotion" width="100%" marginTop={20} onpress={gotoAddPromotion} />
+                    <ButtonPrimary name="Add Event" width="100%" marginTop={40} onpress={gotoAddEvent} />
 
                 </Layout>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7' }} />
