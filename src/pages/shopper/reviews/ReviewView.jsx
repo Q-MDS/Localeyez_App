@@ -1,38 +1,24 @@
 import React from "react";
 import MainStyles from "../../../assets/styles/MainStyles";
+import { ReviewCard } from "../../../components/ReviewCard";
 import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
 import DividerTop from "../../../components/DividerTop";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
 
 const ReviewView = (props) => 
 {
+	console.log('ReviewView props: ', props.route.params);
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <TopNavArrowTitle title='View Review' alignment="start" navigation={props.navigation} goBackTo="ReviewList" />
-            <DividerTop />
-                <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                    <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" >
-                        <Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
-                            <Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>Trevor D.</Text>
-                        </Layout>
-                        <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                        <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} >
-                                <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
-                                <Icon name="star" fill="#5D5A88" style={{ width: 16, height: 16 }} />
-                            </Layout>
-                            <Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>Great value for money!</Text>
-                            <Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum provident voluptatibus voluptatum optio. Porro a velit alias deleniti dolorem nisi, ipsum ut ipsam quis officiis rerum? Aperiam ab voluptatum et.</Text>
-                            <Text category="p2" status="primary" style={{ width: '100%', marginTop: 15 }}>Ipsum ut ipsam quis officiis rerum? Aperiam ab voluptatum et.</Text>
-                        </Layout>
-                    </Card>
-                </Layout>
-        </SafeAreaView>
+		<TopNavArrowTitle title='View Review' alignment="start" navigation={props.navigation} goBackTo="ShopperReviewList" />
+			<ScrollView>
+				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
+					<ReviewCard firstName={props.route.params.companyName} rating={props.route.params.rating} title={props.route.params.title} review={props.route.params.desc} />
+				</Layout>
+			</ScrollView>
+			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+		</SafeAreaView>
     );
 };
 

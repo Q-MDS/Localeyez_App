@@ -10,7 +10,7 @@ const Choose = (props) =>
 {
     const handleUserLogin = () => 
     {
-        props.navigation.navigate('OnboardingStart');
+        props.navigation.navigate('LoginUser');
     }
 
     const handleBusinessLogin = () => 

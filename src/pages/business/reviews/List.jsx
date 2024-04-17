@@ -78,7 +78,7 @@ const ReviewList = (props) =>
 		if (isReady) 
 		{
 			// Your code here...
-			console.log('Gonna fetch the daya now...', token, businessId);
+			console.log('Gonna fetch the data now...', token, businessId);
 			fetchData();
 		}
 	}, [isReady]);

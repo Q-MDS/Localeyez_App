@@ -11,7 +11,12 @@ export const ReviewCard = (props:any) =>
         <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" onPress={() => props.onPress} >
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
 				<Avatar source={require('../assets/images/list_icon.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
-				<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName} ${props.lastName}`}</Text>
+				{props.lastName ? (
+					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName} ${props.lastName}`}</Text>
+				) : (
+					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName}`}</Text>
+				)}
+				
 			</Layout>
 			<Divider style={{ marginTop: 10, marginBottom: 10 }} />
 			<Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >

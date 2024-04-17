@@ -35,10 +35,7 @@ import { Icon } from '@ui-kitten/components';
         placeholder="Select item"
         searchPlaceholder="Search..."
         value={props.value}
-        onChange={item => {
-        //   setValue(item.value);
-          props.onChange(props.name, item.value);
-        }}
+        onChange={item => { props.onChange(props.name, item.value); }}
         renderLeftIcon={() => (
 			<Icon name="arrow-ios-upward-outline" fill="#5D5A88" style={{ width: 24, height: 24, marginEnd: 10 }} />
         )}

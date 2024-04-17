@@ -83,3 +83,23 @@ export const getBusinessReviews = async (token: string, data: any) =>
 	
 	return response.data;
 }
+
+export const businesSupport = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/business_support/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
+export const getShopperReviews = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/shopper_reviews/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}

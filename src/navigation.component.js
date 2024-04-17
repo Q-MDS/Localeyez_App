@@ -45,6 +45,7 @@ import BusDashAccClose from './pages/business/dashboard/account/Close';
 import LoginUser from './pages/shopper/login/Login';
 import SignupUserStepOne from './pages/shopper/signup/StepOne';
 import SignupUserStepTwo from './pages/shopper/signup/StepTwo';
+import SignupUserStepThree from './pages/shopper/signup/StepThree';
 import SignupUserChoose from './pages/shopper/signup/pricing/Choose';
 import SignupUserFreeOne from './pages/shopper/signup/pricing/FreeStepOne';
 import SignupUserFreeTwo from './pages/shopper/signup/pricing/FreeStepTwo';
@@ -130,6 +131,7 @@ const HomeNavigator = () => (
     <Screen name="LoginUser" component={LoginUser} />
     <Screen name="SignupUserStepOne" component={SignupUserStepOne} />
     <Screen name="SignupUserStepTwo" component={SignupUserStepTwo} />
+    <Screen name="SignupUserStepThree" component={SignupUserStepThree} />
     <Screen name="SignupUserChoose" component={SignupUserChoose} />
     <Screen name="SignupUserFreeOne" component={SignupUserFreeOne} />
     <Screen name="SignupUserFreeTwo" component={SignupUserFreeTwo} />

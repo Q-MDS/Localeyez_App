@@ -48,7 +48,7 @@ export const InputLabelPassword = (props: any): React.ReactElement => {
       secureTextEntry={secureTextEntry}
       style={{ borderRadius: 15 }}
       size="large"
-      onChangeText={props.setValue}
+	  onChangeText={(newValue) => props.onChange(props.name, newValue)} 
 	  textStyle={{ marginStart: 0}}
     />
   );
