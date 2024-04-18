@@ -28,8 +28,8 @@ function reducer(state, action)
 const ContactForm = (props) => 
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
+	const [businessId, setBusinessId] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -124,8 +124,6 @@ const ContactForm = (props) =>
             <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
             <BotNavBusiness selected={3}/>
         </SafeAreaView>
-
-
     );
 };
 

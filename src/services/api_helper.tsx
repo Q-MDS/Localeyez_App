@@ -6,7 +6,7 @@ export const updBusinessProfile = async (token: string, data: any) =>
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
-console.log('response from updBusinessProfile:', response.data);
+
 	return response.data;
 };
 
@@ -103,3 +103,13 @@ export const getShopperReviews = async (token: string, data: any) =>
 	
 	return response.data;
 }
+
+export const updShopperProfile = async (token: string, data: any) =>
+{
+	const response = await api.post('/api/upd_shopper_profile/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+		console.log('response from updShopperProfile:', response.data);
+	return response.data;
+};

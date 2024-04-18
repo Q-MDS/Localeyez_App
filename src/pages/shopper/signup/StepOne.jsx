@@ -36,18 +36,7 @@ function reducer(state, action)
 	}
 }
 
-const radius = [
-	{ label: '5km radius', value: '5' },
-	{ label: '10km radius', value: '10' }, 
-	{ label: '15km radius', value: '15' }, 
-	{ label: '20km radius', value: '20' }, 
-	{ label: '25km radius', value: '25' }, 
-	{ label: '30km radius', value: '30' }, 
-	{ label: '35km radius', value: '35' }, 
-	{ label: '40km radius', value: '40' }, 
-	{ label: '45km radius', value: '45' },
-	{ label: '50km radius', value: '50' }
-];
+const radius = [ { label: '5km radius', value: '5' }, { label: '10km radius', value: '10' }, { label: '15km radius', value: '15' }, { label: '20km radius', value: '20' }, { label: '25km radius', value: '25' }, { label: '30km radius', value: '30' }, { label: '35km radius', value: '35' }, { label: '40km radius', value: '40' }, { label: '45km radius', value: '45' }, { label: '50km radius', value: '50' }];
 
 const StepOne = (props) => 
 {
@@ -93,6 +82,8 @@ const StepOne = (props) =>
             cred_one: '',
             cred_two: '',
             geo_range: '',
+			verified: '0',
+			profile_pic: '',
         }
 		let profileDataString = JSON.stringify(profileData);
 		await DbUtils.setItem('shopper_profile', profileDataString);

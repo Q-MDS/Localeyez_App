@@ -44,13 +44,9 @@ const StepThree = (props:any) =>
 		// Fetch shopper_sectore
 		console.log('shopperSectors:', shopperSectors);
 		// Merge fetches.
-		const shopperData = [
-			{profile: shopperProfile},
-			{sectors: shopperSectors}
-		];
-    	console.log('mergedData:', shopperData);
+		const shopperData = [ {profile: shopperProfile}, {sectors: shopperSectors} ];
+    	
 		// Do api call
-		
 		try 
 		{
 			const res = await registerShopper(shopperData);
@@ -68,7 +64,7 @@ const StepThree = (props:any) =>
 				Toast.show({
 					type: 'success',
 					position: 'bottom',
-					text1: 'Signup completed successfully.',
+					text1: 'Success',
 					text2: 'Registration complete. Welcome to Localeyez!',
 					visibilityTime: 4000,
 					autoHide: true,
@@ -87,8 +83,8 @@ const StepThree = (props:any) =>
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
-				text1: 'There was an error with the signup process.',
-				text2: 'Please try again.',
+				text1: 'Oops! Something went wrong.',
+				text2: 'There was an error with the signup process.',
 				visibilityTime: 4000,
 				autoHide: true,
 				topOffset: 30,

@@ -93,7 +93,7 @@ const ReviewList = (props) =>
 			<ScrollView>
 				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
 				{reviews.map((review, index) => (
-					<TouchableOpacity style={{ flexDirection: 'row', flex: 1,  }} onPress={() => handelView(review.company_name, review.rating, review.review_title, review.review_desc)}>
+					<TouchableOpacity key={index} style={{ flexDirection: 'row', flex: 1,  }} onPress={() => handelView(review.company_name, review.rating, review.review_title, review.review_desc)}>
 						<ReviewCard key={index} firstName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc.substring(0, 70) + '...'} />
 					</TouchableOpacity>
 				))}

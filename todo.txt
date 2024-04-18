@@ -123,3 +123,37 @@ Now...
 - PHP: Must send business profile*, promotions and events
 - APP: Clear items in AS, bus prof, promo, event => Add to AsyncStorage
 - APP: Signup clears business_profile, ? promotions ?, ? events ?
+
+
+=============================================================================
+
+1. Shopper login: load profile and sectors
+2. Edit profile
+3. Edit interests
+4. Pricing Plan??
+5. Security
+6. Privacy Policy
+
+
+REGISTER SHOPPER PROFILE
+remote_id: 0,
+email: '',
+first_name: '',
+last_name: '',
+contact_number: '',
+cred_one: '',
+cred_two: '',
+geo_range: '',
+
+FROM DB:
+id:37
+email:Peter@gmail.com
+first_name:Peter
+last_name:Parker
+contact_number:(085) 555-5888
+geo_range:30
+created_at:2024-04-17 22:59:42
+updated_at:2024-04-17 22:59:42
+
+Remove: created_at, updated_at
+Add: credOne, credTwo

@@ -55,6 +55,30 @@ export const login = async (credOne: string, credTwo: string) =>
 	}
 };
 
+export const loginShopper = async (credOne: string, credTwo: string) => 
+{
+    try 
+	{
+		const response = await api.post('/api/shop_creds', {credOne, credTwo});
+  
+		if (response.status === 200) 
+		{
+			return response.data;
+		} 
+		else 
+		{
+			throw new Error('Login failed');
+		}
+	} 
+	catch (error) 
+	{
+		console.error(error);
+		throw error;
+	}
+};
+
+
+
 export const registerShopper = async (data: any) =>
 	{
 		console.log('Registering shopper...');

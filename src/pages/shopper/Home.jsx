@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import DbUtils from "../../services/DbUtils";
+import { useFocusEffect } from '@react-navigation/native';
 import MainStyles from "../../assets/styles/MainStyles";
 import { InputSearch } from "../../components/InputSearch";
 import { TopNavShpDashboard } from "../../components/TopNavShpDashboard.jsx";
@@ -9,6 +11,22 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Home = (props) => 
 {
+	const [shopperName, setShopperName] = useState('');
+	
+	const getProfile = async () => 
+    {
+        const profile = await DbUtils.getItem('shopper_profile')
+        .then((profile) => 
+        {
+			setShopperName(JSON.parse(profile).first_name);
+        });
+    }
+
+	useFocusEffect(React.useCallback(() => 
+	{
+		getProfile();
+	}, []));
+
     const gotoCatTravel = () => 
     {
         props.navigation.navigate('CatTravel');
@@ -49,10 +67,9 @@ const Home = (props) =>
         props.navigation.navigate('CatServices');
     }
 
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavShpDashboard title="Marc" navigation={props.navigation}  />
+            <TopNavShpDashboard title={shopperName} navigation={props.navigation}  />
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fafafa', paddingStart: 20, paddingEnd: 20}]}>
                     <InputSearch placeholder="Find what you're looking for..." />
                     <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20, flex: 1 }}>
