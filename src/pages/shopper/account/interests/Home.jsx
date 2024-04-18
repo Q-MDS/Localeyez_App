@@ -7,14 +7,15 @@ import { Layout, Text } from "@ui-kitten/components";
 import TextOne from "../../../../components/TextOne";
 import { TextIcon } from "../../../../components/TextIcon";
 import TextTwo from "../../../../components/TextTwo";
+import { IconText } from "../../../../components/IconText";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 
 const Home = (props) => 
 {
-	const [sectors, setSectors] = useState([]);
+	const [sectors, setSectors] = useState('');
 
 	const src = {
-		"title": "Shopping",
+		"titleShopping": "Shopping",
 		"fashion": [
 			"Clothing",
 			"Shoes",
@@ -27,34 +28,41 @@ const Home = (props) =>
 			"Skin and beauty Technicians",
 			"Costume Hire",
 		],
-		"home": ["Clothing",],
+		"home": ["Furniture",],
+		"groceries": ["Food & Beverage",],
 		"shoppingOpt1": true,
 		"shoppingOpt2": true,
 		"shoppingOpt3": true,
-		"title": "Travel",
+		"titleTravel": "Travel",
 		"accomodation": ["Clothing",],
 		"transport": ["Clothing",],
 		"travelOpt1": false,
+		"titleHealth": "Health & Wellness",
 		"sport": ["Clothing",],
 		"doctor": ["Clothing",],
 		"healthOpt1": true,
 		"healthOpt2": true,
 		"healthOpt3": true,
+		"titleEnt": "Entertainment",
 		"eat": ["Clothing",],
 		"activities": ["Clothing",],
 		"entEvent": ["Clothing",],
+		"titleEdu": "Education & Employment",
 		"eduEvent": ["Clothing",],
 		"learn": ["Clothing",],
 		"employment": ["Clothing",],
+		"titleProperty": "Property",
 		"propertyOpt1": true,
 		"propertyOpt2": true,
 		"propertyOpt3": true,
 		"propertyOpt4": true,
+		"titleServices": "Services",
 		"serHome": ["Clothing",],
 		"serSelf": ["Clothing",],
 		"serFin": ["Clothing",],
 		"serPub": ["Clothing",],
 		"servicesOpt1": true,
+		"titleCommunity": "Community",
 		"community": ["Clothing",],
 		"communityOpt1": true,
 		"communityOpt2": true,
@@ -101,12 +109,15 @@ const Home = (props) =>
 
 	const getSectors = async () => 
     {
-        const sectors = await DbUtils.getItem('shopper_sectors')
-        .then((sectors) => 
+        const getSectors = await DbUtils.getItem('shopper_sectors')
+        .then((getSectors) => 
         {
-			if (sectors !== null)
+			let a = JSON.parse(getSectors);
+			let b = JSON.parse(a[0].sectors_data);
+			
+			if (getSectors !== null)
 			{
-				setSectors(JSON.parse(sectors));
+				setSectors(JSON.stringify(b));
 			}
         });
     }
@@ -114,12 +125,12 @@ const Home = (props) =>
 	useEffect(() => 
 	{
 		getSectors();
-		
 	}, []);
 
 	useEffect(() => 
 	{
-		console.log('Sectors:', JSON.parse(sectors[0].sectors_data));
+		console.log('Fuck : ', sectors);
+		// console.log('Sectors:', JSON.parse(sectors[0].sectors_data));
 	}, [sectors]);
 
     const handleAddInterests = () => 
@@ -134,42 +145,106 @@ const Home = (props) =>
             <TopNavArrowTitle title="Edit Interests" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
             <Layout style={[MainStyles.layout_container ]}>
             <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginBottom: 15 }}>Current Interests</Text>
-			<View style={{ width: '100%' }}>
-				{/* {Object.entries(JSON.parse(sectors[0].sectors_data)).map(([key, value]) => { */}
-				{Object.entries(src).map(([key, value]) => {
-				if (Array.isArray(value) && value.length > 0) {
-					return (
-					<View key={key}>
-						<TextTwo title={aaa[key] || key} fontweight="bold" fontsize={18} />
-						{value.map((item, index) => (
-							<TextTwo key={index} title={item} fontsize={14} />
-						))}
-					<View style={{ height: 1, backgroundColor: '#D5D2F3', width: '100%', marginTop: 10, marginBottom: 10 }} />
-					</View>
-					);
-				} else if (value === true) {
-					return <TextTwo key={key} title={fullDesc[key] || key} fontsize={14} />;
-				} else {
-					return null;
-				}
-				})}
-			</View>
-
-                {/* <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', padding: 20, backgroundColor: '#f8f8fc', borderRadius: 20 }}>
-                    <TextOne title="Health & Wellness" textAlign="left" fontweight="bold" width="100%" />
-                    <TextIcon title="• Health Stores & Pharmacies" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} />
-                    <TextTwo title="• Sports & Recreation" textalign="left" fontsize={13} width="100%" mt={5} />
-                    <TextIcon title="Gyms" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} pl={7} />
-                    <TextIcon title="Sports Clubs" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} pl={7} />
-                </Layout>
-                <View style={{ marginTop: 25 }} />
-                <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', padding: 20, backgroundColor: '#f8f8fc', borderRadius: 20 }}>
-                    <TextOne title="Shopping" textAlign="left" fontweight="bold" width="100%" />
-                    <TextIcon title="• Stationary & Gifts" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} />
-                    <TextTwo title="• Fashion & Beauty" textalign="left" fontsize={13} width="100%" mt={5} />
-                    <TextIcon title="Clothing" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} pl={7} />
-                    <TextIcon title="Accessories" iconname="trash-2-outline" fontsize={13} width={20} mt={5} mb={0} pl={7} />
-                </Layout> */}
+				<View style={{ width: '100%' }}>
+					{/* {Object.entries(JSON.parse(sectors[0].sectors_data)).map(([key, value]) => { */}
+					{Object.entries(src).map(([key, value]) => 
+					{
+						if (key === 'titleShopping')
+						{
+							return (
+								<View style={{ marginTop: 10, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleTravel')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleHealth')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleEnt')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleEdu')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleProperty')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleServices')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (key === 'titleCommunity')
+						{
+							return (
+								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+								</View>
+							);
+						}
+						if (Array.isArray(value) && value.length > 0) 
+						{
+							return (
+							<View key={key}>
+								<TextTwo title={aaa[key] || key} fontweight="bold" fontsize={18} />
+								{value.map((item, index) => (
+									
+									<TextIcon key={index} title={item} iconname="trash-2-outline" width={24} mt={10} mb={10} />
+								))}
+							{/* <View style={{ height: 1, backgroundColor: '#D5D2F3', width: '100%', marginTop: 10, marginBottom: 10 }} /> */}
+							</View>
+							);
+						} 
+						else if (value === true) 
+						{
+							//return <TextTwo key={key} title={fullDesc[key] || key} fontweight="bold" fontsize={14} />;
+							return <TextIcon key={key} title={fullDesc[key] || key} iconname="trash-2-outline" width={24} fontweight="bold" fontsize={14} mt={10} mb={10} />
+						} 
+						else 
+						{
+							return null;
+						}
+					})}
+				</View>
 				<View style={{ flex: 1, justifyContent: 'flex-end', width: '100%', marginTop: 25 }} >
                 	<ButtonPrimary name="Add More Interests" width="100%" marginTop={25} onpress={handleAddInterests} />
 				</View>
