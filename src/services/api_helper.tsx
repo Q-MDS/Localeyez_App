@@ -122,3 +122,12 @@ export const updShopperSectors =  async (token: string, data: any) =>
 	});
 	return response.data;
 }
+
+export const updCreds =  async (token: string, data: any) => 
+{
+	const response = await api.post('/api/upd_creds/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return response.data;
+}

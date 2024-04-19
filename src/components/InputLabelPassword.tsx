@@ -1,6 +1,6 @@
 import React from 'react';
-import { TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
-import { Icon, IconElement, Input, Text } from '@ui-kitten/components';
+import { TouchableWithoutFeedback, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Icon, IconElement, Input, Layout, Text } from '@ui-kitten/components';
 
 const AlertIcon = (props: any): IconElement => (
 	<Icon
@@ -39,18 +39,22 @@ export const InputLabelPassword = (props: any): React.ReactElement => {
   };
 
   return (
-    <Input
-      value={props.value}
-      label='Password'
-      placeholder={props.placeholder}
-      accessoryRight={renderIcon}
-	  caption={renderCaption}
-      secureTextEntry={secureTextEntry}
-      style={{ borderRadius: 15 }}
-      size="large"
-	  onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-	  textStyle={{ marginStart: 0}}
-    />
+	<Layout style={{ width: '100%', position: 'relative' }}>
+		<Input
+		value={props.value}
+		label={props.label}
+		placeholder={props.placeholder}
+		caption={renderCaption}
+		secureTextEntry={secureTextEntry}
+		style={{ borderRadius: 15 }}
+		size="large"
+		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+		textStyle={{ marginStart: 0}}
+		/>
+		<TouchableOpacity style={{ position: 'absolute', right: 10, top: 33 }} onPress={toggleSecureEntry}>
+			<Image source={require('../assets/images/icon_eye.png')} style={{ width: 24, height: 24 }} />
+		</TouchableOpacity>
+	</Layout>
   );
 };
 

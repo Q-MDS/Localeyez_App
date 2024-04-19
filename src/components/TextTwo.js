@@ -26,6 +26,7 @@ const styles = StyleSheet.create(
     text: {
         fontSize: 14,
         opacity: 0.7,
+		color: 'black'
     },
 });
 

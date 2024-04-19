@@ -213,7 +213,7 @@ const Home = (props) =>
 					<Divider style={{ height: 30, backgroundColor: 'transparent' }} /> */}
 					<IconTextIcon title="Security" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccSecurity" />
 					<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-					<IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccHome" />
+					<IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="PrivacyPolicy" />
 					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20 }} />
 					<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
                         <ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
