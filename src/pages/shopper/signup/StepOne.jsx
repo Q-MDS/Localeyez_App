@@ -92,6 +92,7 @@ const StepOne = (props) =>
 		{
 			fashion: [],
 			home: [],
+			groceries: [],
 			shoppingOpt1: false,
 			shoppingOpt2: false,
 			shoppingOpt3: false,

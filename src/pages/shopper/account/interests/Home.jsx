@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from "../../../../services/DbUtils";
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
@@ -9,65 +10,92 @@ import { TextIcon } from "../../../../components/TextIcon";
 import TextTwo from "../../../../components/TextTwo";
 import { IconText } from "../../../../components/IconText";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const Home = (props) => 
 {
-	const [sectors, setSectors] = useState('');
+	const [sectors, setSectors] = useState([]);
+	const [ready, setReady] = useState(false);
 
 	const src = {
 		"titleShopping": "Shopping",
 		"fashion": [
-			"Clothing",
-			"Shoes",
-			"Accessories",
-			"Make-up and Cosmetics",
-			"Bath and Body",
-			"Clothing Designers & Stylists",
-			"Hair Stylists & Products",
-			"Make-up artists",
-			"Skin and beauty Technicians",
-			"Costume Hire",
+		  "Shoes"
 		],
-		"home": ["Furniture",],
-		"groceries": ["Food & Beverage",],
+		"home": [
+		  "Fixtures & Fittings"
+		],
+		"groceries": [
+			"Food and Beverage"
+		],
 		"shoppingOpt1": true,
 		"shoppingOpt2": true,
 		"shoppingOpt3": true,
 		"titleTravel": "Travel",
-		"accomodation": ["Clothing",],
-		"transport": ["Clothing",],
-		"travelOpt1": false,
+		"accomodation": [
+		  "Hotels"
+		],
+		"transport": [
+		  "BnBs"
+		],
+		"travelOpt1": true,
 		"titleHealth": "Health & Wellness",
-		"sport": ["Clothing",],
-		"doctor": ["Clothing",],
+		"sport": [
+		  "Gyms"
+		],
+		"doctor": [
+		  "Physicians"
+		],
 		"healthOpt1": true,
 		"healthOpt2": true,
 		"healthOpt3": true,
 		"titleEnt": "Entertainment",
-		"eat": ["Clothing",],
-		"activities": ["Clothing",],
-		"entEvent": ["Clothing",],
+		"eat": [
+		  "Bars"
+		],
+		"activities": [
+		  "Movies"
+		],
+		"entEvent": [
+		  "Music"
+		],
 		"titleEdu": "Education & Employment",
-		"eduEvent": ["Clothing",],
-		"learn": ["Clothing",],
-		"employment": ["Clothing",],
+		"eduEvent": [
+		  "Preschools"
+		],
+		"learn": [
+		  "Courses"
+		],
+		"employment": [
+		  "Recruitment Agencies"
+		],
 		"titleProperty": "Property",
 		"propertyOpt1": true,
 		"propertyOpt2": true,
 		"propertyOpt3": true,
 		"propertyOpt4": true,
 		"titleServices": "Services",
-		"serHome": ["Clothing",],
-		"serSelf": ["Clothing",],
-		"serFin": ["Clothing",],
-		"serPub": ["Clothing",],
+		"serHome": [
+		  "Building",
+		  "Interiors"
+		],
+		"serSelf": [
+		  "Hair Dressers & Stylists"
+		],
+		"serFin": [
+		  "Banks",
+		  "Bureau De Change"
+		],
+		"serPub": [],
 		"servicesOpt1": true,
 		"titleCommunity": "Community",
-		"community": ["Clothing",],
-		"communityOpt1": true,
+		"community": [
+		  "Children"
+		],
+		"communityOpt1": false,
 		"communityOpt2": true,
-		"communityOpt3": true
-	  };
+		"communityOpt3": false
+};
 
 	const fullDesc = {
 		shoppingOpt1: "Hardware & Electrical",
@@ -90,6 +118,7 @@ const Home = (props) =>
 	const aaa = {
 		"fashion": "Fashion & Beauty",
 		"home": "Home",
+		"groceries": "Groceries",
 		"accomodation": "Accommodation",
 		"transport": "Transport",
 		"sport": "Sports & Recreation",
@@ -107,31 +136,45 @@ const Home = (props) =>
 		"community": "Community",
 	}
 
-	const getSectors = async () => 
+	const fetchSectors = async () => 
     {
         const getSectors = await DbUtils.getItem('shopper_sectors')
         .then((getSectors) => 
         {
-			let a = JSON.parse(getSectors);
-			let b = JSON.parse(a[0].sectors_data);
-			
-			if (getSectors !== null)
+			const sectorArray = JSON.parse(getSectors);
+			console.log('BBB1:', sectorArray);
+			// const jsonSectors = JSON.parse(sectorArray);
+			// console.log('BBB2:', jsonSectors);...
+			if (sectorArray !== null)
 			{
-				setSectors(JSON.stringify(b));
+				console.log('Poop 2:', sectorArray);
+				setSectors(sectorArray);
+				setReady(true);
 			}
         });
     }
 
-	useEffect(() => 
+	useFocusEffect(React.useCallback(() => 
 	{
-		getSectors();
-	}, []);
+		fetchSectors();
+	}, []));
 
 	useEffect(() => 
 	{
-		console.log('Fuck : ', sectors);
-		// console.log('Sectors:', JSON.parse(sectors[0].sectors_data));
-	}, [sectors]);
+		if (ready)
+		{
+			console.log('BBB: ', sectors);
+		}
+	}, [ready]);
+
+	useEffect(() => {
+		console.log('Updated sectors: ', src.length);
+
+	  }, [sectors]);
+	// useEffect(() => 
+	// {
+	// 	// console.log('ZZZSectors:', JSON.parse(sectors[0].sectors_data));asd
+	// }, [sectors]);;
 
     const handleAddInterests = () => 
     {
@@ -142,12 +185,12 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView>
-            <TopNavArrowTitle title="Edit Interests" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
+            <TopNavArrowTitle title="Edit Interests" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
             <Layout style={[MainStyles.layout_container ]}>
             <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginBottom: 15 }}>Current Interests</Text>
 				<View style={{ width: '100%' }}>
-					{/* {Object.entries(JSON.parse(sectors[0].sectors_data)).map(([key, value]) => { */}
-					{Object.entries(src).map(([key, value]) => 
+				
+					{Object.entries(sectors).map(([key, value]) => 
 					{
 						if (key === 'titleShopping')
 						{
@@ -215,9 +258,9 @@ const Home = (props) =>
 						if (key === 'titleCommunity')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
+									<TextTwo  title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
 							);
 						}

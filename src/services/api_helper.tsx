@@ -113,3 +113,12 @@ export const updShopperProfile = async (token: string, data: any) =>
 		console.log('response from updShopperProfile:', response.data);
 	return response.data;
 };
+
+export const updShopperSectors =  async (token: string, data: any) => 
+{
+	const response = await api.post('/api/upd_shopper_sectors/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return response.data;
+}

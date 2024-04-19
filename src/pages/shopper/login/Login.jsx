@@ -79,8 +79,9 @@ const Login = (props) =>
 			let jsonShopperProfile = JSON.stringify(shopperProfile);
         	await DbUtils.setItem('shopper_profile', jsonShopperProfile);
 
-			let jsonSectors = JSON.stringify(shopperSectors);
-        	await DbUtils.setItem('shopper_sectors', jsonSectors);
+			// let jsonSectors = JSON.stringify(shopperSectors);
+        	// await DbUtils.setItem('shopper_sectors', jsonSectors);
+        	await DbUtils.setItem('shopper_sectors', shopperSectors);
 
 			props.navigation.navigate('ShopperHome');
 		} 

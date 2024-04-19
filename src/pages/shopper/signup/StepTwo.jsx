@@ -84,6 +84,7 @@ const StepTwo = (props) =>
 			titleShopping: "Shopping",
 			fashion: fashion,
 			home: home,
+			groceries: groceries,
 			shoppingOpt1: shoppingOpt1,
 			shoppingOpt2: shoppingOpt2,
 			shoppingOpt3: shoppingOpt3,
@@ -124,7 +125,6 @@ const StepTwo = (props) =>
 		}
 		let recordString = JSON.stringify(record);
 		await DbUtils.setItem('shopper_sectors', recordString);
-
 
         props.navigation.navigate('SignupUserStepThree');
     }

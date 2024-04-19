@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import DbUtils from '../../../../services/DbUtils';
+import Toast from 'react-native-toast-message';
+import { updShopperSectors } from '../../../../services/api_helper';
 import MainStyles from '../../../../assets/styles/MainStyles';
-import Collapsible from 'react-native-collapsible';
 import { Checkbox } from '../../../../components/Checkbox';
 import { TopNavArrowTitle } from '../../../../components/TopNavArrowTitle';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native';
@@ -75,18 +76,33 @@ const Add = (props) =>
 	const [ready, setReady] = useState(false);
 
 	const [sectors, setSectors] = useState('');
+	const [token, setToken] = useState('');
+	const [shopperId, setShopperId] = useState(0);
 
-	const getSectors = async () => 
+	const getToken = async () => 
+	{
+		const getToken = await DbUtils.getItem('shopper_token');
+
+		setToken(JSON.parse(getToken));
+	}
+
+	const getShopperId = async () => 
+	{
+		const id = await DbUtils.getItem('shopper_id');
+		
+		setShopperId(JSON.parse(id));
+	}
+
+	const fetchSectors = async () => 
     {
         const getSectors = await DbUtils.getItem('shopper_sectors')
         .then((getSectors) => 
         {
-			let a = JSON.parse(getSectors);
-			let b = JSON.parse(a[0].sectors_data);
+			const sectorArray = JSON.parse(getSectors);
 			
-			if (getSectors !== null)
+			if (sectorArray !== null)
 			{
-				setSectors(JSON.stringify(b));
+				setSectors(sectorArray);
 				setReady(true);
 			}
 			console.log('Done: Get Sectors!');
@@ -95,22 +111,24 @@ const Add = (props) =>
 
 	useEffect(() => 
 	{
-		getSectors();
-		// const fetchData = async () => 
-		// {
-		// 	await getSectors();
-		// };
+		const fetchData = async () => 
+		{
+			await getToken();
+			await getShopperId();
+			await fetchSectors();
+			
+			setReady(true);
+		};
 
-		// fetchData();
-		
+		fetchData();
 	}, []);
 
 	useEffect(() => 
 	{
 		if (ready)
 		{
-			const shopper_sectors = JSON.parse(sectors);
-			console.log('Groceries: ', shopper_sectors.groceries);
+			const shopper_sectors = sectors;
+			console.log('Groceries: ', shopper_sectors);
 			if (shopper_sectors.fashion.length > 0 || shopper_sectors.home.length > 0 || shopper_sectors.groceries.length > 0 || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
 			setFashion(shopper_sectors.fashion);
 			setHome(shopper_sectors.home);
@@ -132,11 +150,33 @@ const Add = (props) =>
 			setHealthOpt3(shopper_sectors.healthOpt3);
 
 			if (shopper_sectors.eat.length > 0 || shopper_sectors.activities.length > 0 || shopper_sectors.entEvent.length > 0 ) { setEntertainmentCollapsed(true) } else { setEntertainmentCollapsed(false) }
+			setEat(shopper_sectors.eat);
+			setActivities(shopper_sectors.activities	);
+			setEntEvent(shopper_sectors.entEvent);
+
+			if (shopper_sectors.eduEvent.length > 0 || shopper_sectors.learn.length > 0 || shopper_sectors.employment.length > 0) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
 			setEduEvent(shopper_sectors.eduEvent);
-			setLearn(shopper_sectors.learn	);
+			setLearn(shopper_sectors.learn);
 			setEmployment(shopper_sectors.employment);
 
-			if (shopper_sectors.accomodation.length > 0 || shopper_sectors.transport.length > 0 || shopper_sectors.travelOpt1) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
+			if (shopper_sectors.propertyOpt1 || shopper_sectors.propertyOpt2 || shopper_sectors.propertyOpt3 || shopper_sectors.propertyOpt4) { setPropertyCollapsed(true) } else { setPropertyCollapsed(false) }
+			setPropertyOpt1(shopper_sectors.propertyOpt1);
+			setPropertyOpt2(shopper_sectors.propertyOpt2);
+			setPropertyOpt3(shopper_sectors.propertyOpt3);
+			setPropertyOpt4(shopper_sectors.propertyOpt4);
+
+			if (shopper_sectors.serHome.length > 0 || shopper_sectors.serSelf.length > 0 || shopper_sectors.serFin.length > 0 || shopper_sectors.serPub.length > 0 || shopper_sectors.servicesOpt1) { setServicesCollapsed(true) } else { setServicesCollapsed(false) }
+			setSerHome(shopper_sectors.serHome);
+			setSerSelf(shopper_sectors.serSelf);
+			setSerFin(shopper_sectors.serFin);
+			setSerPub(shopper_sectors.serPub);
+			setServicesOpt1(shopper_sectors.servicesOpt1);
+
+			if (shopper_sectors.community.length > 0 || shopper_sectors.communityOpt1 || shopper_sectors.communityOpt2 || shopper_sectors.communityOpt3) { setCommunityCollapsed(true) } else { setCommunityCollapsed(false) }
+			setCommunity(shopper_sectors.community);
+			setCommunityOpt1(shopper_sectors.communityOpt1);
+			setCommunityOpt2(shopper_sectors.communityOpt2);
+			setCommunityOpt3(shopper_sectors.communityOpt3);
 		}
 	}, [ready]);
 
@@ -147,6 +187,7 @@ const Add = (props) =>
 			titleShopping: "Shopping",
 			fashion: fashion,
 			home: home,
+			groceries: groceries,
 			shoppingOpt1: shoppingOpt1,
 			shoppingOpt2: shoppingOpt2,
 			shoppingOpt3: shoppingOpt3,
@@ -184,11 +225,46 @@ const Add = (props) =>
 			communityOpt1: communityOpt1,
 			communityOpt2: communityOpt2,
 			communityOpt3: communityOpt3
-		}
+		};
 		let recordString = JSON.stringify(record);
 		await DbUtils.setItem('shopper_sectors', recordString);
 
-        props.navigation.navigate('ShopperAccIntHome');
+		// Update server
+		const apiRecord = [
+			{shopper_id: shopperId},
+			{data: recordString}
+		];
+		const res = await updShopperSectors(token, apiRecord);
+		const status = res.status;
+
+		if (status)
+		{
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Success',
+				text2: 'Changes have been successfully updated.',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		
+			props.navigation.navigate('ShopperAccIntHome');
+    	} 
+		else 
+		{
+			Toast.show({
+				type: 'error',
+				position: 'bottom',
+				text1: 'Server error',
+				text2: 'There was a problen updating your changes.',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		}
     }
     
     return (
@@ -359,7 +435,7 @@ const Add = (props) =>
 
                     <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
 
-                    <ButtonPrimary name="Next" width="100%" marginTop={25} onpress={handleSubmit}/>
+                    <ButtonPrimary name="Update" width="100%" marginTop={25} onpress={handleSubmit}/>
                 </Layout>
                 
             </ScrollView>
