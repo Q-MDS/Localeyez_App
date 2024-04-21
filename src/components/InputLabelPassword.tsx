@@ -44,7 +44,7 @@ export const InputLabelPassword = (props: any): React.ReactElement => {
 		value={props.value}
 		label={props.label}
 		placeholder={props.placeholder}
-		caption={renderCaption}
+		// caption={renderCaption}
 		secureTextEntry={secureTextEntry}
 		style={{ borderRadius: 15 }}
 		size="large"

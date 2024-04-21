@@ -1,26 +1,31 @@
 import React from "react";
+import { sectorData } from "../../../sector.data";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
-import AccordianList from "../../../components/AccordianList";
 import { BotNavShopper } from "../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { Layout, Card } from "@ui-kitten/components";
+import { TextIcon } from "../../../components/TextIcon";
 
 const Health = (props) => 
 {
-    const sports = ["Gyms", "Sports Clubs", "Spa's", "Outdoor Activities"];
-    const doctors = ["General Practitioners", "Physicians", "Physiotherapists", "Chiropractors", "Surgeons", "Dental", "Homeopathic", "Mental Health", "Peadiatric", "Other Specialists"];
-    const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7"];
+    const healthData = sectorData.find(sector => sector.title === "Health & Wellness");
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <TopNavArrowTitle title="Health" alignment="start" navigation={props.navigation} />
+        <TopNavArrowTitle title={healthData.title} alignment="start" navigation={props.navigation} />
             <ScrollView>
-                <Layout style={[MainStyles.layout_container, {alignItems: 'center', backgroundColor: '#fff'}]}>
-                    <AccordianList title="Sports & Recreation" options={sports} bgColor="#F5F5F5" />
-                    <AccordianList title="Doctors & Specialists" options={doctors} bgColor="#F5F5F5" />
-                    <AccordianList title="Health Stores & Pharmacies" options={options} bgColor="#F5F5F5" />
-                    <AccordianList title="Hospitals & Trauma Centres" options={options} bgColor="#F5F5F5" />
+                <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+					{healthData.categories.map((category, index) => (
+						<Card key={index} style={{ width: '100%', marginBottom: 15 }}>
+						<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24}  />
+						{category.items.map((item, index) => ( 
+							index === 0 
+							? <TextIcon key={index} title={item} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
+							: <TextIcon key={index} title={item} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
+						))}
+						</Card>
+					))}
                 </Layout>
             </ScrollView>
         <BotNavShopper selected={1} />

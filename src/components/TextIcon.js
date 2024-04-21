@@ -25,6 +25,7 @@ const styles = StyleSheet.create(
     container: {
         flexDirection: 'row',
         alignItems: 'center',
+		width: '100%'
     },
     text: {
         flex: 1,

@@ -5,7 +5,7 @@ import { Text, Icon } from '@ui-kitten/components';
 export const IconText = (props) => 
 {
     return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
         <Icon style={styles.icon} fill='#5D5A88' name={props.iconname} width={props.width} />
         <Text status="primary" style={[styles.text, { fontSize: props.fontsize, lineHeight: props.lineheight, textDecorationLine: props.underline, textAlign: props.textalign, fontWeight: props.fontweight}]}>{props.title}</Text>
     </View>

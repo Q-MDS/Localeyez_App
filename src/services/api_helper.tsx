@@ -131,3 +131,13 @@ export const updCreds =  async (token: string, data: any) =>
 	});
 	return response.data;
 }
+
+export const getNotifications = async (token: string, data: any) => 
+	{
+		const response = await api.post('/api/get_notifications/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		
+		return response.data;
+	}
