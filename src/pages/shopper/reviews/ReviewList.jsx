@@ -90,11 +90,11 @@ const ReviewList = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 		<TopNavShopperReviews title='Your Reviews' />
-			<ScrollView>
-				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
+			<ScrollView style={{ flex: 1 }}>
+				<Layout style={[MainStyles.layout_container, { flexDirection: 'column', paddingStart: 15, paddingEnd: 15}]}>
 				{reviews.map((review, index) => (
-					<TouchableOpacity key={index} style={{ flexDirection: 'row', flex: 1,  }} onPress={() => handelView(review.company_name, review.rating, review.review_title, review.review_desc)}>
-						<ReviewCard key={index} firstName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc.substring(0, 70) + '...'} />
+					<TouchableOpacity key={index} style={{ flexDirection: 'row' }} onPress={() => handelView(review.company_name, review.rating, review.review_title, review.review_desc)}>
+						<ReviewCard key={index} firstName={review.company_name} fn={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc.substring(0, 70) + '...'} />
 					</TouchableOpacity>
 				))}
 				</Layout>

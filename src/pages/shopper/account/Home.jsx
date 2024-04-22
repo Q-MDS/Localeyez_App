@@ -171,7 +171,7 @@ const Home = (props) =>
 
     const handleLogout = () => 
     {
-        props.navigation.navigate('LoginBusiness');
+        props.navigation.navigate('LoginUser');
     }
 
     const handleCloseAccount = () => 

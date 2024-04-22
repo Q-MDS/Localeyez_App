@@ -1,35 +1,107 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import DbUtils from "../../../../services/DbUtils";
+import { getBusinessNotifications } from "../../../../services/api_helper";
+import Toast from 'react-native-toast-message';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
 import { Text, Avatar, List, ListItem, Layout } from "@ui-kitten/components";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
+import { NotiCard } from "../../../../components/NotiCard";
 
-const data = new Array(15).fill({
-    title: 'You have a new review',
-    description: 'Tasha Schofield left you a review',
-});
 
 const NotiList = (props) => 
 {
-    const renderItemAccessory = () => (
-        <Text category="p1">1h</Text>
-    );
+    const [token, setToken] = useState('');
+	const [businessId, setBusinessId] = useState(0);
+	const [isReady, setIsReady] = useState(false);
+	const [notifications, setNotifications] = useState([]);
 
-    const renderItemIcon = (props) => (
-        <Avatar {...props} source={require('../../../../assets/images/list_icon.png')} style={{ width: 64, height: 64 }} />
-    )
-    
-    const renderItem = ({ item, index }) => (
-        <ListItem
-        key={index}
-        title={`${item.title}`}
-        description={`${item.description}`}
-        accessoryLeft={renderItemIcon}
-        accessoryRight={renderItemAccessory}
-        onPress={handleViewReview}
-        />
-    );
+	const getToken = async () => 
+	{
+		const getToken = await DbUtils.getItem('shopper_token');
+
+		setToken(JSON.parse(getToken));
+	}
+
+	const getBusinessId = async () => 
+	{
+		const id = await DbUtils.getItem('business_id');
+		
+		setBusinessId(JSON.parse(id));
+	}
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getToken();
+			await getBusinessId();
+			
+			setIsReady(true);
+		};
+
+		fetchData();
+	}, []);
+
+	useEffect(() => 
+	{
+		const getNotis = async () => 
+		{
+			if (isReady)
+			{
+				const apiData = {business_id: businessId};
+console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+				const res = await getBusinessNotifications(token, apiData);
+				console.log('res:', res);
+				const status = res.status;
+		
+				if (status)
+				{
+					// console.log('Notis:', res.data); asd
+					setNotifications(res.data);
+					console.log('res.data:', res.data);
+					Toast.show({
+						type: 'success',
+						position: 'bottom',
+						text1: 'Success',
+						text2: 'Notifications have been downloaded.',
+						visibilityTime: 1000,
+						autoHide: true,
+						topOffset: 30,
+						bottomOffset: 40,
+					});
+				} 
+				else 
+				{
+					Toast.show({
+						type: 'error',
+						position: 'bottom',
+						text1: 'Server error',
+						text2: 'There was a problen fetching notifications.',
+						visibilityTime: 1000,
+						autoHide: true,
+						topOffset: 30,
+						bottomOffset: 40,
+					});
+				}
+			}
+		}
+
+		if (isReady)
+		{
+			console.log('Ready to get notis');
+			getNotis();
+		}
+		
+	}, [isReady]);
+
+	const handleCardPress = (reviewRecord) => 
+	{
+		console.log('Goto: Check out review, ', reviewRecord);
+		// props.navigation.navigate('ShopperNotiView', { businessName: businessName, linkType: linkType, linkRecord: linkRecord });
+		props.navigation.navigate('BusDashNotiView', {reviewRecord: reviewRecord});
+	}
 
     const handleViewReview = () => 
     {
@@ -37,16 +109,17 @@ const NotiList = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
             <TopNavArrowTitle title="Notifications" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
-                <DividerTop />
-                <Layout style={[MainStyles.layout_container_grid, {paddingEnd: 15}]}>
-                    <List
-                    style={styles.container}
-                    data={data}
-                    renderItem={renderItem}
-                    />
+			<DividerTop />
+			<ScrollView style={styles.container}>
+                <Layout style={{ flex: 1, marginTop: 15 }}>
+					{notifications.map((item, index) => 
+					
+						<NotiCard key={index} business={item.review_record.first_name} firstname={item.review_record.first_name} lastname={item.review_record.last_name} title={item.noti_title} desc={item.noti_detail} onPress={() => handleCardPress(item.review_record)} />
+					)}
                 </Layout>
+				</ScrollView>
         </SafeAreaView>
     );
 };

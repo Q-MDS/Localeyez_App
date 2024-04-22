@@ -14,7 +14,7 @@ const ReviewView = (props) =>
 		<TopNavArrowTitle title='View Review' alignment="start" navigation={props.navigation} goBackTo="ShopperReviewList" />
 			<ScrollView>
 				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
-					<ReviewCard firstName={props.route.params.companyName} rating={props.route.params.rating} title={props.route.params.title} review={props.route.params.desc} />
+					<ReviewCard firstName={props.route.params.companyName} fn={props.route.params.companyName} rating={props.route.params.rating} title={props.route.params.title} review={props.route.params.desc} />
 				</Layout>
 			</ScrollView>
 			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />

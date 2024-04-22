@@ -12,10 +12,37 @@ import { Layout } from '@ui-kitten/components';
 import TextTwo from '../../../components/TextTwo';
 import { InputLabel } from '../../../components/InputLabel';
 
+const initialState = {
+	credOne: 'Harry@gmail.com',
+	credTwo: '123456',
+};
+
+function reducer(state: any, action: { type: any; payload: any; }) 
+{
+	switch (action.type) 
+	{
+	  case 'BUSINESS_LOGIN':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
+
 const Login = (props: any) => 
 {
-    const [credOne, setCredOne] = useState('Harry@gmail.com');
-    const [credTwo, setCredTwo] = useState('123456');
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+	function handleInputChange(name: any, newValue: any) 
+	{
+		dispatch(
+		{
+			type: 'BUSINESS_LOGIN',
+			payload: {...state, [name]: newValue}
+		});
+	}
+	
+    // const [credOne, setCredOne] = useState('Harry@gmail.com');
+    // const [credTwo, setCredTwo] = useState('123456');
 
     const handleLogin = async () => 
     {
@@ -23,7 +50,7 @@ const Login = (props: any) =>
 		await DbUtils.clear();
 
 		// Auth on server
-		const res = await login(credOne, credTwo);
+		const res = await login(state.credOne, state.credTwo);
 		const status = res.status;
 
 		if (status)
@@ -77,13 +104,6 @@ const Login = (props: any) =>
 				bottomOffset: 40,
 			});
 		}
-
-		// console.log('Login response xxx:', res.status);
-		// // console.log('Login response xxx:', res.business_profile);
-		// console.log('Promotions:', res.promotions);
-		// console.log('Events:', res.events);
-
-        
     }
 
     const handleRememberMe = () => 
@@ -115,9 +135,10 @@ const Login = (props: any) =>
                             <View style={{ marginTop: 20 }} />
                             <TitleOne title="Login as a Business" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelEmail label="Email" value={credOne} setValue={setCredOne} placeholder="Enter email" />
+                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" />
                             <View style={{ marginTop: 25 }} />
-							<InputLabel label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter Password" secureTextEntry={true} />
+							<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" />
+							{/* <InputLabel label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter Password" secureTextEntry={true} /> */}
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >

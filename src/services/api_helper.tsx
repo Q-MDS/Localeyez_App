@@ -133,11 +133,31 @@ export const updCreds =  async (token: string, data: any) =>
 }
 
 export const getNotifications = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/get_notifications/', data,
 	{
-		const response = await api.post('/api/get_notifications/', data,
-		{
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		
-		return response.data;
-	}
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
+export const getTotViews = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/get_tot_views/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
+export const getBusinessNotifications = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/get_business_notifications/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}

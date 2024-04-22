@@ -7,10 +7,24 @@ import {IconText} from './IconText';
 
 export const ReviewCard = (props:any) => 
 {
+	let firstChar = "";
+	if (props.fn) 
+	{
+		firstChar = props.fn.charAt(0).toUpperCase();
+	} 
+	let lastChar = "";
+	if (props.ln) 
+	{
+		lastChar = props.ln.charAt(0).toUpperCase();
+	} 
+	
+
     return (
         <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" onPress={() => props.onPress} >
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-				<Avatar source={require('../assets/images/list_icon.png')} style={{ width: 64, height: 64, marginEnd: 15 }} />
+				<View style={styles.avatar}>
+                    <Text style={styles.avatarText}>{`${firstChar}.${lastChar}.`}</Text>
+                </View>
 				{props.lastName ? (
 					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName} ${props.lastName}`}</Text>
 				) : (
@@ -52,5 +66,19 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 16,
         fontWeight: 'bold',
-    }
+    },
+
+	avatar: {
+        width: 64,
+        height: 64,
+        borderRadius: 32,
+        backgroundColor: '#ccc',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginEnd: 15,
+    },
+    avatarText: {
+        color: '#fff',
+        fontSize: 24,
+    },
 });
