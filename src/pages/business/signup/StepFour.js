@@ -13,41 +13,78 @@ import { Layout } from '@ui-kitten/components';
 const StepFour = (props) => 
 {
 	const [businessProfile, setBusinessProfile] = useState({});
+	const [businessSectors, setBusinessSectors] = useState({});
+	const [isReady, setIsReady] = useState(false);
+	const [isSaved, setIsSaved] = useState(false);
 	
 	const getProfile = async () => 
     {
         const profile = await DbUtils.getItem('business_profile')
         .then((profile) => 
         {
+			console.log('Profile: ', profile);
 			setBusinessProfile(JSON.parse(profile));
         });
     }
-
-    const handelGetStarted = async () => 
+	
+	const getSectors = async () => 
     {
-		// console.log('Business Profile: ', businessProfile);
-		const res = await register(businessProfile);
+        const sectors = await DbUtils.getItem('business_sectors')
+        .then((sectors) => 
+        {
+			setBusinessSectors(JSON.parse(sectors));
+        });
+    }
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getProfile();
+			await getSectors();
+			
+			setIsReady(true);
+		};
+
+		fetchData();
+	}, []);
+
+
+    const handleGetStarted = async () => 
+    {
+		const apiData = {business_profile: businessProfile, business_sectors: businessSectors};
+		const res = await register(apiData);
 
 		if (res.status)
 		{
-			console.log('All Good');
 			const businessId = res.data;
 			const token = res.token;
 
 			await DbUtils.setItem('business_id', JSON.stringify(businessId));
 			await DbUtils.setItem('token', token);
 
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Registration Successful',
+				text2: 'Thank you for registering.',
+				visibilityTime: 4000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+
 			props.navigation.navigate('BusProfProHome');
 		} 
 		else 
 		{
-			console.log('Something went wrong');
+			console.log('Sum Ting Wong');
 
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
 				text1: 'Registration Failed',
-				text2: 'Please try again.',
+				text2: 'Please try again or contact support.',
 				visibilityTime: 4000,
 				autoHide: true,
 				topOffset: 30,
@@ -55,11 +92,6 @@ const StepFour = (props) =>
 			});
 		}
     }
-
-	useEffect(() => 
-	{
-		getProfile();
-	}, []);
 
     return (
 		
@@ -71,7 +103,7 @@ const StepFour = (props) =>
 				<TitleTwo title="Registration Complete!" />
 				<View style={{ marginTop: 25 }} />
 				<TextOne title="Your registration is under review by admin, you will be notified by email once your account is actived. In the meantime you can start building your business profile." textAlign="center" />
-				<ButtonPrimary name="Get Started" width="100%" marginTop={35} onpress={handelGetStarted}/>
+				<ButtonPrimary name="Get Started" width="100%" marginTop={35} onpress={handleGetStarted}/>
 			</Layout>
         </SafeAreaView>
     );

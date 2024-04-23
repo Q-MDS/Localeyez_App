@@ -7,9 +7,13 @@ import TextTwo from "../components/TextTwo";
 
 const PrivacyPolicy = (props: any) => 
 {
+	console.log('props type', props);
+	
+	const type = props.route.params.type;
+
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Privacy Policy" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+            <TopNavArrowTitle title="Privacy Policy" alignment="start" navigation={props.navigation} goBackTo={type === 0 ? "BusDashAccHome" : "ShopperAccHome"} />
 				<ScrollView style={{ backgroundColor: 'red', flex: 1, width: '100%'  }}>
 					<Layout style={[MainStyles.layout_container, {flex: 1} ]}>
 						<TextTwo title="Privacy Policy" fontsize={24} />

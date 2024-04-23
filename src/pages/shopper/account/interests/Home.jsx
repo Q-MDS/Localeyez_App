@@ -5,12 +5,9 @@ import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import TextOne from "../../../../components/TextOne";
 import { TextIcon } from "../../../../components/TextIcon";
 import TextTwo from "../../../../components/TextTwo";
-import { IconText } from "../../../../components/IconText";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const Home = (props) => 
 {
@@ -94,8 +91,9 @@ const Home = (props) =>
 		],
 		"communityOpt1": false,
 		"communityOpt2": true,
-		"communityOpt3": false
-};
+		"communityOpt3": false,
+		"communityOpt4": false
+	};
 
 	const fullDesc = {
 		shoppingOpt1: "Hardware & Electrical",
@@ -110,9 +108,10 @@ const Home = (props) =>
 		propertyOpt3: "Commercial (Agents)",
 		propertyOpt4: "Legal (Property Law Firms",
 		servicesOpt1: "Legal",
-		communityOpt1: "Non-Profits",
-		communityOpt2: "NGO's",
-		communityOpt3: "Support Groups",
+		communityOpt1: "Charity Organisations",
+		communityOpt2: "Non-Profits",
+		communityOpt3: "NGO's",
+		communityOpt4: "Support Groups",
 	};
 
 	const aaa = {
@@ -126,7 +125,7 @@ const Home = (props) =>
 		"eat": "Entertainment",
 		"activities": "Activities",
 		"entEvent": "Events",
-		"eduEvent": "Events",
+		"eduEvent": "Schools",
 		"learn": "Learning",
 		"employment": "Employment",
 		"serHome" : "Home",
@@ -167,14 +166,10 @@ const Home = (props) =>
 		}
 	}, [ready]);
 
-	useEffect(() => {
-		console.log('Updated sectors: ', src.length);
+	// useEffect(() => {
+	// 	console.log('Updated sectors: ', src.length);
 
-	  }, [sectors]);
-	// useEffect(() => 
-	// {
-	// 	// console.log('ZZZSectors:', JSON.parse(sectors[0].sectors_data));asd
-	// }, [sectors]);;
+	// }, [sectors]);
 
     const handleAddInterests = () => 
     {
@@ -195,7 +190,7 @@ const Home = (props) =>
 						if (key === 'titleShopping')
 						{
 							return (
-								<View style={{ marginTop: 10, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 10, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -204,7 +199,7 @@ const Home = (props) =>
 						if (key === 'titleTravel')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -213,7 +208,7 @@ const Home = (props) =>
 						if (key === 'titleHealth')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -222,7 +217,7 @@ const Home = (props) =>
 						if (key === 'titleEnt')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -231,7 +226,7 @@ const Home = (props) =>
 						if (key === 'titleEdu')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -240,7 +235,7 @@ const Home = (props) =>
 						if (key === 'titleProperty')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>
@@ -249,7 +244,7 @@ const Home = (props) =>
 						if (key === 'titleServices')
 						{
 							return (
-								<View style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
 									<TextTwo key={key} title={value} fontweight="bold" fontsize={25} mt={10} />
 								</View>

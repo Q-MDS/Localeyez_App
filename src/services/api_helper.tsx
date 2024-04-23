@@ -10,6 +10,15 @@ export const updBusinessProfile = async (token: string, data: any) =>
 	return response.data;
 };
 
+export const updBusinessSectors =  async (token: string, data: any) => 
+{
+	const response = await api.post('/api/upd_business_sectors/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return response.data;
+}
+
 export const addPromotion = async (token: string, data: any) => 
 {
 	const response = await api.post('/api/add_promotion/', data,

@@ -18,6 +18,7 @@ import CustomIcon from '../../../../components/CustomIcon';
 
 const initialState = {
 	displayImage: null,
+	profilePic: null,
 	companyName: null,
 	contactNumber: null,
 	businessBio: null,
@@ -54,21 +55,6 @@ const Home = (props) =>
 	const [promotions, setPromotions] = useState([]);
 	const [events, setEvents] = useState([]);
 
-	// const [companyName, setCompanyName] = useState('');
-    // const [contactNumber, setContactNumber] = useState('');
-	// const [businessBio, setBusinessBio] = useState('');
-	// const [addressOne, setAddressOne] = useState('');
-    // const [addressTwo, setAddressTwo] = useState('');
-    // const [city, setCity] = useState('');
-    // const [province, setProvince] = useState('');
-    // const [zipCode, setZipCode] = useState('');
-	// const [xUrl, setXUrl] = useState('');
-    // const [instgramUrl, setInstagramUrl] = useState('');
-    // const [facebookUrl, setFacebookUrl] = useState('');
-    // const [linkedinUrl, setLinkedinUrl] = useState('');
-    // const [wwwUrl, setWwwUrl] = useState('');
-	// const [displayImage, setDisplayImage] = useState('');
-
 	function handleInputChange(name, newValue) 
 	{
 		dispatch(
@@ -83,12 +69,14 @@ const Home = (props) =>
         const profile = await DbUtils.getItem('business_profile')
 		.then((profile) => 
         {
+			console.log('SHITBALLS: ', profile);
 			dispatch(
 			{
 				type: 'BUSINESS_PROFILE',
 				payload: 
 				{
 					displayImage: JSON.parse(profile).display_image,
+					profilePic: JSON.parse(profile).profile_pic,
 					companyName: JSON.parse(profile).company_name,
 					businessBio: JSON.parse(profile).business_bio,
 					contactNumber: JSON.parse(profile).contact_number,
@@ -222,8 +210,11 @@ const Home = (props) =>
 					{state.linkedinUrl && <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />}
 					<View style={{ marginLeft: 8 }} />
                     {state.wwwUrl && <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />}
-                    <View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 1, borderRadius: 60, padding:  20, backgroundColor: '#f9f9ff' }} >
-                        <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64, borderRadius: 32 }} />
+                    <View style={{ position: 'absolute', left: 0, top: -70, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
+						{state.profilePic 
+						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
+						: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
+						}
                     </View>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>
@@ -245,10 +236,12 @@ const Home = (props) =>
 						>
 						<Tab title='Promotions'>			
 							<Layout style={styles.tabContainer}>
+								{promotions && promotions.length === 0 && (
 								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
 									<TextOne title="You have no promotions listed" />
 									<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
 								</Layout>
+								)}
 								{promotions && promotions.map((record, index) => (
 										<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
@@ -273,10 +266,12 @@ const Home = (props) =>
 						</Tab>
 						<Tab title='Events'>
 							<Layout style={styles.tabContainer}>
+								{events && events.length === 0 && (
 								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
 									<TextOne title="You have no events listed" />
 									<ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
 								</Layout>
+								)}
 								{events && events.map((record, index) => 
 								(
 										<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={() => handleEditEvent(index)}>

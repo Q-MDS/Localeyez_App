@@ -35,6 +35,15 @@ const Security = (props) =>
 	const [shopperId, setShopperId] = useState(0);
 	const [ready, setReady] = useState(false);
 
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'CHANGE_PASSWORD',
+			payload: {...state, [name]: newValue}
+		});
+	}
+
 	const getToken = async () => 
 	{
 		const getToken = await DbUtils.getItem('shopper_token');
@@ -62,19 +71,8 @@ const Security = (props) =>
 		fetchData();
 	}, []);
 
-	function handleInputChange(name, newValue) 
-	{
-		dispatch(
-		{
-			type: 'CHANGE_PASSWORD',
-			payload: {...state, [name]: newValue}
-		});
-	}
-
     const handleUpdate = async () => 
     {
-		// Only update the server
-		// TODO....
 		if (ready)
 		{
 			const apiRecord = [

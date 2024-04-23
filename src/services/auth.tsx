@@ -1,4 +1,5 @@
 import api from './api';
+import { AxiosError } from 'axios';
 
 export const isLoggedIn = async (token: string) =>
 {
@@ -43,15 +44,23 @@ export const login = async (credOne: string, credTwo: string) =>
 		{
 			return response.data;
 		} 
-		else 
-		{
-			throw new Error('Login failed');
-		}
+		// else 
+		// {
+		// 	// throw new Error('Login failed');
+		// 	return false;
+		// }
 	} 
 	catch (error) 
 	{
-		console.error(error);
-		throw error;
+		// const axiosError = error as AxiosError;
+		// if (axiosError.message === 'Network Error' || axiosError.response === undefined) {
+        //     throw new Error('Please check your internet connection and try again');
+        // } else {
+        //     throw error;
+        // }
+		// console.error(error);
+		// throw error;
+		return error
 	}
 };
 

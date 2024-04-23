@@ -21,8 +21,8 @@ const Services = (props) =>
 						<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24}  />
 						{category.items.map((item, index) => ( 
 							index === 0 
-							? <TextIcon key={index} title={item} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
-							: <TextIcon key={index} title={item} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
+							? <TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
+							: <TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
 						))}
 						</Card>
 					))}

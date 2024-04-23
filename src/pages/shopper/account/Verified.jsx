@@ -11,7 +11,6 @@ const Verified = (props) =>
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [profilePic, setProfilePic] = useState('');
-	
 
 	const getProfile = async () => 
     {
@@ -35,7 +34,6 @@ const Verified = (props) =>
             <TopNavArrowTitle title="Verified Member" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
             <Layout style={[MainStyles.layout_container, { justifyContent: 'center', alignItems: 'center' } ]}>
                 <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:40, paddingBottom: 30 }}>
-                    {/* <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 128, height: 128 }} /> */}
 					{profilePic == '' || profilePic == null ? (
 						<Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 128, height: 128 }} />
 					) : (

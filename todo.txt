@@ -157,3 +157,9 @@ updated_at:2024-04-17 22:59:42
 
 Remove: created_at, updated_at
 Add: credOne, credTwo
+
+PLACE WHERE PICS ARE USED
+1. Business: Edit and show profile
+2. promotions
+3. events
+4. Shopper profiles

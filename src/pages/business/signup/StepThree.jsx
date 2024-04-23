@@ -1,207 +1,346 @@
 import React, {useState, useEffect} from 'react';
+import { sectorData } from "../../../sector.data";
 import DbUtils from '../../../services/DbUtils'; 
 import MainStyles from '../../../assets/styles/MainStyles';
-import AccordianCheckboxList from '../../../components/AccordianCheckboxList';
-import Collapsible from 'react-native-collapsible';
-import { Checkbox } from '../../../components/Checkbox';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
-import { Layout, Divider, Icon } from '@ui-kitten/components';
-import { Label } from '../../../components/Label';
+import { SafeAreaView, ScrollView, View, TouchableOpacity } from 'react-native';
+import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
 import { TitleThree } from '../../../components/TitleThree';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
+import { DropdownMultiSelect } from '../../../components/DropdownMultiSelect';
+import { Checkbox } from '../../../components/Checkbox';
 
 const StepThree = (props) => 
 {
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [checked, setChecked] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	const shoppingData = sectorData.find(sector => sector.title === "Shopping");
+	const shoppingLabels = shoppingData.categories.map(category => category.name);
+	const fashionAndBeautyCategory = shoppingData.categories.find(category => category.name === "Fashion & Beauty");
+	const fashionData = fashionAndBeautyCategory.items;
+	const homeCategory = shoppingData.categories.find(category => category.name === "Home");
+	const homeData = homeCategory.items;
+	const groceriesCategory = shoppingData.categories.find(category => category.name === "Groceries");
+	const groceriesData = groceriesCategory.items;
 
-	console.log('Load me');
-    const handleSubmit = async () =>
+	const travelData = sectorData.find(sector => sector.title === "Travel");
+	const travelLabels = travelData.categories.map(category => category.name);
+	const accommodationCategory = travelData.categories.find(category => category.name === "Accomodation");
+	const accommodationData = accommodationCategory.items;
+	const transportCategory = travelData.categories.find(category => category.name === "Transport");
+	const transportData = transportCategory.items;
+	
+	const healthData = sectorData.find(sector => sector.title === "Health & Wellness");
+	const healthLabels = healthData.categories.map(category => category.name);
+	const sportCategory = healthData.categories.find(category => category.name === "Sports & Recreation");
+	const sportData = sportCategory.items;
+	const doctorCategory = healthData.categories.find(category => category.name === "Doctors & Specialists");
+	const doctorData = doctorCategory.items;
+
+	const entertainmentData = sectorData.find(sector => sector.title === "Entertainment");
+	const entertainmentLabels = entertainmentData.categories.map(category => category.name);
+	const eatCategory = entertainmentData.categories.find(category => category.name === "Eat & Drink");
+	const eatData = eatCategory.items;
+	const activitiesCategory = entertainmentData.categories.find(category => category.name === "Activities");
+	const activitiesData = activitiesCategory.items;
+	const entEventCategory = entertainmentData.categories.find(category => category.name === "Events");
+	const entEventData = entEventCategory.items;
+
+	const educationData = sectorData.find(sector => sector.title === "Education & Employment");
+	const educationLabels = educationData.categories.map(category => category.name);
+	const eduEventDataCategory = educationData.categories.find(category => category.name === "Schools");
+	const eduEventData = eduEventDataCategory.items;
+	const learnDataCategory = educationData.categories.find(category => category.name === "Learning");
+	const learnData = learnDataCategory.items;
+	const employmentCategory = educationData.categories.find(category => category.name === "Employment");
+	const employmentData = employmentCategory.items;
+
+	const propertyData = sectorData.find(sector => sector.title === "Property");
+	const propertyLabels = propertyData.categories.map(category => category.name);
+
+	const servicesData = sectorData.find(sector => sector.title === "Services");
+	const servicesLabels = servicesData.categories.map(category => category.name);
+	const serHomeCategory = servicesData.categories.find(category => category.name === "Home");
+	const serHomeData = serHomeCategory.items;
+	const serSelfCategory = servicesData.categories.find(category => category.name === "Self-care");
+	const serSelfData = serSelfCategory.items;
+	const serFinCategory = servicesData.categories.find(category => category.name === "Financial");
+	const serFinData = serFinCategory.items;
+	const serPubCategory = servicesData.categories.find(category => category.name === "Public Services Contacts");
+	const serPubData = serPubCategory.items;
+
+	const communityData = sectorData.find(sector => sector.title === "Community");
+	const communityLabels = communityData.categories.map(category => category.name);
+	const commCategory = communityData.categories.find(category => category.name === "Self-care");
+	const commData = commCategory.items;
+
+	const [shoppingCollapsed, setShoppingCollapsed] = useState(false);
+	const [fashion, setFashion] = useState([]);
+	const [home, setHome] = useState([]);
+	const [groceries, setGroceries] = useState([]);
+	const [shoppingOpt1, setShoppingOpt1] = useState(false);
+	const [shoppingOpt2, setShoppingOpt2] = useState(false);
+	const [shoppingOpt3, setShoppingOpt3] = useState(false);
+    const [travelCollapsed, setTravelCollapsed] = useState(false);
+	const [accomodation, setAccomodation] = useState([]);
+	const [transport, setTransport] = useState([]);
+	const [travelOpt1, setTravelOpt1] = useState(false);
+    const [healthCollapsed, setHealthCollapsed] = useState(false);
+	const [sport, setSport] = useState([]);
+	const [doctor, setDoctor] = useState([]);
+	const [healthOpt1, setHealthOpt1] = useState(false);
+	const [healthOpt2, setHealthOpt2] = useState(false);
+	const [healthOpt3, setHealthOpt3] = useState(false);
+    const [entertainmentCollapsed, setEntertainmentCollapsed] = useState(false);
+	const [eat, setEat] = useState([]);
+	const [activities, setActivities] = useState([]);
+	const [entEvent, setEntEvent] = useState([]);
+    const [educationCollapsed, setEducationCollapsed] = useState(false);
+	const [eduEvent, setEduEvent] = useState([]);
+	const [learn, setLearn] = useState([]);
+	const [employment, setEmployment] = useState([]);
+    const [propertyCollapsed, setPropertyCollapsed] = useState(false);
+	const [propertyOpt1, setPropertyOpt1] = useState(false);
+	const [propertyOpt2, setPropertyOpt2] = useState(false);
+	const [propertyOpt3, setPropertyOpt3] = useState(false);
+	const [propertyOpt4, setPropertyOpt4] = useState(false);
+    const [servicesCollapsed, setServicesCollapsed] = useState(false);
+	const [serHome, setSerHome] = useState([]);
+	const [serSelf, setSerSelf] = useState([]);
+	const [serFin, setSerFin] = useState([]);
+	const [serPub, setSerPub] = useState([]);
+	const [servicesOpt1, setServicesOpt1] = useState(false);
+    const [communityCollapsed, setCommunityCollapsed] = useState(false);
+	const [community, setCommunity] = useState([]);
+	const [communityOpt1, setCommunityOpt1] = useState(false);
+	const [communityOpt2, setCommunityOpt2] = useState(false);
+	const [communityOpt3, setCommunityOpt3] = useState(false);
+	const [communityOpt4, setCommunityOpt4] = useState(false);
+
+	const handleSubmit = async () =>
     {
-		await updProfile('shopping_data', shoppingData);
-		await updProfile('travel_data', travelData);
-		await updProfile('health_data', healthData);
-		await updProfile('entertainment_data', entertainmentData);
-		await updProfile('education_data', educationData);
-		await updProfile('property_data', propertyData);
-		await updProfile('services_data', servicesData);
-		await updProfile('community_data', communityData);
+		// Save to async storage
+		const record = 
+		{
+			titleShopping: "Shopping",
+			fashion: fashion,
+			home: home,
+			groceries: groceries,
+			shoppingOpt1: shoppingOpt1,
+			shoppingOpt2: shoppingOpt2,
+			shoppingOpt3: shoppingOpt3,
+			titleTravel: "Travel",
+			accomodation:accomodation,
+			transport: transport,
+			travelOpt1: travelOpt1,
+			titleHealth: "Health & Wellness",
+			sport: sport,
+			doctor: doctor,
+			healthOpt1: healthOpt1,
+			healthOpt2: healthOpt2,
+			healthOpt3: healthOpt3,
+			titleEnt: "Entertainment",
+			eat: eat,
+			activities: activities,
+			entEvent: entEvent,
+			titleEdu: "Education & Employment",
+			eduEvent: eduEvent,
+			learn: learn,
+			employment: employment,
+			titleProperty: "Property",
+			propertyOpt1: propertyOpt1,
+			propertyOpt2: propertyOpt2,
+			propertyOpt3: propertyOpt3,
+			propertyOpt4: propertyOpt4,
+			titleServices: "Services",
+			serHome: serHome,
+			serSelf: serSelf,
+			serFin: serFin,
+			serPub: serPub,
+			servicesOpt1: servicesOpt1,
+			titleCommunity: "Community",
+			community: community,
+			communityOpt1: communityOpt1,
+			communityOpt2: communityOpt2,
+			communityOpt3: communityOpt3,
+			communityOpt4: communityOpt4
+		}
+		let recordString = JSON.stringify(record);
+		await DbUtils.setItem('business_sectors', recordString);
 
         props.navigation.navigate('SignupBusinessStepFour');
     }
 
-    // const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6", "Option 7"];
-    // const selfCare = ["Childres", "Old Age Pensioners", "Community Projects", "Conservation"];
-    // const shopping = {
-    //     topics: {
-    //         "Fashion & Beauty": ["Clothing", "Shoes"],
-    //         "Home": ["Furniture", "Fixtures & Fittings"],
-    //         "Groceries": ["Food & Beverage", "Local Markets & Homemade Goods"],
-    //         "Hardware & Electrical": [],
-    //         "Stationary & Gifts": ["Pens", "Paper"],
-    //         "Children": ["Toys"]
-    //     }
-    //};
-	const shopping = [
-		{ "id": 1, "type": 0, "item": "Fashion & Beauty", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Clothing", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Shoes", "checked": false }, 
-		{ "id": 4, "type": 0, "item": "Home", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Furniture", "checked": false }, 
-		{ "id": 6, "type": 1, "item": "Fixtures & Fittings", "checked": false }];
-	const [shoppingData, setShoppingData] = useState(shopping);
-	
-	const travel = [
-		{ "id": 1, "type": 0, "item": "Accomodation", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Hotels", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Guest Lodges", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "BnB's", "checked": false }, 
-		{ "id": 5, "type": 0, "item": "Transport", "checked": false }, 
-		{ "id": 6, "type": 1, "item": "Taxis", "checked": false },
-		{ "id": 7, "type": 1, "item": "Trains", "checked": false },
-		{ "id": 8, "type": 0, "item": "Travel Agents", "checked": false }];
-	const [travelData, setTravelData] = useState(travel);
-	
-	const health = [
-		{ "id": 1, "type": 0, "item": "Sports & Recreation", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Gyms", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "Sports Clubs", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Spa's", "checked": false }, 
-		{ "id": 6, "type": 1, "item": "Outdoor Activities", "checked": false }, 
-		{ "id": 7, "type": 0, "item": "Doctors & Specialists", "checked": false }, 
-		{ "id": 8, "type": 1, "item": "General Practitioners", "checked": false }, 
-		{ "id": 9, "type": 1, "item": "Physicians", "checked": false },
-		{ "id": 10, "type": 1, "item": "Physiotherapists", "checked": false },
-		{ "id": 11, "type": 1, "item": "Chiropractors", "checked": false },
-		{ "id": 12, "type": 0, "item": "Health Stores & Pharmacies", "checked": false },
-		{ "id": 13, "type": 0, "item": "Health Stores & Pharmacies", "checked": false },
-		{ "id": 14, "type": 0, "item": "Ambulances & Emergency Contacts", "checked": false }];
-	const [healthData, setHealthData] = useState(health);
-	
-	const entertainment = [
-		{ "id": 1, "type": 0, "item": "Eat & Drink", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Restaurants", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Bars", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "Clubs", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Coffee Shops", "checked": false }, 
-		{ "id": 6, "type": 0, "item": "Activities", "checked": false }, 
-		{ "id": 7, "type": 1, "item": "Movies", "checked": false }, 
-		{ "id": 8, "type": 1, "item": "Entertainment Centres", "checked": false },
-		{ "id": 9, "type": 1, "item": "Arts", "checked": false },
-		{ "id": 10, "type": 1, "item": "Outdoor Leisure", "checked": false },
-		{ "id": 11, "type": 0, "item": "Events", "checked": false },
-		{ "id": 12, "type": 1, "item": "Music", "checked": false },
-		{ "id": 13, "type": 1, "item": "Arts", "checked": false }];
-	const [entertainmentData, setEntertainmentData] = useState(entertainment);
-	
-	const education = [
-		{ "id": 1, "type": 0, "item": "Events", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Preschools", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Primary Schools", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "Secondary Schools", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Tertiary Education", "checked": false }, 
-		{ "id": 6, "type": 0, "item": "Learning", "checked": false }, 
-		{ "id": 7, "type": 1, "item": "Courses", "checked": false }, 
-		{ "id": 8, "type": 1, "item": "E-Learning", "checked": false },
-		{ "id": 9, "type": 0, "item": "Employment", "checked": false },
-		{ "id": 10, "type": 1, "item": "Recruitment Agencies", "checked": false }];
-	const [educationData, setEducationData] = useState(education);
-	
-	const property = [
-		{ "id": 1, "type": 0, "item": "For Sale (Agents)", "checked": false }, 
-		{ "id": 2, "type": 0, "item": "To Rent (Agents)", "checked": false }, 
-		{ "id": 3, "type": 0, "item": "Commercial (Agents)", "checked": false }, 
-		{ "id": 4, "type": 0, "item": "Legal (Propert Law Firms)", "checked": false }];
-	const [propertyData, setPropertyData] = useState(property);
-	
-	const services = [
-		{ "id": 1, "type": 0, "item": "Home", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Building", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Interiors", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "Plumbing", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Electrical", "checked": false }, 
-		{ "id": 6, "type": 0, "item": "Self Care", "checked": false }, 
-		{ "id": 7, "type": 1, "item": "Hair Dressors", "checked": false }, 
-		{ "id": 8, "type": 1, "item": "Beauty Spa's", "checked": false }, 
-		{ "id": 9, "type": 0, "item": "Financial", "checked": false }, 
-		{ "id": 10, "type": 1, "item": "Banks", "checked": false }, 
-		{ "id": 11, "type": 1, "item": "Bureau De Change", "checked": false }, 
-		{ "id": 12, "type": 0, "item": "Public Services Contacts", "checked": false },
-		{ "id": 13, "type": 1, "item": "Water", "checked": false }, 
-		{ "id": 14, "type": 1, "item": "Electricity", "checked": false }, 
-		{ "id": 15, "type": 1, "item": "Roads", "checked": false }, 
-		{ "id": 16, "type": 1, "item": "Police", "checked": false }, 
-		{ "id": 17, "type": 1, "item": "Fire Department", "checked": false }, 
-		{ "id": 18, "type": 0, "item": "Legal", "checked": false }];
-	const [servicesData, setServicesData] = useState(services);
-	
-	const community = [
-		{ "id": 1, "type": 0, "item": "Charity Organisations", "checked": false }, 
-		{ "id": 2, "type": 1, "item": "Children", "checked": false }, 
-		{ "id": 3, "type": 1, "item": "Old Age Pensioners", "checked": false }, 
-		{ "id": 4, "type": 1, "item": "Community Projects", "checked": false }, 
-		{ "id": 5, "type": 1, "item": "Conservation", "checked": false }, 
-		{ "id": 6, "type": 0, "item": "Non Profits", "checked": false }, 
-		{ "id": 7, "type": 0, "item": "NGO's", "checked": false }, 
-		{ "id": 8, "type": 0, "item": "Support Groups", "checked": false }];
-	const [communityData, setCommunityData] = useState(services);
-
-	const updProfile = async (key, newValue) => 
-    {
-        const profileDataString = await DbUtils.getItem('business_profile');
-        const profileData = JSON.parse(profileDataString);
-      
-        profileData[key] = newValue;
-        // console.log('key: ', key, ' newValue: ', newValue, ' profileData: ', profileData);
-      
-        await DbUtils.setItem('business_profile', JSON.stringify(profileData));
-    };
-
-	useEffect(() => 
-	{
-		console.log('The screen has been rendered');
-		
-		// Set a timeout to set isLoading to false after 1 second
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 200);
-	}, []);
-
-	if (isLoading) 
-    {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        );
-    }
-
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Business Sector(s)" alignment="start" navigation={props.navigation} />
-            {/* <DividerTop /> */}
+		<SafeAreaView style={{ flex: 1, width: '100%' }}>
+            <TopNavArrowTitle title="Tell us your interests" alignment="start" navigation={props.navigation} />
             <ScrollView style={{ backgroundColor: 'white' }}>
-                <Layout style={[MainStyles.layout_container]}>
-                    <Label title="Choose which sector your business falls under:" textalign="left" mb={25} />
-                        <AccordianCheckboxList title="Shopping" data={shopping} updateData={setShoppingData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Travel" data={travel} updateData={setTravelData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Health & Wellness" data={health} updateData={setHealthData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Entertainment" data={entertainment} updateData={setEntertainmentData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Educaton & Employment" data={education} updateData={setEducationData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Property" data={property} updateData={setPropertyData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Services" data={services} updateData={setServicesData} bgColor="#F5F5F5" />
-                    	<Divider style={{ width: '100%', height: 1, marginTop: 5, marginBottom: 5, backgroundColor: '#DEDDE7' }} />
-                        <AccordianCheckboxList title="Community" data={community} updateData={setCommunityData} bgColor="#F5F5F5" />
-                    <ButtonPrimary name="Submit" width="100%" marginTop={25} onpress={handleSubmit}/>
+                <Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15}]}>
+
+					<Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+					{/* Shopping */}
+					<Card style={{ width: '100%' }}>
+						<TouchableOpacity style={{ width: '100%' }} onPress={() => setShoppingCollapsed(!shoppingCollapsed)}>
+							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
+								<TitleThree title={shoppingData.title} mb={5} flex={1} />
+								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+							</View>
+						</TouchableOpacity>
+						{shoppingCollapsed && (
+							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+								<DropdownMultiSelect data={fashionData} icon="shopping-cart-outline" value={fashion} onChange={setFashion} placeholder={shoppingLabels[0]} />
+								<DropdownMultiSelect data={homeData} icon="shopping-cart-outline" value={home} onChange={setHome} placeholder={shoppingLabels[1]} />
+								<DropdownMultiSelect data={groceriesData} icon="shopping-cart-outline" value={groceries} onChange={setGroceries} placeholder={shoppingLabels[2]} />
+								<Checkbox label={shoppingLabels[3]} checked={shoppingOpt1} onChange={setShoppingOpt1} mt={15} mb={10} />
+								<Checkbox label={shoppingLabels[4]} checked={shoppingOpt2} onChange={setShoppingOpt2} mb={10} />
+								<Checkbox label={shoppingLabels[5]} checked={shoppingOpt3} onChange={setShoppingOpt3}  mb={10} />
+							</View>
+						)}
+                    </Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+					
+					{/* Travel */}
+					<Card style={{ width: '100%' }}>
+						<TouchableOpacity style={{ width: '100%' }} onPress={() => setTravelCollapsed(!travelCollapsed)}>
+							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+								<TitleThree title={travelData.title} mb={5} flex={1}  />
+								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+							</View>
+						</TouchableOpacity>
+						{travelCollapsed && (
+							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+								<DropdownMultiSelect data={accommodationData} icon="navigation-2-outline" value={accomodation} onChange={setAccomodation} placeholder={travelLabels[0]} />
+								<DropdownMultiSelect data={transportData} icon="navigation-2-outline" value={transport} onChange={setTransport} placeholder={travelLabels[1]} />
+								<Checkbox label={travelLabels[2]} checked={travelOpt1} onChange={setTravelOpt1} mt={15} mb={10} />
+							</View>
+						)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Health & Wellness */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setHealthCollapsed(!healthCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={healthData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{healthCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<DropdownMultiSelect data={sportData} icon={"activity-outline"} value={sport} onChange={setSport} placeholder={healthLabels[0]} />
+							<DropdownMultiSelect data={doctorData} icon={"activity-outline"} value={doctor} onChange={setDoctor} placeholder={healthLabels[1]} />
+							<Checkbox label={healthLabels[2]} checked={healthOpt1} onChange={setHealthOpt1} mt={15} mb={10} />
+							<Checkbox label={healthLabels[3]} checked={healthOpt2} onChange={setHealthOpt2} mt={15} mb={10} />
+							<Checkbox label={healthLabels[4]} checked={healthOpt3} onChange={setHealthOpt3} mt={15} mb={10} />
+						</View>
+						)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Entertainment */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setEntertainmentCollapsed(!entertainmentCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={entertainmentData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{entertainmentCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<DropdownMultiSelect data={eatData} icon="music-outline" value={eat} onChange={setEat} placeholder={entertainmentLabels[0]} />
+							<DropdownMultiSelect data={activitiesData} icon="music-outline" value={activities} onChange={setActivities} placeholder={entertainmentLabels[1]} />
+							<DropdownMultiSelect data={entEventData} icon="music-outline" value={entEvent} onChange={setEntEvent} placeholder={entertainmentLabels[2]} />
+						</View>
+					)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Education & Employment */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setEducationCollapsed(!educationCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={educationData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{educationCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<DropdownMultiSelect data={eduEventData} icon="book-open-outline" value={eduEvent} onChange={setEduEvent} placeholder={educationLabels[0]} />
+							<DropdownMultiSelect data={learnData} icon="book-open-outline" value={learn} onChange={setLearn} placeholder={educationLabels[1]} />
+							<DropdownMultiSelect data={employmentData} icon="book-open-outline" value={employment} onChange={setEmployment} placeholder={educationLabels[2]} />
+						</View>
+					)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Property */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setPropertyCollapsed(!propertyCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={propertyData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{propertyCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<Checkbox label={propertyLabels[0]} checked={propertyOpt1} onChange={setPropertyOpt1} mt={15} mb={10} />
+							<Checkbox label={propertyLabels[1]} checked={propertyOpt2} onChange={setPropertyOpt2} mt={15} mb={10} />
+							<Checkbox label={propertyLabels[2]} checked={propertyOpt3} onChange={setPropertyOpt3} mt={15} mb={10} />
+							<Checkbox label={propertyLabels[3]} checked={propertyOpt4} onChange={setPropertyOpt4} mt={15} mb={10} />
+						</View>
+					)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Services */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setServicesCollapsed(!servicesCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={servicesData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{servicesCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<DropdownMultiSelect data={serHomeData} icon="link-2-outline" value={serHome} onChange={setSerHome} placeholder={servicesLabels[0]} />
+							<DropdownMultiSelect data={serSelfData} icon="link-2-outline" value={serSelf} onChange={setSerSelf} placeholder={servicesLabels[1]} />
+							<DropdownMultiSelect data={serFinData} icon="link-2-outline" value={serFin} onChange={setSerFin} placeholder={servicesLabels[2]} />
+							<DropdownMultiSelect data={serPubData} icon="link-2-outline" value={serPub} onChange={setSerPub} placeholder={servicesLabels[3]} />
+							<Checkbox label={servicesLabels[4]} checked={servicesOpt1} onChange={setServicesOpt1} mt={15} mb={10} />							
+						</View>
+					)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+					{/* Community */}
+					<Card style={{ width: '100%' }}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={() => setCommunityCollapsed(!communityCollapsed)}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
+                            <TitleThree title={communityData.title} mb={5} flex={1} />
+                            <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
+                        </View>
+                    </TouchableOpacity>
+					{communityCollapsed && (
+						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
+							<Checkbox label={communityLabels[0]} checked={communityOpt1} onChange={setCommunityOpt1} mt={15} mb={10} />							
+							<Checkbox label={communityLabels[1]} checked={communityOpt2} onChange={setCommunityOpt2} mt={15} mb={10} />							
+							<Checkbox label={communityLabels[2]} checked={communityOpt3} onChange={setCommunityOpt3} mt={15} mb={10} />							
+							<Checkbox label={communityLabels[3]} checked={communityOpt4} onChange={setCommunityOpt4} mt={15} mb={10} />							
+							<DropdownMultiSelect data={commData} icon="people-outline" value={community} onChange={setCommunity} placeholder={communityLabels[4]} />
+						</View>
+					)}
+					</Card>
+
+                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
+
+                    <ButtonPrimary name="Next" width="100%" marginTop={25} onpress={handleSubmit}/>
                 </Layout>
+                
             </ScrollView>
         </SafeAreaView>
     );

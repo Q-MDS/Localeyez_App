@@ -50,54 +50,90 @@ const Login = (props: any) =>
 		await DbUtils.clear();
 
 		// Auth on server
-		const res = await login(state.credOne, state.credTwo);
-		const status = res.status;
+		try {
+			const res = await login(state.credOne, state.credTwo);
+			const status = res.status;
 
-		if (status)
-		{
-			const businessId = res.business_id;
-			const token = res.token;
-			const businessProfile = res.business_profile;
-			const promotions = res.promotions;
-			const events = res.events;
+			if (status)
+			{
+				const businessId = res.business_id;
+				const token = res.token;
+				const businessProfile = res.business_profile;
+				const businessSectors = res.business_sectors;
+				console.log('FRAKFRAK', businessSectors);
+				const promotions = res.promotions;
+				const events = res.events;
+	
+				console.log('Token at login:', token);
+	
+				Toast.show({
+					type: 'success',
+					position: 'bottom',
+					text1: 'Login accepted',
+					text2: 'Going to the business dashboard',
+					visibilityTime: 1000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+	
+				let jsonBusinessId = JSON.stringify(businessId);
+				await DbUtils.setItem('business_id', jsonBusinessId);
+				
+				let jsonToken = JSON.stringify(token);
+				await DbUtils.setItem('token', jsonToken);
+	
+				let jsonBusinessProfile = JSON.stringify(businessProfile);
+				await DbUtils.setItem('business_profile', jsonBusinessProfile);
 
-			console.log('Token at login:', token);
-
-			Toast.show({
-				type: 'success',
-				position: 'bottom',
-				text1: 'Login accepted',
-				text2: 'Going to the business dashboard',
-				visibilityTime: 1000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
-
-			let jsonBusinessId = JSON.stringify(businessId);
-			await DbUtils.setItem('business_id', jsonBusinessId);
-        	
-			let jsonToken = JSON.stringify(token);
-        	await DbUtils.setItem('token', jsonToken);
-
-			let jsonBusinessProfile = JSON.stringify(businessProfile);
-        	await DbUtils.setItem('business_profile', jsonBusinessProfile);
-
-			let jsonPromotions = JSON.stringify(promotions);
-        	await DbUtils.setItem('promotions', jsonPromotions);
-
-			let jsonEvents = JSON.stringify(events);
-        	await DbUtils.setItem('events', jsonEvents);
-
-			props.navigation.navigate('BusinessDashboard');
+				await DbUtils.setItem('business_sectors', businessSectors);
+	
+				let jsonPromotions = JSON.stringify(promotions);
+				await DbUtils.setItem('promotions', jsonPromotions);
+	
+				let jsonEvents = JSON.stringify(events);
+				await DbUtils.setItem('events', jsonEvents);
+	
+				props.navigation.navigate('BusinessDashboard');
+			} 
+			else 
+			{
+				console.log('Went here', res);
+				if (res == "AxiosError: Request failed with status code 404")
+				{
+					Toast.show({
+						type: 'error',
+						position: 'bottom',
+						text1: 'Network error',
+						text2: 'Please check your internet connection.',
+						visibilityTime: 4000,
+						autoHide: true,
+						topOffset: 30,
+						bottomOffset: 40,
+					});
+				} 
+				else 
+				{
+					Toast.show({
+						type: 'error',
+						position: 'bottom',
+						text1: 'Invalid login details',
+						text2: 'Please try again.',
+						visibilityTime: 4000,
+						autoHide: true,
+						topOffset: 30,
+						bottomOffset: 40,
+					});
+				}
+			}
 		} 
-		else 
+		catch (error)
 		{
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
-				text1: 'Invalid login details',
-				text2: 'Please try again.',
+				text1: 'Error',
+				text2: 'An unknown error occured, please contact support',
 				visibilityTime: 4000,
 				autoHide: true,
 				topOffset: 30,

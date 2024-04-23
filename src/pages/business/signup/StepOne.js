@@ -84,19 +84,53 @@ const StepOne = (props) =>
             sm_fb: '',   
             sm_linkedin: '',   
             sm_www: '',
-			shopping_data: [],
-			travel_data: [],
-			health_data: [],
-			entertainment_data: [],
-			education_data: [],
-			property_data: [],
-			services_data: [],
-			community_data: [],
 			display_image: '',
-			banner_image: ''
+			banner_image: '',
+			profile_pic: '',
         }
         let stringified = JSON.stringify(profileData);
         await DbUtils.setItem('business_profile', stringified);
+
+		const profileSectors = 
+		{
+			fashion: [],
+			home: [],
+			groceries: [],
+			shoppingOpt1: false,
+			shoppingOpt2: false,
+			shoppingOpt3: false,
+			accomodation:[],
+			transport: [],
+			travelOpt1: false,
+			sport: [],
+			doctor: [],
+			healthOpt1: false,
+			healthOpt2: false,
+			healthOpt3: false,
+			eat: [],
+			activities: [],
+			entEvent: [],
+			eduEvent: [],
+			learn: [],
+			employment: [],
+			propertyOpt1: false,
+			propertyOpt2: false,
+			propertyOpt3: false,
+			propertyOpt4: false,
+			serHome: [],
+			serSelf: [],
+			serFin: [],
+			serPub: [],
+			servicesOpt1: false,
+			community: [],
+			communityOpt1: false,
+			communityOpt2: false,
+			communityOpt3: false,
+			communityOpt4: false,
+		}
+
+		let profileSectorsString = JSON.stringify(profileSectors);
+		await DbUtils.setItem('business_sectors', profileSectorsString);
 
 		setIsLoading(false);
 		setProfileExists(true);

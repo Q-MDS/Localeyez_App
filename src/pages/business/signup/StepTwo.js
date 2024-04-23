@@ -76,7 +76,6 @@ const StepTwo = (props) =>
         const profile = await DbUtils.getItem('business_profile')
         .then((profile) => 
         {
-			console.log('XXXXXXXXXXX222: ', profile);
 			dispatch(
 			{
 				type: 'SET_SIGNUP_TWO',

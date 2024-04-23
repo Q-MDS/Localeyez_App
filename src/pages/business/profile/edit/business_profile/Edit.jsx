@@ -2,6 +2,8 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
+import { businessDisplayImage } from '../../../../../services/api_upload';
+import { businessBannerImage } from '../../../../../services/api_upload';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
@@ -120,24 +122,53 @@ const Edit = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
 		{
-		  if (response.didCancel) 
-		  {
-			console.log('User cancelled image picker');
-		  } 
-		  else if (response.error) 
-		  {
-			console.log('ImagePicker Error: ', response.error);
-		  } 
-		  else 
-		  {
-			handleInputChange('displayImage', response.assets[0].uri);
-		  }
+			if (response.didCancel) 
+			{
+				console.log('User cancelled image picker');
+			} 
+			else if (response.error) 
+			{
+				console.log('ImagePicker Error: ', response.error);
+			} 
+			else 
+			{
+				// handleInputChange('displayImage', response.assets[0].uri);
+
+				const imageType = response.assets[0].type;
+				const base64Data = response.assets[0].base64;
+				uploadDisplayImage(imageType, base64Data);
+		  	}
 		});
 	};
+
+	const uploadDisplayImage = async (imageType, base64Data) => 
+	{
+		const formData = new FormData();
+  		formData.append('business_id', businessId);
+  		formData.append('image_type', imageType);
+  		formData.append('image', base64Data);
+
+		try 
+		{
+			const response = await businessDisplayImage(token, formData);
+			
+			if (response.status)
+			{
+				const fileLink = response.data;
+				handleInputChange('displayImage', fileLink);
+				// await updProfile('display_image', fileLink);
+			}
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		}
+	}
 
 	const chooseBannerImage = () => 
 	{
@@ -146,6 +177,7 @@ const Edit = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -160,10 +192,40 @@ const Edit = (props) =>
 			} 
 			else 
 			{
-				handleInputChange('bannerImage', response.assets[0].uri);
+				// handleInputChange('bannerImage', response.assets[0].uri);
+
+				const imageType = response.assets[0].type;
+				const base64Data = response.assets[0].base64;
+				uploadBannerImage(imageType, base64Data);
 			}
 		});
 	};
+
+	const uploadBannerImage = async (imageType, base64Data) => 
+	{
+		const formData = new FormData();
+  		formData.append('business_id', businessId);
+  		formData.append('image_type', imageType);
+  		formData.append('image', base64Data);
+
+		try 
+		{
+			const response = await businessBannerImage(token, formData);
+			
+			if (response.status)
+			{
+				const fileLink = response.data;
+				
+				handleInputChange('bannerImage', fileLink);
+				// await updProfile('banner_image', fileLink);
+			}
+			
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		}
+	}
 
 	useFocusEffect(React.useCallback(() => 
 	{
@@ -186,7 +248,7 @@ const Edit = (props) =>
 	{
 		const updateDisplayImage = async () => 
 		{
-			await updProfile('displayImage', state.displayImage);
+			await updProfile('display_image', state.displayImage);
 		};
 
 		updateDisplayImage();
@@ -197,22 +259,38 @@ const Edit = (props) =>
 	{
 		const updateBannerImage = async () => 
 		{
-			await updProfile('bannerImage', state.bannerImage);
+			await updProfile('banner_image', state.bannerImage);
 		};
 
 		updateBannerImage();
 
 	}, [state.bannerImage]);
 
-    if (selectedIndex === 0) 
-    {
-        console.log('Goto Business Sectors');
-    }
+    // if (selectedIndex === 0) 
+    // {
+    //     console.log('Goto Business Sectors');
+    // }
     
-    if (selectedIndex === 1) 
-    {
-        props.navigation.navigate('BusProfSectorsEdit', {selectedIndex: 1});
-    }
+    // if (selectedIndex === 1) 
+    // {
+    //     props.navigation.navigate('BusProfSectorsEdit', {selectedIndex: 1});
+    // }
+	const handleGotoProfile = (index) => 
+	{
+		setSelectedIndex(index);
+
+		if (selectedIndex === 0) 
+		{
+			props.navigation.navigate('BusProfSectorsEdit', {selectedIndex: 1});
+			
+		}
+		
+		if (selectedIndex === 1) 
+		{
+			console.log('Goto Business Profile');
+			props.navigation.navigate('BusProfEdit', {selectedIndex: 0});
+		}
+	}
 
 	const updProfile = async (key, newValue) => 
     {
@@ -239,8 +317,8 @@ const Edit = (props) =>
 		await updProfile('sm_fb', state.facebookUrl);
 		await updProfile('sm_linkedin', state.linkedinUrl);
 		await updProfile('sm_www', state.wwwUrl);
-		await updProfile('display_image', state.displayImage);
-		await updProfile('banner_image', state.bannerImage);
+		// await updProfile('display_image', state.displayImage);
+		// await updProfile('banner_image', state.bannerImage);
 
 		// Will need to send this to the server
 		const data = {
@@ -277,7 +355,7 @@ const Edit = (props) =>
     return (
         <SafeAreaView style={{ flex: 1 }}>
         <TopNavArrowTitle title="Edit Profile" alignment="start" navigation={props.navigation} goBackTo="BusProfProHome" />
-        <TabsBusProf selected={0} value={selectedIndex} onchange={setSelectedIndex} />
+        <TabsBusProf selected={0} value={selectedIndex} onchange={handleGotoProfile} />
             <ScrollView style={{ width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
                     <TitleFour title="Upload Display Picture" mb={10} />

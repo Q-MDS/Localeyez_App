@@ -122,7 +122,8 @@ const StepOne = (props) =>
 			community: [],
 			communityOpt1: false,
 			communityOpt2: false,
-			communityOpt3: false
+			communityOpt3: false,
+			communityOpt4: false,
 		}
         
         let profileSectorsString = JSON.stringify(profileSectors);

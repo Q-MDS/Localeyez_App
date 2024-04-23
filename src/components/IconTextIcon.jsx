@@ -5,7 +5,7 @@ import { Text, Icon } from '@ui-kitten/components';
 export const IconTextIcon = (props) => 
 {
     return (
-        <TouchableOpacity style={{ width: '100%' }} onPress={() => props.navigation.navigate(props.onpress)} >
+        <TouchableOpacity style={{ width: '100%' }} onPress={() => props.navigation.navigate(props.onpress, {type: props.type})} >
             <View style={styles.container}>
                 <Icon style={styles.icon} fill='#5D5A88' name={props.iconLeft} width={props.width} />
                 <Text status="primary" style={[styles.text, { flex: 1, paddingLeft: 10, fontSize: props.fontsize, lineHeight: props.lineheight, textDecorationLine: props.underline, textAlign: props.textalign, fontWeight: props.fontweight}]}>{props.title}</Text>

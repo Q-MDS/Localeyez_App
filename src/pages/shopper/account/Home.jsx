@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer} from "react";
 import DbUtils from "../../../services/DbUtils";
+import Toast from 'react-native-toast-message';
+import { shopperProfilePic } from "../../../services/api_upload";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -149,6 +151,7 @@ const Home = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -164,10 +167,39 @@ const Home = (props) =>
 			else 
 			{
 				handleInputChange('profilePic', response.assets[0].uri);
-				updProfile('profile_pic', response.assets[0].uri);
+
+				const imageType = response.assets[0].type;
+				const base64Data = response.assets[0].base64;
+				uploadFile(imageType, base64Data);
 			}
 		});
 	};
+
+	const uploadFile = async (imageType, base64Data) => 
+	{
+		const formData = new FormData();
+  		formData.append('shopper_id', shopperId);
+  		formData.append('image_type', imageType);
+  		formData.append('image', base64Data);
+
+		try 
+		{
+			const response = await shopperProfilePic(token, formData);
+			console.log('Image response:', response.status);
+			if (response.status)
+			{
+				// Get the url of the uploaded image
+				// Update shopper_profile
+				const fileLink = response.data;
+				updProfile('profile_pic', fileLink);
+			}
+			
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		}
+	}
 
     const handleLogout = () => 
     {
@@ -213,7 +245,7 @@ const Home = (props) =>
 					<Divider style={{ height: 30, backgroundColor: 'transparent' }} /> */}
 					<IconTextIcon title="Security" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccSecurity" />
 					<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-					<IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="PrivacyPolicy" />
+					<IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" type={1} navigation={props.navigation} onpress="PrivacyPolicy" />
 					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20 }} />
 					<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
                         <ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />

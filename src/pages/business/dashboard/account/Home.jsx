@@ -1,14 +1,194 @@
-import React from "react";
+import React, { useState, useEffect, useReducer } from "react";
+import DbUtils from "../../../../services/DbUtils";
+import { businessProfilePic } from "../../../../services/api_upload";
+import Toast from 'react-native-toast-message';
+import { launchImageLibrary } from 'react-native-image-picker';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
 import { IconTextIcon } from "../../../../components/IconTextIcon";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import { Layout, Text, Avatar, Divider } from "@ui-kitten/components";
+
+const initialState = { 
+	email: null,
+	firstName: null,
+	lastName: null,
+	profilePic: null
+};
+
+function reducer(state, action) 
+{
+	switch (action.type) 
+	{
+	  case 'PROFILE_HOME':
+		return { ...state, ...action.payload };
+	  default:
+		throw new Error();
+	}
+}
 
 const Home = (props) => 
 {
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+    const [token, setToken] = useState('');
+	const [businessId, setBusinessId] = useState(0);
+	const [isReady, setIsReady] = useState(false);
+
+	function handleInputChange(name, newValue) 
+	{
+		dispatch(
+		{
+			type: 'PROFILE_HOME',
+			payload: {...state, [name]: newValue}
+		});
+	}
+
+	const getToken = async () => 
+	{
+		const getToken = await DbUtils.getItem('token');
+
+		setToken(JSON.parse(getToken));
+	}
+
+	const getBusinessId = async () => 
+	{
+		const id = await DbUtils.getItem('business_id');
+		
+		setBusinessId(JSON.parse(id));
+	}
+
+	const getProfile = async () => 
+    {
+        const profile = await DbUtils.getItem('business_profile')
+        .then((profile) => 
+        {
+			dispatch(
+			{
+				type: 'PROFILE_HOME',
+				payload: 
+				{
+					email: JSON.parse(profile).email,
+					firstName: JSON.parse(profile).first_name,
+					lastName: JSON.parse(profile).last_name,
+					profilePic: JSON.parse(profile).profile_pic
+				},
+			});
+        });
+    }
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getToken();
+			await getBusinessId();
+			
+			setIsReady(true);
+		};
+
+		fetchData();
+	}, []);
+
+	const updProfile = async (key, newValue) => 
+    {
+        const profileDataString = await DbUtils.getItem('business_profile');
+        const profileData = JSON.parse(profileDataString);
+      
+        profileData[key] = newValue;
+      
+        await DbUtils.setItem('business_profile', JSON.stringify(profileData));
+    };
+
+	useEffect(() => 
+    {
+		const fetchData = async () => 
+		{
+			try 
+			{
+				getProfile();
+
+				setIsReady(false);
+			} 
+			catch (error) 
+			{
+				Toast.show({
+					type: 'error',
+					position: 'bottom',
+					text1: 'There was an error fetching your profile data.',
+					text2: 'Please try again.',
+					visibilityTime: 4000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+			}
+		};
+
+		if (isReady) 
+		{
+			fetchData();
+		}
+    }, [[isReady]]);
+
+	const chooseDisplayImage = () => 
+	{
+		let options = {
+		  mediaType: 'photo',
+		  maxWidth: 640,
+		  maxHeight: 360,
+		  quality: 1,
+		  includeBase64: true,
+		};
+	
+		launchImageLibrary(options, response => 
+		{
+			if (response.didCancel) 
+			{
+				console.log('User cancelled image picker');
+			} 
+			else if (response.error) 
+			{
+				console.log('ImagePicker Error: ', response.error);
+			} 
+			else 
+			{
+				handleInputChange('profilePic', response.assets[0].uri);
+
+				const imageType = response.assets[0].type;
+				const base64Data = response.assets[0].base64;
+				uploadFile(imageType, base64Data);
+				// updProfile('profile_pic', response.assets[0].uri);;
+			}
+		});
+	};
+
+	const uploadFile = async (imageType, base64Data) => 
+	{
+		const formData = new FormData();
+  		formData.append('business_id', businessId);
+  		formData.append('image_type', imageType);
+  		formData.append('image', base64Data);
+
+		try 
+		{
+			const response = await businessProfilePic(token, formData);
+			
+			if (response.status)
+			{
+				const fileLink = response.data;
+				updProfile('profile_pic', fileLink);
+			}
+			
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		}
+	}
+
     const handleLogout = () => 
     {
         props.navigation.navigate('LoginBusiness');
@@ -23,9 +203,15 @@ const Home = (props) =>
         <SafeAreaView style={{ flex: 1 }}>
             <TopNavArrowTitle title="Account Details" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
                     <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:40, paddingBottom: 30 }}>
-                        <Avatar source={require('../../../../assets/images/list_icon.png')} style={{ width: 64, height: 64 }} />
-                        <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>John Smith</Text>
-                        <Text category="p1" status="primary">johnsmith@gmail.com</Text>
+						<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
+						{state.profilePic == '' || state.profilePic == null ? (
+							<Avatar source={require('../../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
+						) : (
+							<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
+						)}
+					</TouchableOpacity>
+                        <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName} ${state.lastName}`}</Text>
+                        <Text category="p1" status="primary">{state.email}</Text>
                     </Layout>
                     <Divider />
                 <Layout style={[MainStyles.layout_container ]}>
@@ -35,7 +221,7 @@ const Home = (props) =>
                     <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
                     <IconTextIcon title="Security" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccSecurity" />
                     <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
-                    <IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccHome" />
+                    <IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" type={0} navigation={props.navigation} onpress="PrivacyPolicy" />
                     <Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%' }} >
                         <ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
                         <View style={{ marginTop: 15 }} />
