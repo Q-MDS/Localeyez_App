@@ -161,7 +161,6 @@ const Edit = (props) =>
 			{
 				const fileLink = response.data;
 				handleInputChange('displayImage', fileLink);
-				// await updProfile('display_image', fileLink);
 			}
 		} 
 		catch (error) 

@@ -163,3 +163,21 @@ PLACE WHERE PICS ARE USED
 2. promotions
 3. events
 4. Shopper profiles
+
+
+HANDLE BACK BUTTON
+import { BackHandler } from 'react-native';
+
+useEffect(() => 
+{
+	const backAction = () => 
+	{
+		console.log('Back action');
+		props.navigation.navigate('BusProProAddEditBack');
+		return true;
+	};
+
+	const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+	return () => backHandler.remove();
+}, []);

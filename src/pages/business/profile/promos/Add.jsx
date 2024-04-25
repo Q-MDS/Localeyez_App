@@ -2,14 +2,14 @@ import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { addPromotion } from '../../../../services/api_helper';
+import { promotionImage } from '../../../../services/api_upload';
 import { launchImageLibrary } from 'react-native-image-picker';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavArrowTitle } from '../../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
-import { SelectSingle } from '../../../../components/SelectSingle';
 import { InputLabel } from '../../../../components/InputLabel';
 import TextTwo from '../../../../components/TextTwo';
 import { InputMultiline } from '../../../../components/InputMultiline';
@@ -63,21 +63,9 @@ const Add = (props) =>
 
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
-    // const [promoStartDate, setPromoStartDate] = React.useState('');
-    // const [promoEndDate, setPromoEndDate] = React.useState('');
-	// const [sector, setSector] = useState('');
-	// const [displayImage, setDisplayImage] = useState(null);
-	// const [promoTitle, setPromoTitle] = useState('');
-	// const [promoCaption, setPromoCaption] = useState('');
-	// const [promoDescription, setPromoDescription] = useState('');
-	// const [price, setPrice] = useState('');
-	// const [saleItemOP, setSaleItemOP] = useState('');
-	// const [saleItemMP, setSaleItemMP] = useState('');
-	// const [address1, setAddress1] = useState('');
-	// const [address2, setAddress2] = useState('');
-	// const [city, setCity] = useState('');
-	// const [province, setProvince] = useState('');
-	// const [zipCode, setZipCode] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
+	const [imageType, setImageType] = useState('');
+	const [base64Data, setBase64Data] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -121,6 +109,7 @@ const Add = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -135,18 +124,44 @@ const Add = (props) =>
 			} 
 			else 
 			{
+				setImageType(response.assets[0].type);
+				setBase64Data(response.assets[0].base64);
+
 				handleInputChange('displayImage', response.assets[0].uri);
 			}
 		});
 	};
 
-	const handleSector = (sector) => 
+	const uploadFile = async (promotionId) => 
 	{
-		setSector(sector);
-	};
+		const formData = new FormData();
+		formData.append('business_id', businessId);
+		formData.append('promotion_id', promotionId);
+		formData.append('image_type', imageType);
+		formData.append('image', base64Data);
+
+	  try 
+	  {
+		  const response = await promotionImage(token, formData);
+		  console.log('Image response:', response);
+		  console.log('Image response ZZZ:', response.data);
+		  if (response.status)
+		  {
+			  return response.data;
+		  }
+	  } 
+	  catch (error) 
+	  {
+		  console.error(error);
+	  }
+	}
 
     const handleUpload = async () => 
     {
+		// Validate: TODO
+
+		setIsUploading(true);
+
 		const promotionData = [{
 			business_id: businessId,
             sector: state.sector,
@@ -177,7 +192,38 @@ const Add = (props) =>
 			if (res.status)
 			{
 				insertId = res.data;
-				console.log('Promotion uploaded successfully', insertId);
+
+				// Use id and bus id to upload the image: UPLOAD
+				const fileUrl = await uploadFile(insertId);
+				
+				// Update the promotion record with the URL
+				const record = [{
+					id: insertId,
+					business_id: businessId,
+					sector: state.sector,
+					display_image: fileUrl,
+					promo_title: state.title,
+					promo_caption: state.caption,
+					promo_desc: state.desc,
+					promo_price: state.price,
+					sale_item_op: state.saleItemOp, 
+					sale_item_mp: state.saleItemMp, 
+					start_date: state.startDate,
+					end_date: state.endDate,   
+					loc_add_one: state.addressOne,   
+					loc_add_two: state.addressTwo,   
+					loc_city: state.city,   
+					loc_province: state.province,   
+					loc_zip_code: state.zipCode,   
+					created: new Date().toLocaleDateString()
+				}];
+				
+				// Write to ASyncStorage
+				addData(record);
+
+				setIsUploading(false);
+
+				props.navigation.navigate('BusProfProHome');
 			}
 		} 
 		catch (error) 
@@ -193,31 +239,6 @@ const Add = (props) =>
 				bottomOffset: 40,
 			});
 		}
-
-		const record = [{
-			id: insertId,
-			business_id: businessId,
-            sector: state.sector,
-            display_image: state.displayImage,
-            promo_title: state.title,
-            promo_caption: state.caption,
-            promo_desc: state.desc,
-            promo_price: state.price,
-            sale_item_op: state.saleItemOp, 
-            sale_item_mp: state.saleItemMp, 
-            start_date: state.startDate,
-            end_date: state.endDate,   
-            loc_add_one: state.addressOne,   
-            loc_add_two: state.addressTwo,   
-            loc_city: state.city,   
-            loc_province: state.province,   
-            loc_zip_code: state.zipCode,   
-            created: new Date().toLocaleDateString()
-        }];
-        
-		addData(record);
-
-		props.navigation.navigate('BusProfProHome');
     }
 
 	const addData = async (newArray) => 
@@ -236,6 +257,29 @@ const Add = (props) =>
 		  console.log(e);
 		}
 	}
+
+	useEffect(() => 
+	{
+		const backAction = () => 
+		{
+			console.log('Back action');
+			props.navigation.navigate('BusProProAddEditBack');
+			return true;
+		};
+
+		const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+		return () => backHandler.remove();
+	}, []);
+
+	if (isUploading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
       <SafeAreaView style={{ flex: 1 }}>

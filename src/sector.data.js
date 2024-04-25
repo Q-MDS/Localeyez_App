@@ -317,3 +317,29 @@ export const sectorData =
 		],
 	},
 ];
+
+export const radius = 
+[
+	{ label: '5km radius', value: '5' },
+	{ label: '10km radius', value: '10' },
+	{ label: '20km radius', value: '20' },
+	{ label: '30km radius', value: '30' },
+	{ label: '40km radius', value: '40' },
+	{ label: '50km radius', value: '50' },
+	{ label: '60km radius', value: '60' },
+	{ label: '70km radius', value: '70' },
+	{ label: '80km radius', value: '80' },
+	{ label: '90km radius', value: '90' },
+	{ label: '100km radius', value: '100' }
+];
+
+export const sectorList = [ 
+	{ label: "Shopping", value: "Shopping" },
+	{ label: "Travel", value: "Travel" },
+	{ label: "Property", value: "Property" },
+	{ label: "Community", value: "Community" },
+	{ label: "Education & Employment", value: "Education & Employment" },
+	{ label: "Health & Wellness", value: "Health & Wellness" },
+	{ label: "Entertainment", value: "Entertainment" },
+	{ label: "Services", value: "Services" }
+];

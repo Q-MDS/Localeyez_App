@@ -2,10 +2,11 @@ import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { updEvent } from '../../../../services/api_helper';
+import { updEventImage } from '../../../../services/api_upload';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
@@ -89,6 +90,10 @@ const Add = (props) =>
 	const [remoteId, setRemoteId] = useState('');
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
+	const [isNewPic, setIsNewPic] = useState(false);
+	const [imageType, setImageType] = useState('');
+	const [base64Data, setBase64Data] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -98,23 +103,6 @@ const Add = (props) =>
 			payload: {...state, [name]: newValue}
 		});
 	}
-
-	// const [sector, setSector] = useState('');
-	// const [displayImage, setDisplayImage] = useState(null);
-	// const [eventTitle, setEventTitle] = useState('');
-	// const [eventCaption, setEventCaption] = useState('');
-	// const [eventDesc, setEventDesc] = useState('');
-    // const [eventStartDate, setEventStartDate] = useState();
-    // const [eventEndDate, setEventEndDate] = useState();
-	// const [eventStartTime, setEventStartTime] = useState('');
-	// const [eventEndTime, setEventEndTime] = useState('');
-	// const [eventLocAdd1, setEventLocAdd1] = useState('');
-	// const [eventLocAdd2, setEventLocAdd2] = useState('');
-	// const [eventLocCity, setEventLocCity] = useState('');
-	// const [eventLocProvince, setEventLocProvince] = useState('');
-	// const [eventLocZipCode, setEventLocZipCode] = useState('');
-
-	// console.log('Edit event for id: ', props.route.params.id);
 
 	const getEvents = async () => 
 	{
@@ -141,71 +129,22 @@ const Add = (props) =>
 			type: 'EDIT_EVENT',
 			payload: 
 			{
-			sector: record.sector,
-			displayImage: record.display_image,
-			title: record.event_title,
-			caption: record.event_caption,
-			desc: record.event_desc,
-			startDate: record.start_date ? new Date(record.start_date) : null,
-			endDate: record.end_date ? new Date(record.end_date) : null,
-			startTime: record.start_time,
-			endTime: record.end_time,
-			addressOne: record.loc_add_one,
-			addressTwo: record.loc_add_two,
-			city: record.loc_city,
-			province: record.loc_province,
-			zipCode: record.loc_zip_code,
-				},
+				sector: record.sector,
+				displayImage: record.display_image,
+				title: record.event_title,
+				caption: record.event_caption,
+				desc: record.event_desc,
+				startDate: record.start_date ? new Date(record.start_date) : null,
+				endDate: record.end_date ? new Date(record.end_date) : null,
+				startTime: record.start_time,
+				endTime: record.end_time,
+				addressOne: record.loc_add_one,
+				addressTwo: record.loc_add_two,
+				city: record.loc_city,
+				province: record.loc_province,
+				zipCode: record.loc_zip_code,
+			},
 		});
-
-
-
-		
-		// setSector(record.sector);
-		// setDisplayImage(record.diaplyImage);
-		// setEventTitle(record.title);
-		// setEventCaption(record.caption);
-		// setEventDesc(record.description);
-		// if (record.startDate != "")
-		// {
-		// 	setEventStartDate(new Date(record.startDate));
-		// } 
-		// else 
-		// {
-		// 	setEventStartDate();
-		// }
-		// if (record.endDate != "")
-		// {
-		// 	setEventEndDate(new Date(record.endDate));
-		// } 
-		// else 
-		// {
-		// 	setEventEndDate();
-		// }
-		// console.log('ST TEST:', record.startTime, 'END TEST');
-		// if (record.startTime != "")
-		// {
-		// 	setEventStartTime(record.startTime);
-		// } 
-		// else 
-		// {
-		// 	setEventStartTime('');
-		// }
-		// if (record.endTime != "")
-		// {
-		// 	setEventEndTime(record.endTime);
-		// } 
-		// else 
-		// {
-		// 	setEventEndTime('');
-		// }
-		
-		//setEventEndTime(record.endTime);
-		// setEventLocAdd1(record.locAddOne);
-		// setEventLocAdd2(record.locAddTwo);
-		// setEventLocCity(record.locCity);
-		// setEventLocProvince(record.locProvince);
-		// setEventLocZipCode(record.locZipCode);
 	}
 
 	useEffect(() => 
@@ -226,6 +165,7 @@ const Add = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -240,77 +180,116 @@ const Add = (props) =>
 			} 
 			else 
 			{
-				setDisplayImage(response.assets[0].uri);
+				setIsNewPic(true);
+				setImageType(response.assets[0].type);
+				setBase64Data(response.assets[0].base64);
+
+				handleInputChange('displayImage', response.assets[0].uri);
 			}
 		});
 	};
 
+	const uploadFile = async (eventId) => 
+	{
+		const formData = new FormData();
+		formData.append('business_id', businessId);
+		formData.append('event_id', eventId);
+		formData.append('image_type', imageType);
+		formData.append('image', base64Data);
+
+	  try 
+	  {
+		  const response = await updEventImage(token, formData);
+		  console.log('Image response:', response.status);
+		  if (response.status)
+		  {
+			  return response.data;
+		  }
+	  } 
+	  catch (error) 
+	  {
+		  console.error(error);
+	  }
+	}
+
     const handleSubmit = async () => 
     {
-		// Get the current array of records
-		const data = await DbUtils.getItem('events');
-		const parsedData = JSON.parse(data);
-	  
-		// Update the record at the specified index
-		const updatedData = parsedData.map((record, index) => {
-		  if (index === Number(props.route.params.id)) {
-			// This is the record to update
-			return {
-			  ...record,
-			  display_image: state.displayImage,
-			  event_title: state.title,
-			  event_caption: state.caption,
-			  event_desc: state.desc,
-			  start_date: state.startDate,
-			  end_date: state.endDate,
-			  start_time: state.startTime,
-			  end_ime: state.endTime,
-			  loc_add_one: state.addressOne,
-			  loc_add_two: state.addressTwo,
-			  loc_city: state.city,
-			  loc_province: state.province,
-			  loc_zip_code: state.zipCode,
-			};
-		  } 
-		  else 
-		  {
-			// This is not the record to update, so return it as is
-			return record;
-		  }
-		});
-	  
-		// Save the updated array back to async-storage
-		await DbUtils.setItem('events', JSON.stringify(updatedData));
+		setIsUploading(true);
 
-		// Send to server
+		const eventData = [{
+			updateId: remoteId,
+			sector: state.sector,
+			display_image: state.displayImage,
+			event_title: state.title,
+			event_caption: state.caption,
+			event_desc: state.desc,
+			start_date: state.startDate,
+			end_date: state.endDate,   
+			start_time: state.startTime,   
+			end_time: state.endTime,   
+			loc_add_one: state.addressOne,
+			loc_add_two: state.addressTwo,   
+			loc_city: state.city,   
+			loc_province: state.province,   
+			loc_zip_code: state.zipCode,   
+			updated: new Date().toLocaleDateString()
+		}];
+		let record = JSON.stringify(eventData);
+
 		try 
 		{
-			const eventData = [{
-				updateId: remoteId,
-				sector: state.sector,
-				display_image: state.displayImage,
-				event_title: state.title,
-				event_caption: state.caption,
-				event_desc: state.desc,
-				start_date: state.startDate,
-				end_date: state.endDate,   
-				start_time: state.startTime,   
-				end_time: state.endTime,   
-				loc_add_one: state.addressOne,
-				loc_add_two: state.addressTwo,   
-				loc_city: state.city,   
-				loc_province: state.province,   
-				loc_zip_code: state.zipCode,   
-				updated: new Date().toLocaleDateString()
-			}];
-			let record = JSON.stringify(eventData);
-
 			const res = await updEvent(token, record);
-			// console.log('Update promotion result: ', res);
+			
+			if (res.status)
+			{
+				let fileUrl = state.displayImage;
+				if (isNewPic)
+				{
+					fileUrl = await uploadFile(remoteId);
+				}
+
+				const data = await DbUtils.getItem('events');
+				const parsedData = JSON.parse(data);
+			
+				// Update the record at the specified index
+				const updatedData = parsedData.map((record, index) => 
+				{
+					if (index === Number(props.route.params.id)) 
+					{
+						// This is the record to update
+						return {
+						...record,
+						display_image: fileUrl,
+						event_title: state.title,
+						event_caption: state.caption,
+						event_desc: state.desc,
+						start_date: state.startDate,
+						end_date: state.endDate,
+						start_time: state.startTime,
+						end_ime: state.endTime,
+						loc_add_one: state.addressOne,
+						loc_add_two: state.addressTwo,
+						loc_city: state.city,
+						loc_province: state.province,
+						loc_zip_code: state.zipCode,
+						};
+					} 
+					else 
+					{
+						// This is not the record to update, so return it as is
+						return record;
+					}
+				});
+
+				await DbUtils.setItem('events', JSON.stringify(updatedData));
+
+				setIsUploading(false);
+
+				props.navigation.navigate('BusProfProHome');
+			}
 		} 
-		catch (error) 
+		catch(error) 
 		{
-			console.error("XXX", error);
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
@@ -322,7 +301,83 @@ const Add = (props) =>
 				bottomOffset: 40,
 			});
 		}
-        props.navigation.navigate('BusProfProHome');
+
+		// Get the current array of records
+		// const data = await DbUtils.getItem('events');
+		// const parsedData = JSON.parse(data);
+	  
+		// // Update the record at the specified index
+		// const updatedData = parsedData.map((record, index) => {
+		//   if (index === Number(props.route.params.id)) {
+		// 	// This is the record to update
+		// 	return {
+		// 	  ...record,
+		// 	  display_image: state.displayImage,
+		// 	  event_title: state.title,
+		// 	  event_caption: state.caption,
+		// 	  event_desc: state.desc,
+		// 	  start_date: state.startDate,
+		// 	  end_date: state.endDate,
+		// 	  start_time: state.startTime,
+		// 	  end_ime: state.endTime,
+		// 	  loc_add_one: state.addressOne,
+		// 	  loc_add_two: state.addressTwo,
+		// 	  loc_city: state.city,
+		// 	  loc_province: state.province,
+		// 	  loc_zip_code: state.zipCode,
+		// 	};
+		//   } 
+		//   else 
+		//   {
+		// 	// This is not the record to update, so return it as is
+		// 	return record;
+		//   }
+		// });
+	  
+		// Save the updated array back to async-storage
+		// await DbUtils.setItem('events', JSON.stringify(updatedData));
+
+		// Send to server
+		// try 
+		// {
+		// 	const eventData = [{
+		// 		updateId: remoteId,
+		// 		sector: state.sector,
+		// 		display_image: state.displayImage,
+		// 		event_title: state.title,
+		// 		event_caption: state.caption,
+		// 		event_desc: state.desc,
+		// 		start_date: state.startDate,
+		// 		end_date: state.endDate,   
+		// 		start_time: state.startTime,   
+		// 		end_time: state.endTime,   
+		// 		loc_add_one: state.addressOne,
+		// 		loc_add_two: state.addressTwo,   
+		// 		loc_city: state.city,   
+		// 		loc_province: state.province,   
+		// 		loc_zip_code: state.zipCode,   
+		// 		updated: new Date().toLocaleDateString()
+		// 	}];
+		// 	let record = JSON.stringify(eventData);
+
+			// const res = await updEvent(token, record);
+			// console.log('Update promotion result: ', res);
+		// } 
+		// catch (error) 
+		// {
+		// 	console.error("XXX", error);
+		// 	Toast.show({
+		// 		type: 'error',
+		// 		position: 'bottom',
+		// 		text1: 'There was an error uploading the promotion',
+		// 		text2: 'Please try again.',
+		// 		visibilityTime: 4000,
+		// 		autoHide: true,
+		// 		topOffset: 30,
+		// 		bottomOffset: 40,
+		// 	});
+		// }
+        // props.navigation.navigate('BusProfProHome');
     }
 
     return (

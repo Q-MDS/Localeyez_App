@@ -2,10 +2,11 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DbUtils from '../../../../services/DbUtils';
 import { updPromotion } from '../../../../services/api_helper';
+import { updPromotionImage } from '../../../../services/api_upload';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import TextTwo from '../../../../components/TextTwo';
@@ -66,6 +67,10 @@ const Edit = (props) =>
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
 	const [sector, setSector] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
+	const [isNewPic, setIsNewPic] = useState(false);
+	const [imageType, setImageType] = useState('');
+	const [base64Data, setBase64Data] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -138,6 +143,7 @@ const Edit = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -152,81 +158,123 @@ const Edit = (props) =>
 			} 
 			else 
 			{
-				setDisplayImage(response.assets[0].uri);
+				setIsNewPic(true);
+				setImageType(response.assets[0].type);
+				setBase64Data(response.assets[0].base64);
+
+				handleInputChange('displayImage', response.assets[0].uri);
+				// setDisplayImage(response.assets[0].uri);
 			}
 		});
 	};
 
+	const uploadFile = async (promotionId) => 
+	{
+		const formData = new FormData();
+		formData.append('business_id', businessId);
+		formData.append('promotion_id', promotionId);
+		formData.append('image_type', imageType);
+		formData.append('image', base64Data);
+
+	  try 
+	  {
+		  const response = await updPromotionImage(token, formData);
+		  console.log('Image response:', response.status);
+		  if (response.status)
+		  {
+			  return response.data;
+		  }
+	  } 
+	  catch (error) 
+	  {
+		  console.error(error);
+	  }
+	}
+
     const handleSubmit = async () => 
     {
-		// Get the current array of records
-		const data = await DbUtils.getItem('promotions');
-		const parsedData = JSON.parse(data);
-	  
-		// Update the record at the specified index
-		const updatedData = parsedData.map((record, index) => 
-		{
-		  	if (index === Number(props.route.params.id)) 
-		  	{
-				// This is the record to update
-				return {
-				...record,
-				sector: state.sector,
-				display_image: state.displayImage,
-				promo_title: state.promoTitle,
-				promo_caption: state.promoCaption,
-				promo_description: state.promoDesc,
-				promo_price: state.promoPrice,
-				sale_item_op: state.promoSiOp,
-				sale_item_mp: state.promoSiMp,
-				start_date: state.promoStartDate,
-				end_date: state.promoEndDate,
-				loc_add_one: state.promoLocAdd1,
-				loc_add_two: state.promoLocAdd2,
-				loc_city: state.promoLocCity,
-				loc_province: state.promoLocProvince,
-				loc_zip_code: state.promoLocZipCode,
-				};
-			} 
-			else 
-			{
-				// This is not the record to update, so return it as is
-				return record;
-			}
-		});
-	  
-		// Save the updated array back to async-storage
-		await DbUtils.setItem('promotions', JSON.stringify(updatedData));
+		setIsUploading(true);
 
-		// Send to server
+		const promotionData = [{
+			id: remoteId,
+			business_id: businessId,
+			sector: state.sector,
+			display_image: state.displayImage,
+			promo_title: state.promoTitle,
+			promo_caption: state.promoCaption,
+			promo_desc: state.promoDesc,
+			promo_price: state.promoPrice,
+			sale_item_op: state.promoSiOp, 
+			sale_item_mp: state.promoSiMp, 
+			start_date: state.promoStartDate,
+			end_date: state.promoEndDate,   
+			loc_add_one: state.promoLocAdd1,   
+			loc_add_two: state.promoLocAdd2,   
+			loc_city: state.promoLocCity,   
+			loc_province: state.promoLocProvince,   
+			loc_zip_code: state.promoLocZipCode,   
+			updated_at: new Date().toLocaleDateString()
+		}];
+
+		let record = JSON.stringify(promotionData);
+
 		try 
 		{
-			const promotionData = [{
-				id: remoteId,
-				business_id: businessId,
-				sector: state.sector,
-				display_image: state.displayImage,
-				promo_title: state.promoTitle,
-				promo_caption: state.promoCaption,
-				promo_desc: state.promoDesc,
-				promo_price: state.promoPrice,
-				sale_item_op: state.promoSiOp, 
-				sale_item_mp: state.promoSiMp, 
-				start_date: state.promoStartDate,
-				end_date: state.promoEndDate,   
-				loc_add_one: state.promoLocAdd1,   
-				loc_add_two: state.promoLocAdd2,   
-				loc_city: state.promoLocCity,   
-				loc_province: state.promoLocProvince,   
-				loc_zip_code: state.promoLocZipCode,   
-				updated_at: new Date().toLocaleDateString()
-			}];
-
-			let record = JSON.stringify(promotionData);
-
 			const res = await updPromotion(token, record);
+			
+			if (res.status)
+			{
+				let fileUrl = state.displayImage;
+				if (isNewPic)
+				{
+					fileUrl = await uploadFile(remoteId);
+				}
+
+				// Get the current array of records
+				const data = await DbUtils.getItem('promotions');
+				const parsedData = JSON.parse(data);
+			
+				// Update the record at the specified index
+				const updatedData = parsedData.map((record, index) => 
+				{
+					if (index === Number(props.route.params.id)) 
+					{
+						// This is the record to update
+						return {
+						...record,
+						sector: state.sector,
+						display_image: fileUrl,
+						promo_title: state.promoTitle,
+						promo_caption: state.promoCaption,
+						promo_description: state.promoDesc,
+						promo_price: state.promoPrice,
+						sale_item_op: state.promoSiOp,
+						sale_item_mp: state.promoSiMp,
+						start_date: state.promoStartDate,
+						end_date: state.promoEndDate,
+						loc_add_one: state.promoLocAdd1,
+						loc_add_two: state.promoLocAdd2,
+						loc_city: state.promoLocCity,
+						loc_province: state.promoLocProvince,
+						loc_zip_code: state.promoLocZipCode,
+						};
+					} 
+					else 
+					{
+						// This is not the record to update, so return it as is
+						return record;
+					}
+				});
+			
+				// Save the updated array back to async-storage
+				await DbUtils.setItem('promotions', JSON.stringify(updatedData));
+
+				setIsUploading(false);
+
+				props.navigation.navigate('BusProfProHome');
+			}
 		} 
-		catch (error) 
+		catch (error)
 		{
 			Toast.show({
 				type: 'error',
@@ -239,8 +287,29 @@ const Edit = (props) =>
 				bottomOffset: 40,
 			});
 		}
+    }
 
-        props.navigation.navigate('BusProfProHome');
+	useEffect(() => 
+	{
+		const backAction = () => 
+		{
+			console.log('Back action');
+			props.navigation.navigate('BusProfProHome');
+			return true;
+		};
+
+		const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+		return () => backHandler.remove();
+	}, []);
+
+	if (isUploading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
 
     return (

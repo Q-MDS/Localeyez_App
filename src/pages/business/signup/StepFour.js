@@ -61,7 +61,7 @@ const StepFour = (props) =>
 			const token = res.token;
 
 			await DbUtils.setItem('business_id', JSON.stringify(businessId));
-			await DbUtils.setItem('token', token);
+			await DbUtils.setItem('token', JSON.stringify(token));
 
 			Toast.show({
 				type: 'success',

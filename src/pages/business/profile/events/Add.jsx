@@ -2,10 +2,11 @@ import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { addEvent } from '../../../../services/api_helper';
+import { eventImage } from '../../../../services/api_upload';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TopNavArrowTitle } from '../../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
@@ -89,21 +90,9 @@ const Add = (props) =>
 
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
-
-	// const [sector, setSector] = useState('');
-	// const [displayImage, setDisplayImage] = useState(null);
-	// const [eventTitle, setEventTitle] = useState('');
-	// const [eventCaption, setEventCaption] = useState('');
-	// const [eventDescription, setEventDescription] = useState('');
-	// const [eventStartDate, setEventStartDate] = useState('');
-    // const [eventEndDate, setEventEndDate] = useState('');
-	// const [eventStartTime, setEventStartTime] = useState('');
-    // const [eventEndTime, setEventEndTime] = useState('');
-	// const [address1, setAddress1] = useState('');
-	// const [address2, setAddress2] = useState('');
-	// const [city, setCity] = useState('');
-	// const [province, setProvince] = useState('');
-	// const [zipCode, setZipCode] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
+	const [imageType, setImageType] = useState('');
+	const [base64Data, setBase64Data] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -146,6 +135,7 @@ const Add = (props) =>
 		  maxWidth: 640,
 		  maxHeight: 360,
 		  quality: 1,
+		  includeBase64: true,
 		};
 	
 		launchImageLibrary(options, response => 
@@ -160,28 +150,56 @@ const Add = (props) =>
 			} 
 			else 
 			{
+				setImageType(response.assets[0].type);
+				setBase64Data(response.assets[0].base64);
+
 				handleInputChange('displayImage', response.assets[0].uri);
 			}
 		});
 	};
 
-	const handleSector = (sector) => 
+	const uploadFile = async (eventId) => 
 	{
-		setSector(sector);
-	};
+		const formData = new FormData();
+		formData.append('business_id', businessId);
+		formData.append('event_id', eventId);
+		formData.append('image_type', imageType);
+		formData.append('image', base64Data);
 
-	const handleStartTime = (time) => 
-	{
-		setEventStartTime(time);
-	};
+		try 
+		{
+			const response = await eventImage(token, formData);
+			console.log('Image response:', response.status);
+			if (response.status)
+			{
+					return response.data;
+			}
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		}
+	}
 
-	const handleEndTime = (time) => 
-	{
-		setEventEndTime(time);
-	};
+	// const handleSector = (sector) => 
+	// {
+	// 	setSector(sector);
+	// };
+
+	// const handleStartTime = (time) => 
+	// {
+	// 	setEventStartTime(time);
+	// };
+
+	// const handleEndTime = (time) => 
+	// {
+	// 	setEventEndTime(time);
+	// };
 
 	const handleUpload = async () => 
     {
+		setIsUploading(true);
+
 		const eventData = [{
 			business_id: businessId,
             sector: state.sector,
@@ -211,6 +229,36 @@ const Add = (props) =>
 			if (res.status)
 			{
 				insertId = res.data;
+
+				// Use id and bus id to upload the image: UPLOAD
+				const fileUrl = await uploadFile(insertId);
+
+				const record = [{
+					id: insertId,
+					business_id: businessId,
+					sector: state.sector,
+					display_image: fileUrl,
+					event_title: state.title,
+					event_caption: state.caption,
+					event_desc: state.desc,
+					start_date: state.startDate,
+					end_date: state.endDate,   
+					start_time: state.startTime,
+					end_time: state.endTime,   
+					loc_add_one: state.addressOne,   
+					loc_add_two: state.addressTwo,   
+					loc_city: state.city,   
+					loc_province: state.province,   
+					loc_zip_code: state.zipCode,    
+					created: new Date().toLocaleDateString()
+				}];
+				
+				addData(record);
+
+				setIsUploading(false);
+		
+				props.navigation.navigate('BusProfProHome');
+
 				console.log('Event uploaded successfully', insertId);
 			}
 		} 
@@ -227,30 +275,6 @@ const Add = (props) =>
 				bottomOffset: 40,
 			});
 		}
-
-		const record = [{
-			id: insertId,
-			business_id: businessId,
-            sector: state.sector,
-            display_image: state.displayImage,
-            event_title: state.title,
-            event_caption: state.caption,
-            event_desc: state.desc,
-            start_date: state.startDate,
-            end_date: state.endDate,   
-            start_time: state.startTime,
-            end_time: state.endTime,   
-            loc_add_one: state.addressOne,   
-			loc_add_two: state.addressTwo,   
-			loc_city: state.city,   
-			loc_province: state.province,   
-			loc_zip_code: state.zipCode,    
-            created: new Date().toLocaleDateString()
-        }];
-        
-		addData(record);
-
-		props.navigation.navigate('BusProfProHome');
     }
 
 	const addData = async (newArray) => 
@@ -269,6 +293,29 @@ const Add = (props) =>
 		  console.log(e);
 		}
 	}
+
+	useEffect(() => 
+	{
+		const backAction = () => 
+		{
+			console.log('Back action');
+			props.navigation.navigate('BusProfEvtAddEditBack');
+			return true;
+		};
+
+		const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+		return () => backHandler.remove();
+	}, []);
+
+	if (isUploading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
       	<SafeAreaView style={{ flex: 1 }}>
