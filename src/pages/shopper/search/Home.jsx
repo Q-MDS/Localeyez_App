@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useReducer} from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import DbUtils from "../../../services/DbUtils";
 import { shopperSearch } from "../../../services/api_search";
+import { Keyboard } from 'react-native';
 import { radius } from "../../../sector.data";
 import { sectorList } from "../../../sector.data";
 import { BotNavShopper } from "../../../components/BotNavShopper";
 import { InputSearch } from "../../../components/InputSearch";
 import { ButtonOutline } from "../../../components/ButtonOutline";
-import { SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Layout, Text, Modal, Card, TabView, Tab, Icon } from "@ui-kitten/components";
 import DropdownSingle from "../../../components/DropdownSingle";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { DateSelect } from '../../../components/DateSelect';
+import TextTwo from "../../../components/TextTwo";
 
 const initialState = {
 	shopperId: 0,
@@ -33,7 +35,7 @@ function reducer(state, action)
 	}
 }
 
-const Home = () => 
+const Home = (props) => 
 {
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -44,8 +46,12 @@ const Home = () =>
     const [showDateRange, setShowDateRange] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
 	const [businesses, setBusinesses] = useState([]);
+	const [numBusinesses, setNumBusinesses] = useState(0);
 	const [promotions, setPromotions] = useState([]);
+	const [numPromotions, setNumPromotions] = useState(0);
 	const [events, setEvents] = useState([]);
+	const [numEvents, setNumEvents] = useState(0);
+	const [showTooltip, setShowTooltip] = useState(true);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -99,36 +105,54 @@ const Home = () =>
 
 	const handleSearch = async () => 
 	{
-		const apiData = {
-			"shopper_id": state.shopperId,
-			"search_string": searchString,
-			"location": state.location,
-			"gps_lat": state.gpsLat,
-			"gps_lng": state.gpsLng,
-			"start_date": state.startDate,
-			"end_date": state.endDate,
-			"sector": state.sector
-		};
-		const res = await shopperSearch(token, apiData);
-		const status = res.status;
-
-		if (status)
+		if (searchString === '') 
 		{
-			setBusinesses(res.businesses);
-			setPromotions(res.promotions);
-			setEvents(res.events);
-			// console.log('Search results B: ', res.businesses);
-			// console.log('Search results P: ', res.promotions);
-			// console.log('Search results E: ', res.events);
+			setShowTooltip(true);
+			return;
 		} 
 		else 
 		{
-			setBusinesses([]);
-			setPromotions([]);
-			setEvents([]);
-			console.log('Search failed B: ', res.businesses);
-			console.log('Search failed P: ', res.promotions);
-			console.log('Search failed E: ', res.events);
+			Keyboard.dismiss();
+			const apiData = {
+				"shopper_id": state.shopperId,
+				"search_string": searchString,
+				"location": state.location,
+				"gps_lat": state.gpsLat,
+				"gps_lng": state.gpsLng,
+				"start_date": state.startDate,
+				"end_date": state.endDate,
+				"sector": state.sector
+			};
+			// const res = await shopperSearch(token, apiData);
+			// const status = res.status;
+			const res = await shopperSearch(token, apiData)
+			.then((res) => 
+			{
+				const status = res.status;
+
+				if (status)
+				{
+					setBusinesses(res.businesses);
+					setNumBusinesses(res.businesses.length);
+					setPromotions(res.promotions);
+					setNumPromotions(res.promotions.length);
+					setEvents(res.events);
+					setNumEvents(res.events.length);
+					// console.log('res.bus', res.businesses.length);
+					// console.log('res.promotions', res.promotions.length);
+					// console.log('res.events', res.events.length);
+				} 
+				else 
+				{
+					setBusinesses([]);
+					setPromotions([]);
+					setEvents([]);
+					console.log('Search failed B: ', res.businesses);
+					console.log('Search failed P: ', res.promotions);
+					console.log('Search failed E: ', res.events);
+				}
+			});
+			
 		}
 	}
 
@@ -165,6 +189,36 @@ const Home = () =>
 		state.sector = '';
 		setShowCategory(false);
 	}
+	
+	useEffect(() => 
+	{
+		if (showTooltip) 
+		{
+			const timer = setTimeout(() => { setShowTooltip(false); }, 1000);
+
+			return () => clearTimeout(timer);
+		}
+	}, [showTooltip]);
+	  
+	const handleCloseTooltip = () => 
+	{
+		setShowTooltip(false);
+	}
+
+	const handeleViewBusiness = (business) => 
+	{
+		props.navigation.navigate('SearchBusinessView', { business: business });
+	}
+	
+	const handeleViewPromotion = (promotion) => 
+	{
+		props.navigation.navigate('SearchPromotionView', { promotion: promotion });
+	}
+
+	const handeleViewEvent = (event) => 
+	{
+		props.navigation.navigate('SearchEventView', { event: event });
+	}
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -195,29 +249,71 @@ const Home = () =>
 						<View style={{ width: 5 }}></View>
 						<Text category="p2" style={{ flex: 1, textAlign: 'center' }}></Text>
 					</View>
-
 				</View>
 
+				{showTooltip && (
+				<View style={styles.tooltip}>
+					<Text style={{ color: 'white' }} onPress={handleCloseTooltip}>Search field cannot be empty</Text>
+				</View>
+				)}
+
 				<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 20 }} >
-					<Tab title='Businesses'>
-						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-							<Text category="h5">Business List</Text>
+					<Tab title={`Businesses [${numBusinesses}]`}>
+						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 15, paddingBottom: 15, backgroundColor: '#f5f5f5' }} >
+						<ScrollView>
+							<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Business List</Text>
 							{businesses.map((business, index) => (
-								<View key={index} style={{ marginBottom: 10 }}>
-									<Text>{business.company_name}</Text>
-									<Text>{business.business_bio}</Text>
-								</View>
+								<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
+									<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
+										<View style={styles.listIcon}>
+											{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+											<Image source={{ uri: business.profile_pic }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+										</View>
+										<View style={styles.listContent}>
+											<TextTwo title={business.company_name} fontsize={16} fontweight="bold" />
+											<TextTwo title={business.business_bio} fontsize={14} />
+										</View>
+									</View>
+								</TouchableOpacity>
+							))}
+						</ScrollView>
+						</View>
+					</Tab>
+					<Tab title={`Promotions [${numPromotions}]`}>
+					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
+					<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Promotion List</Text>
+							{promotions.map((promotion, index) => (
+								<TouchableOpacity key={index} onPress={() => handeleViewPromotion(promotion)} style={{ width: '100%' }}>
+									<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
+										<View style={styles.listIcon}>
+											{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+											<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+										</View>
+										<View style={styles.listContent}>
+											<TextTwo title={promotion.promo_title} fontsize={16} fontweight="bold" />
+											<TextTwo title={promotion.promo_desc} fontsize={14} />
+										</View>
+									</View>
+								</TouchableOpacity>
 							))}
 						</View>
 					</Tab>
-					<Tab title='Promotions'>
-					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-							<Text category="h5">Promotion List</Text>
-						</View>
-					</Tab>
-					<Tab title='Events'>
+					<Tab title={`Events [${numEvents}]`}>
 						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-							<Text category="h5">Event List</Text>
+						<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Event List</Text>
+							{events.map((event, index) => (
+								<TouchableOpacity key={index} onPress={() => handeleViewEvent(event)} style={{ width: '100%' }}>
+									<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
+										<View style={styles.listIcon}>
+											<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+										</View>
+										<View style={styles.listContent}>
+											<TextTwo title={event.event_title} fontsize={16} fontweight="bold" />
+											<TextTwo title={event.event_desc} fontsize={14} />
+										</View>
+									</View>
+								</TouchableOpacity>
+							))}
 						</View>
 					</Tab>
 				</TabView>
@@ -327,6 +423,51 @@ const styles = StyleSheet.create({
     backdrop: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+	tooltip: {
+		position: 'absolute',
+		top: 23.5, 
+		left: 55,
+		padding: 10, 
+		backgroundColor: '#5D5A88', 
+		borderRadius: 5, 
+		shadowColor: "#000",
+		shadowOffset: {
+		width: 0,
+		height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
+	},
+	listContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: '100%',
+		padding: 10,
+		borderBottomColor: '#DEDDE7',
+		borderBottomWidth: 1
+	},
+	listIcon: {
+		width: 64,
+		height: 64,
+		borderRadius: 32,
+		borderColor: '#5D5A88',
+		borderWidth: 1
+	},
+	listContent: {
+		flexDirection: 'column',
+		flex: 1,
+		width: '100%',
+		marginStart: 10,
+	},
+	listTitle: {
+		fontSize: 26,
+		fontWeight: 'bold',
+		marginBottom: 5
+	},
+	listTitle: {
+		fontSize: 14,
+	}
   });
 
 export default Home;

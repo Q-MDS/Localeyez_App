@@ -18,3 +18,41 @@ export const shopperSearch = async (token: string, data: any) =>
 		return false;
 	}
 }
+
+export const getBusinessPromotions = async (token: string, data: any) => 
+{
+	try 
+	{
+		const response = await api.post('/api/get_business_promotions/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		return response.data;
+	} 
+	catch (error) 
+	{
+		console.error(error);
+	
+		return false;
+	}
+}
+
+export const getBusinessEvents = async (token: string, data: any) => 
+{
+	try 
+	{
+		const response = await api.post('/api/get_business_events/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		return response.data;
+	} 
+	catch (error) 
+	{
+		console.error(error);
+	
+		return false;
+	}
+}

@@ -82,7 +82,12 @@ import CatShopping from './pages/shopper/categories/Shopping';
 import CatEntertainment from './pages/shopper/categories/Entertainment';
 import CatServices from './pages/shopper/categories/Services';
 import Search from './pages/shopper/search/Home';
+import SearchBusinessView from './pages/shopper/search/business/Home.tsx'
+import SearchPromotionView from './pages/shopper/search/promotion/Home.tsx'
+import SearchEventView from './pages/shopper/search/event/Home.tsx'
+import SearchBusinessReviews from './pages/shopper/search/business/reviews/List.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy';
+
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -104,7 +109,6 @@ const HomeNavigator = () => (
     <Screen name="AdminAllBusinessView" component={AdminAllBusinessView} />
     <Screen name="AdminSupportHome" component={AdminSupportHome} />
     <Screen name="AdminSupportView" component={AdminSupportView} />
-    
     <Screen name="BusProfProHome" component={BusProfProHome} />
     <Screen name="BusProfProAdd" component={BusProfProAdd} />
     <Screen name="BusProfProEdit" component={BusProfProEdit} />
@@ -170,6 +174,11 @@ const HomeNavigator = () => (
     <Screen name="CatEntertainment" component={CatEntertainment} />
     <Screen name="CatServices" component={CatServices} />
     <Screen name="Search" component={Search} />
+    <Screen name="SearchBusinessView" component={SearchBusinessView} />
+    <Screen name="SearchBusinessReviews" component={SearchBusinessReviews} />
+
+    <Screen name="SearchPromotionView" component={SearchPromotionView} />
+    <Screen name="SearchEventView" component={SearchEventView} />
     <Screen name="PrivacyPolicy" component={PrivacyPolicy} />
   </Navigator>
 );

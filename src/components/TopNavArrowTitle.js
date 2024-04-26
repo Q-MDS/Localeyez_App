@@ -9,14 +9,16 @@ const BackIcon = (props) => (
 );
 
 const BackAction = (props) => (
-    <TopNavigationAction icon={BackIcon} onPress={() => props.goBackTo ? props.navigation.navigate(props.goBackTo) : props.navigation.goBack()} />
+	props.onpress === null
+	? <TopNavigationAction icon={BackIcon} onPress={() => props.goBackTo ? props.navigation.navigate(props.goBackTo) : props.navigation.goBack()} />
+	: <TopNavigationAction icon={BackIcon} onPress={props.onpress} />
 );
 
 export const TopNavArrowTitle = (props) => 
 {
     return (
         <TopNavigation
-        accessoryLeft={() => <BackAction navigation={props.navigation} goBackTo={props.goBackTo} />}
+        accessoryLeft={() => <BackAction navigation={props.navigation} onpress={props.onpress} goBackTo={props.goBackTo} />}
         title={(evaProps) => <Text {...evaProps} style={{color: '#131141', fontSize: 16, fontWeight: 'bold'}}>{props.title}</Text>}
         alignment={props.alignment}
         />
