@@ -56,3 +56,22 @@ export const getBusinessEvents = async (token: string, data: any) =>
 		return false;
 	}
 }
+
+export const newReview = async (token: string, data: any) => 
+	{
+		try 
+		{
+			const response = await api.post('/api/new_review/', data,
+			{
+				headers: { Authorization: `Bearer ${token}` },
+			});
+	
+			return response.data;
+		} 
+		catch (error) 
+		{
+			console.error(error);
+		
+			return false;
+		}
+	}

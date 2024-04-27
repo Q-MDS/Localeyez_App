@@ -12,20 +12,11 @@ export const InputMultiline = (props) => {
         placeholder={props.placeholder}
         value={props.value}
         multiline={true}
-		textStyle={{ paddingStart: 0, marginStart: 0, color: '#8C89B7'}}
+		numberOfLines={props.numLines}
+		textStyle={{ textAlignVertical: 'top', padding: 10, paddingTop: 15, marginStart: 0, color: '#8C89B7'}}
         status='basic'
 		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+		style={{ borderRadius: 20 }}
     />
   );
 };
-
-const styles = StyleSheet.create({
-    input: {
-      marginVertical: 2,
-    },
-    inputTextStyle: {
-      minHeight: 64,
-	  paddingStart: 0,
-	  marginStart: 0
-    },
-  });

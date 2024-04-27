@@ -7,6 +7,7 @@ import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
 import { Layout, Text } from '@ui-kitten/components';
 import { ReviewCard } from '../../../../../components/ReviewCard';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const List = (props:any) => 
 {
@@ -48,7 +49,7 @@ const List = (props:any) =>
 		
 		const res = await getBusinessReviews(token, apiData);
 		const status = res.status;
-		
+		console.log('Reviews: ', res.data.reviews);
 		if (status)
 		{
 			setAverageRating(res.data.average_rating);
@@ -99,10 +100,17 @@ const List = (props:any) =>
 		props.navigation.navigate('SearchBusinessView', { business: business });
 	}
 
+	const handelViewReview = (review: any) => 
+	{
+		console.log('View review button pressed.');
+		
+		props.navigation.navigate('SearchBusinessReviewView', { businessName: businessName, businessImage: businessImage, review: review });
+	}
+
 	const handleWriteReview = () => 
 	{
 		console.log('Write a review button pressed.');
-		// props.navigation.navigate('WriteReview', { business: business });
+		props.navigation.navigate('SearchBusinessReviewWrite', { businessId: businessId, businessName: businessName, businessImage: businessImage });
 	}
 
 	return (
@@ -113,10 +121,13 @@ const List = (props:any) =>
 			<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >{`${businessName}`}</Text>
 		</View>
 		<ScrollView>
-			<Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', padding: 15, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white' }}>
+			<Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', padding: 15, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', width: '100%' }}>
 				<Text>Reviews</Text>
+				
 				{reviews && reviews.map((review: { first_name: any; last_name: any; rating: any; review_title: any; review_desc: any; }, index: React.Key | null | undefined) => (
-					<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+					<TouchableOpacity key={index} style={{ flexDirection: 'row' }} onPress={() => handelViewReview(review)}>
+						<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc.length > 100 ? review.review_desc.substring(0, 100) + '...' : review.review_desc} />
+					</TouchableOpacity>
 				))}
 			</Layout>
 		</ScrollView>

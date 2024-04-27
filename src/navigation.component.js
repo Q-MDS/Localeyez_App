@@ -86,6 +86,9 @@ import SearchBusinessView from './pages/shopper/search/business/Home.tsx'
 import SearchPromotionView from './pages/shopper/search/promotion/Home.tsx'
 import SearchEventView from './pages/shopper/search/event/Home.tsx'
 import SearchBusinessReviews from './pages/shopper/search/business/reviews/List.tsx'
+import SearchBusinessReviewView from './pages/shopper/search/business/reviews/ViewReview.tsx'
+import SearchBusinessReviewWrite from './pages/shopper/search/business/reviews/WriteReview.tsx'
+import SearchBusinessReviewWriteConfirm from './pages/shopper/search/business/reviews/WriteConfirm.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy';
 
 
@@ -176,6 +179,9 @@ const HomeNavigator = () => (
     <Screen name="Search" component={Search} />
     <Screen name="SearchBusinessView" component={SearchBusinessView} />
     <Screen name="SearchBusinessReviews" component={SearchBusinessReviews} />
+    <Screen name="SearchBusinessReviewView" component={SearchBusinessReviewView} />
+    <Screen name="SearchBusinessReviewWrite" component={SearchBusinessReviewWrite} />
+    <Screen name="SearchBusinessReviewWriteConfirm" component={SearchBusinessReviewWriteConfirm} />
 
     <Screen name="SearchPromotionView" component={SearchPromotionView} />
     <Screen name="SearchEventView" component={SearchEventView} />
