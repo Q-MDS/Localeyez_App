@@ -260,23 +260,23 @@ const Home = (props) =>
 				<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 20 }} >
 					<Tab title={`Businesses [${numBusinesses}]`}>
 						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 15, paddingBottom: 15, backgroundColor: '#f5f5f5' }} >
-						<ScrollView>
-							<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Business List</Text>
-							{businesses.map((business, index) => (
-								<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
-									<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
-										<View style={styles.listIcon}>
-											{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
-											<Image source={{ uri: business.profile_pic }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+							<ScrollView>
+								<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Business List</Text>
+								{businesses.map((business, index) => (
+									<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
+										<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
+											<View style={styles.listIcon}>
+												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+												<Image source={{ uri: business.profile_pic }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+											</View>
+											<View style={styles.listContent}>
+												<TextTwo title={business.company_name} fontsize={16} fontweight="bold" />
+												<TextTwo title={business.business_bio} fontsize={14} />
+											</View>
 										</View>
-										<View style={styles.listContent}>
-											<TextTwo title={business.company_name} fontsize={16} fontweight="bold" />
-											<TextTwo title={business.business_bio} fontsize={14} />
-										</View>
-									</View>
-								</TouchableOpacity>
-							))}
-						</ScrollView>
+									</TouchableOpacity>
+								))}
+							</ScrollView>
 						</View>
 					</Tab>
 					<Tab title={`Promotions [${numPromotions}]`}>
@@ -465,9 +465,9 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		marginBottom: 5
 	},
-	listTitle: {
-		fontSize: 14,
-	}
+	// listTitle: {
+	// 	fontSize: 14,
+	// }
   });
 
 export default Home;

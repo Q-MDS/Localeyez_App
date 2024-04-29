@@ -58,20 +58,39 @@ export const getBusinessEvents = async (token: string, data: any) =>
 }
 
 export const newReview = async (token: string, data: any) => 
+{
+	try 
 	{
-		try 
+		const response = await api.post('/api/new_review/', data,
 		{
-			const response = await api.post('/api/new_review/', data,
-			{
-				headers: { Authorization: `Bearer ${token}` },
-			});
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		return response.data;
+	} 
+	catch (error) 
+	{
+		console.error(error);
 	
-			return response.data;
-		} 
-		catch (error) 
-		{
-			console.error(error);
-		
-			return false;
-		}
+		return false;
 	}
+}
+
+export const searchByCategory = async (token: string, data: any) => 
+{
+	try 
+	{
+		const response = await api.post('/api/search_category/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		return response.data;
+	} 
+	catch (error) 
+	{
+		console.error(error);
+	
+		return false;
+	}
+}

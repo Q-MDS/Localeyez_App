@@ -8,7 +8,7 @@ const WriteConfirm = (props: any) =>
 {
 	const handelGotoSearch = () =>
 	{
-		props.navigation.navigate('Search');
+		props.navigation.pop(3);
 	}
 
 	const handleHome = () =>
@@ -18,13 +18,16 @@ const WriteConfirm = (props: any) =>
 
 	return (
 	<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-		<TopNavBack title="Review sent confirmation"  alignment="start" navigation={props.navigation}/>
-		<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>
+	<TopNavBack title="Review sent confirmation"  alignment="start" navigation={props.navigation}/>
+		<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
+			<Image source={require('../../../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
+		</View>
+		<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 40, backgroundColor: 'white' }}>
 			<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >Thank you for your review!</Text>
-			<Text category='p1' status="primary" style={{ paddingStart: 15,  }} >We appreciate all reviews on this platform!</Text>
+			<Text category='p1' status="primary" style={{ marginTop: 40 }} >We appreciate all reviews on this platform!</Text>
 		</Layout>
-		<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1, paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>
-			<ButtonPrimary name="Go Back to Search Page" width="100%" marginTop={25} onpress={handelGotoSearch}/>
+		<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1, paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white' }}>
+			<ButtonPrimary name="Go Back to Business Page" width="100%" marginTop={25} onpress={handelGotoSearch}/>
 			<ButtonPrimary name="Go To Home Page" width="100%" marginTop={25} onpress={handleHome}/>
 		</Layout>
 	</SafeAreaView>

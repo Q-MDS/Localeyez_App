@@ -94,7 +94,7 @@ export const sectorData =
 		categories: 
 		[
 			{
-				name: "For Sale (agents)",
+				name: "For Sale (Agents)",
 				items: []
 			},
 			{
@@ -224,7 +224,8 @@ export const sectorData =
 			{
 				name: "Eat & Drink",
 				// items: ["Restaurants", "Bars", "Clubs", "Coffee Shops", "Takeaways", "Bakeries and Patisseries", "Speciality foods", "Catering and ready meals"]
-				items: [{label: "Restaurants", value: "Restaurants"},
+				items: [
+					{label: "Restaurants", value: "Restaurants"},
 					{label: "Bars", value: "Bars"},
 					{label: "Clubs", value: "Clubs"},
 					{label: "Coffee Shops", value: "Coffee Shops"},

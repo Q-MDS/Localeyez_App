@@ -1,9 +1,9 @@
 import React from "react";
 import { sectorData } from "../../../sector.data";
 import MainStyles from "../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../components/TopNavBack";
 import { BotNavShopper } from "../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { Layout, Card } from "@ui-kitten/components";
 import { TextIcon } from "../../../components/TextIcon";
 
@@ -11,19 +11,68 @@ const Health = (props) =>
 {
     const healthData = sectorData.find(sector => sector.title === "Health & Wellness");
 
+	const handleCategorySearch = (category) => 
+	{
+		if (category !== "Sports & Recreation" && category !== "Doctors & Specialists" && category !== "Health Stores & Pharmacies" && category !== "Hospitals & Trauma Centres" ) 
+		{
+			props.navigation.navigate('CatSearch', {searchType: 0, searchSector: "Health & Wellness", category:category, categoryItem: category});
+			return;
+		} 
+		else if (category === "Sports & Recreation")
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "sport", categoryItem: "sport"});
+			return;
+		}
+		else if (category === "Doctors & Specialists")
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "doctor", categoryItem: "doctor"});
+			return;
+		}
+		else if (category === "Health Stores & Pharmacies")
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "healthOpt1", categoryItem: "healthOpt1"});
+			return;
+		}
+		else if (category === "Hospitals & Trauma Centres")
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "healthOpt2", categoryItem: "healthOpt2"});
+			return;
+		}
+		else 
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "healthOpt3", categoryItem: "healthOpt3"});
+			return;
+		}
+	}
+
+	const handleItemSearch = (category, categoryItem) => 
+	{
+		category === "Sports & Recreation" ? category = "sport" : category === "sport";
+		category === "Doctors & Specialists" ? category = "doctor" : category === "doctor";
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: category, categoryItem: categoryItem});
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <TopNavArrowTitle title={healthData.title} alignment="start" navigation={props.navigation} />
+        <TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 					{healthData.categories.map((category, index) => (
 						<Card key={index} style={{ width: '100%', marginBottom: 15 }}>
-						<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24}  />
-						{category.items.map((item, index) => ( 
-							index === 0 
-							? <TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
-							: <TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
-						))}
+							<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleCategorySearch(category.name)}>
+								<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24}  />
+							</TouchableOpacity>
+							{category.items.map((item, index) => ( 
+								index === 0 
+								? 
+								<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleItemSearch(category.name, item.value)}>
+									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
+								</TouchableOpacity>
+								: 
+								<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleItemSearch(category.name, item.value)}>
+									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
+								</TouchableOpacity>
+							))}
 						</Card>
 					))}
                 </Layout>

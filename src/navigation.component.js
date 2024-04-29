@@ -81,6 +81,7 @@ import CatHealth from './pages/shopper/categories/Health';
 import CatShopping from './pages/shopper/categories/Shopping';
 import CatEntertainment from './pages/shopper/categories/Entertainment';
 import CatServices from './pages/shopper/categories/Services';
+import CatSearch from './pages/shopper/categories/SearchCategory.tsx';
 import Search from './pages/shopper/search/Home';
 import SearchBusinessView from './pages/shopper/search/business/Home.tsx'
 import SearchPromotionView from './pages/shopper/search/promotion/Home.tsx'
@@ -176,6 +177,7 @@ const HomeNavigator = () => (
     <Screen name="CatShopping" component={CatShopping} />
     <Screen name="CatEntertainment" component={CatEntertainment} />
     <Screen name="CatServices" component={CatServices} />
+    <Screen name="CatSearch" component={CatSearch} />
     <Screen name="Search" component={Search} />
     <Screen name="SearchBusinessView" component={SearchBusinessView} />
     <Screen name="SearchBusinessReviews" component={SearchBusinessReviews} />
