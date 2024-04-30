@@ -4,6 +4,7 @@ import Toast from 'react-native-toast-message';
 import { getBusinessReviews } from '../../../../../services/api_helper';
 import { SafeAreaView, ScrollView, View, Image} from 'react-native';
 import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../../components/TopNavBack';
 import { Layout, Text } from '@ui-kitten/components';
 import { ReviewCard } from '../../../../../components/ReviewCard';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
@@ -104,7 +105,7 @@ const List = (props:any) =>
 	{
 		console.log('View review button pressed.');
 		
-		props.navigation.navigate('SearchBusinessReviewView', { businessName: businessName, businessImage: businessImage, review: review });
+		props.navigation.navigate('SearchBusinessReviewView', { businessId: businessId, businessName: businessName, businessImage: businessImage, review: review });
 	}
 
 	const handleWriteReview = () => 
@@ -115,7 +116,7 @@ const List = (props:any) =>
 
 	return (
 	<SafeAreaView style={{ flex: 1 }}>
-		<TopNavArrowTitle title="Reviews" alignment="start" navigation={props.navigation} onpress={handleGoBack} goBackTo="Search" />
+		<TopNavBack title="Reviews" alignment="start" navigation={props.navigation} pops={1} />
 		<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
 			{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
 			<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >{`${businessName}`}</Text>

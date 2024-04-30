@@ -3,11 +3,10 @@ import { View} from 'react-native';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
 import { ContactCard } from '../../../components/ContactCard';
-import { Divider } from '@ui-kitten/components';
 import { BotNav } from '../../../components/BotNav';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Divider } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native';
-import { TextTwo } from '../../../components/TextTwo';
+import TextTwo from '../../../components/TextTwo';
 
 const SupportView = (props) => 
 {

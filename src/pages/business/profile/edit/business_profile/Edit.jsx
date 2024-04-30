@@ -6,7 +6,7 @@ import { businessDisplayImage } from '../../../../../services/api_upload';
 import { businessBannerImage } from '../../../../../services/api_upload';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
-import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, Image } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
@@ -353,7 +353,7 @@ const Edit = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-        <TopNavArrowTitle title="Edit Profile" alignment="start" navigation={props.navigation} goBackTo="BusProfProHome" />
+		<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
         <TabsBusProf selected={0} value={selectedIndex} onchange={handleGotoProfile} />
             <ScrollView style={{ width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>

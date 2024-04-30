@@ -1,71 +1,143 @@
 import React from 'react';
 import MainStyles from '../../../assets/styles/MainStyles';
-import { TextOneBold } from '../../../components/TextOneBold';
-import { TextOneIcon } from '../../../components/TextOneIcon';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { DividerTop } from '../../../components/DividerTop';
-import { TitleThree } from '../../../components/TitleThree';
-import { TextOne } from '../../../components/TextOne';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { Layout, Divider } from '@ui-kitten/components';
+import DbUtils from '../../../services/DbUtils';
+import { approveBusiness } from '../../../services/api_admin';
+import { denyBusiness } from '../../../services/api_admin';
+import { TopNavBack } from '../../../components/TopNavBack';
+import { SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Layout, Text, Divider } from '@ui-kitten/components';
+import DividerTop from '../../../components/DividerTop';
+import { ButtonPrimary } from '../../../components/ButtonPrimary';
+import { ButtonSecondary } from '../../../components/ButtonSecondary';
 
 const NewView = (props) => 
 {
+	const business = props.route.params.record;
+
+	const handleApprove = () => 
+	{
+		Alert.alert(
+			"Confirmation",
+			"Are you sure you want to approve?",
+			[
+			  {
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+			  },
+			  { text: "OK", onPress: () => approve() }
+			]
+		  );
+	}
+
+	const approve = async () => 
+	{
+		const token = await DbUtils.getItem('admin_token');
+		const arb = JSON.parse(token);
+		const apiData = { business_id: business.id };
+
+		console.log('Approve Business:', apiData, " >>> ", token);
+
+		const res = await approveBusiness(arb, apiData);
+		console.log('Approve Business:', res);
+		const status = res.status;
+
+		if (status)
+		{
+			Alert.alert(
+				"Success",
+				"Business has been approved.",
+				[
+				  {
+					text: "OK",
+					onPress: () => props.navigation.navigate('AdminNewBusinessHome', {refresh: true})
+				  }
+				]
+			  );
+		}
+		else
+		{
+			Alert.alert(
+				"Error",
+				"An error occurred. Please try again.",
+				[
+				  {
+					text: "OK",
+					onPress: () => console.log("OK Pressed")
+				  }
+				]
+			  );
+		}
+	}
+
+	const handleDeny = () => 
+	{
+		Alert.alert(
+			"Confirmation",
+			"Are you sure you want to deny?",
+			[
+			  {
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+			  },
+			  { text: "OK", onPress: () => console.log("OK Pressed") }
+			]
+		  );
+	}
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="New Business Name" alignment="center" navigation={props.navigation} />
+			<TopNavBack title={business.company_name} alignment="start" navigation={props.navigation} pops={1} />
             <DividerTop />
             <ScrollView>
             <Layout style={MainStyles.layout_container}>
-                <TitleThree title="Email" />
-                <TextOne title="Johnbarron@gmail.com" />
+				<Text category='h6' status="primary">Email</Text>
+				<Text category='p1' status="primary">{business.email}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="First Name" />
-                <TextOne title="John" />
+				<Text category='h6' status="primary">First Name</Text>
+				<Text category='p1' status="primary">{business.first_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Last Name" />
-                <TextOne title="Barron" />
+				<Text category='h6' status="primary">Last Name</Text>
+				<Text category='p1' status="primary">{business.last_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Company Name" />
-                <TextOne title="Maria's Diner" />
+				<Text category='h6' status="primary">Company Name</Text>
+				<Text category='p1' status="primary">{business.company_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Company Phone Number" />
-                <TextOne title="(123) 456-7890" />
+				<Text category='h6' status="primary">Company Phone Number</Text>
+				<Text category='p1' status="primary">{business.contact_number}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Location" />
-                <TextOne title="Address line 1" />
-                <TextOne title="Address line 2" />
-                <TextOne title="City" />
-                <TextOne title="Province" />
-                <TextOne title="ZIP Code" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Business Bio" />
-                <TextOne title="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam fugit quos, eaque tempore odio." />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Small Business" />
-                <TextOne title="Yes" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Social Media" />
-                <TextOneIcon title="@mariasdiner" iconname="facebook-outline" />
-                <TextOneIcon title="www.mariasdiber.com" iconname="globe-outline" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Business Sectors" />
-                <TextOneBold title="Health & Wellness" />
-                <TextOne title="- Sports & Recreation" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Gyms" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Sports Clubs" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Spa's" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Outdoor Activities" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TextOneBold title="Entertainment" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Movies" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Entertainment Centres" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Arts" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Outdoor Leisure" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Event Hire Specialists" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Venues" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Event Planners" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Children" />
+				<Text category='h6' status="primary">Location</Text>
+				<Text category='p1' status="primary">{business.loc_add_one}</Text>
+				<Text category='p1' status="primary">{business.loc_add_two}</Text>
+				<Text category='p1' status="primary">{business.loc_city}</Text>
+				<Text category='p1' status="primary">{business.loc_province}</Text>
+				<Text category='p1' status="primary">{business.loc_zip_code}</Text>
+				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+				<Text category='h6' status="primary">Business Bio</Text>
+				<Text category='p1' status="primary">{business.business_bio}</Text>
+				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+				<Text category='h6' status="primary">Small Business</Text>
+				<Text category='p1' status="primary">{business.is_local}</Text>
+				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+				<Text category='h6' status="primary">Social Media</Text>
+				<Text category='p2' status="primary">X</Text>
+				<Text category='p1' status="primary">{business.sm_x === '' ? "-" : business.sm_x}</Text>
+				<Text category='p2' status="primary">Instagram</Text>
+				<Text category='p1' status="primary">{business.sm_inst === '' ? "-" : business.sm_inst}</Text>
+				<Text category='p2' status="primary">Facebook</Text>
+				<Text category='p1' status="primary">{business.sm_fb === '' ? "-" : business.sm_fb}</Text>
+				<Text category='p2' status="primary">Linkedin</Text>
+				<Text category='p1' status="primary">{business.sm_linkedin === '' ? "-" : business.sm_linkedin}</Text>
+				<Text category='p2' status="primary">Website</Text>
+				<Text category='p1' status="primary">{business.sm_www === '' ? "-" : business.sm_www}</Text>
+				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+				<Text category='h6' status="primary">Business Sectors</Text>
+                {JSON.parse(business.sectors).map((sector, index) => (
+					<Text key={index} category="p1" status="primary" >{sector}</Text>
+				))}
+				<ButtonPrimary name="Approve" width="100%" marginTop={40} onpress={handleApprove}/>
+				<ButtonSecondary name="Deny" width="100%" marginTop={20} onpress={handleDeny}/>
             </Layout>
             </ScrollView>
         </SafeAreaView>

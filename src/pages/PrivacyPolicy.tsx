@@ -1,6 +1,7 @@
 import React from "react";
 import MainStyles from "../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../components/TopNavArrowTitle";
+import { TopNavBack } from "../components/TopNavBack";
 import { SafeAreaView, ScrollView, Text } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import TextTwo from "../components/TextTwo";
@@ -13,7 +14,7 @@ const PrivacyPolicy = (props: any) =>
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Privacy Policy" alignment="start" navigation={props.navigation} goBackTo={type === 0 ? "BusDashAccHome" : "ShopperAccHome"} />
+			<TopNavBack title="Privacy Policy" alignment="start" navigation={props.navigation} pops={1} />
 				<ScrollView style={{ backgroundColor: 'red', flex: 1, width: '100%'  }}>
 					<Layout style={[MainStyles.layout_container, {flex: 1} ]}>
 						<TextTwo title="Privacy Policy" fontsize={24} />

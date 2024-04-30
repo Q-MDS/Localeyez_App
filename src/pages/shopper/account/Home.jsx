@@ -5,15 +5,13 @@ import { shopperProfilePic } from "../../../services/api_upload";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { Icon } from "@ui-kitten/components";
 import { IconTextIcon } from "../../../components/IconTextIcon";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
-import { TouchableOpacity, SafeAreaView, View, Image } from "react-native";
+import { TopNavBack } from "../../../components/TopNavBack";
+import { TouchableOpacity, SafeAreaView, View } from "react-native";
 import { Layout, Text, Avatar, Divider } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../components/ButtonSecondary";
-import TextTwo from "../../../components/TextTwo";
 
 const initialState = { 
 	email: null,
@@ -213,7 +211,7 @@ const Home = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-            <TopNavArrowTitle title="Account Details" alignment="start" navigation={props.navigation} goBackTo="ShopperHome" />
+			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
 			<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:30, paddingBottom: 30 }}>
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
 					{state.profilePic == '' || state.profilePic == null ? (

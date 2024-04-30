@@ -4,7 +4,7 @@ import { businessProfilePic } from "../../../../services/api_upload";
 import Toast from 'react-native-toast-message';
 import { launchImageLibrary } from 'react-native-image-picker';
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { IconTextIcon } from "../../../../components/IconTextIcon";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
@@ -201,7 +201,7 @@ const Home = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Account Details" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
+			<TopNavBack title="Account details" alignment="start" navigation={props.navigation} pops={1} />
                     <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:40, paddingBottom: 30 }}>
 						<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
 						{state.profilePic == '' || state.profilePic == null ? (

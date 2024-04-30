@@ -6,7 +6,7 @@ import MainStyles from "../../../assets/styles/MainStyles";
 import { ReviewCard } from "../../../components/ReviewCard";
 import { TopNavBusReviews } from "../../../components/TopNavBusReviews";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
 
 const ReviewList = (props) => 
@@ -56,7 +56,8 @@ const ReviewList = (props) =>
 
 				const res = await getBusinessReviews(token, params);
 
-				setAverageRating(res.data.average_rating);
+				let avgRating = res.data.average_rating;
+				setAverageRating(Number(avgRating.toFixed(2)));
 				setReviews(res.data.reviews);
 
 			} 
@@ -83,9 +84,9 @@ const ReviewList = (props) =>
 		}
 	}, [isReady]);
 
-    const handelView = () => 
+    const handelView = (review) => 
     {
-        props.navigation.navigate('ReviewView');
+        props.navigation.navigate('ReviewView', {reviewRecord: review});
     }
 
     return (
@@ -94,11 +95,8 @@ const ReviewList = (props) =>
                 <ScrollView>
                     <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
 					{reviews.map((review, index) => (
-  					<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+  						<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
 					))}
-						{/* <ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." />
-						<ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." />
-						<ReviewCard firstName="Trevor" lastName="Davis" rating={5} title="Great value for money!" review="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis saepe inventore." /> */}
                     </Layout>
                 </ScrollView>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />

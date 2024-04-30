@@ -3,7 +3,7 @@ import DbUtils from "../../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { updCreds } from "../../../../services/api_helper";
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { InputLabelPassword } from "../../../../components/InputLabelPassword";
@@ -123,7 +123,7 @@ const Security = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Security" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+			<TopNavBack title="Security" alignment="start" navigation={props.navigation} pops={1} />
 				<ScrollView style={{ backgroundColor: 'white', flex: 1, width: '100%'  }}>
 					<Layout style={{ flex: 1, width: '100%' }}>
 						<Layout style={[MainStyles.layout_container, {flex: 1} ]}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from "../../../../services/DbUtils";
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { TextIcon } from "../../../../components/TextIcon";
@@ -179,8 +179,8 @@ const Home = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
+			<TopNavBack title="Edit Interests" alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView>
-            <TopNavArrowTitle title="Edit Interests" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
             <Layout style={[MainStyles.layout_container ]}>
             <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginBottom: 15 }}>Current Interests</Text>
 				<View style={{ width: '100%' }}>

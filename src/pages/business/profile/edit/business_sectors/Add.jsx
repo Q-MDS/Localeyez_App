@@ -4,7 +4,7 @@ import DbUtils from '../../../../../services/DbUtils';
 import { updBusinessSectors } from '../../../../../services/api_helper';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../../assets/styles/MainStyles';
-import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, View, TouchableOpacity } from 'react-native';
 import { Layout, Divider, Card, Icon } from '@ui-kitten/components';
 import { Checkbox } from '../../../../../components/Checkbox';
@@ -314,7 +314,7 @@ const Add = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, width: '100%' }}>
-            <TopNavArrowTitle title="Manage Business Sectors" alignment="start" navigation={props.navigation} />
+			<TopNavBack title="Manage business sectors" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ backgroundColor: 'white', borderColor: 'red', borderWidth: 0 }}>
                 <Layout style={[MainStyles.layout_container, style={paddingTop: 10, paddingStart: 15, paddingEnd: 15}]}>
 					<TextTwo title="Choose which sector(s) your business falls under" mb={15} />

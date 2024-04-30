@@ -16,7 +16,7 @@ import TextOne from '../../../../components/TextOne';
 import { TitleFour } from '../../../../components/TitleFour';
 import { TitleOne } from '../../../../components/TitleOne';
 import { TopNavTitle } from '../../../../components/TopNavTitle';
-import { TopNavArrowTitle } from '../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../components/TopNavBack';
 
 const initialState = {
 	businessId: null,
@@ -194,18 +194,30 @@ const Home = (props: any) =>
 	{
 		if (gotPromotions)
 		{
-			console.log('Got promotions', promotions);
+			// console.log('Got promotions', promotions);
 		}
 
 		if (gotEvents)
 		{
-			console.log('Got events', events);
+			// console.log('Got events', events);
 		}
 	},[gotPromotions, gotEvents])
 
 	const handleViewReviews = () => 
 	{
 		props.navigation.navigate('SearchBusinessReviews', { business: business });
+	}
+
+	const handeleViewPromotion = (promotion: any) => 
+	{
+		console.log('BBBBBBBBBBBBBBBBBBBBBBBB');
+		props.navigation.navigate('SearchPromotionView', { promotion: promotion });
+	}
+
+	const handeleViewEvent = (record: any) => 
+	{
+		console.log('ASDASDASDASDASDSD');
+		props.navigation.navigate('SearchEventView', { event: record });
 	}
 
 	function formatDate(dateString: string | number | Date) 
@@ -218,7 +230,7 @@ const Home = (props: any) =>
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavArrowTitle title={state.companyName} alignment="start" navigation={props.navigation} goBackTo="Search" />
+			<TopNavBack title={state.companyName} alignment="start" navigation={props.navigation} pops={1} />
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
 
                 <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
@@ -269,23 +281,26 @@ const Home = (props: any) =>
 								</Layout>
 								)}
 								{promotions && promotions.map((record: { display_image: any; promo_title: any; promo_caption: any; sector: any; sale_item_mp: any; sale_item_op: any; start_date: any; }, index: React.Key | null | undefined) => (
+										// <TouchableOpacity key={index} onPress={() => handeleViewPromotion(record)} style={{ width: '100%' }}>
 										<Card key={index} style={{ width: '100%', marginBottom: 15 }} >
-											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-												{record.display_image 
-												? 
-												<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
-												:
-												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
-												}
-											</View>
-											<TitleFour title={record.promo_title} fontsize={16} mt={10}  />
-											<TextTwo title={record.promo_caption} />
-											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
-											<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-												<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-												<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
-												<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-											</View>
+											<TouchableOpacity key={index} onPress={() => handeleViewPromotion(record)} style={{ width: '100%' }}>
+												<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
+													{record.display_image 
+													? 
+													<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
+													:
+													<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+													}
+												</View>
+												<TitleFour title={record.promo_title} fontsize={16} mt={10}  />
+												<TextTwo title={record.promo_caption} />
+												<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
+												<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
+													<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
+													<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
+													<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+												</View>
+											</TouchableOpacity>
 										</Card>
 									))}
 							</Layout>
@@ -299,7 +314,8 @@ const Home = (props: any) =>
 								)}
 								{events && events.map((record: { display_image: any; event_title: any; event_caption: any; sector: any; start_date: string | number | Date; loc_add_one: any; }, index: React.Key | null | undefined) => 
 								(
-										<Card key={index} style={{ width: '100%', marginBottom: 15 }} >
+									<Card key={index} style={{ width: '100%', marginBottom: 15 }} >
+										<TouchableOpacity key={index} onPress={() => handeleViewEvent(record)} style={{ width: '100%' }}>
 											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
 												{record.display_image 
 												? 
@@ -313,7 +329,8 @@ const Home = (props: any) =>
 											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
 											<IconText title={formatDate(record.start_date)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
 											<IconText title={record.loc_add_one} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
-										</Card>
+										</TouchableOpacity>
+									</Card>
 								))}
 							</Layout>
 						</Tab>

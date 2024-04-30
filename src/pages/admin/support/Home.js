@@ -4,7 +4,7 @@ import { Divider } from '@ui-kitten/components';
 import { ListIconRowThree } from '../../../components/ListIconRowThree';
 import { TopNavLrgTitleIcon } from '../../../components/TopNavLrgTitleIcon';
 import { BotNav } from '../../../components/BotNav';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native';
 
 const Home = (props) => 
@@ -21,7 +21,7 @@ const Home = (props) =>
             <TopNavLrgTitleIcon title="Admin Support" navigation={props.navigation} />
             <Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
             <Layout style={MainStyles.layout_container_grid}>
-            <ListIconRowThree selectItem = {selectItem} />
+            	<Text category='h4' status="primary">Support</Text>
             </Layout>
             <BotNav selected={2} />
         </SafeAreaView>

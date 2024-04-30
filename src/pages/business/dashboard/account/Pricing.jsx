@@ -1,6 +1,6 @@
 import React from "react";
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { SafeAreaView, View } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
@@ -14,7 +14,7 @@ const Pricing = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Pricing Plan" alignment="start" navigation={props.navigation} goBackTo="BusDashAccHome" />
+			<TopNavBack title="Pricing plan" alignment="start" navigation={props.navigation} pops={1} />
                 <Layout style={[MainStyles.layout_container ]}>
                     <Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%', paddingBottom: 50 }} >
                         <Text category="h2" status="primary" style={{ fontWeight: 'bold', marginTop: 15, width: '100%', textAlign: 'center' }}>Pricing Plan</Text>

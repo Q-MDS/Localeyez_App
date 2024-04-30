@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../services/DbUtils'; 
 import MainStyles from '../../../assets/styles/MainStyles';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../components/TopNavBack';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
@@ -208,8 +208,7 @@ const StepOne = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Create your Account" alignment="start" navigation={props.navigation} />
-            {/* <DividerTop /> */}
+			<TopNavBack title="Create your account" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />

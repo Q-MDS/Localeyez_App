@@ -1,13 +1,13 @@
 import React from 'react';
 import MainStyles from '../../../assets/styles/MainStyles';
-import { TextOneBold } from '../../../components/TextOneBold';
-import { TextOneIcon } from '../../../components/TextOneIcon';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { DividerTop } from '../../../components/DividerTop';
-import { TitleThree } from '../../../components/TitleThree';
-import { TextOne } from '../../../components/TextOne';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { Layout, Divider } from '@ui-kitten/components';
+import DividerTop from '../../../components/DividerTop';
+import TextOne from '../../../components/TextOne';
+import { TitleThree } from '../../../components/TitleThree';
+import { TextOneBold } from '../../../components/TextOneBold';
+import { TextOneIcon } from '../../../components/TextOneIcon';
 
 const AllView = (props) => 
 {

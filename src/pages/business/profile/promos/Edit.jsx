@@ -318,7 +318,7 @@ const Edit = (props) =>
         <DividerTop />
         <ScrollView>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-				<TitleFour title="Choose which business sector(s) your event falls under:" />
+				<TitleFour title="Choose which business sector your event falls under:" />
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>

@@ -1,6 +1,6 @@
 import React from "react";
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { SafeAreaView } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
 import { Layout } from "@ui-kitten/components";
@@ -13,7 +13,8 @@ const NotiView = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Notifications" alignment="start" navigation={props.navigation} goBackTo="BusDashNoti" />
+			<TopNavBack title="View notification" alignment="start" navigation={props.navigation} pops={1} />
+
                 <DividerTop />
                 <Layout style={[MainStyles.layout_container, {paddingTop: 30}]}>
 					<ReviewCard firstName={`${props.route.params.reviewRecord.first_name} ${firstChar}.`} fn={props.route.params.reviewRecord.first_name} ln={props.route.params.reviewRecord.last_name} rating={props.route.params.reviewRecord.rating} title={props.route.params.reviewRecord.review_title} review={props.route.params.reviewRecord.review_desc} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
 import MainStyles from '../../../../../assets/styles/MainStyles';
-import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
 import { SafeAreaView, ScrollView, View } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
@@ -109,7 +109,7 @@ const Edit = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView>
-            <TopNavArrowTitle title="Edit Profile" alignment="start" navigation={props.navigation} goBackTo="BusProfProHome" />
+			<TopNavBack title="Edit business sector(s)" alignment="start" navigation={props.navigation} pops={1} />
 			<TabsBusProf selected={1} value={selectedIndex} onchange={handleGotoProfile} />
             <Layout style={[MainStyles.layout_container ]}>
             <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginBottom: 15 }}>Current Interests</Text>

@@ -16,12 +16,11 @@ const LogoutIcon = (props) => (
 );
 
 const LogoutAction = (props) => (
-    <TopNavigationAction icon={LogoutIcon} onPress={() => props.navigation.navigate("Menu")} />
+    <TopNavigationAction icon={LogoutIcon} onPress={() => props.navigation.navigate("OnboardingStart")} />
 );
 
 export const TopNavLrgTitleIcon = (props) => 
 {
-    console.log('Props zzz: ', {...props});
     return (
         <TopNavigation
             // title={props.title}

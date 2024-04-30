@@ -2,13 +2,11 @@ import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../services/DbUtils'; 
 import CustomIcon from '../../../components/CustomIcon';
 import MainStyles from '../../../assets/styles/MainStyles';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../components/TopNavBack';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
-import { InputLabelNumpad } from '../../../components/InputLabelNumpad';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
-import { Checkbox } from '../../../components/Checkbox';
 import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
@@ -172,7 +170,8 @@ const StepTwo = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Business Details" alignment="start" navigation={props.navigation} />
+			<TopNavBack title="Business details" alignment="start" navigation={props.navigation} pops={1} />
+
             {/* <DividerTop /> */}
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>

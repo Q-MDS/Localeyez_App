@@ -1,6 +1,6 @@
 import React from "react";
 import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../components/TopNavBack";
 import { SafeAreaView, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { InputLabelEmail } from "../../../../components/InputLabelEmail";
@@ -17,7 +17,7 @@ const Edit = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Edit Profile" alignment="start" navigation={props.navigation} goBackTo="BusDashAccHome" />
+			<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
                 <Layout style={[MainStyles.layout_container ]}>
                     <InputLabelEmail label="Email" placeholder="example@email.com" />
                     <View style={{ marginTop: 15 }} />

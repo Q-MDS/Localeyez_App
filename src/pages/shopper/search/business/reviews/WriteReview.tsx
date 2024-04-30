@@ -125,7 +125,7 @@ const WriteReview = (props:any) =>
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavBack title="Write Review"  alignment="start" navigation={props.navigation}/>
+			<TopNavBack title="Write Review" alignment="start" navigation={props.navigation} pops={1} />
 			<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
 				{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
 				<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >{`${businessName}`}</Text>

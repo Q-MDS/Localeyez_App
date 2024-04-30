@@ -4,6 +4,7 @@ import Toast from 'react-native-toast-message';
 import { getNotifications } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../components/TopNavBack";
 import { Text, Avatar, List, ListItem, Layout } from "@ui-kitten/components";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../components/DividerTop";
@@ -96,22 +97,31 @@ const NotiList = (props) =>
 
 	const handleCardPress = (businessName, linkType, linkRecord) => 
 	{
-		console.log('DDD:', linkType);
-		props.navigation.navigate('ShopperNotiView', { businessName: businessName, linkType: linkType, linkRecord: linkRecord });
+		if (linkType == 0)
+		{
+			props.navigation.navigate('SearchPromotionView', { promotion: linkRecord });
+			return;
+		}
+		else 
+		{
+			props.navigation.navigate('SearchEventView', { event: linkRecord });
+			return;
+		}
 	}
-
-    const handleViewReview = () => 
-    {
-        props.navigation.navigate('ShopperNotiView');
-    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Notifications" alignment="start" navigation={props.navigation} goBackTo="ShopperHome" />
+			<TopNavBack title={`Notifications`} alignment="start" navigation={props.navigation} pops={1} />
 			<DividerTop />
 			<ScrollView style={styles.container}>
                 <Layout style={{ flex: 1, marginTop: 15 }}>
-					{notifications.map((item, index) => 
+					{notifications && notifications.length === 0 && (
+					<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+						{/* <TextOne title="There are no events to display" /> */}
+						<Text category="p1" status="primary">There are no notifications to display</Text>
+					</Layout>
+					)}
+					{notifications && notifications.map((item, index) => 
 					
 						<NotiCard key={index} business={item.notification.business_name} title={item.notification.noti_title} desc={item.notification.noti_desc} onPress={() => handleCardPress(item.notification.business_name, item.notification.link_type, item.link_record)} />
 					)}

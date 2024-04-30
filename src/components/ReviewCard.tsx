@@ -1,6 +1,6 @@
 import React from 'react';
 import MainStyles from '../assets/styles/MainStyles';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Layout, Avatar, Divider, Icon, Text } from '@ui-kitten/components';
 import TextTwo from './TextTwo';
 import {IconText} from './IconText';
@@ -17,10 +17,10 @@ export const ReviewCard = (props:any) =>
 	{
 		lastChar = props.ln.charAt(0).toUpperCase();
 	} 
-	
 
     return (
         <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" onPress={() => props.onPress} >
+			<TouchableOpacity onPress={props.onPress}>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
 				<View style={styles.avatar}>
                     <Text style={styles.avatarText}>{`${firstChar}.${lastChar}.`}</Text>
@@ -42,6 +42,7 @@ export const ReviewCard = (props:any) =>
 				<Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>{props.title}</Text>
 				<Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>{props.review}</Text>
 			</Layout>
+			</TouchableOpacity>
 		</Card>
     );
 };

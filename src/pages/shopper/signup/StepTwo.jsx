@@ -3,8 +3,8 @@ import { sectorData } from "../../../sector.data";
 import DbUtils from '../../../services/DbUtils';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { Checkbox } from '../../../components/Checkbox';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { TopNavBack } from '../../../components/TopNavBack';
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
 import { TitleThree } from '../../../components/TitleThree';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
@@ -171,7 +171,7 @@ const StepTwo = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, width: '100%' }}>
-            <TopNavArrowTitle title="Tell us your interests" alignment="start" navigation={props.navigation} />
+			<TopNavBack title={`Tell us your interests`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15}]}>
 

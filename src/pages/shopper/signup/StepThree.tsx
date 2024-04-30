@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { registerShopper } from "../../../services/auth";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
 import { TitleTwo } from "../../../components/TitleTwo";
 import TextOne from "../../../components/TextOne";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { SafeAreaView, View, Image } from "react-native";
 import { Layout } from "@ui-kitten/components";
+import { TopNavBack } from "../../../components/TopNavBack";
 
 const StepThree = (props:any) => 
 {
@@ -105,7 +105,7 @@ const StepThree = (props:any) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Registration complete" alignment="start" navigation={props.navigation} />
+			<TopNavBack title={`Registration complete`} alignment="start" navigation={props.navigation} pops={1} />
             <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
                 <Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
                     <View style={{ marginTop: 45 }} />

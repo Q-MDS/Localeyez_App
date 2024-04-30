@@ -5,11 +5,11 @@ import { updShopperProfile } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { InputLabelEmail } from "../../../components/InputLabelEmail";
 import { InputLabel } from "../../../components/InputLabel";
-import { InputLabelNumpad } from "../../../components/InputLabelNumpad";
 import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../components/TopNavBack";
 import { Label } from "../../../components/Label";
 import { SafeAreaView, View, StyleSheet } from "react-native";
-import { Layout, Select, SelectItem, IndexPath } from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import DropdownSingle from '../../../components/DropdownSingle';
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
@@ -197,7 +197,7 @@ const Edit = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Edit Profile" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
+			<TopNavBack title={`Edit Profile`} alignment="start" navigation={props.navigation} pops={1} />
             <Layout style={[MainStyles.layout_container ]}>
 			<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" />
                 <View style={{ marginTop: 15 }} />

@@ -1,6 +1,7 @@
 import React from "react";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../components/TopNavBack";
 import DividerTop from "../../../components/DividerTop";
 import { BotNavShopper } from "../../../components/BotNavShopper";
 import { SafeAreaView, View, Image } from "react-native";
@@ -23,7 +24,7 @@ const ViewNotification = (props) =>
     
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title={props.route.params.businessName} alignment="start" navigation={props.navigation} goBackTo="ShopperNotiList" />
+			<TopNavBack title={props.route.params.businessName} alignment="start" navigation={props.navigation} pops={1} />
             <DividerTop />
                 <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
                     <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />

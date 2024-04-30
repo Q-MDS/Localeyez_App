@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import DbUtils from "../../../../services/DbUtils";
 import { getBusinessNotifications } from "../../../../services/api_helper";
 import Toast from 'react-native-toast-message';
-import MainStyles from "../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../components/TopNavArrowTitle";
-import { Text, Avatar, List, ListItem, Layout } from "@ui-kitten/components";
+import { TopNavBack } from "../../../../components/TopNavBack";
+import { Layout } from "@ui-kitten/components";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
 import { NotiCard } from "../../../../components/NotiCard";
@@ -110,7 +109,8 @@ console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-            <TopNavArrowTitle title="Notifications" alignment="start" navigation={props.navigation} goBackTo="BusinessDashboard" />
+			<TopNavBack title="Notifications" alignment="start" navigation={props.navigation} pops={1} />
+
 			<DividerTop />
 			<ScrollView style={styles.container}>
                 <Layout style={{ flex: 1, marginTop: 15 }}>

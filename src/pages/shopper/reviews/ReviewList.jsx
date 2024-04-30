@@ -4,10 +4,10 @@ import Toast from 'react-native-toast-message';
 import { getShopperReviews } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { ReviewCard } from "../../../components/ReviewCard";
-import { TopNavShopperReviews } from "../../../components/TopNavShopperReviews";
+import { TopNavBack } from "../../../components/TopNavBack";
 import { BotNavShopper } from "../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
+import { Layout, Divider } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ReviewList = (props) => 
@@ -89,7 +89,7 @@ const ReviewList = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-		<TopNavShopperReviews title='Your Reviews' />
+		<TopNavBack title={`Your Reviews`} alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{ flex: 1 }}>
 				<Layout style={[MainStyles.layout_container, { flexDirection: 'column', paddingStart: 15, paddingEnd: 15}]}>
 				{reviews.map((review, index) => (

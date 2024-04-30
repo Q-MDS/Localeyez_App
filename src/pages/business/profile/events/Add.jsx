@@ -5,7 +5,7 @@ import { addEvent } from '../../../../services/api_helper';
 import { eventImage } from '../../../../services/api_upload';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { TopNavArrowTitle } from '../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator } from 'react-native';
 import { Layout, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
@@ -319,7 +319,7 @@ const Add = (props) =>
 
     return (
       	<SafeAreaView style={{ flex: 1 }}>
-		<TopNavArrowTitle title="Add Event" alignment="start" navigation={props.navigation} goBackTo="BusProfEvtAddEditBack" />
+		<TopNavBack title="Add event" alignment="start" navigation={props.navigation} pops={1} />
         <DividerTop />
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
