@@ -80,7 +80,7 @@ export const getSupportMessages = async (token: string, data: any) =>
 {
 	try 
 	{
-		const response = await api.post('/api/login_admin/', data,
+		const response = await api.post('/api/support_messages/', data,
 		{
 			headers: { Authorization: `Bearer ${token}` },
 		});

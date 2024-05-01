@@ -1,72 +1,75 @@
 import React from 'react';
 import MainStyles from '../../../assets/styles/MainStyles';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView } from 'react-native';
-import { Layout, Divider } from '@ui-kitten/components';
+import DbUtils from '../../../services/DbUtils';
+import { TopNavBack } from '../../../components/TopNavBack';
+import { SafeAreaView, ScrollView, Alert } from 'react-native';
+import { Layout, Text, Divider } from '@ui-kitten/components';
 import DividerTop from '../../../components/DividerTop';
-import TextOne from '../../../components/TextOne';
-import { TitleThree } from '../../../components/TitleThree';
-import { TextOneBold } from '../../../components/TextOneBold';
-import { TextOneIcon } from '../../../components/TextOneIcon';
+import { ButtonPrimary } from '../../../components/ButtonPrimary';
+import { ButtonSecondary } from '../../../components/ButtonSecondary';
 
 const AllView = (props) => 
 {
+	const business = props.route.params.record;
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Business Name" alignment="center" navigation={props.navigation} />
+			<TopNavBack title={business.company_name} alignment="start" navigation={props.navigation} pops={1} />
             <DividerTop />
             <ScrollView>
-            <Layout style={MainStyles.layout_container}>
-                <TitleThree title="Email" />
-                <TextOne title="Johnbarron@gmail.com" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="First Name" />
-                <TextOne title="John" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Last Name" />
-                <TextOne title="Barron" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Company Name" />
-                <TextOne title="Maria's Diner" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Company Phone Number" />
-                <TextOne title="(123) 456-7890" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Location" />
-                <TextOne title="Address line 1" />
-                <TextOne title="Address line 2" />
-                <TextOne title="City" />
-                <TextOne title="Province" />
-                <TextOne title="ZIP Code" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Business Bio" />
-                <TextOne title="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam fugit quos, eaque tempore odio." />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Small Business" />
-                <TextOne title="Yes" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Social Media" />
-                <TextOneIcon title="@mariasdiner" iconname="facebook-outline" />
-                <TextOneIcon title="www.mariasdiber.com" iconname="globe-outline" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TitleThree title="Business Sectors" />
-                <TextOneBold title="Health & Wellness" />
-                <TextOne title="- Sports & Recreation" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Gyms" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Sports Clubs" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Spa's" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Outdoor Activities" />
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-                <TextOneBold title="Entertainment" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Movies" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Entertainment Centres" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Arts" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Outdoor Leisure" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Event Hire Specialists" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Venues" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Event Planners" />
-                <TextOne title="&nbsp;&nbsp;&nbsp;- Children" />
-            </Layout>
+				<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingStart: 20, paddingEnd: 20, backgroundColor: '#f9f8fd', paddingTop: 10, paddingBottom: 10, borderBottomColor: '#dedde7', borderBottomWidth: 1 }}>
+					<Text category='h6' status="primary" style={{ fontWeight: 'bold' }}>Status:</Text>
+					{business.active === '0' && <Text category='p1' status="primary" style={{ fontWeight: 'bold' }}>Denied</Text>}
+					{business.active === '1' && <Text category='p1' status="primary" style={{ fontWeight: 'bold' }}>Approved</Text>}
+					{business.active === '2' && <Text category='p1' status="primary" style={{ fontWeight: 'bold' }}>New</Text>}
+					{/* <Text category='p1' status="primary" style={{ fontWeight: 'bold' }}>Approved</Text> */}
+				</Layout>
+				<Layout style={MainStyles.layout_container}>
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Email</Text>
+					<Text category='p1' status="primary">{business.email}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>First Name</Text>
+					<Text category='p1' status="primary">{business.first_name}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Last Name</Text>
+					<Text category='p1' status="primary">{business.last_name}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Name</Text>
+					<Text category='p1' status="primary">{business.company_name}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Phone Number</Text>
+					<Text category='p1' status="primary">{business.contact_number}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Location</Text>
+					<Text category='p1' status="primary">{business.loc_add_one}</Text>
+					<Text category='p1' status="primary">{business.loc_add_two}</Text>
+					<Text category='p1' status="primary">{business.loc_city}</Text>
+					<Text category='p1' status="primary">{business.loc_province}</Text>
+					<Text category='p1' status="primary">{business.loc_zip_code}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Bio</Text>
+					<Text category='p1' status="primary">{business.business_bio}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Small Business</Text>
+					<Text category='p1' status="primary">{business.is_local}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Social Media</Text>
+					<Text category='p2' status="primary">X</Text>
+					<Text category='p1' status="primary">{business.sm_x === '' ? "-" : business.sm_x}</Text>
+					<Text category='p2' status="primary">Instagram</Text>
+					<Text category='p1' status="primary">{business.sm_inst === '' ? "-" : business.sm_inst}</Text>
+					<Text category='p2' status="primary">Facebook</Text>
+					<Text category='p1' status="primary">{business.sm_fb === '' ? "-" : business.sm_fb}</Text>
+					<Text category='p2' status="primary">Linkedin</Text>
+					<Text category='p1' status="primary">{business.sm_linkedin === '' ? "-" : business.sm_linkedin}</Text>
+					<Text category='p2' status="primary">Website</Text>
+					<Text category='p1' status="primary">{business.sm_www === '' ? "-" : business.sm_www}</Text>
+					<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+					<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Sectors</Text>
+					{JSON.parse(business.sectors).map((sector, index) => (
+						<Text key={index} category="p1" status="primary" >{sector}</Text>
+					))}
+				</Layout>
             </ScrollView>
         </SafeAreaView>
     );

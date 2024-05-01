@@ -21,7 +21,7 @@ export const BotNav = (props) =>
         setSelectedIndex(index);
         switch (index) {
             case 0:
-                navigation.navigate('AdminNewBusinessHome');
+                navigation.navigate('AdminNewBusinessHome', {refresh: true});
                 break;
             case 1:
                 navigation.navigate('AdminAllBusinessHome');

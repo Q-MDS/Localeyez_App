@@ -5,7 +5,8 @@ import { Avatar,Text } from '@ui-kitten/components';
 
 export const ContactCard = (props) => (
     <View style={styles.row_container}>
-    <View><Avatar source={require('../assets/images/list_icon.png')} style={{ width: 82, height: 82, marginEnd: 10 }} /></View>
+    <View>
+		<Avatar source={{ uri:props.image }} style={{ width: 82, height: 82, marginEnd: 10 }} /></View>
         <View style={styles.col_container}>
             <TitleTwo title={props.title} />
             <Text status="primary" style={styles.text}>{props.email}</Text>

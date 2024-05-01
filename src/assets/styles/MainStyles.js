@@ -10,7 +10,7 @@ const MainStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        padding: 30,
+        padding: 20,
         paddingTop: 20,
     },
     layout_container_grid: {

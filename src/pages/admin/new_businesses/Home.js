@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { getNewBusinesses } from '../../../services/api_admin';
@@ -9,16 +10,16 @@ import { BotNav } from '../../../components/BotNav';
 import { Layout, Text } from '@ui-kitten/components';
 import { SafeAreaView, ScrollView, View, StyleSheet } from 'react-native';
 import { BusCard } from '../../../components/BusCard';
+import { ButtonPrimary } from '../../../components/ButtonPrimary';
 
 const Home = (props) => 
 {
 	const [token, setToken] = useState('');
 	const [isReady, setIsReady] = useState(false);
 	const [records, setRecords] = useState([]);
+	const [numRecs, setNumRecs] = useState(0);
 	const [gotRecords, setGotRecords] = useState(false);
-	const { navigation, route } = props;
 
-	console.log('XXX:', route.params?.refresh);
 	const getToken = async () => 
 	{
 		const token = await DbUtils.getItem('admin_token');
@@ -47,6 +48,7 @@ const Home = (props) =>
 		if (status)
 		{
 			setRecords(res.records);
+			setNumRecs(res.records.length);
 			setGotRecords(true);
 			
 			Toast.show({
@@ -63,13 +65,13 @@ const Home = (props) =>
 		} 
 		else 
 		{
-			setGotPromotions(false);
+			setGotRecords(false);
 
 			Toast.show({
 				type: 'error',
 				position: 'bottom',
 				text1: 'Server error',
-				text2: 'There was a problen fetching the records.',
+				text2: res.message,
 				visibilityTime: 1000,
 				autoHide: true,
 				topOffset: 30,
@@ -82,19 +84,31 @@ const Home = (props) =>
 	{
 		if (isReady) 
 		{
-			console.log('NB - > Token:', token);
 			fetchRecords();
-
 		}
 	}, [isReady]);
 
-	useEffect(() => {
-		if (route.params?.refresh) {
-			console.log('SHEIT!');
-			setGotRecords(false);
-			fetchRecords();
-		}
-	  }, [route.params?.refresh]);
+	useFocusEffect(React.useCallback(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getToken();
+			setIsReady(true);
+			if (isReady)
+			{
+				setGotRecords(false);
+				fetchRecords();
+			}
+		};
+
+		fetchData();
+	}, []));
+
+	const handleRefresh = () => 
+	{
+		setGotRecords(false);
+		fetchRecords();
+	}
 
 	const handleViewBusiness = (record) => 
 	{
@@ -102,8 +116,15 @@ const Home = (props) =>
 	}
 
     return (
-		<SafeAreaView style={{ flex: 1 }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavLrgTitleIcon title="New Businesses" navigation={props.navigation} />
+			<Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
+			<Layout style={{ width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
+				<ButtonPrimary name="Refresh" width="100%" onpress={handleRefresh}/>
+			</Layout>
+			<Layout style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
+				<Text category="s1" status="primary">Total Records: {numRecs}</Text>
+			</Layout>
 			<Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
 			<ScrollView>
 			<Layout style={MainStyles.layout_container_grid}>
@@ -113,7 +134,7 @@ const Home = (props) =>
 						<BusCard key={index} record={record} navigation={props.navigation} index={index} onpress={() => handleViewBusiness(record)} />
 					))
 					) : (
-					<Text>No records found</Text>
+					<Text category='p1' style={{ paddingStart: 10, paddingTop: 10 }}>No records found</Text>
 					)}
 			</Layout>
 			</ScrollView>
@@ -121,16 +142,5 @@ const Home = (props) =>
 		</SafeAreaView>
     )
 };
-
-const styles = StyleSheet.create({
-	listContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		width: '100%',
-		padding: 10,
-		borderBottomColor: '#DEDDE7',
-		borderBottomWidth: 1
-	},
-  });
 
 export default Home;

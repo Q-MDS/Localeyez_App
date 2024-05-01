@@ -36,10 +36,7 @@ const NewView = (props) =>
 		const arb = JSON.parse(token);
 		const apiData = { business_id: business.id };
 
-		console.log('Approve Business:', apiData, " >>> ", token);
-
 		const res = await approveBusiness(arb, apiData);
-		console.log('Approve Business:', res);
 		const status = res.status;
 
 		if (status)
@@ -50,7 +47,7 @@ const NewView = (props) =>
 				[
 				  {
 					text: "OK",
-					onPress: () => props.navigation.navigate('AdminNewBusinessHome', {refresh: true})
+					onPress: () => props.navigation.navigate('AdminNewBusinessHome')
 				  }
 				]
 			  );
@@ -81,9 +78,46 @@ const NewView = (props) =>
 				onPress: () => console.log("Cancel Pressed"),
 				style: "cancel"
 			  },
-			  { text: "OK", onPress: () => console.log("OK Pressed") }
+			  { text: "OK", onPress: () => deny() }
 			]
 		  );
+	}
+
+	const deny = async () => 
+	{
+		const token = await DbUtils.getItem('admin_token');
+		const arb = JSON.parse(token);
+		const apiData = { business_id: business.id };
+
+		const res = await denyBusiness(arb, apiData);
+		const status = res.status;
+
+		if (status)
+		{
+			Alert.alert(
+				"Success",
+				"Business has been denied.",
+				[
+				  {
+					text: "OK",
+					onPress: () => props.navigation.navigate('AdminNewBusinessHome')
+				  }
+				]
+			  );
+		}
+		else
+		{
+			Alert.alert(
+				"Error",
+				"An error occurred. Please try again.",
+				[
+				  {
+					text: "OK",
+					onPress: () => console.log("OK Pressed")
+				  }
+				]
+			  );
+		}
 	}
 
     return (
@@ -92,35 +126,35 @@ const NewView = (props) =>
             <DividerTop />
             <ScrollView>
             <Layout style={MainStyles.layout_container}>
-				<Text category='h6' status="primary">Email</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Email</Text>
 				<Text category='p1' status="primary">{business.email}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">First Name</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>First Name</Text>
 				<Text category='p1' status="primary">{business.first_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Last Name</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Last Name</Text>
 				<Text category='p1' status="primary">{business.last_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Company Name</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Name</Text>
 				<Text category='p1' status="primary">{business.company_name}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Company Phone Number</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Phone Number</Text>
 				<Text category='p1' status="primary">{business.contact_number}</Text>
                 <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Location</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Location</Text>
 				<Text category='p1' status="primary">{business.loc_add_one}</Text>
 				<Text category='p1' status="primary">{business.loc_add_two}</Text>
 				<Text category='p1' status="primary">{business.loc_city}</Text>
 				<Text category='p1' status="primary">{business.loc_province}</Text>
 				<Text category='p1' status="primary">{business.loc_zip_code}</Text>
 				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Business Bio</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Bio</Text>
 				<Text category='p1' status="primary">{business.business_bio}</Text>
 				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Small Business</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Small Business</Text>
 				<Text category='p1' status="primary">{business.is_local}</Text>
 				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Social Media</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Social Media</Text>
 				<Text category='p2' status="primary">X</Text>
 				<Text category='p1' status="primary">{business.sm_x === '' ? "-" : business.sm_x}</Text>
 				<Text category='p2' status="primary">Instagram</Text>
@@ -132,7 +166,7 @@ const NewView = (props) =>
 				<Text category='p2' status="primary">Website</Text>
 				<Text category='p1' status="primary">{business.sm_www === '' ? "-" : business.sm_www}</Text>
 				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='h6' status="primary">Business Sectors</Text>
+				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Sectors</Text>
                 {JSON.parse(business.sectors).map((sector, index) => (
 					<Text key={index} category="p1" status="primary" >{sector}</Text>
 				))}
