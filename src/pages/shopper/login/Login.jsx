@@ -30,7 +30,6 @@ function reducer(state, action)
 const Login = (props) => 
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
-    // const [email, setEmail] = useState('');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -40,6 +39,28 @@ const Login = (props) =>
 			payload: {...state, [name]: newValue}
 		});
 	}
+
+	const getProfile = async () => 
+	{
+		const profile = await DbUtils.getItem('shopper_profile')
+        .then((profile) => 
+        {
+			console.log('Profile:', profile);
+			if (profile === null) return;
+			dispatch(
+			{
+				type: 'SHOPPER_LOGIN',
+				payload: 
+				{
+					credOne: JSON.parse(profile).email,
+				},
+			});
+        });
+	}
+
+	useEffect(() => {
+		getProfile();
+	}, []);
 
     const handleLogin = async () => 
     {

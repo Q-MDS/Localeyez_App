@@ -18,7 +18,7 @@ const Start = (props) =>
 	{
 		// Leaving clear here for security purposes. If user is logged out and the app is started there should be no data in the db.
 		// Commenting out for testing purposes.
-		DbUtils.clear();
+		// DbUtils.clear();
 	}, []);
 
     return (

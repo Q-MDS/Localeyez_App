@@ -13,8 +13,8 @@ import TextTwo from '../../../components/TextTwo';
 import { InputLabel } from '../../../components/InputLabel';
 
 const initialState = {
-	credOne: 'Harry@gmail.com',
-	credTwo: '123456',
+	credOne: '',
+	credTwo: '',
 };
 
 function reducer(state: any, action: { type: any; payload: any; }) 
@@ -40,9 +40,29 @@ const Login = (props: any) =>
 			payload: {...state, [name]: newValue}
 		});
 	}
-	
-    // const [credOne, setCredOne] = useState('Harry@gmail.com');
-    // const [credTwo, setCredTwo] = useState('123456');
+
+	const getProfile = async () => 
+	{
+		const profile = await DbUtils.getItem('business_profile')
+		.then((profile:any) => 
+		{
+			console.log('Profile:', profile);
+			if (profile === null) return;
+			dispatch(
+			{
+				type: 'BUSINESS_LOGIN',
+				payload: 
+				{
+					credOne: JSON.parse(profile).email,
+				},
+			});
+		});
+	}
+
+	useEffect(() => 
+	{
+		getProfile();
+	}, []);
 
     const handleLogin = async () => 
     {

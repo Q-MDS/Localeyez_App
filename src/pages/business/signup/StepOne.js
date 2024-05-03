@@ -36,6 +36,7 @@ const StepOne = (props) =>
     const [isLoading, setIsLoading] = useState(true);
 	const [isPasswordFocused, setIsPasswordFocused] = React.useState(false);
 	const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = React.useState(false);
+	const [isReady, setIsReady] = useState(false);
 
     function handleInputChange(name, newValue) 
 	{
@@ -46,22 +47,30 @@ const StepOne = (props) =>
 		});
 	}
 
-	const chkProfile = async () => 
+	const clrprofile = async () => 
 	{
-		const profile = await DbUtils.getItem('business_profile')
-		.then((profile) => 
-		{
-			if (profile === null) 
-			{
-				createProfile();
-			} 
-			else 
-			{
-				setIsLoading(false);
-				setProfileExists(true);
-			}
-		});
+		await DbUtils.removeItem('business_profile');
+		await DbUtils.removeItem('business_sectors');
+		
+		setIsReady(true);
 	}
+
+	// const chkProfile = async () => 
+	// {
+	// 	const profile = await DbUtils.getItem('business_profile')
+	// 	.then((profile) => 
+	// 	{
+	// 		if (profile === null) 
+	// 		{
+	// 			createProfile();
+	// 		} 
+	// 		else 
+	// 		{
+	// 			setIsLoading(false);
+	// 			setProfileExists(true);
+	// 		}
+	// 	});
+	// }
 
     const createProfile = async () => 
     {
@@ -136,27 +145,27 @@ const StepOne = (props) =>
 		setProfileExists(true);
     }
 
-    const getProfile = async () => 
-    {
-        const profile = await DbUtils.getItem('business_profile')
-        .then((profile) => 
-        {
-			dispatch(
-			{
-				type: 'SET_SIGNUP_ONE',
-				payload: 
-				{
-					email: JSON.parse(profile).email,
-					firstName: JSON.parse(profile).first_name,
-					lastName: JSON.parse(profile).last_name,
-					password: JSON.parse(profile).password,
-					confirmPassword: JSON.parse(profile).password,
-				},
-			});
+    // const getProfile = async () => 
+    // {
+    //     const profile = await DbUtils.getItem('business_profile')
+    //     .then((profile) => 
+    //     {
+	// 		dispatch(
+	// 		{
+	// 			type: 'SET_SIGNUP_ONE',
+	// 			payload: 
+	// 			{
+	// 				email: JSON.parse(profile).email,
+	// 				firstName: JSON.parse(profile).first_name,
+	// 				lastName: JSON.parse(profile).last_name,
+	// 				password: JSON.parse(profile).password,
+	// 				confirmPassword: JSON.parse(profile).password,
+	// 			},
+	// 		});
 
-            setIsLoading(false);
-        });
-    }
+    //         setIsLoading(false);
+    //     });
+    // }
 
     const updProfile = async (key, newValue) => 
     {
@@ -168,19 +177,32 @@ const StepOne = (props) =>
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
 
-    useEffect(() => 
-    {
-        chkProfile();
-		// createProfile();
-    }, []);
+	useEffect(() => 
+	{
+		clrprofile();
+	}, []);
+	
+	useEffect(() => 
+	{
+		if (isReady)
+		{
+			createProfile();
+		}
+	}, [isReady]);
 
-    useEffect(() => 
-    {
-        if (profileExists)
-        {
-            getProfile();
-        }
-    }, [profileExists === true]);
+    // useEffect(() => 
+    // {
+    //     chkProfile();
+	// 	// createProfile();
+    // }, []);
+
+    // useEffect(() => 
+    // {
+    //     if (profileExists)
+    //     {
+    //         getProfile();
+    //     }
+    // }, [profileExists === true]);
 
     const handleNext = async () => 
     {

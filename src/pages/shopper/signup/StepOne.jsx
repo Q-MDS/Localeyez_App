@@ -42,6 +42,7 @@ const StepOne = (props) =>
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const [profileExists, setProfileExists] = useState(false);
+	const [isReady, setIsReady] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
 	function handleInputChange(name, newValue) 
@@ -51,6 +52,14 @@ const StepOne = (props) =>
 			type: 'SHOPPER_SIGNUP_ONE',
 			payload: {...state, [name]: newValue}
 		});
+	}
+
+	const clrprofile = async () => 
+	{
+		await DbUtils.removeItem('shopper_profile');
+		await DbUtils.removeItem('shopper_sectors');
+		
+		setIsReady(true);
 	}
 
 	const chkProfile = async () => 
@@ -170,17 +179,26 @@ const StepOne = (props) =>
 
     useEffect(() => 
     {
-        chkProfile();
+		clrprofile();
+        // chkProfile();
 		// createProfile();
     }, []);
 
-    useEffect(() => 
-    {
-        if (profileExists)
-        {
-            getProfile();
-        }
-    }, [profileExists === true]);
+	useEffect(() => 
+	{
+		if (isReady)
+		{
+			createProfile();
+		}
+	}, [isReady]);
+
+    // useEffect(() => 
+    // {
+    //     if (profileExists)
+    //     {
+    //         getProfile();
+    //     }
+    // }, [profileExists === true]);
 
     const handleNext = async () => 
     {

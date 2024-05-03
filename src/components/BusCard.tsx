@@ -6,11 +6,16 @@ import TextTwo from './TextTwo';
 export const BusCard = (props:any) => 
 {
 	const bg = props.index % 2 === 0 ? '#f9f8fd' : 'white';
+
 	
     return (
         <Card style={[styles.card, { backgroundColor: bg }]} onPress={props.onpress} >
 			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%', }} >
-				<Image source={{ uri: props.record.profile_pic }} style={{ width: 64, height: 64, marginEnd: 15, borderRadius:32, borderColor: 'black', borderWidth: 1 }} />
+				{/* <Image source={{ uri: props.record.profile_pic }} style={{ width: 64, height: 64, marginEnd: 15, borderRadius:32, borderColor: 'black', borderWidth: 1 }} /> */}
+				<Image 
+				source={props.record.profile_pic ? { uri: props.record.profile_pic } : require('../assets/images/pic_holder.png')} 
+				style={{ width: 64, height: 64, marginEnd: 15, borderRadius:32, borderColor: 'black', borderWidth: 1 }} 
+				/>
 				<Layout style={{ flexDirection: 'column', flex: 1, backgroundColor: bg }}>
 					<TextTwo title={props.record.company_name} fontweight="bold" fontsize={16} width='100%' />
 					<TextTwo title="Sectors" />
