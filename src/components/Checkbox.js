@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { CheckBox } from '@ui-kitten/components';
 
 export const Checkbox = (props) => 
@@ -6,6 +7,7 @@ export const Checkbox = (props) =>
     //   const [checked, setChecked] = React.useState(false);
 
     return (
+		<View>
         <CheckBox
             checked={props.checked}
             onChange={props.onChange}
@@ -13,5 +15,6 @@ export const Checkbox = (props) =>
         >
             {props.label}
         </CheckBox>
+		</View>
     );
 };

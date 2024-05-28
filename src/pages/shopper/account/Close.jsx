@@ -24,7 +24,7 @@ const Close = (props) =>
                 </View>
                 <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 30, paddingEnd: 30 }}>
                     <Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 15, width: '100%', textAlign: 'center' }}>Thank you for using Localeyez</Text>
-                    <Text category="p1" status="primary" style={{ marginTop: 15, width: '100%', textAlign: 'center' }}>Closing the account is an action that cannot be reversed. Once closed, the email address is released and can be used for creating a new Localeyez account. Your previous data will not be stored.</Text>
+                    <Text category="p1" status="basic" style={{ marginTop: 15, width: '100%', textAlign: 'center' }}>Closing the account is an action that cannot be reversed. Once closed, the email address is released and can be used for creating a new Localeyez account. Your previous data will not be stored.</Text>
                     <View style={{ marginTop: 50 }} />
                     <ButtonPrimary name="Delete Account" width="100%" onpress={handleClose} />
                     <View style={{ marginTop: 15 }} />

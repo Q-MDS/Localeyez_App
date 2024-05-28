@@ -100,9 +100,9 @@ const StepFour = (props) =>
 			<Layout style={[MainStyles.layout_container_center]}>
 				<Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
 				<View style={{ marginTop: 45 }} />
-				<TitleTwo title="Registration Complete!" />
+				<TitleTwo title="Registration Complete!" status="primary" />
 				<View style={{ marginTop: 25 }} />
-				<TextOne title="Your registration is under review by admin, you will be notified by email once your account is actived. In the meantime you can start building your business profile." textAlign="center" />
+				<TextOne title="Your registration is under review by admin, you will be notified by email once your account is actived. In the meantime you can start building your business profile." textAlign="center"  status="basic" />
 				<ButtonPrimary name="Get Started" width="100%" marginTop={35} onpress={handleGetStarted}/>
 			</Layout>
         </SafeAreaView>

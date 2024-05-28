@@ -12,6 +12,7 @@ import { TitleThree } from '../../../../../components/TitleThree';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import { DropdownMultiSelect } from '../../../../../components/DropdownMultiSelect';
 import TextTwo from '../../../../../components/TextTwo';
+import { CheckboxList } from '../../../../../components/CheckboxList';
 
 const Add = (props) => 
 {
@@ -172,8 +173,8 @@ const Add = (props) =>
 		if (ready)
 		{
 			const shopper_sectors = sectors;
-			
-			if (shopper_sectors.fashion.length > 0 || shopper_sectors.home.length > 0 || shopper_sectors.groceries.length > 0 || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
+
+			if (shopper_sectors.fashion.some(item => item.value) || shopper_sectors.home.some(item => item.value) || shopper_sectors.groceries.some(item => item.value) || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
 			setFashion(shopper_sectors.fashion);
 			setHome(shopper_sectors.home);
 			setGroceries(shopper_sectors.groceries);
@@ -181,24 +182,24 @@ const Add = (props) =>
 			setShoppingOpt2(shopper_sectors.shoppingOpt2);
 			setShoppingOpt3(shopper_sectors.shoppingOpt3);
 
-			if (shopper_sectors.accomodation.length > 0 || shopper_sectors.transport.length > 0 || shopper_sectors.travelOpt1) { setTravelCollapsed(true) } else { setTravelCollapsed(false) }
+			if (shopper_sectors.accomodation.some(item => item.value) || shopper_sectors.transport.some(item => item.value)) { setTravelCollapsed(true) } else { setTravelCollapsed(false) }
 			setAccomodation(shopper_sectors.accomodation);
 			setTransport(shopper_sectors.transport);
 			setTravelOpt1(shopper_sectors.travelOpt1);
 
-			if (shopper_sectors.sport.length > 0 || shopper_sectors.doctor.length > 0 || shopper_sectors.healthOpt1 || shopper_sectors.healthOpt2 || shopper_sectors.healthOpt3) { setHealthCollapsed(true) } else { setHealthCollapsed(false) }
+			if (shopper_sectors.sport.some(item => item.value) || shopper_sectors.doctor.some(item => item.value) || shopper_sectors.healthOpt1 || shopper_sectors.healthOpt2 || shopper_sectors.healthOpt3) { setHealthCollapsed(true) } else { setHealthCollapsed(false) }
 			setSport(shopper_sectors.sport);
 			setDoctor(shopper_sectors.doctor);
 			setHealthOpt1(shopper_sectors.healthOpt1);
 			setHealthOpt2(shopper_sectors.healthOpt2);
 			setHealthOpt3(shopper_sectors.healthOpt3);
 
-			if (shopper_sectors.eat.length > 0 || shopper_sectors.activities.length > 0 || shopper_sectors.entEvent.length > 0 ) { setEntertainmentCollapsed(true) } else { setEntertainmentCollapsed(false) }
+			if (shopper_sectors.eat.some(item => item.value) || shopper_sectors.activities.some(item => item.value) || shopper_sectors.entEvent.some(item => item.value) ) { setEntertainmentCollapsed(true) } else { setEntertainmentCollapsed(false) }
 			setEat(shopper_sectors.eat);
-			setActivities(shopper_sectors.activities	);
+			setActivities(shopper_sectors.activities);
 			setEntEvent(shopper_sectors.entEvent);
 
-			if (shopper_sectors.eduEvent.length > 0 || shopper_sectors.learn.length > 0 || shopper_sectors.employment.length > 0) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
+			if (shopper_sectors.eduEvent.some(item => item.value) || shopper_sectors.learn.some(item => item.value) || shopper_sectors.employment.some(item => item.value)) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
 			setEduEvent(shopper_sectors.eduEvent);
 			setLearn(shopper_sectors.learn);
 			setEmployment(shopper_sectors.employment);
@@ -209,14 +210,14 @@ const Add = (props) =>
 			setPropertyOpt3(shopper_sectors.propertyOpt3);
 			setPropertyOpt4(shopper_sectors.propertyOpt4);
 
-			if (shopper_sectors.serHome.length > 0 || shopper_sectors.serSelf.length > 0 || shopper_sectors.serFin.length > 0 || shopper_sectors.serPub.length > 0 || shopper_sectors.servicesOpt1) { setServicesCollapsed(true) } else { setServicesCollapsed(false) }
+			if (shopper_sectors.serHome.some(item => item.value) || shopper_sectors.serSelf.some(item => item.value) || shopper_sectors.serFin.some(item => item.value) || shopper_sectors.serPub.some(item => item.value) || shopper_sectors.servicesOpt1) { setServicesCollapsed(true) } else { setServicesCollapsed(false) }
 			setSerHome(shopper_sectors.serHome);
 			setSerSelf(shopper_sectors.serSelf);
 			setSerFin(shopper_sectors.serFin);
 			setSerPub(shopper_sectors.serPub);
 			setServicesOpt1(shopper_sectors.servicesOpt1);
 
-			if (shopper_sectors.community.length > 0 || shopper_sectors.communityOpt1 || shopper_sectors.communityOpt2 || shopper_sectors.communityOpt3 || shopper_sectors.communityOpt4) { setCommunityCollapsed(true) } else { setCommunityCollapsed(false) }
+			if (shopper_sectors.community.some(item => item.value)|| shopper_sectors.communityOpt1 || shopper_sectors.communityOpt2 || shopper_sectors.communityOpt3 || shopper_sectors.communityOpt4) { setCommunityCollapsed(true) } else { setCommunityCollapsed(false) }
 			setCommunity(shopper_sectors.community);
 			setCommunityOpt1(shopper_sectors.communityOpt1);
 			setCommunityOpt2(shopper_sectors.communityOpt2);
@@ -224,6 +225,169 @@ const Add = (props) =>
 			setCommunityOpt4(shopper_sectors.communityOpt4);
 		}
 	}, [ready]);
+
+	const handleFashionChange = (label, isChecked) => 
+		{
+			setFashion(prevFashion => 
+			{
+				return prevFashion.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleHomeChange = (label, isChecked) => 
+		{
+			setHome(prevHome => 
+			{
+				return prevHome.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleGroceriesChange = (label, isChecked) => 
+		{
+			setGroceries(prevGroceries => 
+			{
+				return prevGroceries.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleAccomodationChange = (label, isChecked) => 
+		{
+			setAccomodation(prevAccomodation => 
+			{
+				return prevAccomodation.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleTransportChange = (label, isChecked) => 
+		{
+			setTransport(prevTransport => 
+			{
+				return prevTransport.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleSportChange = (label, isChecked) => 
+		{
+			setSport(prevSport => 
+			{
+				return prevSport.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleDoctorChange = (label, isChecked) => 
+		{
+			setDoctor(prevDoctor => 
+			{
+				return prevDoctor.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleEatChange = (label, isChecked) => 
+		{
+			setEat(prevEat => 
+			{
+				return prevEat.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleActivitiesChange = (label, isChecked) => 
+		{
+			setActivities(prevActivities => 
+			{
+				return prevActivities.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleEntEventChange = (label, isChecked) => 
+		{
+			setEntEvent(prevEntEvent => 
+			{
+				return prevEntEvent.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleEduEventChange = (label, isChecked) => 
+		{
+			setEduEvent(prevEduEvent => 
+			{
+				return prevEduEvent.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleLearnChange = (label, isChecked) => 
+		{
+			setLearn(prevLearn => 
+			{
+				return prevLearn.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleEmploymentChange = (label, isChecked) => 
+		{
+			setEmployment(prevEmployment => 
+			{
+				return prevEmployment.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleSerHomeChange = (label, isChecked) => 
+		{
+			setSerHome(prevSerHome => 
+			{
+				return prevSerHome.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleSerSelfChange = (label, isChecked) => 
+		{
+			setSerSelf(prevSerSelf => 
+			{
+				return prevSerSelf.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleSerFinChange = (label, isChecked) => 
+		{
+			setSerFin(prevSerFin => 
+			{
+				return prevSerFin.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleSerPubChange = (label, isChecked) => 
+		{
+			setSerPub(prevSerPub => 
+			{
+				return prevSerPub.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
+		const handleCommunityChange = (label, isChecked) => 
+		{
+			setCommunity(prevCommunity => 
+			{
+				return prevCommunity.map(item => 
+				item.label === label ? { ...item, value: isChecked } : item
+				);
+			});
+		};
 
 	const handleSubmit = async () => 
     {
@@ -317,21 +481,21 @@ const Add = (props) =>
 			<TopNavBack title="Manage business sectors" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ backgroundColor: 'white', borderColor: 'red', borderWidth: 0 }}>
                 <Layout style={[MainStyles.layout_container, style={paddingTop: 10, paddingStart: 15, paddingEnd: 15}]}>
-					<TextTwo title="Choose which sector(s) your business falls under" mb={15} />
+					<TextTwo title="Choose which sector(s) your business falls under" mb={15} status="basic" />
 					{/* <Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} /> */}
 					{/* Shopping */}
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setShoppingCollapsed(!shoppingCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
-								<TitleThree title={shoppingData.title} mb={5} flex={1} />
+								<TitleThree title={shoppingData.title} mb={5} flex={1} status="primary" />
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
 						{shoppingCollapsed && (
 							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-								<DropdownMultiSelect data={fashionData} icon="shopping-cart-outline" value={fashion} onChange={setFashion} placeholder={shoppingLabels[0]} />
-								<DropdownMultiSelect data={homeData} icon="shopping-cart-outline" value={home} onChange={setHome} placeholder={shoppingLabels[1]} />
-								<DropdownMultiSelect data={groceriesData} icon="shopping-cart-outline" value={groceries} onChange={setGroceries} placeholder={shoppingLabels[2]} />
+							<CheckboxList title={shoppingLabels[0]} data={fashion} onCheckboxChange={handleFashionChange} />
+								<CheckboxList title={shoppingLabels[1]} data={home} onCheckboxChange={handleHomeChange} />
+								<CheckboxList title={shoppingLabels[2]} data={groceries} onCheckboxChange={handleGroceriesChange} />
 								<Checkbox label={shoppingLabels[3]} checked={shoppingOpt1} onChange={setShoppingOpt1} mt={15} mb={10} />
 								<Checkbox label={shoppingLabels[4]} checked={shoppingOpt2} onChange={setShoppingOpt2} mb={10} />
 								<Checkbox label={shoppingLabels[5]} checked={shoppingOpt3} onChange={setShoppingOpt3}  mb={10} />
@@ -345,14 +509,14 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setTravelCollapsed(!travelCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-								<TitleThree title={travelData.title} mb={5} flex={1}  />
+								<TitleThree title={travelData.title} mb={5} flex={1} status="primary" />
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
 						{travelCollapsed && (
 							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-								<DropdownMultiSelect data={accommodationData} icon="navigation-2-outline" value={accomodation} onChange={setAccomodation} placeholder={travelLabels[0]} />
-								<DropdownMultiSelect data={transportData} icon="navigation-2-outline" value={transport} onChange={setTransport} placeholder={travelLabels[1]} />
+								<CheckboxList title={travelLabels[0]} data={accomodation} onCheckboxChange={handleAccomodationChange} />
+								<CheckboxList title={travelLabels[1]} data={transport} onCheckboxChange={handleTransportChange} />
 								<Checkbox label={travelLabels[2]} checked={travelOpt1} onChange={setTravelOpt1} mt={15} mb={10} />
 							</View>
 						)}
@@ -364,14 +528,14 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setHealthCollapsed(!healthCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={healthData.title} mb={5} flex={1} />
+                            <TitleThree title={healthData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{healthCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={sportData} icon={"activity-outline"} value={sport} onChange={setSport} placeholder={healthLabels[0]} />
-							<DropdownMultiSelect data={doctorData} icon={"activity-outline"} value={doctor} onChange={setDoctor} placeholder={healthLabels[1]} />
+						<CheckboxList title={healthLabels[0]} data={sport} onCheckboxChange={handleSportChange} />
+							<CheckboxList title={healthLabels[1]} data={doctor} onCheckboxChange={handleDoctorChange} />
 							<Checkbox label={healthLabels[2]} checked={healthOpt1} onChange={setHealthOpt1} mt={15} mb={10} />
 							<Checkbox label={healthLabels[3]} checked={healthOpt2} onChange={setHealthOpt2} mt={15} mb={10} />
 							<Checkbox label={healthLabels[4]} checked={healthOpt3} onChange={setHealthOpt3} mt={15} mb={10} />
@@ -385,15 +549,15 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEntertainmentCollapsed(!entertainmentCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={entertainmentData.title} mb={5} flex={1} />
+                            <TitleThree title={entertainmentData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{entertainmentCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={eatData} icon="music-outline" value={eat} onChange={setEat} placeholder={entertainmentLabels[0]} />
-							<DropdownMultiSelect data={activitiesData} icon="music-outline" value={activities} onChange={setActivities} placeholder={entertainmentLabels[1]} />
-							<DropdownMultiSelect data={entEventData} icon="music-outline" value={entEvent} onChange={setEntEvent} placeholder={entertainmentLabels[2]} />
+							<CheckboxList title={entertainmentLabels[0]} data={eat} onCheckboxChange={handleEatChange} />
+							<CheckboxList title={entertainmentLabels[1]} data={activities} onCheckboxChange={handleActivitiesChange} />
+							<CheckboxList title={entertainmentLabels[2]} data={entEvent} onCheckboxChange={handleEntEventChange} />
 						</View>
 					)}
 					</Card>
@@ -404,15 +568,15 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEducationCollapsed(!educationCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={educationData.title} mb={5} flex={1} />
+                            <TitleThree title={educationData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{educationCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={eduEventData} icon="book-open-outline" value={eduEvent} onChange={setEduEvent} placeholder={educationLabels[0]} />
-							<DropdownMultiSelect data={learnData} icon="book-open-outline" value={learn} onChange={setLearn} placeholder={educationLabels[1]} />
-							<DropdownMultiSelect data={employmentData} icon="book-open-outline" value={employment} onChange={setEmployment} placeholder={educationLabels[2]} />
+							<CheckboxList title={educationLabels[0]} data={eduEvent} onCheckboxChange={handleEduEventChange} />
+							<CheckboxList title={educationLabels[1]} data={learn} onCheckboxChange={handleLearnChange} />
+							<CheckboxList title={educationLabels[2]} data={employment} onCheckboxChange={handleEmploymentChange} />
 						</View>
 					)}
 					</Card>
@@ -423,7 +587,7 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setPropertyCollapsed(!propertyCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={propertyData.title} mb={5} flex={1} />
+                            <TitleThree title={propertyData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -443,16 +607,16 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setServicesCollapsed(!servicesCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={servicesData.title} mb={5} flex={1} />
+                            <TitleThree title={servicesData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{servicesCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={serHomeData} icon="link-2-outline" value={serHome} onChange={setSerHome} placeholder={servicesLabels[0]} />
-							<DropdownMultiSelect data={serSelfData} icon="link-2-outline" value={serSelf} onChange={setSerSelf} placeholder={servicesLabels[1]} />
-							<DropdownMultiSelect data={serFinData} icon="link-2-outline" value={serFin} onChange={setSerFin} placeholder={servicesLabels[2]} />
-							<DropdownMultiSelect data={serPubData} icon="link-2-outline" value={serPub} onChange={setSerPub} placeholder={servicesLabels[3]} />
+						<CheckboxList title={servicesLabels[0]} data={serHome} onCheckboxChange={handleSerHomeChange} />
+							<CheckboxList title={servicesLabels[1]} data={serSelf} onCheckboxChange={handleSerSelfChange} />
+							<CheckboxList title={servicesLabels[2]} data={serFin} onCheckboxChange={handleSerFinChange} />
+							<CheckboxList title={servicesLabels[3]} data={serPub} onCheckboxChange={handleSerPubChange} />
 							<Checkbox label={servicesLabels[4]} checked={servicesOpt1} onChange={setServicesOpt1} mt={15} mb={10} />							
 						</View>
 					)}
@@ -464,7 +628,7 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setCommunityCollapsed(!communityCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={communityData.title} mb={5} flex={1} />
+                            <TitleThree title={communityData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -474,7 +638,7 @@ const Add = (props) =>
 							<Checkbox label={communityLabels[1]} checked={communityOpt2} onChange={setCommunityOpt2} mt={15} mb={10} />							
 							<Checkbox label={communityLabels[2]} checked={communityOpt3} onChange={setCommunityOpt3} mt={15} mb={10} />							
 							<Checkbox label={communityLabels[3]} checked={communityOpt4} onChange={setCommunityOpt4} mt={15} mb={10} />							
-							<DropdownMultiSelect data={commData} icon="people-outline" value={community} onChange={setCommunity} placeholder={communityLabels[4]} />
+							<CheckboxList title={communityLabels[4]} data={community} onCheckboxChange={handleCommunityChange} />
 						</View>
 					)}
 					</Card>

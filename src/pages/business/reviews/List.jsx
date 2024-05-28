@@ -50,29 +50,29 @@ const ReviewList = (props) =>
 		{
 			try 
 			{
-				console.log('Fetching reviews...');
-				const data = [{business_id: businessId}];
+				const data = {business_id: businessId};
 				let params = JSON.stringify(data);
+				console.log('Fetching reviews...', data);
 
-				const res = await getBusinessReviews(token, params);
-
-				let avgRating = res.data.average_rating;
-				setAverageRating(Number(avgRating.toFixed(2)));
-				setReviews(res.data.reviews);
-
+				await getBusinessReviews(token, params)
+				.then((res) => 
+				{
+					if (res.status)
+					{
+						let avgRating = res.data.average_rating;
+						setAverageRating(Number(avgRating.toFixed(2)));
+						setReviews(res.data.reviews);
+					} 
+					else 
+					{
+						setAverageRating(0);
+						setReviews([]);
+					}
+				});
 			} 
 			catch (error) 
 			{
-				Toast.show({
-					type: 'error',
-					position: 'bottom',
-					text1: 'There was an error fetching the reviews.',
-					text2: 'Please try again.',
-					visibilityTime: 4000,
-					autoHide: true,
-					topOffset: 30,
-					bottomOffset: 40,
-				});
+				// console.log('Error fetching reviews:', error);;
 			}
 		};
 
@@ -94,9 +94,13 @@ const ReviewList = (props) =>
             <TopNavBusReviews title='Your Reviews' rating={averageRating} />
                 <ScrollView>
                     <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-					{reviews.map((review, index) => (
-  						<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
-					))}
+						{reviews.length > 0 ?
+							reviews.map((review, index) => (
+  							<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
+						))
+						:
+							<Text>No reviews available</Text>
+						}
                     </Layout>
                 </ScrollView>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />

@@ -20,7 +20,7 @@ const ContactConfirm = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Layout style={{ flexDirection: 'column', width: "100%", padding: 40, paddingTop: 80, position: 'absolute', bottom: 0, borderTopStartRadius: 40, borderTopEndRadius: 40 }} >
-                 <TitleThree title="We will be in contact with you soon via email." textalign='center' />
+                 <TitleThree title="We will be in contact with you soon via email." textalign='center' status="basic" />
                 <View style={{ marginTop: 50 }} />
                 <ButtonPrimary name="Goto Home Page" onpress={handleContinue} />
                 <View style={{ marginTop: 15 }} />

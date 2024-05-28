@@ -3,7 +3,7 @@ import DbUtils from "../../../../services/DbUtils";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { delPromotion } from "../../../../services/api_helper";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, Image } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import TextTwo from "../../../../components/TextTwo";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
@@ -87,13 +87,17 @@ const Delete = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Layout style={{ flexDirection: 'column', width: "100%", padding: 40, paddingTop: 80, position: 'absolute', bottom: 0, borderTopStartRadius: 40, borderTopEndRadius: 40 }} >
-                <TitleThree title="Are you sure you want to delete your promotion?" textalign='center' />
-                <TextTwo title="If you delete the promotion, all the promotion details will be discarded." width="100%" mt={25} mb={25} textalign='center' />
-                <ButtonPrimary name="Delete Promotion" onpress={handleDelete} />
-                <View style={{ marginTop: 15 }} />
-                <ButtonSecondary name="Go Back" onpress={handleDiscard} />
+        <SafeAreaView style={{flex: 1}}>
+            <Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+				<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+					<Image source={require('../../../../assets/images/app_pic_5.png')} style={{ objectFit: 'contain' }} />
+				</View>
+				<View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 30, paddingEnd: 30 }}>
+					<TitleThree title="Are you sure you want to delete your promotion?" status="basic" textalign='center' />
+					<TextTwo title="If you delete the promotion, all the promotion details will be discarded." width="100%" mt={25} mb={25} status="basic" textalign='center' />
+					<ButtonPrimary name="Delete Promotion" width="100%" onpress={handleDelete} />
+                	<ButtonSecondary name="Go Back" width="100%" marginTop={20} onpress={handleDiscard} />
+				</View>
             </Layout>
         </SafeAreaView>
     );

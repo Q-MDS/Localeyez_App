@@ -4,7 +4,7 @@ import { Text } from '@ui-kitten/components';
 
 const TextTwo = (props) => (
     <>
-        <Text status="primary" style={[styles.text, 
+        <Text status={props.status} style={[styles.text, 
 		{ 
 			lineHeight: props.lineheight, 
 			textDecorationLine: props.underline, 

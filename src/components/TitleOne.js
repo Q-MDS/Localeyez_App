@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 export const TitleOne = (props) => (
   <>
-    <Text style={[styles.text, { textAlign: props.textAlign }]} status='primary'>
+    <Text style={[styles.text, { textAlign: props.textAlign }]} status={props.status}>
       {props.title}
     </Text>
   </>

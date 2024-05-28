@@ -18,6 +18,8 @@ import { Label } from '../../../../../components/Label';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import CustomIcon from '../../../../../components/CustomIcon';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
+import { InputOnly } from '../../../../../components/InputOnly';
+import { InputZip } from '../../../../../components/InputZip';
 
 const initialState = {
 	businessId: null,
@@ -357,57 +359,67 @@ const Edit = (props) =>
         <TabsBusProf selected={0} value={selectedIndex} onchange={handleGotoProfile} />
             <ScrollView style={{ width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                    <TitleFour title="Upload Display Picture" mb={10} />
+                    <TitleFour title="Upload Display Picture" mb={10} status="primary" />
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
 							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
-							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
-							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
+							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
+							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
+							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
-                    <TitleFour title="Upload Banner Picture" mt={15} mb={10} />
+                    <TitleFour title="Upload Banner Picture" mt={15} mb={10} status="primary" />
 					<TouchableOpacity onPress={chooseBannerImage} style={{ width: '100%' }}>
 						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
 							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
-							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
-							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
+							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
+							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
+							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
 							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" />
+                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
-                    <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
+					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} />
+                    <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="+2782 111 2222" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Location" textalign="left" fontweight="bold" mb={5} />
-					<InputLabel name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" />
-					<InputLabel name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} />
-					<InputLabel name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} />
-					<InputLabel name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} />
-					<InputLabel name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} />
+					<Label title="Location" textalign="left" mb={5} status="basic" fontsize={13} />
+					<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" />
+					<InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} />
+					<InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} />
+					<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} />
+					<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} />
+                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" />
                     <View style={{ marginTop: 15 }} />
-                    <View style={{ marginTop: 15 }} />
-                    <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
-                    <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
-                    <View style={{ marginTop: 10 }} />
-                    <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
-                    <View style={{ marginTop: 10 }} />
-                    <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
-                    <View style={{ marginTop: 10 }} />
-                    <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
-                    <View style={{ marginTop: 10 }} />
-                    <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" />
+
+					<Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" />
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }} >
+						<Image source={require('../../../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+					</View>
+					<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" status="basic" />
+
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+                    	<Image source={require('../../../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+					</View>
+                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" />
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit}/>
                 </Layout>

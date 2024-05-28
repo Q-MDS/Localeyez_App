@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import DbUtils from "../../../../services/DbUtils";
+import { useFocusEffect } from '@react-navigation/native';
 import { businessProfilePic } from "../../../../services/api_upload";
 import Toast from 'react-native-toast-message';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -48,16 +49,23 @@ const Home = (props) =>
 
 	const getToken = async () => 
 	{
-		const getToken = await DbUtils.getItem('token');
+		await DbUtils.getItem('token').then((getToken) => 
+		{
+			console.log('Token:', getToken);
+			setToken(JSON.parse(getToken));
+		})
 
-		setToken(JSON.parse(getToken));
 	}
 
 	const getBusinessId = async () => 
 	{
-		const id = await DbUtils.getItem('business_id');
+		await DbUtils.getItem('business_id')
+		.then((id) => 
+		{
+			console.log('ID:', id);
+			setBusinessId(JSON.parse(id));
+		});
 		
-		setBusinessId(JSON.parse(id));
 	}
 
 	const getProfile = async () => 
@@ -79,7 +87,7 @@ const Home = (props) =>
         });
     }
 
-	useEffect(() => 
+	useFocusEffect(React.useCallback(() => 
 	{
 		const fetchData = async () => 
 		{
@@ -90,7 +98,20 @@ const Home = (props) =>
 		};
 
 		fetchData();
-	}, []);
+	}, []));
+	
+	// useEffect(() => 
+	// {
+	// 	const fetchData = async () => 
+	// 	{
+	// 		await getToken();
+	// 		await getBusinessId();
+			
+	// 		setIsReady(true);
+	// 	};
+
+	// 	fetchData();
+	// }, []);
 
 	const updProfile = async (key, newValue) => 
     {
@@ -210,18 +231,18 @@ const Home = (props) =>
 							<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
 						)}
 					</TouchableOpacity>
-                        <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName} ${state.lastName}`}</Text>
-                        <Text category="p1" status="primary">{state.email}</Text>
+                        <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
+                        <Text category="p1" status="basic">{state.email}</Text>
                     </Layout>
                     <Divider />
                 <Layout style={[MainStyles.layout_container ]}>
-                    <IconTextIcon title="Edit Personal Information" iconLeft="person-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccEdit" />
+                    <IconTextIcon title="Edit Personal Information" status="basic" iconLeft="person-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccEdit" />
                     <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
-                    <IconTextIcon title="Pricing Plan" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccPricing" />
+                    <IconTextIcon title="Pricing Plan" status="basic" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccPricing" />
                     <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
-                    <IconTextIcon title="Security" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccSecurity" />
+                    <IconTextIcon title="Security" status="basic" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="BusDashAccSecurity" />
                     <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
-                    <IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" type={0} navigation={props.navigation} onpress="PrivacyPolicy" />
+                    <IconTextIcon title="Privacy Policy" status="basic" iconLeft="lock-outline" iconRight="chevron-right-outline" type={0} navigation={props.navigation} onpress="PrivacyPolicy" />
                     <Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%' }} >
                         <ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
                         <View style={{ marginTop: 15 }} />

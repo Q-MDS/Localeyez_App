@@ -37,7 +37,7 @@ export const BotNav = (props) =>
     return (
         <BottomNavigation
             selectedIndex={selectedIndex}
-            indicatorStyle={{ backgroundColor: '#8F9BB3' }}
+            indicatorStyle={{ backgroundColor: '#612bc1' }}
             onSelect={navigateToScreen}
         >
             <BottomNavigationTab icon={LeftIcon} />

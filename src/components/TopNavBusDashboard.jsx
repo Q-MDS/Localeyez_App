@@ -13,15 +13,15 @@ export const TopNavBusDashboard = (props) =>
         props.navigation.navigate('BusDashAccHome');
     };
 
-    const NotiIcon = (props) => ( <Icon {...props} name='bell-outline' fill='#8C89B7' style={{ width: 32, height: 32, }} /> );
-    const AccountIcon = (props) => ( <Icon {...props} name='person' fill='#8C89B7' style={{ width: 32, height: 32, }} /> );
+    const NotiIcon = (props) => ( <Icon {...props} name='bell-outline' fill='#612bc1' style={{ width: 32, height: 32, }} /> );
+    const AccountIcon = (props) => ( <Icon {...props} name='person' fill='#612bc1' style={{ width: 32, height: 32, }} /> );
 
     const NotiAction = () => ( <TopNavigationAction icon={NotiIcon} onPress={gotoNotification} /> );
     const AccountAction = () => ( <TopNavigationAction icon={AccountIcon} onPress={gotoAccount} /> );
 
     return (
         <TopNavigation
-        title={(evaProps) => <Layout style={{ flexDirection: 'row' }}><Text {...evaProps} style={{color: '#131141', fontSize: 20}}>Hello, </Text><Text {...evaProps} style={{color: '#131141', fontSize: 20, fontWeight: 'bold'}}>{props.title}</Text></Layout>}
+        title={(evaProps) => <Layout style={{ flexDirection: 'row' }}><Text {...evaProps} style={{color: '#131141', fontSize: 20}}>Hello, </Text><Text {...evaProps} style={{color: '#612bc1', fontSize: 20, fontWeight: 'bold'}}>{props.title}</Text></Layout>}
         alignment="start"
         style={{ paddingStart: 20 }}
         accessoryRight={

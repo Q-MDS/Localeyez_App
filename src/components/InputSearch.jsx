@@ -36,7 +36,7 @@ export const InputSearch = (props) => {
 			<Image source={require('../assets/images/icon_search.png')} style={{ width: 24, height: 24, opacity: 0.8 }} />
 		</TouchableOpacity>
 		<TouchableOpacity style={{ position: 'absolute', right: 6, top: 5 }} onPress={props.searchButton} >
-			<Image source={require('../assets/images/icon_go.png')} style={{ width: 48, height: 48 }} />
+			<Image source={require('../assets/images/icon_go.png')} style={{ width: 48, height: 48  }} />
 		</TouchableOpacity>
 	</Layout>
 	

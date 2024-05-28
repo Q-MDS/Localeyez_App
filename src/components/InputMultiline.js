@@ -1,22 +1,35 @@
 import React from 'react';
-import { Input } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import { Input, Text } from '@ui-kitten/components';
+import { View } from 'react-native';
 
-export const InputMultiline = (props) => {
+export const InputMultiline = (props) => 
+{
+	const renderLabel = () => {
+		if (props.label !== '') {
+			return(
+			<View>
+			<Text status={props.status} style={{ fontSize: 14, paddingBottom: 5 }}>{props.label}</Text>
+			</View>
+			);
+		} 
+		else 
+		{
+			return null;
+		}
+	};
 
-
-  return (
-    <Input
-        label={props.label}
-		name={props.name}
-        placeholder={props.placeholder}
-        value={props.value}
-        multiline={true}
-		numberOfLines={props.numLines}
-		textStyle={{ textAlignVertical: 'top', padding: 10, paddingTop: 15, marginStart: 0, color: '#8C89B7'}}
-        status='basic'
-		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-		style={{ borderRadius: 20 }}
-    />
-  );
+  	return (
+		<Input
+			label={renderLabel}
+			name={props.name}
+			placeholder={props.placeholder}
+			value={props.value}
+			multiline={true}
+			numberOfLines={props.numLines}
+			textStyle={{ paddingTop: 10, paddingBottom: 10, marginStart: 0 }}
+			status='basic'
+			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+			style={{ borderRadius: 20 }}
+		/>
+  	);
 };

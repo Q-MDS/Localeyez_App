@@ -21,12 +21,9 @@ console.log('Record: ', record);
                 <Layout style={ MainStyles.layout_container_grid }>
 					{record.contact_type === '0' && <ContactCard title={record.contact.company_name} email={record.contact.email} image={record.contact.profile_pic} />}	
 					{record.contact_type === '1' && <ContactCard title={`${record.contact.first_name} ${record.contact.last_name}`} email={record.contact.email} image={record.contact.profile_pic} />}	
-
-
-                    
                     <Divider style={{ width: '100%', backgroundColor: '#DEDDE7', height: 1 }} />
                     <View style={{ padding: 30, }}>
-                        <TextTwo lineheight={25} title={record.mesage_desc} />
+                        <TextTwo status="basic" lineheight={25} title={record.mesage_desc} />
                     </View>
                 </Layout>
             <BotNav selected={2} />

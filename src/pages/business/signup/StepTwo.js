@@ -7,9 +7,10 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
-import { SafeAreaView, ScrollView, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, ActivityIndicator, Image } from 'react-native';
 import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
+import { InputOnly } from '../../../components/InputOnly';
 
 const initialState = {
 	email: null,
@@ -42,21 +43,6 @@ function reducer(state, action)
 
 const StepTwo = (props) => 
 {
-    // const [contactNumber, setContactNumber] = useState('');
-    // const [companyName, setCompanyName] = useState('');
-    // const [addressOne, setAddressOne] = useState('');
-    // const [addressTwo, setAddressTwo] = useState('');
-    // const [city, setCity] = useState('');
-    // const [province, setProvince] = useState('');
-    // const [zipCode, setZipCode] = useState('');
-    // const [businessBio, setBusinessBio] = useState('');
-    // const [xUrl, setXUrl] = useState('');
-    // const [instgramUrl, setInstagramUrl] = useState('');
-    // const [facebookUrl, setFacebookUrl] = useState('');
-    // const [linkedinUrl, setLinkedinUrl] = useState('');
-    // const [wwwUrl, setWwwUrl] = useState('');
-    // const [isLocal, setIsLocal] = useState('');
-
 	const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -176,49 +162,60 @@ const StepTwo = (props) =>
             <ScrollView>
                 <Layout style={MainStyles.layout_container}>
                     <View style={{ marginTop: 25 }} />
-					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" />
+					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
-                    <Label title="Contact Number" textalign="left" fontweight="bold" mb={5} />
-					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
+                    <Label title="Contact Number" textalign="left" mb={5} status="basic" />
+					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" />
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} />
+                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} />
+                    <InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="City" name="city" value={state.city} onChange={handleInputChange} />
+                    <InputOnly placeholder="City" name="city" value={state.city} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="Province" name="province" value={state.province} onChange={handleInputChange} />
+                    <InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} />
                     <View style={{ marginTop: 5 }} />
-                    <InputLabel placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} />
+                    <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your business" />
+                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" />
                     <View style={{ marginTop: 15 }} />
-                    <Label title="Are a small & local business?" textalign="left" fontweight="bold" mb={5} />
-                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
+                    <Label title="Are a small & local business?" textalign="left" mb={5} status="basic" />
+                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
                         <Toggle
                             checked={state.isLocal}
                             onChange={() => setIsLocal(!state.isLocal)}
                             >
-                            <Text category='p2'>{state.isLocal ? 'Yes' : 'No'}</Text>
+                            <Text category='p2' status="basic">{state.isLocal ? 'Yes' : 'No'}</Text>
                         </Toggle>
                     </Layout>
                     <View style={{ marginTop: 15 }} />
-                    <Label title="Connect Your Social Media (optional)" textalign="left" fontweight="bold" mb={5} />
-                    {/* <Icon name="twitter-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} /> */}
-					<CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" />
-                    <View style={{ marginTop: 10 }} />
-					<CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
-                    <View style={{ marginTop: 10 }} />
-					<CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
-                    <View style={{ marginTop: 10 }} />
-					<CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />
-                    <InputLabel name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
-                    <View style={{ marginTop: 10 }} />
-                    <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
-                    <InputLabel name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} placeholder="Write Website URL here" />
+                    <Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" />
+                    
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+					</View>
+                    <InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" />
+					
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" />
+                    
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+					</View>
+                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<Image source={require('../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
+					</View>
+                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" />
+
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                 </Layout>

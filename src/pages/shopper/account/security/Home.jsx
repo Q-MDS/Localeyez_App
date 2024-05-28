@@ -125,11 +125,11 @@ const Security = (props) =>
 				<ScrollView style={{ backgroundColor: 'white', flex: 1, width: '100%'  }}>
 					<Layout style={{ flex: 1, width: '100%' }}>
 						<Layout style={[MainStyles.layout_container, {flex: 1} ]}>
-							<InputLabelPassword label="Current Password" name="oldPassword" value={state.oldPassword} onChange={handleInputChange} placeholder="Type current password" />
+							<InputLabelPassword label="Current Password" name="oldPassword" value={state.oldPassword} onChange={handleInputChange} status="basic" placeholder="Type current password" />
 							<View style={{ marginTop: 15 }} />
-							<InputLabelPassword label="New Password" name="newPassword" value={state.newPassword} onChange={handleInputChange} placeholder="********" />
+							<InputLabelPassword label="New Password" name="newPassword" value={state.newPassword} onChange={handleInputChange} status="basic" placeholder="********" />
 							<View style={{ marginTop: 15 }} />
-							<InputLabelPassword label="Confirm Password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} placeholder="********" />
+							<InputLabelPassword label="Confirm Password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} status="basic" placeholder="********" />
 								<Layout style={{ flex: 1, width: '100%', marginTop: 80 }} >
 									<ButtonPrimary name="Update Password" width="100%" onpress={handleUpdate} />
 									<View style={{ marginTop: 15 }} />

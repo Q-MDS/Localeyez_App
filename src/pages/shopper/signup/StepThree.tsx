@@ -109,9 +109,9 @@ const StepThree = (props:any) =>
             <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
                 <Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
                     <View style={{ marginTop: 45 }} />
-                    <TitleTwo title="Registration Complete!" />
+                    <TitleTwo title="Registration Complete!" status="primary" />
                     <View style={{ marginTop: 25 }} />
-                    <TextOne title="You have successfully signed up to Localeyez!" textAlign="center" />
+                    <TextOne title="You have successfully signed up to Localeyez!" textAlign="center" status="basic" />
                     <ButtonPrimary name="Get Started" width="100%" marginTop={25} onpress={handelGetStarted}/>
             </Layout>
         </SafeAreaView>

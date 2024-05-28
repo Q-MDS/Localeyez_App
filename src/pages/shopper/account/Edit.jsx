@@ -199,16 +199,16 @@ const Edit = (props) =>
         <SafeAreaView style={{ flex: 1 }}>
 			<TopNavBack title={`Edit Profile`} alignment="start" navigation={props.navigation} pops={1} />
             <Layout style={[MainStyles.layout_container ]}>
-			<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" />
+			<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="E.g. John" />
+                <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="E.g. Barron" />
+                <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Contact Number" fontweight="bold" mb={5} />
+				<Label title="Contact Number" mb={5} status="basic" />
                 <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Geo-Location Range" fontweight="bold" />
+				<Label title="Geo-Location Range"  status="basic" />
 				<View style={{ width: '100%', height: 70 }} >
 					<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 				</View>

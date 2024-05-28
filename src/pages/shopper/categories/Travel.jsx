@@ -51,18 +51,18 @@ const Travel = (props) =>
 					{travelData.categories.map((category, index) => (
 						<Card key={index} style={{ width: '100%', marginBottom: 15 }}>
 							<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleCategorySearch(category.name)}>
-								<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24}  />
+								<TextIcon key={index} title={category.name} iconname="chevron-right-outline" fontweight="bold" fontsize={16} width={24} status="primary"  />
 							</TouchableOpacity>
 
 							{category.items.map((item, index) => ( 
 								index === 0 
 								? 
 								<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleItemSearch(category.name, item.value)}>
-									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={20} mb={10} />
+									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={20} mb={10} status="basic"  />
 								</TouchableOpacity>
 								: 
 								<TouchableOpacity key={index} style={{ width: '100%' }} onPress={() => handleItemSearch(category.name, item.value)}>
-									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={10} mb={10} />
+									<TextIcon key={index} title={item.label} iconname="chevron-right-outline" width={24} mt={10} mb={10} status="basic"  />
 								</TouchableOpacity>
 							))}
 						</Card>

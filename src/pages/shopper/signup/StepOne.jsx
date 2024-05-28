@@ -99,36 +99,149 @@ const StepOne = (props) =>
 
 		const profileSectors = 
 		{
-			fashion: [],
-			home: [],
-			groceries: [],
+			fashion: [{label: "Clothing", value: false},
+				{label: "Shoes", value: false},
+				{label: "Accessories", value: false},
+				{label: "Make-Up & Cosmetics", value: false},
+				{label: "Bath & Body", value: false},
+				{label: "Clothing Designers & Stylists", value: false},
+				{label: "Hair Stylists & Products", value: false},
+				{label: "Make-up artists", value: false},
+				{label: "Skin and beauty Technicians", value: false},
+				{label: "Costume Hire", value: false},],
+			home: [
+				{label: "Furniture", value: false},
+				{label: "Fixtures and Fittings", value: false},
+				{label: "Homeware and Décor", value: false}, 
+				{label: "Electronics and appliances", value: false}
+			],
+			groceries: [
+				{label: "Food & Beverage", value: false},
+				{label: "Local Markets & homemade goods", value: false},
+				{label: "Household goods", value: false},
+			],
 			shoppingOpt1: false,
 			shoppingOpt2: false,
 			shoppingOpt3: false,
-			accomodation:[],
-			transport: [],
+			accomodation:[
+				{label: "Hotels", value: false},
+				{label: "Guest Lodges", value: false},
+				{label: "BnB’s", value: false},
+				{label: "Lodges", value: false},
+				{label: "Villa’s and Private Homes", value: false},
+				{label: "Backpackers", value: false},
+				{label: "Other –eg houseboats", value: false},
+			],
+			transport: [
+				{label: "Airlines", value: false},
+				{label: "Train Services", value: false},
+				{label: "Bus Services", value: false},
+				{label: "Shuttle Services", value: false},
+				{label: "Taxi’s", value: false},
+				{label: "Car Hire", value: false},
+				{label: "Chauffeur Services", value: false},
+			],
 			travelOpt1: false,
-			sport: [],
-			doctor: [],
+			sport: [
+				{label: "Gyms", value: false},
+				{label: "Sports Clubs", value: false},
+				{label: "Spa’s", value: false},
+				{label: "Outdoor activities", value: false},
+			],
+			doctor: [
+				{label: "General Practitioners", value: false},
+				{label: "Physicians", value: false},
+				{label: "Physiotherapists", value: false},
+				{label: "Chiropractors", value: false},
+				{label: "Surgeons", value: false},
+				{label: "Dental", value: false},
+				{label: "Homeopathic", value: false},
+				{label: "Mental Health", value: false},
+				{label: "Peadiatric", value: false},
+				{label: "Other Specialists", value: false},
+			],
 			healthOpt1: false,
 			healthOpt2: false,
 			healthOpt3: false,
-			eat: [],
-			activities: [],
-			entEvent: [],
-			eduEvent: [],
-			learn: [],
-			employment: [],
+			eat: [
+				{label: "Restaurants", value: false},
+				{label: "Bars", value: false},
+				{label: "Clubs", value: false},
+				{label: "Coffee Shops", value: false},
+				{label: "Takeaways", value: false},
+				{label: "Bakeries and Patisseries", value: false},
+				{label: "Speciality foods", value: false},
+				{label: "Catering and ready meals", value: false},
+			],
+			activities: [
+				{label: "Movies", value: false},
+				{label: "Entertainment Centres", value: false},
+				{label: "Arts", value: false},
+				{label: "Outdoor leisure", value: false},
+				{label: "Event hire specialists", value: false},
+				{label: "Venues", value: false},
+				{label: "Event planners", value: false},
+				{label: "Children", value: false},
+			],
+			entEvent: [
+				{label: "Music", value: false},
+				{label: "Arts", value: false},
+			],
+			eduEvent: [
+				{label: "Preschools", value: false},
+				{label: "Primary Schools", value: false},
+				{label: "Secondary Schools", value: false},
+				{label: "Tertiary Education", value: false},
+			],
+			learn: [
+				{label: "Courses", value: false},
+				{label: "E-learning", value: false},
+			],
+			employment: [
+				{label: "Recruitment Agencies" , value: false },
+			],
 			propertyOpt1: false,
 			propertyOpt2: false,
 			propertyOpt3: false,
 			propertyOpt4: false,
-			serHome: [],
-			serSelf: [],
-			serFin: [],
-			serPub: [],
+			serHome: [
+				{label: "Building", value: false},
+				{label: "Interiors", value: false},
+				{label: "Plumbing", value: false},
+				{label: "Electrical", value: false},
+				{label: "Painting", value: false},
+				{label: "Landscaping", value: false},
+				{label: "Cleaning", value: false},
+				{label: "Pest Control", value: false},
+				{label: "Veterinary and Pet parlours", value: false},
+				{label: "Security", value: false},
+				{label: "Communications and connectivity", value: false},
+			],
+			serSelf: [
+				{label: "Hair dressers and stylists", value: false},
+				{label: "Beauty Spa’s", value: false},
+			],
+			serFin: [
+				{label: "Banks", value: false},
+				{label: "Bureau De change", value: false},
+				{label: "Financial Management", value: false},
+				{label: "Accountants", value: false},
+				{label: "Insurance", value: false},
+			],
+			serPub: [
+				{label: "Water", value: false},
+				{label: "Electricity", value: false},
+				{label: "Roads", value: false},
+				{label: "Police", value: false},
+				{label: "Fire department", value: false},
+				{label: "Accident and Emergency", value: false},
+			],
 			servicesOpt1: false,
-			community: [],
+			community: [
+				{label: "Children", value: false},
+				{label: "Old Age Pensioners", value: false},
+				{label: "Community Projects", value: false},
+			],
 			communityOpt1: false,
 			communityOpt2: false,
 			communityOpt3: false,
@@ -229,28 +342,28 @@ const StepOne = (props) =>
                         <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 82, height: 82 }} />
                     </View>
                     <View style={{ marginTop: 35 }} />
-                    	<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" />
+                    	<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="E.g. John" />
+                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="E.g. Barron" />
+                    	<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Phone Number" fontweight="bold" />
+					<Label title="Phone Number" status="basic" />
 						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" />
+                    	<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" status="basic" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" />
+                    	<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" />
                     <View style={{ marginTop: 25 }} />
-                    <Label title="Geo-Location Range" fontweight="bold" />
+                    <Label title="Geo-Location Range" status="basic" />
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 					</View>
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
-                        <TextTwo title="Already have an account? " textalign="center" />
+                        <TextTwo title="Already have an account? " textalign="center" status="basic" />
                         <TouchableOpacity onPress={handleLogin}>
-                            <TextTwo title="Login" textalign="center" fontweight="bold" underline="underline" width="100%" />
+                            <TextTwo title="Login" textalign="center" fontweight="bold" underline="underline" width="100%" status="basic" />
                         </TouchableOpacity>
                     </Layout>
                 </Layout>

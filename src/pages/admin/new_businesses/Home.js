@@ -123,7 +123,7 @@ const Home = (props) =>
 				<ButtonPrimary name="Refresh" width="100%" onpress={handleRefresh}/>
 			</Layout>
 			<Layout style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
-				<Text category="s1" status="primary">Total Records: {numRecs}</Text>
+				<Text category="s1" status="basic">Total Records: {numRecs}</Text>
 			</Layout>
 			<Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
 			<ScrollView>
@@ -134,7 +134,7 @@ const Home = (props) =>
 						<BusCard key={index} record={record} navigation={props.navigation} index={index} onpress={() => handleViewBusiness(record)} />
 					))
 					) : (
-					<Text category='p1' style={{ paddingStart: 10, paddingTop: 10 }}>No records found</Text>
+					<Text category='p1' staut="basic" style={{ paddingStart: 10, paddingTop: 10 }}>No records found</Text>
 					)}
 			</Layout>
 			</ScrollView>

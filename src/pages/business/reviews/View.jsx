@@ -16,7 +16,7 @@ const ReviewView = (props) =>
 		<TopNavBack title="View review" alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView>
 				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
-					<ReviewCard firstName={review.first_name} fn={review.first_name} ln={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+					<ReviewCard firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
 				</Layout>
 			</ScrollView>
 			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />

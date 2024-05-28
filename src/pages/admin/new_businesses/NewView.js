@@ -125,47 +125,46 @@ const NewView = (props) =>
 			<TopNavBack title={business.company_name} alignment="start" navigation={props.navigation} pops={1} />
             <DividerTop />
             <ScrollView>
-            <Layout style={MainStyles.layout_container}>
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Email</Text>
-				<Text category='p1' status="primary">{business.email}</Text>
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>First Name</Text>
-				<Text category='p1' status="primary">{business.first_name}</Text>
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Last Name</Text>
-				<Text category='p1' status="primary">{business.last_name}</Text>
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Name</Text>
-				<Text category='p1' status="primary">{business.company_name}</Text>
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Company Phone Number</Text>
-				<Text category='p1' status="primary">{business.contact_number}</Text>
-                <Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Location</Text>
-				<Text category='p1' status="primary">{business.loc_add_one}</Text>
-				<Text category='p1' status="primary">{business.loc_add_two}</Text>
-				<Text category='p1' status="primary">{business.loc_city}</Text>
-				<Text category='p1' status="primary">{business.loc_province}</Text>
-				<Text category='p1' status="primary">{business.loc_zip_code}</Text>
-				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Bio</Text>
-				<Text category='p1' status="primary">{business.business_bio}</Text>
-				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Small Business</Text>
-				<Text category='p1' status="primary">{business.is_local}</Text>
-				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
-				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Social Media</Text>
-				<Text category='p2' status="primary">X</Text>
-				<Text category='p1' status="primary">{business.sm_x === '' ? "-" : business.sm_x}</Text>
-				<Text category='p2' status="primary">Instagram</Text>
-				<Text category='p1' status="primary">{business.sm_inst === '' ? "-" : business.sm_inst}</Text>
-				<Text category='p2' status="primary">Facebook</Text>
-				<Text category='p1' status="primary">{business.sm_fb === '' ? "-" : business.sm_fb}</Text>
-				<Text category='p2' status="primary">Linkedin</Text>
-				<Text category='p1' status="primary">{business.sm_linkedin === '' ? "-" : business.sm_linkedin}</Text>
-				<Text category='p2' status="primary">Website</Text>
-				<Text category='p1' status="primary">{business.sm_www === '' ? "-" : business.sm_www}</Text>
-				<Divider style={{ height: 15, backgroundColor: 'transparent' }} />
+            <Layout style={[MainStyles.layout_container, style={alignItems: 'flex-start'}]}>
+				<Text category='p2' status="basic">Email</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.email}</Text>
+                
+				<Text category='p2' status="basic">First Name</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.first_name != "" ? business.first_name : "-"}</Text>
+
+				<Text category='p2' status="basic">Last Name</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.last_name != "" ? business.last_name : "-"}</Text>
+
+				<Text category='p2' status="basic">Company Name</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.company_name != "" ? business.company_name : "-"}</Text>
+
+				<Text category='p2' status="basic">Company Phone Number</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.contact_number != "" ? business.contact_number : "-"}</Text>
+
+				<Text category='p2' status="basic">Location</Text>
+				<Text category='p1' status="primary"style={{ width: '100%', }}>{business.loc_add_one != "" ? business.loc_add_one : "-"}</Text>
+				<Text category='p1' status="primary"style={{ width: '100%', }}>{business.loc_add_two != "" ? business.loc_add_two : "-"}</Text>
+				<Text category='p1' status="primary"style={{ width: '100%', }}>{business.loc_city != "" ? business.loc_city : "-"}</Text>
+				<Text category='p1' status="primary"style={{ width: '100%', }}>{business.loc_province != "" ? business.loc_province : "-"}</Text>
+				<Text category='p1' status="primary"style={{ width: '100%', paddingBottom: 15, marginBottom: 15, borderBottomColor: '#d9d9d9', borderBottomWidth: 1, }}>{business.loc_zip_code != "" ? business.loc_zip_code : "-"}</Text>
+				<Text category='p2' status="basic">Business Bio</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.business_bio != "" ? business.business_bio : "-"}</Text>
+				<Text category='p2' status="basic">Small Business</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.is_local == 0 ? "No" : "Yes"}</Text>
+
+				
+				<Text category='p2' status="primary" style={{ fontWeight: 'bold', marginBottom: 10 }}>Social Media</Text>
+				<Text category='p2' status="basic">X</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.sm_x === '' ? "-" : business.sm_x}</Text>
+				<Text category='p2' status="basic">Instagram</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.sm_inst === '' ? "-" : business.sm_inst}</Text>
+				<Text category='p2' status="basic">Facebook</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.sm_fb === '' ? "-" : business.sm_fb}</Text>
+				<Text category='p2' status="basic">Linkedin</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.sm_linkedin === '' ? "-" : business.sm_linkedin}</Text>
+				<Text category='p2' status="basic">Website</Text>
+				<Text category='p1' status="primary" style={{ width: '100%', borderBottomColor: '#d9d9d9', borderBottomWidth: 1, paddingBottom: 10, marginBottom: 15 }}>{business.sm_www === '' ? "-" : business.sm_www}</Text>
+				
 				<Text category='s1' status="primary" style={{ fontWeight: 'bold' }}>Business Sectors</Text>
                 {JSON.parse(business.sectors).map((sector, index) => (
 					<Text key={index} category="p1" status="primary" >{sector}</Text>

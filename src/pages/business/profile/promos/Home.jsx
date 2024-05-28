@@ -183,33 +183,33 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavTitle title='Business Profile' alignment='start' />
-                <Layout style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 10, paddingRight: 10, marginTop: 10 }}>
-                    <TouchableOpacity style={{ flex: 1 }} onPress={handleEditProfile}>
-                        <IconText title="Edit Profile" iconname="edit" fontsize={12} width={18} />
+                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 10, paddingRight: 10, marginTop: 10 }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1 }} onPress={handleEditProfile}>
+                        <IconText title="Edit Profile" iconname="edit" fontsize={13} width={26} status="primary" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flex: 1 }} onPress={handleAddPromo}>
-                        <IconText title="Add Promotion" iconname="plus-circle" fontsize={12} width={18} />
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }} onPress={handleAddPromo}>
+                        <IconText title="Add Promotion" iconname="plus-circle" fontsize={13} width={20} status="primary" />
                     </TouchableOpacity>
-					<TouchableOpacity style={{ flex: 1 }} onPress={() => handleAddEvent()}>
-                        <IconText title="Add Event" iconname="plus-circle" fontsize={12} width={18} />
+					<TouchableOpacity style={{ flexDirection: 'row',flex: 1, justifyContent: 'flex-end' }} onPress={() => handleAddEvent()}>
+                        <IconText title="Add Event" iconname="plus-circle" fontsize={13} width={20} status="primary" />
                     </TouchableOpacity>
                 </Layout>
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
 
                 <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
-					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200 }} /> : null}
+					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, objectFit: 'cover' }} /> : null}
                 </Layout>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f5f5f5', paddingTop: 10, paddingBottom: 10, paddingEnd: 15 }} >
-					{state.xUrl && <CustomIcon name="twitter" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.xUrl && <Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />}
 					<View style={{ marginLeft: 8 }} />
-					{state.instgramUrl && <CustomIcon name="instagram" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.instagramUrl && <Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />}
 					<View style={{ marginLeft: 10 }} />
-					{state.facebookUrl && <CustomIcon name="facebook-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.facebookUrl && <Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />}
 					<View style={{ marginLeft: 10 }} />
-					{state.linkedinUrl && <CustomIcon name="linkedin-square" style={{ width: 32, color: '#B2AEDB' }} />}
+					{state.linkedinUrl && <Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />}
 					<View style={{ marginLeft: 8 }} />
-                    {state.wwwUrl && <Icon name="globe-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />}
+                    {state.wwwUrl && <Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />}
                     <View style={{ position: 'absolute', left: 0, top: -70, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
 						{state.profilePic 
 						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
@@ -219,14 +219,14 @@ const Home = (props) =>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>
                 <ScrollView>
-                    <Layout style={[MainStyles.layout_container, {backgroundColor: '#f5f5f5', paddingStart: 15, paddingEnd: 15}]}>    
-                        <TitleOne title={state.companyName} />
+                    <Layout style={[MainStyles.layout_container, {alignItems: 'flex-start', backgroundColor: '#f5f5f5', paddingStart: 15, paddingEnd: 15}]}>    
+                        <TitleOne title={state.companyName} status="primary" />
                         <View style={{ marginTop: 10 }} />
-                        <TextTwo title={state.businessBio} />
+                        <TextTwo title={state.businessBio} status="basic" />
                         <View style={{ marginTop: 15 }} />
-                        <IconText title={`${state.addressOne}, ${state.addressTwo}, ${state.city}, ${state.province}, ${state.zipCode}`} iconname="compass-outline" fontsize={14} width={18} />
-                        <IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={18} />
-                        <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={18} />
+                        <IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
+                        <IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
+                        <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
                         <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
 						
 						<TabView
@@ -238,7 +238,7 @@ const Home = (props) =>
 							<Layout style={styles.tabContainer}>
 								{promotions && promotions.length === 0 && (
 								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-									<TextOne title="You have no promotions listed" />
+									<TextOne title="You have no promotions listed" status="basic" />
 									<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
 								</Layout>
 								)}
@@ -252,13 +252,13 @@ const Home = (props) =>
 												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
 												}
 											</View>
-											<TitleFour title={record.promo_title} fontsize={16} mt={10}  />
-											<TextTwo title={record.promo_caption} />
-											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
+											<TitleFour title={record.promo_title} fontsize={16} mt={10} status="primary" />
+											<TextTwo title={record.promo_caption} status="basic" />
+											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" status="primary" />
 											<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-												<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-												<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} />
-												<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+												<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' status="basic" />
+												<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} status="basic" />
+												<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic" />
 											</View>
 										</Card>
 									))}
@@ -268,7 +268,7 @@ const Home = (props) =>
 							<Layout style={styles.tabContainer}>
 								{events && events.length === 0 && (
 								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-									<TextOne title="You have no events listed" />
+									<TextOne title="You have no events listed" status="basic" />
 									<ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
 								</Layout>
 								)}
@@ -283,11 +283,11 @@ const Home = (props) =>
 												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
 												}
 											</View>
-											<TitleFour title={record.event_title} fontsize={16} mt={10} />
-											<TextTwo title={record.event_caption} />
-											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" />
-											<IconText title={formatDate(record.start_date)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' />
-											<IconText title={record.loc_add_one} iconname="clock-outline" fontsize={14} width={18} textAlign='right' />
+											<TitleFour title={record.event_title} fontsize={16} mt={10} status="primary" />
+											<TextTwo title={record.event_caption}  status="basic"/>
+											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" status="primary" />
+											<IconText title={formatDate(record.start_date)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' status="basic" />
+											<IconText title={record.loc_add_one} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic" />
 										</Card>
 								))}
 							</Layout>

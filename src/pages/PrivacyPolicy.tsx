@@ -10,14 +10,14 @@ const PrivacyPolicy = (props: any) =>
 {
 	console.log('props type', props);
 	
-	const type = props.route.params.type;
+	const type = props.route.params.type; //aa
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<TopNavBack title="Privacy Policy" alignment="start" navigation={props.navigation} pops={1} />
-				<ScrollView style={{ backgroundColor: 'red', flex: 1, width: '100%'  }}>
-					<Layout style={[MainStyles.layout_container, {flex: 1} ]}>
-						<TextTwo title="Privacy Policy" fontsize={24} />
+				<ScrollView style={{ backgroundColor: 'white', flex: 1, width: '100%'  }}>
+					<Layout style={[MainStyles.layout_container, {flex: 1, width: '100%'} ]}>
+						<TextTwo title="Privacy Policy" fontsize={24} width="100%" status="primary" />
 						<Text style={{ color: 'black' }}>
 							{"\n"}
 							{"This is a sample privacy policy for your application. This is not a real privacy policy and should not be used in a real application."}

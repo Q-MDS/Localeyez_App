@@ -8,14 +8,14 @@ import {IconText} from './IconText';
 export const ReviewCard = (props:any) => 
 {
 	let firstChar = "";
-	if (props.fn) 
+	if (props.firstName) 
 	{
-		firstChar = props.fn.charAt(0).toUpperCase();
+		firstChar = props.firstName.charAt(0).toUpperCase();
 	} 
 	let lastChar = "";
-	if (props.ln) 
+	if (props.lastName) 
 	{
-		lastChar = props.ln.charAt(0).toUpperCase();
+		lastChar = props.lastName.charAt(0).toUpperCase();
 	} 
 
     return (
@@ -23,7 +23,7 @@ export const ReviewCard = (props:any) =>
 			<TouchableOpacity onPress={props.onPress}>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
 				<View style={styles.avatar}>
-                    <Text style={styles.avatarText}>{`${firstChar}.${lastChar}.`}</Text>
+                    <Text style={styles.avatarText}>{`${firstChar}${lastChar}`}</Text>
                 </View>
 				{props.lastName ? (
 					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName} ${props.lastName}`}</Text>
@@ -40,7 +40,7 @@ export const ReviewCard = (props:any) =>
 				))}
 				</Layout>
 				<Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>{props.title}</Text>
-				<Text category="p2" status="primary" style={{ width: '100%', marginTop: 5 }}>{props.review}</Text>
+				<Text category="p2" status="basic" style={{ width: '100%', marginTop: 5 }}>{props.review}</Text>
 			</Layout>
 			</TouchableOpacity>
 		</Card>

@@ -180,93 +180,95 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<TopNavBack title="Edit Interests" alignment="start" navigation={props.navigation} pops={1} />
-			<ScrollView>
+			<ScrollView style={{marginBottom: 25}}>
             <Layout style={[MainStyles.layout_container ]}>
-            <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginBottom: 15 }}>Current Interests</Text>
+            <Text category="h5" status="basic" style={{ fontWeight: 'bold', marginBottom: 10, width: '100%' }}>Current Interests</Text>
 				<View style={{ width: '100%' }}>
 				
 					{Object.entries(sectors).map(([key, value]) => 
 					{
+						console.log('Value x: ', key, value.length, value);
+						
 						if (key === 'titleShopping')
 						{
 							return (
-								<View key={key} style={{ marginTop: 10, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleTravel')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleHealth')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleEnt')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleEdu')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleProperty')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleServices')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
 						if (key === 'titleCommunity')
 						{
 							return (
-								<View key={key} style={{ marginTop: 20, marginBottom: 20, width: '100%' }}>
+								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo  title={value} fontweight="bold" fontsize={20} mt={10} />
+									<TextTwo  title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
 								</View>
 							);
 						}
-						if (Array.isArray(value) && value.length > 0) 
+						if (Array.isArray(value) && value.length > 0 && value.some(item => item.value)) 
 						{
 							return (
 							<View key={key}>
-								<TextTwo title={aaa[key] || key} fontsize={18} />
-								{value.map((item, index) => (
+								<TextTwo title={aaa[key] || key} fontsize={18} status="primary" />
+								{value.filter(item => item.value).map((item, index) => (
 									
-									<TextIcon key={index} title={item} iconname="trash-2-outline" width={24} mt={10} mb={10} />
+									<Text key={index} status="basic" style={{ marginTop: 5, marginBottom: 10 }}>{item.label}</Text>
 								))}
 							{/* <View style={{ height: 1, backgroundColor: '#D5D2F3', width: '100%', marginTop: 10, marginBottom: 10 }} /> */}
 							</View>
@@ -275,7 +277,8 @@ const Home = (props) =>
 						else if (value === true) 
 						{
 							//return <TextTwo key={key} title={fullDesc[key] || key} fontweight="bold" fontsize={14} />;
-							return <TextIcon key={key} title={fullDesc[key] || key} iconname="trash-2-outline" width={24} fontsize={14} mt={10} mb={10} />
+							{/* return <Text key={key} title={fullDesc[key] || key}  fontsize={16} mt={5} mb={10} status="basic" /> */}
+							return <Text key={key} status="basic" style={{ marginTop: 5, marginBottom: 10 }}>{fullDesc[key] || key}</Text>
 						} 
 						else 
 						{

@@ -119,13 +119,13 @@ const Home = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavLrgTitleIcon title="New Businesses" navigation={props.navigation} />
+			<TopNavLrgTitleIcon title="Support" navigation={props.navigation} />
 			<Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
 			<Layout style={{ width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
 				<ButtonPrimary name="Refresh" width="100%" onpress={handleRefresh}/>
 			</Layout>
 			<Layout style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
-				<Text category="s1" status="primary">Total Records: {numRecs}</Text>
+				<Text category="s1" status="basic">Total Records: {numRecs}</Text>
 			</Layout>
 			<Divider style={{ height: 2, backgroundColor: '#DEDDE7' }} />
 			<ScrollView>
@@ -136,11 +136,11 @@ const Home = (props) =>
 						<SupportCard key={index} record={record} navigation={props.navigation} index={index} onpress={() => handleRecord(record)} />
 					))
 					) : (
-					<Text category='p1' style={{ paddingStart: 10, paddingTop: 10 }}>No records found</Text>
+					<Text category='p1' status="basic" style={{ paddingStart: 10, paddingTop: 10 }}>No records found</Text>
 					)}
 			</Layout>
 			</ScrollView>
-			<BotNav selected={0} />
+			<BotNav selected={2} />
 		</SafeAreaView>
     )
 };

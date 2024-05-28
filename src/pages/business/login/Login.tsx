@@ -13,8 +13,10 @@ import TextTwo from '../../../components/TextTwo';
 import { InputLabel } from '../../../components/InputLabel';
 
 const initialState = {
-	credOne: '',
-	credTwo: '',
+	// credOne: 'Harry@gmail.com',
+	// credTwo: '123456',
+	credOne: 'admin@localeyez.net',
+	credTwo: '123456',
 };
 
 function reducer(state: any, action: { type: any; payload: any; }) 
@@ -192,29 +194,28 @@ const Login = (props: any) =>
         <SafeAreaView style={{flex: 1}}>
 			
             <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
                  <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'center', width: '100%'}}>
-                    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
-                        <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
-                    </View>
-                    <ScrollView style={{ width: '100%', padding: 30 }}>
+					<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+						<Image source={require('../../../assets/images/app_pic_3.png')} style={{ objectFit: 'contain' }} />
+					</View>
+					
+                    <ScrollView style={{ width: '100%', padding: 24 }}>
                         <View style={{ flex: 1 }}>
-                            <View style={{ marginTop: 20 }} />
-                            <TitleOne title="Login as a Business" />
+                            <View style={{ marginTop: 0 }} />
+                            <TitleOne title="Login as a Business" status="basic" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" />
+                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} status="basic" placeholder="Enter email" />
                             <View style={{ marginTop: 25 }} />
-							<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" />
-							{/* <InputLabel label="Password" value={credTwo} setValue={setCredTwo} placeholder="Enter Password" secureTextEntry={true} /> */}
+							<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} status="basic" placeholder="Enter password" />
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
                                 <Layout style={{ flex: 1 }} >
                                 <Checkbox label="Remember me" />
                                 </Layout>
                                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
-                                    <TextTwo title="Forgot password?&nbsp;" textalign="right" />
+                                    <TextTwo title="Forgot password?&nbsp;" textalign="right" status="basic" />
                                     <TouchableOpacity onPress={handleReset}>
-                                        <TextTwo title="Reset" underline="underline" textalign="right" />
+                                        <TextTwo title="Reset" underline="underline" textalign="right" status="primary" />
                                     </TouchableOpacity>
                                 </Layout>
                             </Layout>
@@ -222,9 +223,9 @@ const Login = (props: any) =>
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
-                                <TextTwo title="Don't have an account? " textalign="center" />
+                                <TextTwo title="Don't have an account? " textalign="center" status="basic" />
                                 <TouchableOpacity onPress={handleSignup} >
-                                    <TextTwo title="Sign up" fontweight="bold" underline="underline" />
+                                    <TextTwo title="Sign up" fontweight="bold" underline="underline" status="primary" />
                                 </TouchableOpacity>
                             </Layout>
                         </View>

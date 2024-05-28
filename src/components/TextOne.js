@@ -4,10 +4,10 @@ import { Text } from '@ui-kitten/components';
 
 const TextOne = (props) => (
     <>
-        <Text status="primary" style={[styles.text, { textAlign: props.textAlign, fontWeight: props.fontweight, width: props.width }]}>{props.title}</Text>
+        <Text style={[styles.text, { textAlign: props.textAlign, fontWeight: props.fontweight, fontSize: props.fontsize, width: props.width }]} status={props.status} >{props.title}</Text>
     </>
 );
-
+//a
 const styles = StyleSheet.create(
 {
     text: {

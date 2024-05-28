@@ -8,7 +8,7 @@ export const ContactCard = (props) => (
     <View>
 		<Avatar source={{ uri:props.image }} style={{ width: 82, height: 82, marginEnd: 10 }} /></View>
         <View style={styles.col_container}>
-            <TitleTwo title={props.title} />
+            <TitleTwo title={props.title} status="basic" />
             <Text status="primary" style={styles.text}>{props.email}</Text>
         </View>
     </View>

@@ -140,8 +140,8 @@ const BusinessDashboard = (props) =>
                     </Card> */}
 
                     <Card style={{ marginTop: 10, padding: 10, borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}>
-                        <Text category="s2" style={{ textAlign: 'center', fontWeight: 'bold' }}>Total number of views:</Text>
-                        <TextTwo title={totViews} textalign="center" fontsize={72} />
+                        <Text category="s2" style={{ textAlign: 'center', fontWeight: 'bold' }} status="primary">Total number of views:</Text>
+                        <TextTwo title={totViews} textalign="center" fontsize={72} status="basic" />
                     </Card>
                     <ButtonSecondary name="Add Promotion" width="100%" marginTop={20} onpress={gotoAddPromotion} />
                     <ButtonPrimary name="Add Event" width="100%" marginTop={40} onpress={gotoAddEvent} />

@@ -17,9 +17,9 @@ export const BusCard = (props:any) =>
 				style={{ width: 64, height: 64, marginEnd: 15, borderRadius:32, borderColor: 'black', borderWidth: 1 }} 
 				/>
 				<Layout style={{ flexDirection: 'column', flex: 1, backgroundColor: bg }}>
-					<TextTwo title={props.record.company_name} fontweight="bold" fontsize={16} width='100%' />
-					<TextTwo title="Sectors" />
-					<TextTwo title={props.record.sectors && JSON.parse(props.record.sectors).length > 0 ? JSON.parse(props.record.sectors).join(" • ") : "No sectors"} />
+					<TextTwo title={props.record.company_name} fontweight="bold" fontsize={16} status="primary" width='100%' />
+					<TextTwo title="Sectors" fontWeight="bold" status="basic" />
+					<TextTwo title={props.record.sectors && JSON.parse(props.record.sectors).length > 0 ? JSON.parse(props.record.sectors).join(" • ") : "No sectors"} status="basic" />
 				</Layout>
 			</Layout>
 		</Card>

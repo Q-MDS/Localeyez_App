@@ -220,12 +220,12 @@ const Home = (props) =>
 						<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
 					)}
 				</TouchableOpacity>
-				<Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName} ${state.lastName}`}</Text>
+				<Text category="h6" status="basic" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName} ${state.lastName}`}</Text>
 				<Text category="p1" status="primary">{state.email}</Text>
 				<Divider style={{ height: 20, backgroundColor: 'transparent' }} />
 					{state.verified !== 0 && (
 						<TouchableOpacity onPress={() => props.navigation.navigate('ShopperVerified')}>
-							<IconText title="Verified Member" iconname="checkmark-circle-2" fontsize={15} width={20}  />
+							<IconText title="Verified Member" iconname="checkmark-circle-2" fontsize={15} width={20} status="basic" />
 						</TouchableOpacity>
 					)}
 				</Layout>

@@ -16,6 +16,9 @@ import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import DropdownSingle from '../../../../components/DropdownSingle';
+import { InputOnly } from '../../../../components/InputOnly';
+import { Label } from '../../../../components/Label';
+import { InputZip } from '../../../../components/InputZip';
 
 const initialState = {
 	sector: null,
@@ -287,48 +290,48 @@ const Add = (props) =>
         <DividerTop />
         <ScrollView>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                <TitleFour title="Choose which business sector(s) your promotion falls under:" />
+                <TitleFour title="Choose which business sector(s) your promotion falls under:" status="primary" />
 				<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>
 				{/* <SelectSingle options={sectors} onSelect={handleSector} /> */}
-                <TitleFour title="Upload Display Picture" mb={10} />
+                <TitleFour title="Upload Display Picture" mb={10} status="primary" />
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
 						<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-						<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} />
-						<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} />
-						<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} />
+						<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
+						<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
+						<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
 						{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 					</Layout>
 				</TouchableOpacity>
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Title" name="title" value={state.title} onChange={handleInputChange} placeholder="Write product name" />
+                <InputLabel label="Promotion Title" name="title" value={state.title} onChange={handleInputChange} placeholder="Write product name" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Caption" name="caption" value={state.caption} onChange={handleInputChange} placeholder="Write a description up to 120 characters" />
+                <InputMultiline label="Promotion Caption" name="caption" value={state.caption} onChange={handleInputChange} placeholder="Write a description up to 120 characters" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Description" name="desc" value={state.desc} onChange={handleInputChange} placeholder="Write a longer description of the promotion up to 500 characters" />
+                <InputMultiline label="Promotion Description" name="desc" value={state.desc} onChange={handleInputChange} placeholder="Write a longer description of the promotion up to 500 characters" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Price" name="price" value={state.price} onChange={handleInputChange} placeholder="Write product price" />
+                <InputLabel label="Price" name="price" value={state.price} onChange={handleInputChange} placeholder="Write product price" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Sale Item (Optional)" name="saleItemOp" value={state.saleItemOp} onChange={handleInputChange} placeholder="Original price" />
-                <InputLabel name="saleItemMp" value={state.saleItemMp} onChange={handleInputChange} placeholder="Marked down price" mt={5} />
+                <InputLabel label="Sale Item (Optional)" name="saleItemOp" value={state.saleItemOp} onChange={handleInputChange} placeholder="Original price"status="basic" />
+                <InputOnly name="saleItemMp" value={state.saleItemMp} onChange={handleInputChange} placeholder="Marked down price" mt={5} />
                 <View style={{ marginTop: 15 }} />
-                <TitleFour title="Promotion Start Date" mb={10} />
+				<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={13} />
                 <DateSelect name="startDate" value={state.startDate} onChange={handleInputChange} />
                 <View style={{ marginTop: 15 }} />
-                <TitleFour title="Promotion End Date" mb={10} />
+				<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={13} />
                 <DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Location (Optional)" name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address line 1" />
+                <InputLabel label="Promotion Location (Optional)" name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address line 1" status="basic" />
                 <View style={{ marginTop: 5 }} />
-                <InputLabel name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address line 2" />
+                <InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address line 2" />
                 <View style={{ marginTop: 5 }} />
-                <InputLabel name="city" value={state.city} onChange={handleInputChange} placeholder="City" />
+                <InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" />
                 <View style={{ marginTop: 5 }} />
-                <InputLabel name="province" value={state.province} onChange={handleInputChange} placeholder="Province" />
+                <InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" />
                 <View style={{ marginTop: 5 }} />
-                <InputLabel name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="ZIP Code" />
+                <InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="ZIP Code" />
                 <ButtonPrimary name="Upload Promotion" width="100%" marginTop={25} onpress={handleUpload}/>
             </Layout>
         </ScrollView>

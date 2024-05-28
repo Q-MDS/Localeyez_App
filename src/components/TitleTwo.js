@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 export const TitleTwo = (props) => (
   <>
-    <Text style={styles.text} status='primary' category="h2">
+    <Text style={styles.text} status={props.status} category="h2">
       {props.title}
     </Text>
   </>

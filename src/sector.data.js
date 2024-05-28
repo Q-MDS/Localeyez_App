@@ -8,35 +8,35 @@ export const sectorData =
 				name: "Fashion & Beauty",
 				//items: ["Clothing", "Shoes", "Accessories", "Make-Up & Cosmetics", "Bath & Body", "Clothing Designers & Stylists", "Hair Stylists & Products", "Make-up artists", "Skin and beauty Technicians", "Costume Hire"]
 				items: [
-					{label: "Clothing", value: "Clothing"},
-					{label: "Shoes", value: "Shoes"},
-					{label: "Accessories", value: "Accessories"},
-					{label: "Make-Up & Cosmetics", value: "Make-Up & Cosmetics"},
-					{label: "Bath & Body", value: "Bath & Body"},
-					{label: "Clothing Designers & Stylists", value: "Clothing Designers & Stylists"},
-					{label: "Hair Stylists & Products", value: "Hair Stylists & Products"},
-					{label: "Make-up artists", value: "Make-up artists"},
-					{label: "Skin and beauty Technicians", value: "Skin and beauty Technicians"},
-					{label: "Costume Hire", value: "Costume Hire"},
+					{label: "Clothing", value: false},
+					{label: "Shoes", value: false},
+					{label: "Accessories", value: false},
+					{label: "Make-Up & Cosmetics", value: false},
+					{label: "Bath & Body", value: false},
+					{label: "Clothing Designers & Stylists", value: false},
+					{label: "Hair Stylists & Products", value: false},
+					{label: "Make-up artists", value: false},
+					{label: "Skin and beauty Technicians", value: false},
+					{label: "Costume Hire", value: false},
 				]
 			},
 			{
 				name: "Home",
 				// items: ["Furniture", "Fixtures and Fittings", "Homeware and Décor", "Electronics and appliances"]
 				items: [
-					{label: "Furniture", value: "Furniture"},
-					{label: "Fixtures and Fittings", value: "Fixtures and Fittings"},
-					{label: "Homeware and Décor", value: "Homeware and Décor"}, 
-					{label: "Electronics and appliances", value: "Electronics and appliances"}
+					{label: "Furniture", value: false},
+					{label: "Fixtures and Fittings", value: false},
+					{label: "Homeware and Décor", value: false}, 
+					{label: "Electronics and appliances", value: false}
 				]
 			},
 			{
 				name: "Groceries",
 				//items: ["Food & Beverage", "Local Markets & homemade goods", "Household goods"]
 				items: [
-					{label: "Food & Beverage", value: "Food & Beverage"},
-					{label: "Local Markets & homemade goods", value: "Local Markets & homemade goods"},
-					{label: "Household goods", value: "Household goods"},
+					{label: "Food & Beverage", value: false},
+					{label: "Local Markets & homemade goods", value: false},
+					{label: "Household goods", value: false},
 				]
 			},
 			{
@@ -61,26 +61,26 @@ export const sectorData =
 				name: "Accomodation",
 				// items: ["Hotels", "Guest Lodges", "BnB’s", "Lodges", "Villa’s and Private Homes", "Backpackers", "Other –eg houseboats"]
 				items: [
-					{label: "Hotels", value: "Hotels"},
-					{label: "Guest Lodges", value: "Guest Lodges"},
-					{label: "BnB’s", value: "BnB’s"},
-					{label: "Lodges", value: "Lodges"},
-					{label: "Villa’s and Private Homes", value: "Villa’s and Private Homes"},
-					{label: "Backpackers", value: "Backpackers"},
-					{label: "Other –eg houseboats", value: "Other –eg houseboats"},
+					{label: "Hotels", value: false},
+					{label: "Guest Lodges", value: false},
+					{label: "BnB’s", value: false},
+					{label: "Lodges", value: false},
+					{label: "Villa’s and Private Homes", value: false},
+					{label: "Backpackers", value: false},
+					{label: "Other –eg houseboats", value: false},
 				]
 			},
 			{
 				name: "Transport",
 				// items: ["Airlines", "Train Services", "Bus Services", "Shuttle Services", "Taxi’s", "Car Hire", "Chauffeur Services"]
 				items: [
-					{label: "Airlines", value: "Airlines"},
-					{label: "Train Services", value: "Train Services"},
-					{label: "Bus Services", value: "Bus Services"},
-					{label: "Shuttle Services", value: "Shuttle Services"},
-					{label: "Taxi’s", value: "Taxi’s"},
-					{label: "Car Hire", value: "Car Hire"},
-					{label: "Chauffeur Services", value: "Chauffeur Services"},
+					{label: "Airlines", value: false},
+					{label: "Train Services", value: false},
+					{label: "Bus Services", value: false},
+					{label: "Shuttle Services", value: false},
+					{label: "Taxi’s", value: false},
+					{label: "Car Hire", value: false},
+					{label: "Chauffeur Services", value: false},
 				]
 			},
 			{
@@ -135,9 +135,9 @@ export const sectorData =
 				name: "Self-care",
 				// items: ["Children", "Old Age Pensioners", "Community Projects", "Conservation"]
 				items: [
-					{label: "Children", value: "Children"},
-					{label: "Old Age Pensioners", value: "Old Age Pensioners"},
-					{label: "Community Projects", value: "Community Projects"},
+					{label: "Children", value: false},
+					{label: "Old Age Pensioners", value: false},
+					{label: "Community Projects", value: false},
 				]
 			},
 		]
@@ -150,25 +150,25 @@ export const sectorData =
 				name: "Schools",
 				// items: ["Preschools", "Primary Schools", "Secondary Schools", "Tertiary Education"]
 				items: [
-					{label: "Preschools", value: "Preschools"},
-					{label: "Primary Schools", value: "Primary Schools"},
-					{label: "Secondary Schools", value: "Secondary Schools"},
-					{label: "Tertiary Education", value: "Tertiary Education"},
+					{label: "Preschools", value: false},
+					{label: "Primary Schools", value: false},
+					{label: "Secondary Schools", value: false},
+					{label: "Tertiary Education", value: false},
 				]
 			},
 			{
 				name: "Learning",
 				// items: ["Courses", "E-learning"]
 				items: [
-					{label: "Courses", value: "Courses"},
-					{label: "E-learning", value: "E-learning"},
+					{label: "Courses", value: false},
+					{label: "E-learning", value: false},
 				]
 			},
 			{
 				name: "Employment",
 				// items: ["Recruitment Agencies"]
 				items: [
-					{label: "Recruitment Agencies" , value: "Recruitment Agencies" },
+					{label: "Recruitment Agencies" , value: false },
 				]
 			},
 		]
@@ -181,26 +181,26 @@ export const sectorData =
 				name: "Sports & Recreation",
 				// items: ["Gyms", "Sports Clubs", "Spa’s", "Outdoor activities"]
 				items: [
-					{label: "Gyms", value: "Gyms"},
-					{label: "Sports Clubs", value: "Sports Clubs"},
-					{label: "Spa’s", value: "Spa’s"},
-					{label: "Outdoor activities", value: "Outdoor activities"},
+					{label: "Gyms", value: false},
+					{label: "Sports Clubs", value: false},
+					{label: "Spa’s", value: false},
+					{label: "Outdoor activities", value: false},
 				]
 			},
 			{
 				name: "Doctors & Specialists",
 				//items: ["General Practitioners", "Physicians", "Physiotherapists", "Chiropractors", "Surgeons", "Dental", "Homeopathic", "Mental Health", "Peadiatric", "Other Specialists"]
 				items: [
-					{label: "General Practitioners", value: "General Practitioners"},
-					{label: "Physicians", value: "Physicians"},
-					{label: "Physiotherapists", value: "Physiotherapists"},
-					{label: "Chiropractors", value: "Chiropractors"},
-					{label: "Surgeons", value: "Surgeons"},
-					{label: "Dental", value: "Dental"},
-					{label: "Homeopathic", value: "Homeopathic"},
-					{label: "Mental Health", value: "Mental Health"},
-					{label: "Peadiatric", value: "Peadiatric"},
-					{label: "Other Specialists", value: "Other Specialists"},
+					{label: "General Practitioners", value: false},
+					{label: "Physicians", value: false},
+					{label: "Physiotherapists", value: false},
+					{label: "Chiropractors", value: false},
+					{label: "Surgeons", value: false},
+					{label: "Dental", value: false},
+					{label: "Homeopathic", value: false},
+					{label: "Mental Health", value: false},
+					{label: "Peadiatric", value: false},
+					{label: "Other Specialists", value: false},
 				]
 			},
 			{
@@ -225,36 +225,36 @@ export const sectorData =
 				name: "Eat & Drink",
 				// items: ["Restaurants", "Bars", "Clubs", "Coffee Shops", "Takeaways", "Bakeries and Patisseries", "Speciality foods", "Catering and ready meals"]
 				items: [
-					{label: "Restaurants", value: "Restaurants"},
-					{label: "Bars", value: "Bars"},
-					{label: "Clubs", value: "Clubs"},
-					{label: "Coffee Shops", value: "Coffee Shops"},
-					{label: "Takeaways", value: "Takeaways"},
-					{label: "Bakeries and Patisseries", value: "Bakeries and Patisseries"},
-					{label: "Speciality foods", value: "Speciality foods"},
-					{label: "Catering and ready meals", value: "Catering and ready meals"},
+					{label: "Restaurants", value: false},
+					{label: "Bars", value: false},
+					{label: "Clubs", value: false},
+					{label: "Coffee Shops", value: false},
+					{label: "Takeaways", value: false},
+					{label: "Bakeries and Patisseries", value: false},
+					{label: "Speciality foods", value: false},
+					{label: "Catering and ready meals", value: false},
 				]
 			},
 			{
 				name: "Activities",
 				// items: ["Movies", "Entertainment Centres", "Arts", "Outdoor leisure", "Event hire specialists", "Venues", "Event planners", "Children"]
 				items: [
-					{label: "Movies", value: "Movies"},
-					{label: "Entertainment Centres", value: "Entertainment Centres"},
-					{label: "Arts", value: "Arts"},
-					{label: "Outdoor leisure", value: "Outdoor leisure"},
-					{label: "Event hire specialists", value: "Event hire specialists"},
-					{label: "Venues", value: "Venues"},
-					{label: "Event planners", value: "Event planners"},
-					{label: "Children", value: "Children"},
+					{label: "Movies", value: false},
+					{label: "Entertainment Centres", value: false},
+					{label: "Arts", value: false},
+					{label: "Outdoor leisure", value: false},
+					{label: "Event hire specialists", value: false},
+					{label: "Venues", value: false},
+					{label: "Event planners", value: false},
+					{label: "Children", value: false},
 				]
 			},
 			{
 				name: "Events",
 				// items: ["Music", "Arts"]
 				items: [
-					{label: "Music", value: "Music"},
-					{label: "Arts", value: "Arts"},
+					{label: "Music", value: false},
+					{label: "Arts", value: false},
 				]
 			},
 		]
@@ -267,48 +267,48 @@ export const sectorData =
 				name: "Home",
 				// items: ["Building", "Interiors", "Plumbing", "Electrical", "Painting", "Landscaping", "Cleaning", "Pest Control", "Veterinary and Pet parlours", "Security", "Communications and connectivity"]
 				items: [
-					{label: "Building", value: "Building"},
-					{label: "Interiors", value: "Interiors"},
-					{label: "Plumbing", value: "Plumbing"},
-					{label: "Electrical", value: "Electrical"},
-					{label: "Painting", value: "Painting"},
-					{label: "Landscaping", value: "Landscaping"},
-					{label: "Cleaning", value: "Cleaning"},
-					{label: "Pest Control", value: "Pest Control"},
-					{label: "Veterinary and Pet parlours", value: "Veterinary and Pet parlours"},
-					{label: "Security", value: "Security"},
-					{label: "Communications and connectivity", value: "Communications and connectivity"},
+					{label: "Building", value: false},
+					{label: "Interiors", value: false},
+					{label: "Plumbing", value: false},
+					{label: "Electrical", value: false},
+					{label: "Painting", value: false},
+					{label: "Landscaping", value: false},
+					{label: "Cleaning", value: false},
+					{label: "Pest Control", value: false},
+					{label: "Veterinary and Pet parlours", value: false},
+					{label: "Security", value: false},
+					{label: "Communications and connectivity", value: false},
 				]
 			},
 			{
 				name: "Self-care",
 				// items: ["Hair dressers and stylists", "Beauty Spa’s"]
 				items: [
-					{label: "Hair dressers and stylists", value: "Hair dressers and stylists"},
-					{label: "Beauty Spa’s", value: "Beauty Spa’s"},
+					{label: "Hair dressers and stylists", value: false},
+					{label: "Beauty Spa’s", value: false},
 				]
 			},
 			{
 				name: "Financial",
 				// items: ["Banks", "Bureau De change", "Financial Management", "Accountants", "Insurance"]
 				items: [
-					{label: "Banks", value: "Banks"},
-					{label: "Bureau De change", value: "Bureau De change"},
-					{label: "Financial Management", value: "Financial Management"},
-					{label: "Accountants", value: "Accountants"},
-					{label: "Insurance", value: "Insurance"},
+					{label: "Banks", value: false},
+					{label: "Bureau De change", value: false},
+					{label: "Financial Management", value: false},
+					{label: "Accountants", value: false},
+					{label: "Insurance", value: false},
 				]
 			},
 			{
 				name: "Public Services Contacts",
 				// items: ["Water", "Electricity", "Roads", "Police", "Fire department", "Accident and Emergency"]
 				items: [
-					{label: "Water", value: "Water"},
-					{label: "Electricity", value: "Electricity"},
-					{label: "Roads", value: "Roads"},
-					{label: "Police", value: "Police"},
-					{label: "Fire department", value: "Fire department"},
-					{label: "Accident and Emergency", value: "Accident and Emergency"},
+					{label: "Water", value: false},
+					{label: "Electricity", value: false},
+					{label: "Roads", value: false},
+					{label: "Police", value: false},
+					{label: "Fire department", value: false},
+					{label: "Accident and Emergency", value: false},
 				]
 			},
 			{

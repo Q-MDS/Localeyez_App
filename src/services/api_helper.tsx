@@ -170,3 +170,12 @@ export const getBusinessNotifications = async (token: string, data: any) =>
 	
 	return response.data;
 }
+
+export const updBusinessInfo =  async (token: string, data: any) => 
+{
+	const response = await api.post('/api/upd_business_info/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return response.data;
+}

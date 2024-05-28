@@ -24,15 +24,17 @@ const Start = (props) =>
     return (
         <SafeAreaView style={{flex: 1}}>
             <Layout style={MainStyles.layout_container_grid}>
-            
+				<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+					<Image source={require('../../assets/images/app_pic_1.png')} style={{ width: '100%' }} />
+				</View>
                 <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'flex-start', width: '100%' }}>
-                        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 275, width: '100%' }}>
-                            <Image source={require('../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
-                        </View>
+					<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20 }}>
+						<Image source={require('../../assets/images/localeyez_logo.png')} style={{ width: 320 }} />
+					</View>
                         <Layout style={[MainStyles.layout_container]}>
                             <TitleZero title="Stay in the know, live in the now" />
                             <View style={{ marginTop: 20, width: '100%' }} >
-                                <TextOne textAlign="center" title="Support locally with Localeyez" />
+                                <TextOne textAlign="center" title="Support Local Communities" status="basic" fontsize={18} />
                             </View>
                             <Layout style={{ width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' }}>
 							{/* <TouchableOpacity onPress={() => handleGetStarted()}> */}

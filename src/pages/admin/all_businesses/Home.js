@@ -144,8 +144,8 @@ const Home = (props) =>
 				<ButtonSecondary name="Denied" onpress={() => filterRecords('Denied', '0')}/>
 			</Layout>
 			<Layout style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 10, paddingStart: 20, paddingEnd: 20 }}>
-				<Text category="s1" status="primary">Total Records: {numRecs}</Text>
-				<Text category="s1" status="primary">Filter: {filter}</Text>
+				<Text category="s1" status="basic">Total Records: {numRecs}</Text>
+				<Text category="s1" status="basic">Filter: {filter}</Text>
 			</Layout>
 			<ScrollView>
 			<Layout style={MainStyles.layout_container_grid}>

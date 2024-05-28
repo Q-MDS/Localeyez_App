@@ -42,7 +42,7 @@ export const BotNavShopper = (props) =>
     return (
         <BottomNavigation
             selectedIndex={props.selected}
-            indicatorStyle={{ backgroundColor: '#8F9BB3' }}
+            indicatorStyle={{ backgroundColor: '#612bc1' }}
             onSelect={navigateToScreen}
         >
             <BottomNavigationTab icon={IconOne} />

@@ -12,25 +12,7 @@ import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
 import { TitleThree } from '../../../../components/TitleThree';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { DropdownMultiSelect } from '../../../../components/DropdownMultiSelect';
-
-// const fashionData = [{ label: 'Clothing', value: 'Clothing' }, { label: 'Shoes', value: 'Shoes' }, { label: 'Accessories', value: 'Accessories' }, { label: 'Make-Up & Cosmetics', value: 'Make-Up & Cosmetics' }, { label: 'Bath & Body', value: 'Bath & Body' }, { label: 'Clothing Designers & Stylists', value: 'Clothing Designers & Stylists' }, { label: 'Hair Stylists & Products', value: 'Hair Stylists & Products' }, { label: 'Make-Up Artists', value: 'Make-Up Artists' }, { label: 'Skin & Beauty Technicians', value: 'Skin & Beauty Technicians' },	{ label: 'Costume Hire', value: 'Costume Hire' }];
-// const homeData = [{ label: 'Furniture', value: 'Furniture' }, { label: 'Fixtures & Fittings', value: 'Fixtures & Fittings' }, { label: 'Homeware & Decor', value: 'Homeware & Decor' }, { label: 'Electronics & Appliances', value: 'Electronics & Appliances' }];
-// const groceriesData = [{ label: 'Food & Beverage', value: 'Food & Beverage' }, { label: 'Local Markets & Homemade Goods', value: 'Local Markets & Homemade Goods' }, { label: 'Household Goods', value: 'Household Goods' }];
-// const accomodationData = [{ label: 'Hotels', value: 'Hotels' }, { label: 'Guest Lodges', value: 'Guest Lodges' }, { label: 'BnBs', value: 'BnBs' }, { label: 'Lodges', value: 'Lodges' }, { label: 'Villas & Private Homes', value: 'Villas & Private Homes' }, { label: 'Backpackers', value: 'Backpackers' }, { label: 'Other - E.g. Houseboats', value: 'Other - E.g. Houseboats' }];
-// const transportData = [{ label: 'Hotels', value: 'Hotels' }, { label: 'Guest Lodges', value: 'Guest Lodges' }, { label: 'BnBs', value: 'BnBs' }, { label: 'Lodges', value: 'Lodges' }, { label: 'Villas & Private Homes', value: 'Villas & Private Homes' }, { label: 'Backpackers', value: 'Backpackers' }, { label: 'Other - E.g. Houseboats', value: 'Other - E.g. Houseboats' }];
-// const sportData = [{ label: 'Gyms', value: 'Gyms' }, { label: 'Sports Clubs', value: 'Sports Clubs' }, { label: 'Spa\'s', value: 'Spa\'s' }, { label: 'Outdoor Activities', value: 'Outdoor Activities' }];
-// const doctorData = [{ label: 'General Practitioners', value: 'General Practitioners' }, { label: 'Physicians', value: 'Physicians' }, { label: 'Physiotherapists', value: 'Physiotherapists' }, { label: 'Chiropractors', value: 'Chiropractors' }, { label: 'Surgeons', value: 'Surgeons' }, { label: 'Dental', value: 'Dental' }, { label: 'Homeopathic', value: 'Homeopathic' }, { label: 'Mental Health', value: 'Mental Health' }, { label: 'Paediatric', value: 'Paediatric' }, { label: 'Other Specialists', value: 'Other Specialists' }];
-// const eatData = [{ label: 'Restaurants', value: 'Restaurants' }, { label: 'Bars', value: 'Bars' }, { label: 'Clubs', value: 'Clubs' }, { label: 'Coffee Shops', value: 'Coffee Shops' }, { label: 'Takeaways', value: 'Takeaways' }, { label: 'Bakeries & Patisseries', value: 'Bakeries & Patisseries' }, { label: 'Speciality Foods', value: 'Speciality Foods' }, { label: 'Catering & Ready Made', value: 'Catering & Ready Made' }];
-// const activitiesData = [{ label: 'Movies', value: 'Movies' }, { label: 'Entertainment Centres', value: 'Entertainment Centres' }, { label: 'Arts', value: 'Arts' }, { label: 'Outdoor Leisure', value: 'Outdoor Leisure' }, { label: 'Event Hire Specialists', value: 'Event Hire Specialists' }, { label: 'Venues', value: 'Venues' }, { label: 'Event Planners', value: 'Event Planners' }, { label: 'Children', value: 'Children' }];
-// const entEventData = [{ label: 'Music', value: 'Music' }, { label: 'Arts', value: 'Arts' }];
-// const eduEventData = [{ label: 'Preschools', value: 'Preschools' }, { label: 'Primary Schools', value: 'Primary Schools' }, { label: 'Secondary Schools', value: 'Secondary Schools' }, { label: 'Tertiary Education', value: 'Tertiary Education' }];
-// const learnData = [{ label: 'Courses', value: 'Courses' }, { label: 'E-Learning', value: 'E-Learning' }];
-// const employmentData = [{ label: 'Recruitment Agencies', value: 'Recruitment Agencies' }];
-// const serHomeData = [{ label: 'Building', value: 'Building' }, { label: 'Interiors', value: 'Interiors' }, { label: 'Plumbing', value: 'Plumbing' }, { label: 'Electrical', value: 'Electrical' }, { label: 'Painting', value: 'Painting' }, { label: 'Landscaping', value: 'Landscaping' }, { label: 'Cleaning', value: 'Cleaning' }, { label: 'Pest Control', value: 'Pest Control' }, { label: 'Veterinary & Pet Parlours', value: 'Veterinary & Pet Parlours' }, { label: 'Security', value: 'Security' }, { label: 'Communications & Connectivity', value: 'Communications & Connectivity' }, ];
-// const serSelfData = [{ label: 'Hair Dressers & Stylists', value: 'Hair Dressers & Stylists' }, { label: 'Beauty Spa\'s', value: 'Beauty Spa\'s' }];
-// const serFinData = [{ label: 'Banks', value: 'Banks' }, { label: 'Bureau De Change', value: 'Bureau De Change' }, { label: 'Financial Management', value: 'Financial Management' }, { label: 'Accountants', value: 'Accountants' }, { label: 'Insurance', value: 'Insurance' }];
-// const serPubData = [{ label: 'Water', value: 'Water' }, { label: 'Electricity', value: 'Electricity' }, { label: 'Roads', value: 'Roads' }, { label: 'Police', value: 'Police' }, { label: 'Fire Department', value: 'Fire Department' }, { label: 'Accident & Emergency', value: 'Accident & Emergency' }];
-// const communityData = [{ label: 'Children', value: 'Children' }, { label: 'Old Age Pensioners', value: 'Old Age Pensioners' }, { label: 'Community Projects', value: 'Community Projects' }, { label: 'Conservation', value: 'Conservation' }];
+import { CheckboxList } from '../../../../components/CheckboxList';
 
 const Add = (props) => 
 {
@@ -191,8 +173,8 @@ const Add = (props) =>
 		if (ready)
 		{
 			const shopper_sectors = sectors;
-			console.log('Groceries: ', shopper_sectors);
-			if (shopper_sectors.fashion.length > 0 || shopper_sectors.home.length > 0 || shopper_sectors.groceries.length > 0 || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
+
+			if (shopper_sectors.fashion.some(item => item.value) || shopper_sectors.home.some(item => item.value) || shopper_sectors.groceries.some(item => item.value) || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
 			setFashion(shopper_sectors.fashion);
 			setHome(shopper_sectors.home);
 			setGroceries(shopper_sectors.groceries);
@@ -200,24 +182,24 @@ const Add = (props) =>
 			setShoppingOpt2(shopper_sectors.shoppingOpt2);
 			setShoppingOpt3(shopper_sectors.shoppingOpt3);
 
-			if (shopper_sectors.accomodation.length > 0 || shopper_sectors.transport.length > 0 || shopper_sectors.travelOpt1) { setTravelCollapsed(true) } else { setTravelCollapsed(false) }
+			if (shopper_sectors.accomodation.some(item => item.value) || shopper_sectors.transport.some(item => item.value)) { setTravelCollapsed(true) } else { setTravelCollapsed(false) }
 			setAccomodation(shopper_sectors.accomodation);
 			setTransport(shopper_sectors.transport);
 			setTravelOpt1(shopper_sectors.travelOpt1);
 
-			if (shopper_sectors.sport.length > 0 || shopper_sectors.doctor.length > 0 || shopper_sectors.healthOpt1 || shopper_sectors.healthOpt2 || shopper_sectors.healthOpt3) { setHealthCollapsed(true) } else { setHealthCollapsed(false) }
+			if (shopper_sectors.sport.some(item => item.value) || shopper_sectors.doctor.some(item => item.value) || shopper_sectors.healthOpt1 || shopper_sectors.healthOpt2 || shopper_sectors.healthOpt3) { setHealthCollapsed(true) } else { setHealthCollapsed(false) }
 			setSport(shopper_sectors.sport);
 			setDoctor(shopper_sectors.doctor);
 			setHealthOpt1(shopper_sectors.healthOpt1);
 			setHealthOpt2(shopper_sectors.healthOpt2);
 			setHealthOpt3(shopper_sectors.healthOpt3);
 
-			if (shopper_sectors.eat.length > 0 || shopper_sectors.activities.length > 0 || shopper_sectors.entEvent.length > 0 ) { setEntertainmentCollapsed(true) } else { setEntertainmentCollapsed(false) }
+			if (shopper_sectors.eat.some(item => item.value) || shopper_sectors.activities.some(item => item.value) || shopper_sectors.entEvent.some(item => item.value) ) { setEntertainmentCollapsed(true) } else { setEntertainmentCollapsed(false) }
 			setEat(shopper_sectors.eat);
-			setActivities(shopper_sectors.activities	);
+			setActivities(shopper_sectors.activities);
 			setEntEvent(shopper_sectors.entEvent);
 
-			if (shopper_sectors.eduEvent.length > 0 || shopper_sectors.learn.length > 0 || shopper_sectors.employment.length > 0) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
+			if (shopper_sectors.eduEvent.some(item => item.value) || shopper_sectors.learn.some(item => item.value) || shopper_sectors.employment.some(item => item.value)) { setEducationCollapsed(true) } else { setEducationCollapsed(false) }
 			setEduEvent(shopper_sectors.eduEvent);
 			setLearn(shopper_sectors.learn);
 			setEmployment(shopper_sectors.employment);
@@ -228,14 +210,14 @@ const Add = (props) =>
 			setPropertyOpt3(shopper_sectors.propertyOpt3);
 			setPropertyOpt4(shopper_sectors.propertyOpt4);
 
-			if (shopper_sectors.serHome.length > 0 || shopper_sectors.serSelf.length > 0 || shopper_sectors.serFin.length > 0 || shopper_sectors.serPub.length > 0 || shopper_sectors.servicesOpt1) { setServicesCollapsed(true) } else { setServicesCollapsed(false) }
+			if (shopper_sectors.serHome.some(item => item.value) || shopper_sectors.serSelf.some(item => item.value) || shopper_sectors.serFin.some(item => item.value) || shopper_sectors.serPub.some(item => item.value) || shopper_sectors.servicesOpt1) { setServicesCollapsed(true) } else { setServicesCollapsed(false) }
 			setSerHome(shopper_sectors.serHome);
 			setSerSelf(shopper_sectors.serSelf);
 			setSerFin(shopper_sectors.serFin);
 			setSerPub(shopper_sectors.serPub);
 			setServicesOpt1(shopper_sectors.servicesOpt1);
 
-			if (shopper_sectors.community.length > 0 || shopper_sectors.communityOpt1 || shopper_sectors.communityOpt2 || shopper_sectors.communityOpt3 || shopper_sectors.communityOpt4) { setCommunityCollapsed(true) } else { setCommunityCollapsed(false) }
+			if (shopper_sectors.community.some(item => item.value)|| shopper_sectors.communityOpt1 || shopper_sectors.communityOpt2 || shopper_sectors.communityOpt3 || shopper_sectors.communityOpt4) { setCommunityCollapsed(true) } else { setCommunityCollapsed(false) }
 			setCommunity(shopper_sectors.community);
 			setCommunityOpt1(shopper_sectors.communityOpt1);
 			setCommunityOpt2(shopper_sectors.communityOpt2);
@@ -243,6 +225,169 @@ const Add = (props) =>
 			setCommunityOpt4(shopper_sectors.communityOpt4);
 		}
 	}, [ready]);
+
+	const handleFashionChange = (label, isChecked) => 
+	{
+		setFashion(prevFashion => 
+		{
+			return prevFashion.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleHomeChange = (label, isChecked) => 
+	{
+		setHome(prevHome => 
+		{
+			return prevHome.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleGroceriesChange = (label, isChecked) => 
+	{
+		setGroceries(prevGroceries => 
+		{
+			return prevGroceries.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleAccomodationChange = (label, isChecked) => 
+	{
+		setAccomodation(prevAccomodation => 
+		{
+			return prevAccomodation.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleTransportChange = (label, isChecked) => 
+	{
+		setTransport(prevTransport => 
+		{
+			return prevTransport.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleSportChange = (label, isChecked) => 
+	{
+		setSport(prevSport => 
+		{
+			return prevSport.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleDoctorChange = (label, isChecked) => 
+	{
+		setDoctor(prevDoctor => 
+		{
+			return prevDoctor.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleEatChange = (label, isChecked) => 
+	{
+		setEat(prevEat => 
+		{
+			return prevEat.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleActivitiesChange = (label, isChecked) => 
+	{
+		setActivities(prevActivities => 
+		{
+			return prevActivities.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleEntEventChange = (label, isChecked) => 
+	{
+		setEntEvent(prevEntEvent => 
+		{
+			return prevEntEvent.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleEduEventChange = (label, isChecked) => 
+	{
+		setEduEvent(prevEduEvent => 
+		{
+			return prevEduEvent.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleLearnChange = (label, isChecked) => 
+	{
+		setLearn(prevLearn => 
+		{
+			return prevLearn.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleEmploymentChange = (label, isChecked) => 
+	{
+		setEmployment(prevEmployment => 
+		{
+			return prevEmployment.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleSerHomeChange = (label, isChecked) => 
+	{
+		setSerHome(prevSerHome => 
+		{
+			return prevSerHome.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleSerSelfChange = (label, isChecked) => 
+	{
+		setSerSelf(prevSerSelf => 
+		{
+			return prevSerSelf.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleSerFinChange = (label, isChecked) => 
+	{
+		setSerFin(prevSerFin => 
+		{
+			return prevSerFin.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleSerPubChange = (label, isChecked) => 
+	{
+		setSerPub(prevSerPub => 
+		{
+			return prevSerPub.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
+	const handleCommunityChange = (label, isChecked) => 
+	{
+		setCommunity(prevCommunity => 
+		{
+			return prevCommunity.map(item => 
+			item.label === label ? { ...item, value: isChecked } : item
+			);
+		});
+	};
 
     const handleSubmit = async () => 
     {
@@ -337,20 +482,19 @@ const Add = (props) =>
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15}]}>
 
-					<Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
 					{/* Shopping */}
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setShoppingCollapsed(!shoppingCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
-								<TitleThree title={shoppingData.title} mb={5} flex={1} />
+								<TitleThree title={shoppingData.title} mb={5} flex={1} status="primary" />
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
 						{shoppingCollapsed && (
 							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-								<DropdownMultiSelect data={fashionData} icon="shopping-cart-outline" value={fashion} onChange={setFashion} placeholder={shoppingLabels[0]} />
-								<DropdownMultiSelect data={homeData} icon="shopping-cart-outline" value={home} onChange={setHome} placeholder={shoppingLabels[1]} />
-								<DropdownMultiSelect data={groceriesData} icon="shopping-cart-outline" value={groceries} onChange={setGroceries} placeholder={shoppingLabels[2]} />
+								<CheckboxList title={shoppingLabels[0]} data={fashion} onCheckboxChange={handleFashionChange} />
+								<CheckboxList title={shoppingLabels[1]} data={home} onCheckboxChange={handleHomeChange} />
+								<CheckboxList title={shoppingLabels[2]} data={groceries} onCheckboxChange={handleGroceriesChange} />
 								<Checkbox label={shoppingLabels[3]} checked={shoppingOpt1} onChange={setShoppingOpt1} mt={15} mb={10} />
 								<Checkbox label={shoppingLabels[4]} checked={shoppingOpt2} onChange={setShoppingOpt2} mb={10} />
 								<Checkbox label={shoppingLabels[5]} checked={shoppingOpt3} onChange={setShoppingOpt3}  mb={10} />
@@ -364,14 +508,14 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setTravelCollapsed(!travelCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-								<TitleThree title={travelData.title} mb={5} flex={1}  />
+								<TitleThree title={travelData.title} mb={5} flex={1} status="primary" />
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
 						{travelCollapsed && (
 							<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-								<DropdownMultiSelect data={accommodationData} icon="navigation-2-outline" value={accomodation} onChange={setAccomodation} placeholder={travelLabels[0]} />
-								<DropdownMultiSelect data={transportData} icon="navigation-2-outline" value={transport} onChange={setTransport} placeholder={travelLabels[1]} />
+								<CheckboxList title={travelLabels[0]} data={accomodation} onCheckboxChange={handleAccomodationChange} />
+								<CheckboxList title={travelLabels[1]} data={transport} onCheckboxChange={handleTransportChange} />
 								<Checkbox label={travelLabels[2]} checked={travelOpt1} onChange={setTravelOpt1} mt={15} mb={10} />
 							</View>
 						)}
@@ -383,14 +527,14 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setHealthCollapsed(!healthCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={healthData.title} mb={5} flex={1} />
+                            <TitleThree title={healthData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{healthCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={sportData} icon={"activity-outline"} value={sport} onChange={setSport} placeholder={healthLabels[0]} />
-							<DropdownMultiSelect data={doctorData} icon={"activity-outline"} value={doctor} onChange={setDoctor} placeholder={healthLabels[1]} />
+							<CheckboxList title={healthLabels[0]} data={sport} onCheckboxChange={handleSportChange} />
+							<CheckboxList title={healthLabels[1]} data={doctor} onCheckboxChange={handleDoctorChange} />
 							<Checkbox label={healthLabels[2]} checked={healthOpt1} onChange={setHealthOpt1} mt={15} mb={10} />
 							<Checkbox label={healthLabels[3]} checked={healthOpt2} onChange={setHealthOpt2} mt={15} mb={10} />
 							<Checkbox label={healthLabels[4]} checked={healthOpt3} onChange={setHealthOpt3} mt={15} mb={10} />
@@ -404,15 +548,15 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEntertainmentCollapsed(!entertainmentCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={entertainmentData.title} mb={5} flex={1} />
+                            <TitleThree title={entertainmentData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{entertainmentCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={eatData} icon="music-outline" value={eat} onChange={setEat} placeholder={entertainmentLabels[0]} />
-							<DropdownMultiSelect data={activitiesData} icon="music-outline" value={activities} onChange={setActivities} placeholder={entertainmentLabels[1]} />
-							<DropdownMultiSelect data={entEventData} icon="music-outline" value={entEvent} onChange={setEntEvent} placeholder={entertainmentLabels[2]} />
+							<CheckboxList title={entertainmentLabels[0]} data={eat} onCheckboxChange={handleEatChange} />
+							<CheckboxList title={entertainmentLabels[1]} data={activities} onCheckboxChange={handleActivitiesChange} />
+							<CheckboxList title={entertainmentLabels[2]} data={entEvent} onCheckboxChange={handleEntEventChange} />
 						</View>
 					)}
 					</Card>
@@ -423,15 +567,15 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEducationCollapsed(!educationCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={educationData.title} mb={5} flex={1} />
+                            <TitleThree title={educationData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{educationCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={eduEventData} icon="book-open-outline" value={eduEvent} onChange={setEduEvent} placeholder={educationLabels[0]} />
-							<DropdownMultiSelect data={learnData} icon="book-open-outline" value={learn} onChange={setLearn} placeholder={educationLabels[1]} />
-							<DropdownMultiSelect data={employmentData} icon="book-open-outline" value={employment} onChange={setEmployment} placeholder={educationLabels[2]} />
+							<CheckboxList title={educationLabels[0]} data={eduEvent} onCheckboxChange={handleEduEventChange} />
+							<CheckboxList title={educationLabels[1]} data={learn} onCheckboxChange={handleLearnChange} />
+							<CheckboxList title={educationLabels[2]} data={employment} onCheckboxChange={handleEmploymentChange} />
 						</View>
 					)}
 					</Card>
@@ -442,7 +586,7 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setPropertyCollapsed(!propertyCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={propertyData.title} mb={5} flex={1} />
+                            <TitleThree title={propertyData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -462,16 +606,16 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setServicesCollapsed(!servicesCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={servicesData.title} mb={5} flex={1} />
+                            <TitleThree title={servicesData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
 					{servicesCollapsed && (
 						<View style={{ flexDirection: 'column', flex: 1, width: '100%' }}>
-							<DropdownMultiSelect data={serHomeData} icon="link-2-outline" value={serHome} onChange={setSerHome} placeholder={servicesLabels[0]} />
-							<DropdownMultiSelect data={serSelfData} icon="link-2-outline" value={serSelf} onChange={setSerSelf} placeholder={servicesLabels[1]} />
-							<DropdownMultiSelect data={serFinData} icon="link-2-outline" value={serFin} onChange={setSerFin} placeholder={servicesLabels[2]} />
-							<DropdownMultiSelect data={serPubData} icon="link-2-outline" value={serPub} onChange={setSerPub} placeholder={servicesLabels[3]} />
+							<CheckboxList title={servicesLabels[0]} data={serHome} onCheckboxChange={handleSerHomeChange} />
+							<CheckboxList title={servicesLabels[1]} data={serSelf} onCheckboxChange={handleSerSelfChange} />
+							<CheckboxList title={servicesLabels[2]} data={serFin} onCheckboxChange={handleSerFinChange} />
+							<CheckboxList title={servicesLabels[3]} data={serPub} onCheckboxChange={handleSerPubChange} />
 							<Checkbox label={servicesLabels[4]} checked={servicesOpt1} onChange={setServicesOpt1} mt={15} mb={10} />							
 						</View>
 					)}
@@ -483,7 +627,7 @@ const Add = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setCommunityCollapsed(!communityCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={communityData.title} mb={5} flex={1} />
+                            <TitleThree title={communityData.title} mb={5} flex={1} status="primary" />
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -492,8 +636,8 @@ const Add = (props) =>
 							<Checkbox label={communityLabels[0]} checked={communityOpt1} onChange={setCommunityOpt1} mt={15} mb={10} />							
 							<Checkbox label={communityLabels[1]} checked={communityOpt2} onChange={setCommunityOpt2} mt={15} mb={10} />							
 							<Checkbox label={communityLabels[2]} checked={communityOpt3} onChange={setCommunityOpt3} mt={15} mb={10} />							
-							<Checkbox label={communityLabels[3]} checked={communityOpt4} onChange={setCommunityOpt4} mt={15} mb={10} />							
-							<DropdownMultiSelect data={commData} icon="people-outline" value={community} onChange={setCommunity} placeholder={communityLabels[4]} />
+							<Checkbox label={communityLabels[3]} checked={communityOpt4} onChange={setCommunityOpt4} mt={15} mb={10} />
+							<CheckboxList title={communityLabels[4]} data={community} onCheckboxChange={handleCommunityChange} />							
 						</View>
 					)}
 					</Card>

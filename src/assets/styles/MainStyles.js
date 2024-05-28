@@ -9,7 +9,7 @@ const MainStyles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         padding: 20,
         paddingTop: 20,
     },

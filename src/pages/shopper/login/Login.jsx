@@ -12,8 +12,8 @@ import { Layout } from '@ui-kitten/components';
 import TextTwo from '../../../components/TextTwo';
 
 const initialState = {
-	credOne: null,
-	credTwo: null,
+	credOne: "Peter@gmail.com",
+	credTwo: "123456",
 };
 
 function reducer(state, action) 
@@ -133,44 +133,43 @@ const Login = (props) =>
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
             
-                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%'}}>
-                    <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 250, width: '100%' }}>
-                        <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 112, height: 112 }} />
-                    </View>
-                    <ScrollView style={{ width: '100%', padding: 30 }}>
-                        <View style={{ flex: 1 }}>
-                            <View style={{ marginTop: 20 }} />
-                            <TitleOne title="Login as a User" />
+                {/* <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%'}}> */}
+					<View style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', width: '100%' }}>
+						<Image source={require('../../../assets/images/app_pic_4.png')} style={{ width: '100%', objectFit: 'cover' }} />
+					</View>
+                    <ScrollView style={{ flex: 1, width: '100%' }}>
+                        <View style={{ padding: 24 }}>
+                            <TitleOne title="Login as a User" status="basic" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" />
+                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" status="basic" />
                             <View style={{ marginTop: 25 }} />
-                            <InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" />
+                            <InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" status="basic" />
                             <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
-                                <Layout style={{ flex: 1 }} >
-                                <Checkbox label="Remember me" />
+                                <Layout >
+                                	<Checkbox label="Remember me" />
                                 </Layout>
                                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
-                                    <TextTwo title="Forgot password?&nbsp;" textalign="right" />
+                                    <TextTwo title="Forgot password?&nbsp;" textalign="right" status="basic" />
                                     <TouchableOpacity onPress={handleReset}>
-                                        <TextTwo title="Reset" underline="underline" textalign="right" />
+                                        <TextTwo title="Reset" underline="underline" textalign="right" status="primary" />
                                     </TouchableOpacity>
                                 </Layout>
                             </Layout>
                             <View style={{ marginTop: 15 }} />
                             <ButtonPrimary name="Login" onpress={handleLogin}/>
-                            <View style={{ marginTop: 25 }} />
+                            <View style={{ marginTop: 15 }} />
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
-                                <TextTwo title="Don't have an account? " textalign="center" />
+                                <TextTwo title="Don't have an account? " textalign="center" status="basic" />
                                 <TouchableOpacity onPress={handleSignup} >
-                                    <TextTwo title="Sign up" fontweight="bold" underline="underline" />
+                                    <TextTwo title="Sign up" fontweight="bold" underline="underline" status="primary" />
                                 </TouchableOpacity>
                             </Layout>
                         </View>
                     </ScrollView>
-                </View>
+                {/* </View> */}
             </Layout>
         </SafeAreaView>
     )

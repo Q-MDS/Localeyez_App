@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 export const TitleFour = (props) => (
   <>
-    <Text style={[styles.text, {flex: props.flex, fontSize: props.fontsize, textAlign: props.textalign, marginTop: props.mt, marginBottom: props.mb}]} status='primary'>
+    <Text style={[styles.text, {flex: props.flex, fontSize: props.fontsize, textAlign: props.textalign, marginTop: props.mt, marginBottom: props.mb}]} status={props.status}>
       {props.title}
     </Text>
   </>
@@ -19,6 +19,5 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         textAlign: 'left',
         width: '100%',
-		color: '#000'
     },
   });
