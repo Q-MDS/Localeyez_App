@@ -28,7 +28,7 @@ const List = (props:any) =>
 		setBusinessId(business.id);
 		setBusinessName(business.company_name);
 		setBusinessImage(business.profile_pic);
-		console.log('Business Image:', businessImage);
+		console.log('Business Image:', business);
 	}, [business]);
 
 	const getToken = async () => 

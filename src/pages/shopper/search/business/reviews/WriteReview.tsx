@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import MainStyles from '../../../../../assets/styles/MainStyles';
 import DbUtils from '../../../../../services/DbUtils';
 import { newReview } from '../../../../../services/api_search';
 import Toast from 'react-native-toast-message';
@@ -35,7 +36,7 @@ const WriteReview = (props:any) =>
 	const [shopperId, setShopperId] = useState<any>('');
 	const [businessName, setBusinessName] = useState<any>(props.route.params.businessName);
 	const [businessImage, setBusinessImage] = useState<any>(props.route.params.businessImage);
-	const [starCount, setStarCount] = useState(0);
+	const [starCount, setStarCount] = useState(3);
 	const [isReady, setIsReady] = useState(false);
 
 	function handleInputChange(name: any, newValue: any) 
@@ -94,31 +95,31 @@ const WriteReview = (props:any) =>
 	
 			if (status)
 			{
-				Toast.show({
-					type: 'success',
-					position: 'bottom',
-					text1: 'Success',
-					text2: 'Review was successfully uploaded.',
-					visibilityTime: 1000,
-					autoHide: true,
-					topOffset: 30,
-					bottomOffset: 40,
-				});
+				// Toast.show({
+				// 	type: 'success',
+				// 	position: 'bottom',
+				// 	text1: 'Success',
+				// 	text2: 'Review was successfully uploaded.',
+				// 	visibilityTime: 1000,
+				// 	autoHide: true,
+				// 	topOffset: 30,
+				// 	bottomOffset: 40,
+				// });
 			
 				props.navigation.navigate('SearchBusinessReviewWriteConfirm');
 			} 
 			else 
 			{
-				Toast.show({
-					type: 'error',
-					position: 'bottom',
-					text1: 'Server error',
-					text2: 'There was an error uploading your review',
-					visibilityTime: 1000,
-					autoHide: true,
-					topOffset: 30,
-					bottomOffset: 40,
-				});
+				// Toast.show({
+				// 	type: 'error',
+				// 	position: 'bottom',
+				// 	text1: 'Server error',
+				// 	text2: 'There was an error uploading your review',
+				// 	visibilityTime: 1000,
+				// 	autoHide: true,
+				// 	topOffset: 30,
+				// 	bottomOffset: 40,
+				// });
 			}
 		}
 	}
@@ -128,28 +129,23 @@ const WriteReview = (props:any) =>
 			<TopNavBack title="Write Review" alignment="start" navigation={props.navigation} pops={1} />
 			<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
 				{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
-				<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >{`${businessName}`}</Text>
+				<Text style={[MainStyles.title_a20, { paddingStart: 15,  }]} >{`${businessName}`}</Text>
 			</View>
 			<ScrollView>
 				<Layout style={{ flex: 1, marginTop: 20, paddingStart: 20, paddingEnd: 20, marginBottom: 20 }}>
-					<Text category='h6' status="primary" style={{ marginBottom: 15 }} >Rate the service</Text>
-					{/* <StarRating
-						disabled={false}
-						maxStars={5}
-						rating={starCount}
-						fullStarColor={'#5D5A88'}
-						selectedStar={(rating: React.SetStateAction<number>) => setStarCount(rating)}
-						/> */}
+					<Text style={[MainStyles.title_a20, { marginBottom: 15 }]} >Rate the service</Text>
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
 						<Rating
-							type='star'
-							ratingCount={5}
-							imageSize={30}
-							onFinishRating={setStarCount}
-							/>
-					<Text category='h6' status="primary" style={{ marginTop: 20, marginBottom: 15 }} >Write review title</Text>
-					<InputMultiline name="title" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={5} value={state.title} onChange={handleInputChange} />
-					<Text category='h6' status="primary" style={{ marginTop: 20, marginBottom: 15 }} >Write message review</Text>
-					<InputMultiline name="review" placeholder="Write your review here..." numLines={9} value={state.review} onChange={handleInputChange} />
+						type='star'
+						ratingCount={5}
+						imageSize={30}
+						onFinishRating={setStarCount}
+						/>
+					</View>
+					<View style={{ marginTop: 25 }} />
+					<InputMultiline label="Write review title" name="title" status="basic" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={3} value={state.title} onChange={handleInputChange} />
+					<View style={{ marginTop: 25 }} />
+					<InputMultiline label="Write review message" name="review" status="basic" placeholder="Write your review here..." numLines={8} value={state.review} onChange={handleInputChange} />
 				</Layout>
 			</ScrollView>
 			<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>

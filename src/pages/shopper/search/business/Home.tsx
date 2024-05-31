@@ -219,7 +219,10 @@ const Home = (props: any) =>
 					<View style={{ marginTop: 15 }} />
 					<IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
 					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
-					<IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
+					<TouchableOpacity onPress={() => handleViewReviews()} >
+						<IconText title="See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
+					</TouchableOpacity>
+
 					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} /> */}
 				</Layout>
 						

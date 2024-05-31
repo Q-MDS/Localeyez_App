@@ -39,7 +39,7 @@ function reducer(state, action)
 const Home = (props) => 
 {
     const [state, dispatch] = useReducer(reducer, initialState);
-
+	
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [token, setToken] = useState('');
 	const [searchString, setSearchString] = useState('');
@@ -90,6 +90,8 @@ const Home = (props) =>
 
 	useEffect(() => 
 	{
+		const searchFor = props.route.params.searchFor ? props.route.params.searchFor : '';
+		setSearchString(searchFor);
 		const fetchData = async () => 
 		{
 			await getToken();
