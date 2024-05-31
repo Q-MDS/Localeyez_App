@@ -12,6 +12,6 @@ export const InputPhoneNumber = (props: any) =>
 		placeholder={props.placeholder} 
 		placeholderTextColor="#d9d9d9"
 		keyboardType="phone-pad" 
-		style={{ color: '#000000', borderColor: '#e6e9f2', borderWidth: 1, width: '100%', padding: 10, paddingStart: 10, borderRadius: 5, backgroundColor: '#f8f9fc' }} />
+		style={{ color: '#000000', borderColor: '#e6e9f2', borderWidth: 0, width: '100%', padding: 10, paddingStart: 10, borderRadius: 5, backgroundColor: '#f2f2f2' }} />
   	);
 };

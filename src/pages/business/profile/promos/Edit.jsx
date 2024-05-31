@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
-import { Layout, Icon } from '@ui-kitten/components';
+import { Layout, Text, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import TextTwo from '../../../../components/TextTwo';
 import { TitleFour } from '../../../../components/TitleFour';
@@ -316,53 +316,54 @@ const Edit = (props) =>
     }
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
         <TopNavBackTitleIcon title="Edit Promotion" alignment="start" navigation={props.navigation} goBackTo="BusProProAddEditBack" goDelete="BusProfProDelete" deleteId={remoteId} />
         <DividerTop />
-        <ScrollView>
+        <ScrollView style={{ flex: 1, width: '100%' }}>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-				<TitleFour title="Choose which business sector your event falls under:" status="primary" />
+				<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>
-                <TitleFour title="Edit Promotion Display Image" mb={10} status="primary" />
+					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Promotion Display Picture</Text>
+
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
-					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-						<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-						<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
-						<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
-						<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
+					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+						<Image source={require('../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+						<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the banner of your promotion</Text>
+						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640px x 360px</Text>
+						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 						{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 					</Layout>
 				</TouchableOpacity>
 
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Cake Sale!" status="basic" />
+                <InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Write title here" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a caption" status="basic" />
+                <InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your promotion" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a description" status="basic" />
+                <InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a longer description up to 500 characters about your promotion" status="basic" />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="$200" />
+                <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" />
                 <View style={{ marginTop: 5 }} />
-                <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="$300" />
-                <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="$200" />
+                <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="Original Price" />
+                <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="Marked Down Price" />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={13} />
+				<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={18} />
                 <DateSelect value={state.promoStartDate} name="promoStartDate" onChange={handleInputChange} />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={13} />
+				<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={18} />
                 <DateSelect value={state.promoEndDate} name="promoEndDate" onChange={handleInputChange} />
                 <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="18 Street" />
+                <InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="Address line 1" />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Suburb" />
+                <InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Address line 2" />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="Cape Town" />
+                <InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="City" />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Western Cape" />
+                <InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" />
                 <View style={{ marginTop: 5 }} />
-                <InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="9901" />
+                <InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" />
                 <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={handleSubmit}/>
             </Layout>
         </ScrollView>

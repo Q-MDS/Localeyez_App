@@ -1,6 +1,5 @@
 import React from "react";
 import MainStyles from "../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
 import { TopNavBack } from "../../../components/TopNavBack";
 import DividerTop from "../../../components/DividerTop";
 import { BotNavShopper } from "../../../components/BotNavShopper";
@@ -15,9 +14,10 @@ const ViewNotification = (props) =>
 {
 	const linkType = props.route.params.linkType;
 	console.log('Link Type Is: ', props.route.params.linkRecord);
-    const handleClose = () => 
+
+    const handleViewBusiness = () => 
     {
-        props.navigation.navigate('ShopperNotiList');
+        props.navigation.navigate('ShopperNotiList', {businessId: businessId});
     }
 
 	console.log('ViewNotification Props:', props.route.params.linkRecord.promo_title);
@@ -47,7 +47,7 @@ const ViewNotification = (props) =>
                         <View style={{ marginTop: 10 }} />
                         <TextTwo title="Location:" textalign="left" fontsize={16} fontweight='bold' />
                         <IconText title={`${props.route.params.linkRecord.loc_add_one} ${props.route.params.linkRecord.loc_add_two} ${props.route.params.linkRecord.loc_city} ${props.route.params.linkRecord.loc_province} ${props.route.params.linkRecord.loc_zip_code}`} iconname="pin-outline" fontsize={16} width={18} />
-                    	<ButtonPrimary name="View Business Profile" width="100%" marginTop={25} onpress={handleClose} />
+                    	<ButtonPrimary name="View Business Profile sss" width="100%" marginTop={25} onpress={handleClose} />
                     </Layout>
                 </ScrollView>
 				) : (
@@ -72,13 +72,10 @@ const ViewNotification = (props) =>
                         <View style={{ marginTop: 10 }} />
                         <TextTwo title="Location:" textalign="left" fontsize={16} fontweight='bold' />
                         <IconText title={`${props.route.params.linkRecord.loc_add_one} ${props.route.params.linkRecord.loc_add_two} ${props.route.params.linkRecord.loc_city} ${props.route.params.linkRecord.loc_province} ${props.route.params.linkRecord.loc_zip_code}`} iconname="pin-outline" fontsize={16} width={18} />
-                    	<ButtonPrimary name="View Business Profile" width="100%" marginTop={25} onpress={handleClose} />
+                    	<ButtonPrimary name="View Business Profile" width="100%" marginTop={25} onpress={handleViewBusiness} />
                     </Layout>
                 </ScrollView>
 				)}
-
-
-                
                 <BotNavShopper selected={1} navigation={props.navigation} />
         </SafeAreaView>
     );

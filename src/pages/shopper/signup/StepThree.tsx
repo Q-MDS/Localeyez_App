@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MainStyles from "../../../assets/styles/MainStyles";
 import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { registerShopper } from "../../../services/auth";
@@ -6,7 +7,7 @@ import { TitleTwo } from "../../../components/TitleTwo";
 import TextOne from "../../../components/TextOne";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { SafeAreaView, View, Image } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import { TopNavBack } from "../../../components/TopNavBack";
 
 const StepThree = (props:any) => 
@@ -104,15 +105,21 @@ const StepThree = (props:any) =>
 	};
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-			<TopNavBack title={`Registration complete`} alignment="start" navigation={props.navigation} pops={1} />
-            <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
-                <Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
-                    <View style={{ marginTop: 45 }} />
-                    <TitleTwo title="Registration Complete!" status="primary" />
-                    <View style={{ marginTop: 25 }} />
-                    <TextOne title="You have successfully signed up to Localeyez!" textAlign="center" status="basic" />
-                    <ButtonPrimary name="Get Started" width="100%" marginTop={25} onpress={handelGetStarted}/>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+			{/* <TopNavBack title={`Registration complete`} alignment="start" navigation={props.navigation} pops={1} /> */}
+            <Layout style={[MainStyles.column_container, { paddingTop: 100, paddingBottom: 100}]}>
+				<View style={{ flex: 1 }} />
+				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+                	<Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
+				</View>
+				<View style={{ marginTop: 45 }} />
+				<View>
+					<Text style={[MainStyles.title_a24, { fontWeight: '600', textAlign: 'center'}]}>Registration Complete</Text>
+					<View style={{ marginTop: 25 }} />
+					<Text status="primary" style={[MainStyles.title_a16, { textAlign: 'center'}]}>You have successfully signed up to Localeyez!</Text>
+				</View>
+				<ButtonPrimary name="Get Started" width="100%" marginTop={40} onpress={handelGetStarted}/>
+				<View style={{ flex: 1 }} />
             </Layout>
         </SafeAreaView>
     );

@@ -2,12 +2,13 @@ import React, {useState, useEffect} from "react";
 import DbUtils from "../../../../services/DbUtils";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+import MainStyles from "../../../../assets/styles/MainStyles";
 import { delEvent } from "../../../../services/api_helper";
 import { SafeAreaView, View, Image } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import TextTwo from "../../../../components/TextTwo";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
-import { ButtonSecondary } from "../../../../components/ButtonSecondary";
+import { ButtonText } from "../../../../components/ButtonText";
 import { TitleThree } from "../../../../components/TitleThree";
 
 const Delete = (props) => 
@@ -86,16 +87,14 @@ const Delete = (props) =>
         props.navigation.navigate('BusProfProHome');
     }
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-				<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
-					<Image source={require('../../../../assets/images/app_pic_5.png')} style={{ objectFit: 'contain' }} />
-				</View>
-				<View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 30, paddingEnd: 30 }}>
-					<TitleThree title="Are you sure you want to delete your event?" status="basic" textalign='center' />
-					<TextTwo title="If you delete the event, all the event details will be discarded." width="100%" mt={25} mb={25} status="basic" textalign='center' />
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+            <Layout style={[MainStyles.column_container, { backgroundColor: '#f2f2f2', paddingStart: 0, paddingEnd: 0, paddingTop: 80, paddingBottom: 0}]}>
+				<View style={{ flex: 1 }} />
+				<View style={{ backgroundColor: 'white', padding: 30, width: '100%', borderTopStartRadius: 30, borderTopEndRadius: 30 }}>
+					<Text style={[MainStyles.title_a28, {textAlign: 'center', marginBottom: 40 }]}>Are you sure you want to delete your event?</Text>
+					<Text style={[MainStyles.title_a16, {textAlign: 'center', marginBottom: 40}]}>If you delete the event, all the event details will be discarded.</Text>
 					<ButtonPrimary name="Delete Event" width="100%" onpress={handleDelete} />
-					<ButtonSecondary name="Go Back" width="100%" marginTop={20} onpress={handleDiscard} />
+					<ButtonText name="Go back" width="100%" onpress={handleDiscard} />
 				</View>
             </Layout>
         </SafeAreaView>

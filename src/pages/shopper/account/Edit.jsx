@@ -205,10 +205,10 @@ const Edit = (props) =>
                 <View style={{ marginTop: 15 }} />
                 <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Contact Number" mb={5} status="basic" />
+				<Label title="Contact Number" mb={5} status="basic" fontsize={16} />
                 <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
                 <View style={{ marginTop: 15 }} />
-				<Label title="Geo-Location Range"  status="basic" />
+				<Label title="Geo-Location Range"  status="basic" fontsize={16} />
 				<View style={{ width: '100%', height: 70 }} >
 					<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 				</View>

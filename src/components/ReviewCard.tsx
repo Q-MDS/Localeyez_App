@@ -1,6 +1,6 @@
 import React from 'react';
 import MainStyles from '../assets/styles/MainStyles';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Card, Layout, Avatar, Divider, Icon, Text } from '@ui-kitten/components';
 import TextTwo from './TextTwo';
 import {IconText} from './IconText';
@@ -17,30 +17,44 @@ export const ReviewCard = (props:any) =>
 	{
 		lastChar = props.lastName.charAt(0).toUpperCase();
 	} 
+	console.log('Fart props:', props.profilePic);
 
     return (
-        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="primary" onPress={() => props.onPress} >
+        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="basic" onPress={() => props.onPress} >
 			<TouchableOpacity onPress={props.onPress}>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
-				<View style={styles.avatar}>
-                    <Text style={styles.avatarText}>{`${firstChar}${lastChar}`}</Text>
-                </View>
-				{props.lastName ? (
-					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName} ${props.lastName}`}</Text>
-				) : (
-					<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName}`}</Text>
-				)}
 				
+				{props.profilePic 
+				? 
+					<View style={{ paddingEnd: 15 }}>
+						<Image source={{ uri: props.profilePic }} style={{ width: 84, height: 84, borderRadius: 42 }} /> 
+					</View>
+				: 
+					<View style={styles.avatar}>
+						<Text style={styles.avatarText}>{`${firstChar}${lastChar}`}</Text>
+					</View>
+				}
+				{props.lastName ? (
+					<View>
+						<Text style={[MainStyles.title_a20, { fontWeight: 'normal' }]}>{`${props.firstName} ${lastChar}`}.</Text>
+					</View>
+				) : (
+					<View>
+						<Text category="h5" status="primary" style={{ fontWeight: 'normal', opacity: 0.6 }}>{`${props.firstName}`}</Text>
+					</View>
+				)}
 			</Layout>
+
 			<Divider style={{ marginTop: 10, marginBottom: 10 }} />
+
 			<Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }} >
 				<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }} >
 				{Array.from({ length: props.rating }).map((_, index) => (
-  					<Icon key={index} name="star" fill="#5D5A88" style={{ width: 16, height: 16, marginEnd: 10 }} />
+  					<Icon key={index} name="star" fill="#612BC1" style={{ width: 16, height: 16, marginEnd: 10 }} />
 				))}
 				</Layout>
-				<Text category="h6" status="primary" style={{ width: '100%', marginTop: 15 }}>{props.title}</Text>
-				<Text category="p2" status="basic" style={{ width: '100%', marginTop: 5 }}>{props.review}</Text>
+				<Text style={[ MainStyles.title_a18, { width: '100%', textAlign: 'left', marginTop: 15 }]}>{props.title}</Text>
+				<Text style={[ MainStyles.title_a14, { width: '100%', textAlign: 'left', marginTop: 5 }]}>{props.review}</Text>
 			</Layout>
 			</TouchableOpacity>
 		</Card>
@@ -70,9 +84,9 @@ const styles = StyleSheet.create({
     },
 
 	avatar: {
-        width: 64,
-        height: 64,
-        borderRadius: 32,
+        width: 84,
+        height: 84,
+        borderRadius: 42,
         backgroundColor: '#ccc',
         alignItems: 'center',
         justifyContent: 'center',

@@ -8,7 +8,7 @@ import { InputLabel } from '../../../components/InputLabel';
 import { InputPassword } from '../../../components/InputPassword';
 import TextTwo from '../../../components/TextTwo';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Layout, Avatar } from '@ui-kitten/components';
+import { Layout, Text, Avatar } from '@ui-kitten/components';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 
 const initialState = {
@@ -331,11 +331,10 @@ const StepOne = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Create your account" alignment="start" navigation={props.navigation} pops={1} />
-            <ScrollView>
-                <Layout style={MainStyles.layout_container}>
-                    <View style={{ marginTop: 25 }} />
+            <ScrollView style={{ flex: 1, width: '100%' }}>
+                <Layout style={MainStyles.column_container}>
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 82, height: 82 }} />
+                        <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
                     </View>
                     <View style={{ marginTop: 35 }} />
                     <InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" />
@@ -349,12 +348,12 @@ const StepOne = (props) =>
 					<InputLabelPassword placeholder="Retype password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} label="Retype Password" status="basic" />
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
-                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
-                        <TextTwo title="Already have an account? " textalign="center" status="basic" />
-                        <TouchableOpacity onPress={handleLogin}>
-                            <TextTwo title="Login" textalign="center" fontweight="bold" underline="underline" width="100%" status="basic" />
-                        </TouchableOpacity>
-                    </Layout>
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 15 }} >
+						<Text style={{ fontSize: 15, color: '#000000' }}>Already have an account? &nbsp;</Text>
+						<TouchableOpacity onPress={handleLogin} >
+							<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Login</Text>
+						</TouchableOpacity>
+					</Layout>
                 </Layout>
             </ScrollView>
         </SafeAreaView>

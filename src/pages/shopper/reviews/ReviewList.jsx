@@ -4,10 +4,11 @@ import Toast from 'react-native-toast-message';
 import { getShopperReviews } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { ReviewCard } from "../../../components/ReviewCard";
+import { ReviewBusCard } from "../../../components/ReviewBusCard";
 import { TopNavBack } from "../../../components/TopNavBack";
 import { BotNavShopper } from "../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView } from "react-native";
-import { Layout, Divider } from "@ui-kitten/components";
+import { Layout, Text, Divider } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ReviewList = (props) => 
@@ -89,17 +90,19 @@ const ReviewList = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-		<TopNavBack title={`Your Reviews`} alignment="start" navigation={props.navigation} pops={1} />
-			<ScrollView style={{ flex: 1 }}>
-				<Layout style={[MainStyles.layout_container, { flexDirection: 'column', paddingStart: 15, paddingEnd: 15}]}>
-				{reviews.map((review, index) => (
-					<TouchableOpacity key={index} style={{ flexDirection: 'row' }} onPress={() => handelView(review.company_name, review.rating, review.review_title, review.review_desc)}>
-						<ReviewCard key={index} firstName={review.company_name} fn={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc.substring(0, 70) + '...'} />
-					</TouchableOpacity>
-				))}
+			<ScrollView style={{ flex: 1, width: '100%', paddingTop: 30 }}>
+			<Text style={[ MainStyles.title_aaa, { textAlign: 'center' }]}>Your Reviews</Text>
+			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+				<Layout style={[MainStyles.column_container, {backgroundColor: '#f2f2f2', paddingTop: 20,paddingStart: 20, paddingEnd: 20, marginBottom: 20 }]}>
+					{reviews.length > 0 ?
+						reviews.map((review, index) => (
+						<ReviewBusCard key={index} profilePic={review.profile_pic} companyName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+					))
+					:
+						<Text>No records found</Text>
+					}
 				</Layout>
 			</ScrollView>
-			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
 			<BotNavShopper selected={2}/>
 		</SafeAreaView>
     );

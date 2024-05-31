@@ -14,7 +14,7 @@ export const DateSelect = (props) =>
         date={props.value}
 		name={props.name}
 		onSelect={newValue => props.onChange(props.name, newValue)}
-		controlStyle={{paddingStart: 0, marginStart: 0}}
+		controlStyle={{paddingStart: 0, marginStart: 0, backgroundColor: '#fafafa', borderWidth: 0, borderRadius: 5, width: '100%'}}
 		status='basic'
       />
 

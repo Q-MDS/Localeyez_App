@@ -5,7 +5,7 @@ import MainStyles from '../../../assets/styles/MainStyles';
 import { Checkbox } from '../../../components/Checkbox';
 import { TopNavBack } from '../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { Layout, Divider, Icon, Card } from '@ui-kitten/components';
+import { Layout, Divider, Icon, Card, Text } from '@ui-kitten/components';
 import { TitleThree } from '../../../components/TitleThree';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { DropdownMultiSelect } from '../../../components/DropdownMultiSelect';
@@ -80,7 +80,7 @@ const StepTwo = (props) =>
 	const [shoppingOpt1, setShoppingOpt1] = useState(false);
 	const [shoppingOpt2, setShoppingOpt2] = useState(false);
 	const [shoppingOpt3, setShoppingOpt3] = useState(false);
-    const [travelCollapsed, setTravelCollapsed] = useState(true);
+    const [travelCollapsed, setTravelCollapsed] = useState(false);
 	const [accomodation, setAccomodation] = useState([]);
 	const [transport, setTransport] = useState([]);
 	const [travelOpt1, setTravelOpt1] = useState(false);
@@ -427,12 +427,12 @@ const StepTwo = (props) =>
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15}]}>
 
-					<Divider style={{ width: '100%', height: 1, marginTop: 10, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
 					{/* Shopping */}
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setShoppingCollapsed(!shoppingCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
-								<TitleThree title={shoppingData.title} mb={5} flex={1} status="basic" />
+								{/* <TitleThree title={shoppingData.title} mb={5} flex={1} status="basic" /> */}
+								<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{shoppingData.title}</Text>
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
@@ -454,7 +454,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
 						<TouchableOpacity style={{ width: '100%' }} onPress={() => setTravelCollapsed(!travelCollapsed)}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-								<TitleThree title={travelData.title} mb={5} flex={1} status="primary"  />
+								<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{travelData.title}</Text>
 								<Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
 							</View>
 						</TouchableOpacity>
@@ -473,7 +473,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setHealthCollapsed(!healthCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={healthData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{healthData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -494,7 +494,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEntertainmentCollapsed(!entertainmentCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={entertainmentData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{entertainmentData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -513,7 +513,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setEducationCollapsed(!educationCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={educationData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{educationData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -532,7 +532,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setPropertyCollapsed(!propertyCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={propertyData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{propertyData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -552,7 +552,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setServicesCollapsed(!servicesCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={servicesData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{servicesData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -573,7 +573,7 @@ const StepTwo = (props) =>
 					<Card style={{ width: '100%' }}>
                     <TouchableOpacity style={{ width: '100%' }} onPress={() => setCommunityCollapsed(!communityCollapsed)}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', flex: 1 }}>
-                            <TitleThree title={communityData.title} mb={5} flex={1} status="primary" />
+							<Text style={{ fontSize: 18, fontWeight:'bold', color: '#220622', flex: 1 }}>{communityData.title}</Text>
                             <Icon name="arrow-ios-downward-outline" fill="#B2AEDB" style={{ width: 32, height: 32 }} />
                         </View>
                     </TouchableOpacity>
@@ -588,9 +588,7 @@ const StepTwo = (props) =>
 					)}
 					</Card>
 
-                    <Divider style={{ width: '100%', height: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#DEDDE7' }} />
-
-                    <ButtonPrimary name="Next" width="100%" marginTop={25} onpress={handleNext}/>
+                    <ButtonPrimary name="Submit" width="100%" marginTop={25} onpress={handleNext}/>
                 </Layout>
                 
             </ScrollView>

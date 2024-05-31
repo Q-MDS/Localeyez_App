@@ -14,7 +14,7 @@ export const TextIcon = (props) =>
 {
     return (
     <View style={[styles.container, {marginTop: props.mt, marginBottom: props.mb}]}>
-        <Text status={props.status} style={[styles.text, {fontSize: props.fontsize, fontWeight: props.fontweight, paddingStart: props.pl}]}>{props.title}</Text>
+        <Text style={[styles.text, {fontSize: props.fontsize, fontWeight: props.fontweight, paddingStart: props.pl, color: '#220622'}]}>{props.title}</Text>
         <Icon style={styles.icon} fill='#5D5A88' name={props.iconname} width={props.width} />
     </View>
     );
@@ -29,9 +29,6 @@ const styles = StyleSheet.create(
     },
     text: {
         flex: 1,
-        fontSize: 16,
-        opacity: 0.7,
-        margin: 2,
     },
     icon: {
         width: 32,

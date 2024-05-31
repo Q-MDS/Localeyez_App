@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useReducer } from "react";
+import MainStyles from "../../../assets/styles/MainStyles";
 import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { businesSupport } from "../../../services/api_helper";
-import MainStyles from "../../../assets/styles/MainStyles";
 import { BotNavShopper } from "../../../components/BotNavShopper";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, Divider, Text } from "@ui-kitten/components";
 import { TitleOne } from "../../../components/TitleOne";
 import { InputMultiline } from "../../../components/InputMultiline";
@@ -110,18 +110,22 @@ const ContactForm = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <Layout style={[MainStyles.layout_container, {alignItems: 'center', backgroundColor: '#fff'}]}>
-                <View style={{ marginTop: 50 }} />
-                <TitleOne title="Contact Admin" status="primary" />
-                <Text category="p2" status="basic" style={{ textAlign: 'center', marginTop: 10, marginBottom: 20 }}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
-                <View style={{ marginTop: 50 }} />
-                <Text category="h6" status="basic" style={{ width: '100%' }}>Write a message to Admin</Text>
-                <View style={{ marginTop: 5 }} />
-                <InputMultiline name="message" value={state.message} onChange={handleInputChange} status="basic" placeholder="Write your message here" style={{ marginTop: 10 }} />
-                <ButtonPrimary name="Send Message" width="100%" marginTop={25} onpress={handleSendMessage}/>
-            </Layout>
-            <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-            <BotNavShopper selected={3}/>
+			<ScrollView style={{ flex: 1, width: '100%' }}>
+				<Layout style={[MainStyles.column_container]}>
+				<View style={{ marginTop: 50 }} />
+					<View>
+						<Text style={[MainStyles.title_aaa, { textAlign: 'center' }]}>Contact Admin</Text>
+						<Text style={[MainStyles.title_a14, { textAlign: 'center', marginTop: 20 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
+						<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20, marginBottom: 20 }} />
+						{/* <Text style={[MainStyles.title_a18, { textAlign: 'left', marginTop: 20 }]}>Write a message to Admin</Text> */}
+						<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={300} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} />
+						<ButtonPrimary name="Send Message" width="100%" marginTop={30} onpress={handleSendMessage}/>
+					</View>
+				</Layout>
+				<View style={{ flex: 1 }} />
+				<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+			</ScrollView>
+		<BotNavShopper selected={3}/>
         </SafeAreaView>
     );
 };

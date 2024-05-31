@@ -6,8 +6,9 @@ import { eventImage } from '../../../../services/api_upload';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TopNavBack } from '../../../../components/TopNavBack';
+import { TopNav } from '../../../../components/TopNav';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator } from 'react-native';
-import { Layout, Icon } from '@ui-kitten/components';
+import { Layout, Text, Icon } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { TitleFour } from '../../../../components/TitleFour';
 import { InputLabel } from '../../../../components/InputLabel';
@@ -306,45 +307,48 @@ const Add = (props) =>
     }
 
     return (
-      	<SafeAreaView style={{ flex: 1 }}>
-		<TopNavBack title="Add event" alignment="start" navigation={props.navigation} pops={1} />
+		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+		{/* <TopNavBack title="Add event" alignment="start" navigation={props.navigation} pops={1} /> */}
+		<TopNav title="Add event" alignment="start" navigation={props.navigation} nav="BusProfEvtAddEditBack" />
         <DividerTop />
-            <ScrollView>
+		<ScrollView style={{ flex: 1, width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                    <TitleFour title="Choose which business sector(s) your event falls under:" status="primary" />
+					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
 					</View>
-                    <TitleFour title="Upload Display Picture" mb={10} status="primary" />
+					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Event Display Picture</Text>
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
-						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-							<TextTwo title="Add an image for the banner of your event" textalign="center" fontsize={13} mb={10} status="basic" />
-							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
-							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
+						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+							<Image source={require('../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+							<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the banner of your event</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640px x 360px</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Event Title" name="title" value={state.title} onChange={handleInputChange} placeholder="Event Title" status="basic" />
+                    <InputLabel label="Event Title" name="title" value={state.title} onChange={handleInputChange} placeholder="Write title here" status="basic" />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Caption" name="caption" value={state.caption} onChange={handleInputChange} status="basic" placeholder="Write a description up to 120 characters" />
+                    <InputMultiline label="Event Caption" name="caption" value={state.caption} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your event" />
                     <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Description" name="desc" value={state.desc} onChange={handleInputChange} status="basic" placeholder="Write a longer description of the event up to 500 characters" />
+                    <InputMultiline label="Event Description" name="desc" value={state.desc} onChange={handleInputChange} status="basic" placeholder="Write a longer description up to 500 characters about your event" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={13} />
+					<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={18} />
 					<DateSelect name="startDate" value={state.startDate} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Event End Date" textalign="left" mb={5} status="basic" fontsize={13} />
+					<Label title="Event End Date" textalign="left" mb={5} status="basic" fontsize={18} />
                     <DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Event Time" textalign="left" mb={5} status="basic" fontsize={13} />
+					<Label title="Event Time" textalign="left" mb={5} status="basic" fontsize={18} />
 					<View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} status="basic" />
+                        {/* <TextTwo title="Starts:&nbsp;&nbsp;" fontsize={12} width={60} status="basic" /> */}
+						<Text style={[MainStyles.title_a14, { textAlign: 'left', color: '#220622', width: 70, paddingEnd: 10 }]}>Starts:</Text>
 						<DropdownSingle name="startTime" data={data} value={state.startTime} onChange={handleInputChange} />
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} status="basic" />
+                        {/* <TextTwo title="Ends:&nbsp;&nbsp;" fontsize={12} width={60} status="basic" /> */}
+						<Text style={[MainStyles.title_a14, { textAlign: 'left', color: '#220622', width: 70, paddingEnd: 10 }]}>Ends:</Text>
 						<DropdownSingle name="endTime" data={data} value={state.endTime} onChange={handleInputChange} />
                     </View>
                     <View style={{ marginTop: 15 }} />

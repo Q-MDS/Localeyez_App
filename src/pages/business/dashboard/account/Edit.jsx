@@ -140,23 +140,23 @@ const Edit = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<ScrollView>
+			{/* <ScrollView style={{ flex: 1, width: '100%' }}> */}
 			<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
-                <Layout style={[MainStyles.layout_container ]}>
+                <Layout style={[MainStyles.column_container, {flex: 1, paddingBottom: 30} ]}>
 					<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" />
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" />
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} />
+					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={18} />
 					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" />
-
-                    <Layout style={{ flex: 1, width: '100%', marginTop: 25 }} >
+                    <View style={{ flex: 1 }} />
+					<Layout style={{ marginTop: 50, }} >
                         <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit} />
                     </Layout>
                 </Layout>
-			</ScrollView>
+			{/* </ScrollView> */}
         </SafeAreaView>
     )
 }

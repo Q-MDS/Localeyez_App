@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import MainStyles from '../../../assets/styles/MainStyles';
 import DbUtils from '../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { register } from '../../../services/auth';
-import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
 import { TitleTwo } from '../../../components/TitleTwo';
 import TextOne from '../../../components/TextOne';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { SafeAreaView, View, Image } from 'react-native';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 
 const StepFour = (props) => 
 {
@@ -95,15 +95,23 @@ const StepFour = (props) =>
 
     return (
 		
-        <SafeAreaView style={{ flexDirection: 'column', flex: 1, justifyContent: 'center', backgroundColor: 'white' }}>
-            <TopNavArrowTitle alignment="start" navigation={props.navigation} />
-			<Layout style={[MainStyles.layout_container_center]}>
-				<Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            {/* <TopNavArrowTitle alignment="start" navigation={props.navigation} /> */}
+			<Layout style={[MainStyles.column_container, { paddingTop: 100, paddingBottom: 100}]}>
+				<View style={{ flex: 1 }} />
+				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+					<Image source={require('../../../assets/images/congrats.png')} style={{ width: 89, height: 92 }} />
+				</View>
 				<View style={{ marginTop: 45 }} />
-				<TitleTwo title="Registration Complete!" status="primary" />
-				<View style={{ marginTop: 25 }} />
-				<TextOne title="Your registration is under review by admin, you will be notified by email once your account is actived. In the meantime you can start building your business profile." textAlign="center"  status="basic" />
-				<ButtonPrimary name="Get Started" width="100%" marginTop={35} onpress={handleGetStarted}/>
+				<View>
+					<Text status="primary" style={{ fontSize: 24, fontWeight: '600', textAlign: 'center', color: '#220622' }}>Thank you for registering!</Text>
+					<View style={{ marginTop: 25 }} />
+					<Text status="primary" style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', color: '#220622' }}>Your registration is under review by admin, you will be notified by email once your account.</Text>
+					<View style={{ marginTop: 25 }} />
+					<Text status="primary" style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', color: '#220622' }}>In the meantime, you can start building your business profile.</Text>
+				</View>
+				<ButtonPrimary name="Get Started" width="100%" marginTop={80} onpress={handleGetStarted}/>
+				<View style={{ flex: 1 }} />
 			</Layout>
         </SafeAreaView>
     );

@@ -155,17 +155,14 @@ const StepTwo = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Business details" alignment="start" navigation={props.navigation} pops={1} />
-
-            {/* <DividerTop /> */}
-            <ScrollView>
-                <Layout style={MainStyles.layout_container}>
-                    <View style={{ marginTop: 25 }} />
-					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" />
-                    <View style={{ marginTop: 15 }} />
-                    <Label title="Contact Number" textalign="left" mb={5} status="basic" />
+            <ScrollView style={{ flex: 1, width: '100%' }}>
+                <Layout style={MainStyles.column_container}>
+                    <Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={16} />
 					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" />
+                    <View style={{ marginTop: 15 }} />
+					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" />
                     <View style={{ marginTop: 15 }} />
                     <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" />
                     <View style={{ marginTop: 5 }} />
@@ -179,7 +176,7 @@ const StepTwo = (props) =>
                     <View style={{ marginTop: 15 }} />
                     <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" />
                     <View style={{ marginTop: 15 }} />
-                    <Label title="Are a small & local business?" textalign="left" mb={5} status="basic" />
+                    <Label title="Are a small & local business?" textalign="left" mb={5} status="basic" fontsize={16} />
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
                         <Toggle
                             checked={state.isLocal}
@@ -189,7 +186,7 @@ const StepTwo = (props) =>
                         </Toggle>
                     </Layout>
                     <View style={{ marginTop: 15 }} />
-                    <Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" />
+                    <Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" fontsize={16} />
                     
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />

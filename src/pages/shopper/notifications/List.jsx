@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DbUtils from "../../../services/DbUtils";
-import Toast from 'react-native-toast-message';
 import { getNotifications } from "../../../services/api_helper";
-import MainStyles from "../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
 import { TopNavBack } from "../../../components/TopNavBack";
-import { Text, Avatar, List, ListItem, Layout } from "@ui-kitten/components";
+import { Text, Layout } from "@ui-kitten/components";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../components/DividerTop";
 import { NotiCard } from "../../../components/NotiCard";
@@ -52,37 +49,25 @@ const NotiList = (props) =>
 			{
 				const apiRecord = {user_id: shopperId};
 
-				const res = await getNotifications(token, apiRecord);
-				const status = res.status;
-		
-				if (status)
+				try
 				{
-					// console.log('Notis:', res.data);
-					setNotifications(res.data);
-					
-					Toast.show({
-						type: 'success',
-						position: 'bottom',
-						text1: 'Success',
-						text2: 'Notifications have been downloaded.',
-						visibilityTime: 1000,
-						autoHide: true,
-						topOffset: 30,
-						bottomOffset: 40,
+					await getNotifications(token, apiRecord)
+					.then((res) =>
+					{
+						if (res.status)
+						{
+							// Notifications were found
+							setNotifications(res.data);
+						} 
+						else 
+						{
+							// No notifications found
+						}
 					});
-				} 
-				else 
+				}
+				catch(error)
 				{
-					Toast.show({
-						type: 'error',
-						position: 'bottom',
-						text1: 'Server error',
-						text2: 'There was a problen fetching notifications.',
-						visibilityTime: 1000,
-						autoHide: true,
-						topOffset: 30,
-						bottomOffset: 40,
-					});
+					console.log('Error:', error);
 				}
 			}
 		}
@@ -116,14 +101,14 @@ const NotiList = (props) =>
 			<ScrollView style={styles.container}>
                 <Layout style={{ flex: 1, marginTop: 15 }}>
 					{notifications && notifications.length === 0 && (
-					<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+					<Layout style={{ alignItems: 'center', justifyContent: 'flex-start', backgroundColor: 'white', width: '100%', paddingStart: 15, paddingBottom: 30 }} >
 						{/* <TextOne title="There are no events to display" /> */}
-						<Text category="p1" status="primary">There are no notifications to display</Text>
+						<Text category="p1" status="basic" style={{ width: '100%' }}>There are no notifications to display</Text>
 					</Layout>
 					)}
 					{notifications && notifications.map((item, index) => 
 					
-						<NotiCard key={index} business={item.notification.business_name} title={item.notification.noti_title} desc={item.notification.noti_desc} onPress={() => handleCardPress(item.notification.business_name, item.notification.link_type, item.link_record)} />
+						<NotiCard key={index} pic={item.notification.noti_pic} notiAdded={item.notification.noti_added} business={item.notification.business_name} title={item.notification.noti_title} desc={item.notification.noti_desc} onPress={() => handleCardPress(item.notification.business_name, item.notification.link_type, item.link_record)} />
 					)}
                 </Layout>
 				</ScrollView>

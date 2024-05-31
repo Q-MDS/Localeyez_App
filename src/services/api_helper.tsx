@@ -177,5 +177,16 @@ export const updBusinessInfo =  async (token: string, data: any) =>
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
+
+	return response.data;
+}
+
+export const getViewBusiness =  async (token: string, data: any) => 
+{
+	const response = await api.post('/api/view_business/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+
 	return response.data;
 }

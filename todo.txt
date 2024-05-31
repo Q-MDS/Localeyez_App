@@ -4,7 +4,16 @@ Go to Configure navigation
 Figma design: https://www.figma.com/file/rGTHwMLhN6JR3HiJVvjU1j/Localeyez?type=design&node-id=5-2&mode=design
 
 Website: 
-Website: Figmen: 
+Website: Figma: 
+
+Colors T: #220622
+Colors P: #612bc1
+Colors S: #efe7fd
+Colors T: #F2F2F2 5% black
+Colors T: #E6E6E6 10% black
+Colors T: #CCCCCC 20% black
+
+Make own font file: https://icomoon.io/app/#/select/font
 
 -------------------------------------------------------------------------------------------------------------
 1. Async-storage examples:

@@ -21,6 +21,7 @@ import { Icon } from '@ui-kitten/components';
     return (
       <Dropdown
 	  	name={props.name} 
+		mode="modal"
         style={styles.dropdown}
 		itemTextStyle={{ color: 'black' }}
         placeholderStyle={styles.placeholderStyle}

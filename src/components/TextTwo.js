@@ -12,6 +12,7 @@ const TextTwo = (props) => (
 			fontWeight: props.fontweight, 
 			marginTop: props.mt, 
 			marginBottom: props.mb, 
+			marginStart: props.ms, 
 			width: props.width, 
 			fontSize: props.fontsize, 
 			flex: props.flex,

@@ -14,6 +14,7 @@ import { Label } from '../../../components/Label';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import DropdownSingle from '../../../components/DropdownSingle';
 import { MultiSelect } from 'react-native-element-dropdown';
+import { Text } from '@ui-kitten/components';
 
 const initialState = {
 	email: null,
@@ -332,40 +333,38 @@ const StepOne = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Create your account" alignment="start" navigation={props.navigation} pops={1} />
-            {/* <DividerTop /> */}
-            <ScrollView>
-                <Layout style={MainStyles.layout_container}>
-                    <View style={{ marginTop: 25 }} />
+				<ScrollView style={{ flex: 1, width: '100%' }}>
+                <Layout style={MainStyles.column_container}>
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 82, height: 82 }} />
+                        <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
                     </View>
                     <View style={{ marginTop: 35 }} />
-                    	<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
+					<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
+					<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
+					<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
                     <View style={{ marginTop: 15 }} />
-					<Label title="Phone Number" status="basic" />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
+					<Label title="Phone Number" status="basic" mb={5} fontsize={16} />
+					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="+2782 111 2222" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" status="basic" />
+					<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" status="basic" />
                     <View style={{ marginTop: 15 }} />
-                    	<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" />
-                    <View style={{ marginTop: 25 }} />
-                    <Label title="Geo-Location Range" status="basic" />
+					<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" />
+                    <View style={{ marginTop: 15 }} />
+                    <Label title="Geo-Location Range" status="basic" mb={5} fontsize={16} />
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 					</View>
-                    <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
-                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 15 }} >
-                        <TextTwo title="Already have an account? " textalign="center" status="basic" />
-                        <TouchableOpacity onPress={handleLogin}>
-                            <TextTwo title="Login" textalign="center" fontweight="bold" underline="underline" width="100%" status="basic" />
-                        </TouchableOpacity>
-                    </Layout>
+                    <ButtonPrimary name="Submit" width="100%" onpress={handleNext}/>
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 30 }} >
+						<Text style={[MainStyles.title_a16]}>Already have an account? &nbsp;</Text>
+						<TouchableOpacity onPress={handleLogin} >
+							<Text style={[ MainStyles.title_a16, {  fontWeight: 'bold', textDecorationLine: 'underline' }]}>Login</Text>
+						</TouchableOpacity>
+					</Layout>
                 </Layout>
             </ScrollView>
         </SafeAreaView>

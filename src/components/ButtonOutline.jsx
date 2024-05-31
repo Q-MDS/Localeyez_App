@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@ui-kitten/components';
+import { TouchableOpacity } from 'react-native';
 
 export const ButtonOutline = (props) => {
 

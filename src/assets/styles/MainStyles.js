@@ -4,6 +4,58 @@ const MainStyles = StyleSheet.create({
     root: {
         flex: 1,
     },
+	column_container: {
+		flexDirection: 'column', 
+		justifyContent: 'space-between',  
+		flex: 1, 
+		width: '100%', 
+		padding: 30
+	},
+	title_one: {
+		fontSize: 30, 
+		fontWeight: '600', 
+		textAlign: 'left', 
+		color: '#220622',
+		marginBottom: 50, 
+	},
+	title_aaa: {
+		fontSize: 30, 
+		fontWeight: 'bold', 
+		color: '#220622',
+	},
+	title_a28: {
+		fontSize: 28, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+	title_a24: {
+		fontSize: 24, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+	title_a20: {
+		fontSize: 20, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+	title_a18: {
+		fontSize: 18, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+	title_a16: {
+		fontSize: 16, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+	title_a14: {
+		fontSize: 14, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
+
+
+
     layout_container: {
         width: '100%',
         flexDirection: 'column',
@@ -26,11 +78,11 @@ const MainStyles = StyleSheet.create({
         alignItems: 'center',
         padding: 30,
         position: 'absolute',
-		
     },
     card_review: {
         flexDirection: 'column',
         width: '100%',
+		borderRadius: 10,
     },
 
     mt_0: {

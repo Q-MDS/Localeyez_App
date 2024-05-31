@@ -23,7 +23,6 @@ const styles = StyleSheet.create(
     },
     text: {
         fontSize: 16,
-        opacity: 0.7,
         margin: 2,
     },
     icon: {

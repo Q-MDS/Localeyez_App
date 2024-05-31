@@ -9,6 +9,7 @@ import { Layout } from "@ui-kitten/components";
 import { InputLabelPassword } from "../../../../components/InputLabelPassword";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
+import { ButtonText } from "../../../../components/ButtonText";
 
 const initialState = {
 	oldPassword: null,
@@ -122,23 +123,24 @@ const Security = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Security" alignment="start" navigation={props.navigation} pops={1} />
-				<ScrollView style={{ backgroundColor: 'white', flex: 1, width: '100%'  }}>
-					<Layout style={{ flex: 1, width: '100%' }}>
-						<Layout style={[MainStyles.layout_container, {flex: 1} ]}>
+				<ScrollView style={{ flex: 1, width: '100%' }}>
+					<Layout style={ [MainStyles.column_container, {backgroundColor: 'white'}] }>
+						<View>
 							<InputLabelPassword label="Current Password" name="oldPassword" value={state.oldPassword} onChange={handleInputChange} status="basic" placeholder="Enter current password" />
 							<View style={{ marginTop: 15 }} />
 							<InputLabelPassword label="New Password" name="newPassword" value={state.newPassword} onChange={handleInputChange} status="basic" placeholder="Enter new password" />
 							<View style={{ marginTop: 15 }} />
 							<InputLabelPassword label="Confirm Password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} status="basic" placeholder="Retype password" />
-								<Layout style={{ flex: 1, width: '100%', marginTop: 80 }} >
-									<ButtonPrimary name="Update Password" width="100%" onpress={handleUpdate} />
-									<View style={{ marginTop: 15 }} />
-									<ButtonSecondary name="Cancel" width="100%" onpress={handleCancel} />
-								</Layout>
-							</Layout>
-					</Layout>
+						</View>
+						<Layout style={{ flex: 1, width: '100%', marginTop: 60 }} >
+							<ButtonPrimary name="Update Password" width="100%" onpress={handleUpdate} />
+							<View style={{ marginTop: 15 }} />
+							<ButtonText name="Cancel" width="100%" onpress={handleCancel} />
+						</Layout>
+						<View style={{ flex: 1 }} />
+						</Layout>
 				</ScrollView>
         </SafeAreaView>
     )

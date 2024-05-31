@@ -68,6 +68,7 @@ import ShopperAccPlanFreeCardDetDone from './pages/shopper/account/pricing_plan/
 import ShopperAccClose from './pages/shopper/account/Close';
 import ShopperNotiList from './pages/shopper/notifications/List';
 import ShopperNotiView from './pages/shopper/notifications/ViewNotification';
+import ShopperNotiBusView from './pages/shopper/notifications/ViewBusiness';
 import ShopperVerified from './pages/shopper/account/Verified';
 import ShopperContactAdmin from './pages/shopper/contact_admin/ContactForm';
 import ShopperContactConfirm from './pages/shopper/contact_admin/ContactConfirm';
@@ -164,6 +165,7 @@ const HomeNavigator = () => (
     <Screen name="ShopperAccPlanFreeCardDetDone" component={ShopperAccPlanFreeCardDetDone} />
     <Screen name="ShopperNotiList" component={ShopperNotiList} />
     <Screen name="ShopperNotiView" component={ShopperNotiView} />
+    <Screen name="ShopperNotiBusView" component={ShopperNotiBusView} />
     <Screen name="ShopperVerified" component={ShopperVerified} />
     <Screen name="ShopperContactAdmin" component={ShopperContactAdmin} />
     <Screen name="ShopperContactConfirm" component={ShopperContactConfirm} />

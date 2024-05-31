@@ -27,16 +27,16 @@ export const InputSearch = (props) => {
 		label={props.label}
 		placeholder={props.placeholder}
 		status="primary"
-		style={{ borderRadius: 25, }}
+		style={{ borderRadius: 25, backgroundColor: 'white' }}
 		size="large"
 		onChangeText={nextValue => props.setValue(nextValue)}
 		textStyle={{ marginStart: 30, marginEnd: 40, paddingTop: 5, paddingBottom: 5 }}
 		/>
-		<TouchableOpacity style={{ position: 'absolute', left: 10, top: 16 }} onPress={props.resetButton}>
+		<TouchableOpacity style={{ position: 'absolute', left: 10, top: 16 }} onPress={props.onpress}>
 			<Image source={require('../assets/images/icon_search.png')} style={{ width: 24, height: 24, opacity: 0.8 }} />
 		</TouchableOpacity>
-		<TouchableOpacity style={{ position: 'absolute', right: 6, top: 5 }} onPress={props.searchButton} >
-			<Image source={require('../assets/images/icon_go.png')} style={{ width: 48, height: 48  }} />
+		<TouchableOpacity style={{ position: 'absolute', right: 9, top: 9 }} onPress={props.onpress} >
+			<Image source={require('../assets/images/icon_go.png')} style={{ width: 40, height: 40  }} />
 		</TouchableOpacity>
 	</Layout>
 	

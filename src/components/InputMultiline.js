@@ -8,7 +8,7 @@ export const InputMultiline = (props) =>
 		if (props.label !== '') {
 			return(
 			<View>
-			<Text status={props.status} style={{ fontSize: 14, paddingBottom: 5 }}>{props.label}</Text>
+			<Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>{props.label}</Text>
 			</View>
 			);
 		} 
@@ -26,10 +26,10 @@ export const InputMultiline = (props) =>
 			value={props.value}
 			multiline={true}
 			numberOfLines={props.numLines}
-			textStyle={{ paddingTop: 10, paddingBottom: 10, marginStart: 0 }}
+			textStyle={{ paddingTop: 10, paddingBottom: 10, marginStart: 0, height: props.height, textAlignVertical: 'top'}}
 			status='basic'
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-			style={{ borderRadius: 20 }}
+			style={{ borderRadius: 10, borderWidth: 0, backgroundColor: '#F2F2F2'}}
 		/>
   	);
 };

@@ -9,7 +9,7 @@ import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, Image } from 'react-native';
-import { Layout, Icon } from '@ui-kitten/components';
+import { Layout, Text, Icon } from '@ui-kitten/components';
 import { TitleFour } from '../../../../../components/TitleFour';
 import TextTwo from '../../../../../components/TextTwo';
 import { InputLabel } from '../../../../../components/InputLabel';
@@ -354,36 +354,37 @@ const Edit = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 		<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
         <TabsBusProf selected={0} value={selectedIndex} onchange={handleGotoProfile} />
             <ScrollView style={{ width: '100%' }}>
-                <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-                    <TitleFour title="Upload Display Picture" mb={10} status="primary" />
+                <Layout style={[MainStyles.column_container, {backgroundColor: '#fff'}]}>
+					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Display Picture</Text>
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
-						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
-							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
-							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
+						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+							<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+							<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the logo of your business</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specification: square</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
-                    <TitleFour title="Upload Banner Picture" mt={15} mb={10} status="primary" />
+					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginTop: 20, marginBottom: 10 }]}>Upload Banner Picture</Text>
 					<TouchableOpacity onPress={chooseBannerImage} style={{ width: '100%' }}>
-						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: '#b8b7c8', borderWidth: 1, borderRadius: 10, padding: 20 }} >
-							<Icon name="upload-outline" fill="#B2AEDB" style={{ width: 48, height: 48 }} />
-							<TextTwo title="Add an image for the banner of your promotion" textalign="center" fontsize={13} mb={10} status="basic" />
-							<TextTwo title="Image specification 640 x 360px" textalign="center" fontsize={12} status="basic" />
-							<TextTwo title="Image size: max 5MB" textalign="center" fontsize={12} status="basic" />
+						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+							<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+							<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an banner image for your business profile</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640 x 300px</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" />
-                    <View style={{ marginTop: 15 }} />
+                    <View style={{ marginTop: 30 }} />
 					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} />
                     <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="+2782 111 2222" />
+                    <View style={{ marginTop: 15 }} />
+                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" />
+
                     <View style={{ marginTop: 15 }} />
 					<Label title="Location" textalign="left" mb={5} status="basic" fontsize={13} />
 					<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" />

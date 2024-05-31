@@ -178,29 +178,29 @@ const Home = (props) =>
 		const date = new Date(dateString);
 		const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 		return formattedDate;
-	  }
+	}
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavTitle title='Business Profile' alignment='start' />
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 10, paddingRight: 10, marginTop: 10 }}>
                     <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1 }} onPress={handleEditProfile}>
-                        <IconText title="Edit Profile" iconname="edit" fontsize={13} width={26} status="primary" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }} onPress={handleAddPromo}>
-                        <IconText title="Add Promotion" iconname="plus-circle" fontsize={13} width={20} status="primary" />
+                        <IconText title="Edit Profile" iconname="edit" fontsize={13} width={20} status="primary" />
                     </TouchableOpacity>
 					<TouchableOpacity style={{ flexDirection: 'row',flex: 1, justifyContent: 'flex-end' }} onPress={() => handleAddEvent()}>
-                        <IconText title="Add Event" iconname="plus-circle" fontsize={13} width={20} status="primary" />
+                        <IconText title="Add Event" iconname="plus-circle" fontsize={13} width={18} status="primary" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }} onPress={handleAddPromo}>
+                        <IconText title="Add Promotion" iconname="plus-circle" fontsize={13} width={18} status="primary" />
                     </TouchableOpacity>
                 </Layout>
-                <Divider style={{ height: 2, width: '100%', backgroundColor: '#DEDDE7', marginTop: 10 }} />
-
-                <Layout style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', height: 200, width: '100%' }}>
-					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, objectFit: 'cover' }} /> : null}
+                <Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginTop: 10 }} />
+				<ScrollView>
+                <Layout style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#efe7fd', height: 200, width: '100%' }}>
+					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
                 </Layout>
-
-                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f5f5f5', paddingTop: 10, paddingBottom: 10, paddingEnd: 15 }} >
+				<Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginBottom: 10 }} />
+                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
 					{state.xUrl && <Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />}
 					<View style={{ marginLeft: 8 }} />
 					{state.instagramUrl && <Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />}
@@ -218,82 +218,95 @@ const Home = (props) =>
                     </View>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>
-                <ScrollView>
-                    <Layout style={[MainStyles.layout_container, {alignItems: 'flex-start', backgroundColor: '#f5f5f5', paddingStart: 15, paddingEnd: 15}]}>    
-                        <TitleOne title={state.companyName} status="primary" />
-                        <View style={{ marginTop: 10 }} />
-                        <TextTwo title={state.businessBio} status="basic" />
-                        <View style={{ marginTop: 15 }} />
-                        <IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
-                        <IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
-                        <IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
-                        <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-						
-						<TabView
-							selectedIndex={selectedIndex}
-							onSelect={index => setSelectedIndex(index)}
-							style={{ width: '100%' }}
-						>
-						<Tab title='Promotions'>			
-							<Layout style={styles.tabContainer}>
-								{promotions && promotions.length === 0 && (
-								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-									<TextOne title="You have no promotions listed" status="basic" />
-									<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
-								</Layout>
-								)}
-								{promotions && promotions.map((record, index) => (
-										<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
-											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-												{record.display_image 
-												? 
-												<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
-												:
-												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
-												}
-											</View>
-											<TitleFour title={record.promo_title} fontsize={16} mt={10} status="primary" />
-											<TextTwo title={record.promo_caption} status="basic" />
-											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" status="primary" />
-											<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}} >
-												<IconText title={`R${record.sale_item_mp}`} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' status="basic" />
-												<TextTwo title={`R${record.sale_item_op}`} fontweight='normal' mt={5} mb={5} underline="line-through" fontsize={14} textalign="left" flex={1} ps={15} status="basic" />
-												<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic" />
-											</View>
-										</Card>
-									))}
-							</Layout>
-						</Tab>
-						<Tab title='Events'>
-							<Layout style={styles.tabContainer}>
-								{events && events.length === 0 && (
-								<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
-									<TextOne title="You have no events listed" status="basic" />
-									<ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
-								</Layout>
-								)}
-								{events && events.map((record, index) => 
-								(
-										<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={() => handleEditEvent(index)}>
-											<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f9f9ff', width: '100%', height: 140 }} >
-												{record.display_image 
-												? 
-												<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%' }} /> 
-												:
-												<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
-												}
-											</View>
-											<TitleFour title={record.event_title} fontsize={16} mt={10} status="primary" />
-											<TextTwo title={record.event_caption}  status="basic"/>
-											<TextTwo title={record.sector} fontweight='bold' mt={5} mb={10} width="100%" status="primary" />
-											<IconText title={formatDate(record.start_date)} iconname="pricetags-outline" fontsize={14} width={18} textAlign='left' status="basic" />
-											<IconText title={record.loc_add_one} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic" />
-										</Card>
-								))}
-							</Layout>
-						</Tab>
-					</TabView>
+                
+				<Layout style={[MainStyles.column_container]}>    
+					{/* <TitleOne title={state.companyName} status="primary" /> */}
+					<Text style={[MainStyles.title_aaa]}>{state.companyName}</Text>
+					<View style={{ marginTop: 5 }} />
+					<Text style={[MainStyles.title_a16]}>{state.businessBio}</Text>
+					{/* <TextTwo title={state.businessBio} status="basic" /> */}
+					<View style={{ marginTop: 15 }} />
+					<IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
+					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
+					<IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
+					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} /> */}
 				</Layout>
+				<TabView
+					selectedIndex={selectedIndex}
+					onSelect={index => setSelectedIndex(index)}
+					style={{ width: '100%' }}
+				>
+				<Tab title='Promotions'>			
+				<Layout style={styles.tabContainer}>
+					{promotions && promotions.length === 0 && (
+					<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+						<TextOne title="You have no promotions listed" status="basic" />
+						<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
+					</Layout>
+					)}
+					{promotions && promotions.map((record, index) => (
+							<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
+								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200 }} >
+									{record.display_image 
+									? 
+									<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%', borderRadius: 5 }} /> 
+									:
+									<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+									}
+								</View>
+								<Text style={[MainStyles.title_a18, {marginTop: 10, fontWeight: '700'}]}>{record.promo_title}</Text>
+								<Text style={[MainStyles.title_a14, {marginTop: 5 }]}>{record.promo_caption}</Text>
+								<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between', marginTop: 10}} >
+									<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+										<Icon fill='#612BC1' name="pricetags-outline" width={18} height={18} />
+										<Text style={[MainStyles.title_a14, { marginStart: 5, textAlign: 'left' }]}>{record.sale_item_mp}</Text>
+										<Text style={[MainStyles.title_a14, { marginStart: 10, textAlign: 'left', textDecorationLine: 'line-through' }]}>{record.sale_item_op}</Text>
+									</View>
+									<View style={{ flex: 1 }}>
+										<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic"   />
+									</View>
+								</View>
+							</Card>
+						))}
+				</Layout>
+				</Tab>
+				<Tab title='Events'>
+					<Layout style={styles.tabContainer}>
+						{events && events.length === 0 && (
+						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+							<TextOne title="You have no events listed" status="basic" />
+							<ButtonPrimary name="Add Event" marginTop={15} onpress={handleAddEvent} />
+						</Layout>
+						)}
+						{events && events.map((record, index) => 
+						(
+							<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={() => handleEditEvent(index)}>
+								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200 }} >
+									{record.display_image 
+									? 
+									<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%', borderRadius: 5 }} /> 
+									:
+									<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+									}
+								</View>
+								<Text style={[MainStyles.title_a18, {marginTop: 10, fontWeight: '700'}]}>{record.event_title}</Text>
+								<Text style={[MainStyles.title_a14, {marginTop: 5 }]}>{record.event_caption}</Text>
+								<Text style={[MainStyles.title_a14, {marginTop: 5, fontWeight: 'bold', marginTop: 10 }]}>{state.companyName}</Text>
+								<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+									<Icon fill='#612BC1' name="calendar-outline" width={18} height={18} />
+									<Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{formatDate(record.start_date)}</Text>
+								</View>
+								<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+									<Icon fill='#612BC1' name="pin-outline" width={18} height={18} />
+									{/* <Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{`${record.loc_add_one}, ${record.loc_add_two}, ${record.loc_city}`}</Text> */}
+									<Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{`${record.loc_add_one || '-', record.loc_add_two || '-', record.loc_city || '-'}`}</Text>
+								</View>
+							</Card>
+						))}
+					</Layout>
+				</Tab>
+			</TabView>
+				
 			</ScrollView>
 		<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
 		<BotNavBusiness selected={selectedBotTab}/>

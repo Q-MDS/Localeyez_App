@@ -3,7 +3,7 @@ import DbUtils from '../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { searchByCategory } from '../../../services/api_search';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Tab, TabView, Text } from '@ui-kitten/components';
 import { TopNavBack } from '../../../components/TopNavBack';
 import { BotNavShopper } from '../../../components/BotNavShopper';
@@ -25,6 +25,7 @@ const SearchCategory = (props:any) =>
 	const [numPromotions, setNumPromotions] = useState(0);
 	const [events, setEvents] = useState<any>([]);
 	const [numEvents, setNumEvents] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const getToken = async () => 
 	{
@@ -59,6 +60,7 @@ const SearchCategory = (props:any) =>
 
 	const fetchSearchResults = async () => 
 	{
+		setIsLoading(true);
 		console.log('Fetching search results: ', searchSector, " > ",  searchType, " >> ", category, " >>> ", categoryItem);
 		const apiData = {shopper_id: shopperId, search_sector: searchSector, search_type: searchType, category: category, category_item: categoryItem};
 		
@@ -86,7 +88,6 @@ const SearchCategory = (props:any) =>
 				topOffset: 30,
 				bottomOffset: 40,
 			});
-
 		} 
 		else 
 		{
@@ -109,6 +110,8 @@ const SearchCategory = (props:any) =>
 				bottomOffset: 40,
 			});
 		}
+
+		setIsLoading(false);
 	}
 
 	useEffect(() => 
@@ -134,6 +137,15 @@ const SearchCategory = (props:any) =>
 		props.navigation.navigate('SearchEventView', { event: event });
 	}
 
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 		<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
@@ -141,20 +153,19 @@ const SearchCategory = (props:any) =>
 					<Tab title={`Businesses [${numBusinesses}]`}>
 						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 15, paddingBottom: 15, backgroundColor: '#f5f5f5' }} >
 							<ScrollView>
-								<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Business List</Text>
+								<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Business List</Text>
 								{businesses.length === 0 ? (
-								<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
+								<Text style={[MainStyles.title_a16, { paddingTop: 20, paddingStart: 20 }]}>No results found</Text>
 								) : (
 								businesses.map((business: { profile_pic: any; company_name: any; business_bio: any; }, index: number) => (
 									<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
 										<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
 											<View style={styles.listIcon}>
-												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
 												<Image source={{ uri: business.profile_pic }} style={{ width: 62, height: 62, borderRadius: 32 }} />
 											</View>
 											<View style={styles.listContent}>
-												<TextTwo title={business.company_name} fontsize={16} fontweight="bold" />
-												<TextTwo title={business.business_bio} fontsize={14} />
+												<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{business.company_name} </Text>
+												<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{business.business_bio} </Text>
 											</View>
 										</View>
 									</TouchableOpacity>
@@ -165,7 +176,7 @@ const SearchCategory = (props:any) =>
 					</Tab>
 					<Tab title={`Promotions [${numPromotions}]`}>
 					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-					<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Promotion List</Text>
+					<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Promotion List</Text>
 							{promotions.length === 0 ? (
 							<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
 							) : (
@@ -177,8 +188,8 @@ const SearchCategory = (props:any) =>
 											<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
 										</View>
 										<View style={styles.listContent}>
-											<TextTwo title={promotion.promo_title} fontsize={16} fontweight="bold" />
-											<TextTwo title={promotion.promo_desc} fontsize={14} />
+											<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{promotion.promo_title} </Text>
+											<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
 										</View>
 									</View>
 								</TouchableOpacity>
@@ -188,7 +199,7 @@ const SearchCategory = (props:any) =>
 					</Tab>
 					<Tab title={`Events [${numEvents}]`}>
 						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-						<Text category="h5" status="primary" style={{ paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>Event List</Text>
+						<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Event List</Text>
 							{events.length === 0 ? (
 							<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
 							) : (
@@ -199,8 +210,8 @@ const SearchCategory = (props:any) =>
 											<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
 										</View>
 										<View style={styles.listContent}>
-											<TextTwo title={event.event_title} fontsize={16} fontweight="bold" />
-											<TextTwo title={event.event_desc} fontsize={14} />
+											<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{event.event_title} </Text>
+											<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{event.event_desc} </Text>
 										</View>
 									</View>
 								</TouchableOpacity>

@@ -7,6 +7,7 @@ import { Layout } from "@ui-kitten/components";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
 import { NotiCard } from "../../../../components/NotiCard";
+import { NotiCardBusiness } from "../../../../components/NotiCardBusiness";
 
 
 const NotiList = (props) => 
@@ -50,7 +51,7 @@ const NotiList = (props) =>
 			if (isReady)
 			{
 				const apiData = {business_id: businessId};
-console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+
 				const res = await getBusinessNotifications(token, apiData);
 				console.log('res:', res);
 				const status = res.status;
@@ -108,15 +109,15 @@ console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-			<TopNavBack title="Notifications" alignment="start" navigation={props.navigation} pops={1} />
-
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+		<TopNavBack title="Notifications" alignment="start" navigation={props.navigation} pops={1} />
 			<DividerTop />
+
 			<ScrollView style={styles.container}>
                 <Layout style={{ flex: 1, marginTop: 15 }}>
 					{notifications.map((item, index) => 
 					
-						<NotiCard key={index} business={item.review_record.first_name} firstname={item.review_record.first_name} lastname={item.review_record.last_name} title={item.noti_title} desc={item.noti_detail} onPress={() => handleCardPress(item.review_record)} />
+						<NotiCardBusiness key={index} pic={item.review_record.profile_pic} title={item.noti_title} desc={item.noti_detail} notiDate={item.noti_date} onPress={() => handleCardPress(item.review_record)} />
 					)}
                 </Layout>
 				</ScrollView>

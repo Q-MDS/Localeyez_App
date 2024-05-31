@@ -8,7 +8,7 @@ export const InputLabel = (props) =>
 		if (props.label !== '') {
 			return(
 			<View>
-			<Text status={props.status} style={{ fontSize: 14, paddingBottom: 5 }}>{props.label}</Text>
+			<Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>{props.label}</Text>
 			</View>
 			);
 		} 
@@ -28,7 +28,7 @@ export const InputLabel = (props) =>
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
 			size="large"
 			textStyle={{ paddingStart: 0, marginStart: 0}}
-			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
+			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: '#f2f2f2'}}
 			status='basic'
 		/>
   	);

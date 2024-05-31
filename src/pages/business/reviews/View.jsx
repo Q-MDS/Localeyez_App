@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../components/TopNavBack";
 import DividerTop from "../../../components/DividerTop";
-import { SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
 import {ReviewCard} from "../../../components/ReviewCard";
 
@@ -14,12 +14,17 @@ const ReviewView = (props) =>
     return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 		<TopNavBack title="View review" alignment="start" navigation={props.navigation} pops={1} />
-			<ScrollView>
-				<Layout style={[MainStyles.layout_container, {backgroundColor: '#fff', paddingStart: 15, paddingEnd: 15}]}>
-					<ReviewCard firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+			<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+			{/* <ScrollView style={{ flex: 1, width: '100%' }}> */}
+				<Layout style={[MainStyles.column_container, { backgroundColor: '#f2f2f2', paddingStart: 15, paddingEnd: 15}]}>
+					{/* <View style={{ flex: 1, backgroundColor: '#ff0000' }} /> */}
+					<View>
+						<ReviewCard profilePic={review.profile_pic} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
+					</View>
+					{/* <View style={{ flex: 1, backgroundColor: '#ff0000' }} /> */}
 				</Layout>
-			</ScrollView>
-			<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+			{/* </ScrollView> */}
+			</View>
 		</SafeAreaView>
     );
 };

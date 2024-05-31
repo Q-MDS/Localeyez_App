@@ -33,11 +33,11 @@ export const InputLabelPassword = (props: any): React.ReactElement =>
 	{
 		if (props.label !== '') 
 		{
-			return <><Text status={props.status} style={{ fontSize: 14, paddingBottom: 5 }}>{props.label}</Text></>;
+			return <><Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>{props.label}</Text></>;
 		} 
 		else 
 		{
-			return <><Text status={props.status} style={{ fontSize: 14, paddingBottom: 5 }}>Password</Text></>;
+			return <><Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>Password</Text></>;
 		}
 	};
 
@@ -47,14 +47,13 @@ export const InputLabelPassword = (props: any): React.ReactElement =>
 			value={props.value}
 			label={renderLabel()}
 			placeholder={props.placeholder}
-			// caption={renderCaption}
 			secureTextEntry={secureTextEntry}
-			style={{ borderRadius: 15 }}
 			size="large"
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: '#f2f2f2'}}
 			textStyle={{ marginStart: 0}}
 			/>
-			<TouchableOpacity style={{ position: 'absolute', right: 10, top: 33 }} onPress={toggleSecureEntry}>
+			<TouchableOpacity style={{ position: 'absolute', right: 10, top: 37 }} onPress={toggleSecureEntry}>
 				<Image source={require('../assets/images/icon_eye.png')} style={{ width: 24, height: 24 }} />
 			</TouchableOpacity>
 		</Layout>

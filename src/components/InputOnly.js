@@ -13,7 +13,7 @@ export const InputOnly = (props) => {
         onChangeText={(newValue) => props.onChange(props.name, newValue)} 
 		size="large"
 		textStyle={{ paddingStart: 0, marginStart: 0}}
-        style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width}}
+        style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: '#fafafa'}}
 		status='basic'
     />
   );

@@ -194,7 +194,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -203,7 +203,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -212,7 +212,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -221,7 +221,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -230,7 +230,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -239,7 +239,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -248,7 +248,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
 								</View>
 							);
 						}
@@ -257,7 +257,7 @@ const Home = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo  title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo  title={value} fontweight="bold" fontsize={18} mt={18} status="primary" />
 								</View>
 							);
 						}
@@ -265,10 +265,10 @@ const Home = (props) =>
 						{
 							return (
 							<View key={key}>
-								<TextTwo title={aaa[key] || key} fontsize={18} status="primary" />
+								<TextTwo title={aaa[key] || key} fontsize={16} ms={15} status="primary" />
 								{value.filter(item => item.value).map((item, index) => (
 									
-									<Text key={index} status="basic" style={{ marginTop: 5, marginBottom: 10 }}>{item.label}</Text>
+									<Text category="p1" key={index} status="basic" style={{ marginTop: 5, marginBottom: 5, marginStart: 35 }}>{item.label}</Text>
 								))}
 							{/* <View style={{ height: 1, backgroundColor: '#D5D2F3', width: '100%', marginTop: 10, marginBottom: 10 }} /> */}
 							</View>
@@ -278,7 +278,7 @@ const Home = (props) =>
 						{
 							//return <TextTwo key={key} title={fullDesc[key] || key} fontweight="bold" fontsize={14} />;
 							{/* return <Text key={key} title={fullDesc[key] || key}  fontsize={16} mt={5} mb={10} status="basic" /> */}
-							return <Text key={key} status="basic" style={{ marginTop: 5, marginBottom: 10 }}>{fullDesc[key] || key}</Text>
+							return <Text key={key} category="p1" status="basic" style={{ marginTop: 5, marginBottom: 10 }}>{fullDesc[key] || key}</Text>
 						} 
 						else 
 						{

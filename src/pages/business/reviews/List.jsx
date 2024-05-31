@@ -6,7 +6,7 @@ import MainStyles from "../../../assets/styles/MainStyles";
 import { ReviewCard } from "../../../components/ReviewCard";
 import { TopNavBusReviews } from "../../../components/TopNavBusReviews";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
-import { SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, View, TouchableOpacity } from "react-native";
 import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
 
 const ReviewList = (props) => 
@@ -52,7 +52,6 @@ const ReviewList = (props) =>
 			{
 				const data = {business_id: businessId};
 				let params = JSON.stringify(data);
-				console.log('Fetching reviews...', data);
 
 				await getBusinessReviews(token, params)
 				.then((res) => 
@@ -91,19 +90,25 @@ const ReviewList = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <TopNavBusReviews title='Your Reviews' rating={averageRating} />
-                <ScrollView>
-                    <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
+            {/* <TopNavBusReviews title='Your Reviews' rating={averageRating} /> */}
+			<ScrollView style={{ flex: 1, width: '100%', paddingTop: 40 }}>
+				<Text style={[ MainStyles.title_aaa, { textAlign: 'center' }]}>Your Reviews</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+					<Icon name="star" fill='#000' style={{ width: 16, height: 16}}/>
+					<Text style={[MainStyles.title_a16, {textAlign: 'center', paddingStart: 5}]}>{averageRating}</Text>
+				</View>
+				<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+                    <Layout style={[MainStyles.column_container, {backgroundColor: '#f2f2f2', paddingTop: 20,paddingStart: 20, paddingEnd: 20, marginBottom: 20 }]}>
 						{reviews.length > 0 ?
 							reviews.map((review, index) => (
-  							<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
+  							<ReviewCard key={index} profilePic={review.profile_pic} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
 						))
 						:
 							<Text>No reviews available</Text>
 						}
                     </Layout>
                 </ScrollView>
-                <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
+                <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7' }} />
                 <BotNavBusiness selected={2}/>
             </SafeAreaView>
     );

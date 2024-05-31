@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import MainStyles from '../../../assets/styles/MainStyles';
+import { TopNavBack } from '../../../components/TopNavBack';
 import DbUtils from '../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { loginShopper } from '../../../services/auth';
@@ -8,12 +10,12 @@ import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity  } from 'react-native';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import TextTwo from '../../../components/TextTwo';
 
 const initialState = {
-	credOne: "Peter@gmail.com",
-	credTwo: "123456",
+	credOne: "Harry@gmail.com",
+	credTwo: "1",
 };
 
 function reducer(state, action) 
@@ -132,44 +134,32 @@ const Login = (props) =>
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
-            
-                {/* <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%'}}> */}
-					<View style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', width: '100%' }}>
-						<Image source={require('../../../assets/images/app_pic_4.png')} style={{ width: '100%', objectFit: 'cover' }} />
-					</View>
-                    <ScrollView style={{ flex: 1, width: '100%' }}>
-                        <View style={{ padding: 24 }}>
-                            <TitleOne title="Login as a User" status="basic" />
-                            <View style={{ marginTop: 25 }} />
-                            <InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" status="basic" />
-                            <View style={{ marginTop: 25 }} />
-                            <InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" status="basic" />
-                            <View style={{ marginTop: 15 }} />
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
-                                <Layout >
-                                	<Checkbox label="Remember me" />
-                                </Layout>
-                                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
-                                    <TextTwo title="Forgot password?&nbsp;" textalign="right" status="basic" />
-                                    <TouchableOpacity onPress={handleReset}>
-                                        <TextTwo title="Reset" underline="underline" textalign="right" status="primary" />
-                                    </TouchableOpacity>
-                                </Layout>
-                            </Layout>
-                            <View style={{ marginTop: 15 }} />
-                            <ButtonPrimary name="Login" onpress={handleLogin}/>
-                            <View style={{ marginTop: 15 }} />
-                            <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
-                                <TextTwo title="Don't have an account? " textalign="center" status="basic" />
-                                <TouchableOpacity onPress={handleSignup} >
-                                    <TextTwo title="Sign up" fontweight="bold" underline="underline" status="primary" />
-                                </TouchableOpacity>
-                            </Layout>
-                        </View>
-                    </ScrollView>
-                {/* </View> */}
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+			<TopNavBack navigation={props.navigation} pops={1} />
+            <Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
+				<ScrollView style={{ flex: 1, width: '100%' }}>
+					<Text style={MainStyles.title_one}>Login as a User</Text>
+						<InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter email" status="basic" mb={20} />
+						<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" status="basic" />
+						<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
+							<Layout >
+								<Checkbox label="Remember me" />
+							</Layout>
+							<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
+								<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>
+								<TouchableOpacity onPress={handleReset}>
+									<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
+								</TouchableOpacity>
+							</Layout>
+						</Layout>
+						<ButtonPrimary name="Login" marginTop={20} onpress={handleLogin}/>
+						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >
+							<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
+							<TouchableOpacity onPress={handleSignup} >
+								<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Sign up</Text>
+							</TouchableOpacity>
+						</Layout>
+				</ScrollView>
             </Layout>
         </SafeAreaView>
     )

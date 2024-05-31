@@ -1,27 +1,20 @@
 import React, { useState, useEffect} from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from "../../../services/DbUtils";
 import { getTotViews } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { TopNavBusDashboard } from "../../../components/TopNavBusDashboard";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { Layout, Text, Divider, Card } from "@ui-kitten/components";
 import DividerTop from "../../../components/DividerTop";
 import TextTwo from "../../../components/TextTwo";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../components/ButtonSecondary";
+import CustomIcons from "../../../CustomIcons";
 
 const BusinessDashboard = (props) => 
 {
-	// Todo:
-	// Next screen is signup step 3 - redo the sectors page (can we use sectorsData)
-	// Next is to upload pictures to the server and set pic path to a url
-
-	// DONE
-	// Get Hello, .... from profile
-	// Do api call to get total views (this total is built from when a shopper goes to their profile page: Need to make a common page that fetches api data and also increases count in db)
-	// Next screen is the notification screen...
-
 	const [isReady, setIsReady] = useState(false);
 	const [isApiReady, setIsApiReady] = useState(false);
 	const [token, setToken] = useState('');
@@ -71,49 +64,37 @@ const BusinessDashboard = (props) =>
 		}
 	}, [isReady]);
 
-	useEffect(() => 
+	useFocusEffect(React.useCallback(() => 
 	{
 		if (isApiReady)
 		{
 			const apiGetTotViews = async () => 
 			{
 				const apiData = {business_id: businessId};
-				const res = await getTotViews(token, JSON.stringify(apiData));
-				const status = res.status;
-				//aaa a a a a a a 
-		
-				if (status)
+				try
 				{
-					setTotViews(res.data);
-					// Toast.show({
-					// 	type: 'success',
-					// 	position: 'bottom',
-					// 	text1: 'Success',
-					// 	text2: 'Changes have been successfully updated.',
-					// 	visibilityTime: 1000,
-					// 	autoHide: true,
-					// 	topOffset: 30,
-					// 	bottomOffset: 40,
-					// });
-				} 
-				else 
+					await getTotViews(token, JSON.stringify(apiData))
+					.then((res) => 
+					{
+						if (res.status)
+						{
+							setTotViews(res.data);
+						} 
+						else 
+						{
+							setTotViews('0.');
+						}
+					});
+				}
+				catch(error)
 				{
-					setTotViews('0.');
-					// Toast.show({
-					// 	type: 'error',
-					// 	position: 'bottom',
-					// 	text1: 'Server error',
-					// 	text2: 'There was a problen updating your changes.',
-					// 	visibilityTime: 1000,
-					// 	autoHide: true,
-					// 	topOffset: 30,
-					// 	bottomOffset: 40,
-					// });
+					console.log('Error:', error);
 				}
 			}
 			apiGetTotViews();
 		}
-	}, [isApiReady]);
+	}, [isApiReady]));
+
 
     const gotoAddEvent = () => 
     {
@@ -128,24 +109,20 @@ const BusinessDashboard = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavBusDashboard title={firstName} navigation={props.navigation}  />
                 <DividerTop />
-                <Layout style={[MainStyles.layout_container, {backgroundColor: '#fdfdfd'}]}>
-                    <Text category="s1">Your business in review:</Text>
-
-                    {/* <Card style={{ marginTop: 10, padding: 10, borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}>
-                        <Text category="s2" style={{ textAlign: 'center', fontWeight: 'bold' }}>New Notifications:</Text>
-                        <TextTwo title="3" textalign="center" fontsize={72} />
-                    </Card> */}
-
+                <Layout style={[MainStyles.column_container, {backgroundColor: '#ffffff'}]}>
+                    <Text style={[MainStyles.title_a18, {textAlign: 'center', marginBottom: 30}]}>Your business in review:</Text>
                     <Card style={{ marginTop: 10, padding: 10, borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}>
-                        <Text category="s2" style={{ textAlign: 'center', fontWeight: 'bold' }} status="primary">Total number of views:</Text>
-                        <TextTwo title={totViews} textalign="center" fontsize={72} status="basic" />
+                        <Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold' }]} status="primary">Total number of views:</Text>
+                        <Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">{totViews}</Text>
                     </Card>
-                    <ButtonSecondary name="Add Promotion" width="100%" marginTop={20} onpress={gotoAddPromotion} />
-                    <ButtonPrimary name="Add Event" width="100%" marginTop={40} onpress={gotoAddEvent} />
-
+					<View style={{ flex: 1 }} />
+					<View>
+						<ButtonPrimary name="Add Event" width="100%" marginTop={40} onpress={gotoAddEvent} />
+						<ButtonSecondary name="Add Promotion" width="100%" marginTop={20} onpress={gotoAddPromotion} />
+					</View>
                 </Layout>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7' }} />
             <BotNavBusiness selected={0}/>

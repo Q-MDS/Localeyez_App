@@ -8,7 +8,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { IconTextIcon } from "../../../components/IconTextIcon";
 import { TopNavBack } from "../../../components/TopNavBack";
 import { TouchableOpacity, SafeAreaView, View } from "react-native";
-import { Layout, Text, Avatar, Divider } from "@ui-kitten/components";
+import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../components/ButtonSecondary";
@@ -212,45 +212,53 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
-			<Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:30, paddingBottom: 30 }}>
-				<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
-					{state.profilePic == '' || state.profilePic == null ? (
-						<Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
-					) : (
-						<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
-					)}
-				</TouchableOpacity>
-				<Text category="h6" status="basic" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${state.firstName} ${state.lastName}`}</Text>
-				<Text category="p1" status="primary">{state.email}</Text>
-				<Divider style={{ height: 20, backgroundColor: 'transparent' }} />
+			<Layout style={ MainStyles.column_container}>
+				<View>
+					<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
+						{state.profilePic == '' || state.profilePic == null ? (
+							<Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
+						) : (
+							<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
+						)}
+					</TouchableOpacity>
+					<Text style={[MainStyles.title_a18, { width: '100%', textAlign: 'center', fontWeight: 'bold', marginTop: 15 }]}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
+					<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5 }]}>{state.email}</Text>
+					<Divider style={{ height: 20, backgroundColor: 'transparent' }} />
 					{state.verified !== 0 && (
-						<TouchableOpacity onPress={() => props.navigation.navigate('ShopperVerified')}>
-							<IconText title="Verified Member" iconname="checkmark-circle-2" fontsize={15} width={20} status="basic" />
+						<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={() => props.navigation.navigate('ShopperVerified')}>
+							{/* <IconText title="Verified Member" iconname="checkmark-circle-2" textalign="center" fontsize={15} width={20} status="basic" /> */}
+							<Icon name="checkmark-circle-2" fill="#612bc1" style={{ width: 24, height: 24, marginEnd: 10 }} />
+							<Text style={[MainStyles.title_a18]}>Verified Member</Text>
 						</TouchableOpacity>
 					)}
+					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20, marginBottom: 20 }} />
+				</View>
+			
+			<View>
+				{/* <Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15} ]}> */}
+				<IconTextIcon title="Edit Profile" status="basic" iconLeft="person-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccEdit" />
+				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
+				<IconTextIcon title="Edit Interests" status="basic" iconLeft="heart-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccIntHome" />
+				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
+				{/* {subType === 'free' ? 
+					<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanFree" />
+				:
+					<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanMem" />
+				}
+				<Divider style={{ height: 30, backgroundColor: 'transparent' }} /> */}
+				<IconTextIcon title="Security" status="basic" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccSecurity" />
+				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
+				<IconTextIcon title="Privacy Policy" status="basic" iconLeft="lock-outline" iconRight="chevron-right-outline" type={1} navigation={props.navigation} onpress="PrivacyPolicy" />
+				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20 }} />
+			</View>
+
+				<View style={{ flex: 1 }} />
+				<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
+					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
+					<View style={{ marginTop: 15 }} />
+					<ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
 				</Layout>
-				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%' }} />
-				<Layout style={[MainStyles.layout_container, style={paddingStart: 15, paddingEnd: 15} ]}>
-					<IconTextIcon title="Edit Profile" iconLeft="person-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccEdit" />
-					<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-					<IconTextIcon title="Edit Interests" iconLeft="heart-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccIntHome" />
-					<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-					{/* {subType === 'free' ? 
-						<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanFree" />
-					:
-						<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanMem" />
-					}
-					<Divider style={{ height: 30, backgroundColor: 'transparent' }} /> */}
-					<IconTextIcon title="Security" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccSecurity" />
-					<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-					<IconTextIcon title="Privacy Policy" iconLeft="lock-outline" iconRight="chevron-right-outline" type={1} navigation={props.navigation} onpress="PrivacyPolicy" />
-					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20 }} />
-					<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
-                        <ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
-                        <View style={{ marginTop: 15 }} />
-                        <ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
-                    </Layout>
-                </Layout>
+			</Layout>
         </SafeAreaView>
     );
 };

@@ -5,13 +5,14 @@ import MainStyles from "../../assets/styles/MainStyles";
 import { InputSearch } from "../../components/InputSearch";
 import { TopNavShpDashboard } from "../../components/TopNavShpDashboard.jsx";
 import { BotNavShopper } from "../../components/BotNavShopper";
-import { SafeAreaView, Image, View } from "react-native";
+import { SafeAreaView, ScrollView, Image, View } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Home = (props) => 
 {
 	const [shopperName, setShopperName] = useState('');
+	const [searchFor, setSearchFor] = useState(''); 
 	
 	const getProfile = async () => 
     {
@@ -67,11 +68,20 @@ const Home = (props) =>
         props.navigation.navigate('CatServices');
     }
 
+	const handleSearch = () => 
+	{
+		// Grab searchFor and open main search screen
+		// Main search screen must check if it is incoming and auto execute
+		   // if props.seachFor is not empty then auto else nothing
+		props.navigation.navigate('Search', { searchFor: searchFor});
+	}
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavShpDashboard title={shopperName} navigation={props.navigation}  />
+			<ScrollView>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fafafa', paddingStart: 20, paddingEnd: 20}]}>
-                    <InputSearch placeholder="Find what you're looking for..." />
+                    <InputSearch value={searchFor} setValue={setSearchFor} onpress={handleSearch} placeholder="Find what you're looking for..." />
                     <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20, flex: 1 }}>
 
                         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, marginBottom: 20 }}>
@@ -133,7 +143,8 @@ const Home = (props) =>
                     </Layout>
                         
                 </Layout>
-                <BotNavShopper navigation={props.navigation} />
+				</ScrollView>
+                <BotNavShopper selected={0} navigation={props.navigation} />
         </SafeAreaView>
 
     );
