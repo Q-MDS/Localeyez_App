@@ -71,6 +71,14 @@ workflows:
             - name: Install CocoaPods dependencies
               script: |
                 cd ios && pod install
+            - name: Copy custom fonts
+              script: |
+                mkdir -p $CM_BUILD_DIR/ios/Runner/Assets.xcassets
+                cp src/assets/fonts/* $CM_BUILD_DIR/ios/Runner/Assets.xcassets
+            - name: Add custom fonts to Info.plist
+              script: |
+                /usr/libexec/PlistBuddy -c "Add :UIAppFonts array" $CM_BUILD_DIR/ios/Runner/Info.plist
+                /usr/libexec/PlistBuddy -c "Add :UIAppFonts:0 string 'FontName.ttf'" $CM_BUILD_DIR/ios/Runner/Info.plist
             - name: Set Info.plist values
               script: |
                 # This allows publishing without manually answering the question about encryption 

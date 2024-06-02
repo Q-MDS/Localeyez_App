@@ -193,3 +193,8 @@ useEffect(() =>
 
 	return () => backHandler.remove();
 }, []);
+
+
+MYSQL Replace:
+UPDATE users SET name = REPLACE(name, 'http://192.168.1.28/Localeyez_backend', 'https://localeyez.net/ap') WHERE name LIKE '%John%';
+UPDATE `business_promotions` SET display_image = REPLACE(display_image, 'http://192.168.1.28/Localeyez_backend', 'https://localeyez.net/ap')

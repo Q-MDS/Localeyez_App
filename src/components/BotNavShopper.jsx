@@ -32,7 +32,7 @@ export const BotNavShopper = (props) =>
                 navigation.navigate('ShopperHome');
                 break;
             case 1:
-                navigation.navigate('Search');
+                navigation.navigate('Search', { searchFor: '' });
                 break;
             case 2:
                 navigation.navigate('ShopperReviewList');
