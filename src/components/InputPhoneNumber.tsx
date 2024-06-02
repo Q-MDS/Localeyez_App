@@ -10,8 +10,8 @@ export const InputPhoneNumber = (props: any) =>
 		value={props.value} 
 		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
 		placeholder={props.placeholder} 
-		placeholderTextColor="#d9d9d9"
+		placeholderTextColor="#929ab1"
 		keyboardType="phone-pad" 
-		style={{ color: '#000000', borderColor: '#e6e9f2', borderWidth: 0, width: '100%', padding: 10, paddingStart: 10, borderRadius: 5, backgroundColor: '#f2f2f2' }} />
+		style={{ color: '#000000', borderColor: '#e6e9f2', borderWidth: 0, width: '100%', padding: 10, paddingStart: 10, borderRadius: 5, backgroundColor: props.bg }} />
   	);
 };

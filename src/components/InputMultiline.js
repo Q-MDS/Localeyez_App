@@ -29,7 +29,7 @@ export const InputMultiline = (props) =>
 			textStyle={{ paddingTop: 10, paddingBottom: 10, marginStart: 0, height: props.height, textAlignVertical: 'top'}}
 			status='basic'
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-			style={{ borderRadius: 10, borderWidth: 0, backgroundColor: '#F2F2F2'}}
+			style={{ borderRadius: 10, borderWidth: 0, backgroundColor: props.bg}}
 		/>
   	);
 };

@@ -28,7 +28,7 @@ export const InputLabel = (props) =>
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
 			size="large"
 			textStyle={{ paddingStart: 0, marginStart: 0}}
-			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: '#f2f2f2'}}
+			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: props.bg}}
 			status='basic'
 		/>
   	);

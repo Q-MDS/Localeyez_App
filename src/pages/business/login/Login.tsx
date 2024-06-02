@@ -5,15 +5,12 @@ import DbUtils from '../../../services/DbUtils';
 import { login } from '../../../services/auth';
 import Toast from 'react-native-toast-message';
 import { Text } from '@ui-kitten/components';
-import { SafeAreaView, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { TitleOne } from '../../../components/TitleOne';
+import { SafeAreaView, View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { Layout } from '@ui-kitten/components';
-import TextTwo from '../../../components/TextTwo';
-import { InputLabel } from '../../../components/InputLabel';
 
 const initialState = {
 	// credOne: 'a@a.com,
@@ -38,6 +35,7 @@ function reducer(state: any, action: { type: any; payload: any; })
 const Login = (props: any) => 
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
+	const [errors, setErrors] = useState<{ userName?: string, password?: string }>({});
 
 	function handleInputChange(name: any, newValue: any) 
 	{
@@ -195,14 +193,45 @@ const Login = (props: any) =>
         props.navigation.navigate('SignupBusinessStepOne');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.credOne)
+		{
+			tempErrors = { ...tempErrors, userName: 'Username is required' };
+		}
+		else if (!/\S+@\S+\.\S+/.test(state.credOne))
+		{
+			tempErrors = { ...tempErrors, userName: 'Email address is not valid' };
+		}
+		if (!state.credTwo)
+		{
+			tempErrors = { ...tempErrors, password: 'Password is required' };
+		}
+		
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleLogin();
+		}
+	}
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
 			<TopNavBack navigation={props.navigation} pops={1} />
             <Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
 				<ScrollView style={{ flex: 1, width: '100%' }}>
 					<Text style={MainStyles.title_one}>Login as a Business</Text>
-					<InputLabelEmail label="Email" name="credOne" value={state.credOne} onChange={handleInputChange} status="basic" placeholder="Enter email" mb={20} />
-					<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} status="basic" placeholder="Enter password" />
+					<View style={{ position: 'relative' }} >
+						<InputLabelEmail label="Username" name="credOne" value={state.credOne} onChange={handleInputChange} status="basic" placeholder="Enter username" mb={20} bg={errors.userName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.userName && <Text style={styles.error}>{errors.userName}</Text>}
+					</View>
+					<View style={{ position: 'relative' }} >
+						<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} status="basic" placeholder="Enter password" bg={errors.password ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+					</View>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
 						<Layout style={{ flex: 1 }} >
 							<Checkbox label="Remember me" />
@@ -214,7 +243,7 @@ const Login = (props: any) =>
 							</TouchableOpacity>
 						</Layout>
 					</Layout>
-					<ButtonPrimary name="Login" marginTop={20} onpress={handleLogin}/>
+					<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >
 						<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
 						<TouchableOpacity onPress={handleSignup} >
@@ -226,5 +255,18 @@ const Login = (props: any) =>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default Login;

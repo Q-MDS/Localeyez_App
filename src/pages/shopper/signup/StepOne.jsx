@@ -6,14 +6,11 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
-import TextTwo from '../../../components/TextTwo';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Layout, Avatar, Select, SelectItem, IndexPath, Icon } from '@ui-kitten/components';
-import { InputLabelNumpad } from '../../../components/InputLabelNumpad';
+import { Layout, Avatar } from '@ui-kitten/components';
 import { Label } from '../../../components/Label';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import DropdownSingle from '../../../components/DropdownSingle';
-import { MultiSelect } from 'react-native-element-dropdown';
 import { Text } from '@ui-kitten/components';
 
 const initialState = {
@@ -22,6 +19,7 @@ const initialState = {
 	lastName: null,
 	contactNumber: null,
 	credOne: null,
+	credTwo: null,
 	confirm: null,
 	geoRange: '30km radius',
 };
@@ -45,6 +43,7 @@ const StepOne = (props) =>
 	const [profileExists, setProfileExists] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [errors, setErrors] = useState({ email: '', firstName: '', lastName: '', contactNumber: '', password: '', password_confirm: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -306,14 +305,6 @@ const StepOne = (props) =>
 		}
 	}, [isReady]);
 
-    // useEffect(() => 
-    // {
-    //     if (profileExists)
-    //     {
-    //         getProfile();
-    //     }
-    // }, [profileExists === true]);
-
     const handleNext = async () => 
     {
 		await updProfile('email', state.email);
@@ -332,6 +323,46 @@ const StepOne = (props) =>
         props.navigation.navigate('LoginUser');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.email)
+		{
+			tempErrors = { ...tempErrors, email: 'Email is required' };
+		}
+		else if (!/\S+@\S+\.\S+/.test(state.email))
+		{
+			tempErrors = { ...tempErrors, email: 'Email address is not valid' };
+		}
+		if (!state.firstName)
+		{
+			tempErrors = { ...tempErrors, firstName: 'First Name is required' };
+		}
+		if (!state.lastName)
+		{
+			tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
+		}
+		if (!state.contactNumber)
+		{
+			tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		}
+		if (!state.credTwo)
+		{
+			tempErrors = { ...tempErrors, password: 'Password is required' };
+		}
+		if (state.credTwo !== state.confirm)
+		{
+			tempErrors = { ...tempErrors, password_confirm: 'Passwords do not match' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleNext();
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Create your account" alignment="start" navigation={props.navigation} pops={1} />
@@ -340,25 +371,44 @@ const StepOne = (props) =>
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
                         <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
                     </View>
-                    <View style={{ marginTop: 35 }} />
-					<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
-                    <View style={{ marginTop: 15 }} />
-					<Label title="Phone Number" status="basic" mb={5} fontsize={16} />
-					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="+2782 111 2222" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" />
-                    <View style={{ marginTop: 15 }} />
+
+                    <View style={{ position: 'relative', marginTop: 35 }} >
+						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+					</View>
+					
+					<View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+					</View>
+					
+					<View style={{ position: 'relative', marginTop: 15 }} >
+						<Label title="Contact Number" status="basic" mb={5} fontsize={16} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+                    </View>
+					
+					<View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password" status="basic" bg={errors.password ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+					</View>
+					
+					<View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" bg={errors.password_confirm ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
+					</View>
+
+					<View style={{ position: 'relative', marginTop: 15 }} />
                     <Label title="Geo-Location Range" status="basic" mb={5} fontsize={16} />
 					<View style={{ flex: 1, width: '100%' }} >
 						<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 					</View>
-                    <ButtonPrimary name="Submit" width="100%" onpress={handleNext}/>
+                    <ButtonPrimary name="Submit" width="100%" onpress={validateForm}/>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 30 }} >
 						<Text style={[MainStyles.title_a16]}>Already have an account? &nbsp;</Text>
 						<TouchableOpacity onPress={handleLogin} >
@@ -372,15 +422,25 @@ const StepOne = (props) =>
 };
 const styles = StyleSheet.create({
     container: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 25
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginBottom: 25
     },
     select: {
-      flex: 1,
-      margin: 2,
-      marginStart: 0
+		flex: 1,
+		margin: 2,
+		marginStart: 0
     },
-  });
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default StepOne;

@@ -26,7 +26,7 @@ export const InputLabelEmail = (props) =>
             keyboardType="email-address"
             value={props.value}
             size="large"
-            style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, backgroundColor: '#f2f2f2', borderWidth: 0}}
+            style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, backgroundColor: props.bg, borderWidth: 0}}
 			textStyle={{ paddingStart: 0, marginStart: 0}}
             // onChangeText={props.setValue}
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 

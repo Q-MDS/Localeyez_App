@@ -5,11 +5,10 @@ import { updShopperProfile } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { InputLabelEmail } from "../../../components/InputLabelEmail";
 import { InputLabel } from "../../../components/InputLabel";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
 import { TopNavBack } from "../../../components/TopNavBack";
 import { Label } from "../../../components/Label";
-import { SafeAreaView, View, StyleSheet } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import { Layout, Text } from "@ui-kitten/components";
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import DropdownSingle from '../../../components/DropdownSingle';
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
@@ -19,9 +18,6 @@ const initialState = {
 	firstName: null,
 	lastName: null,
 	contactNumber: null,
-	credOne: null,
-	confirm: null,
-	geoRange: null,
 };
 
 function reducer(state, action) 
@@ -43,9 +39,7 @@ const Edit = (props) =>
 	const [token, setToken] = useState('');
 	const [shopperId, setShopperId] = useState(0);
 	const [isReady, setIsReady] = useState(false);
-	// const [profileExists, setProfileExists] = useState(false);
-	// const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath('30km radius'));
-	// const displayValue = radius[5];
+	const [errors, setErrors] = useState({ email: '', firstName: '', lastName: '', contactNumber: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -195,41 +189,98 @@ const Edit = (props) =>
 		}
 	}
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.email)
+		{
+			tempErrors = { ...tempErrors, email: 'Email is required' };
+		}
+		else if (!/\S+@\S+\.\S+/.test(state.email))
+		{
+			tempErrors = { ...tempErrors, email: 'Email address is not valid' };
+		}
+		if (!state.firstName)
+		{
+			tempErrors = { ...tempErrors, firstName: 'First Name is required' };
+		}
+		if (!state.lastName)
+		{
+			tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
+		}
+		if (!state.contactNumber)
+		{
+			tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmit();
+		}
+	}
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title={`Edit Profile`} alignment="start" navigation={props.navigation} pops={1} />
-            <Layout style={[MainStyles.layout_container ]}>
-			<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" />
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="E.g. John" />
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="E.g. Barron" />
-                <View style={{ marginTop: 15 }} />
-				<Label title="Contact Number" mb={5} status="basic" fontsize={16} />
-                <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="(123) 456 7890" />
-                <View style={{ marginTop: 15 }} />
-				<Label title="Geo-Location Range"  status="basic" fontsize={16} />
-				<View style={{ width: '100%', height: 70 }} >
-					<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
-				</View>
-                <Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
-                    <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit} />
-                </Layout>
-            </Layout>
+			<ScrollView style={{ flex: 1, width: '100%' }}>
+				<Layout style={[MainStyles.layout_container ]}>
+					<View style={{ position: 'relative', width: '100%' }} >
+						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+					</View>
+
+					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name"  bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'}/>
+						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+					</View>
+
+					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+					</View>
+
+					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<Label title="Contact Number" mb={5} status="basic" fontsize={16} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+					</View>
+
+					<View style={{ marginTop: 15 }} />
+					<Label title="Geo-Location Range"  status="basic" fontsize={16} />
+						<View style={{ width: '100%', height: 70 }} >
+							<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
+						</View>
+					<Layout style={{ width: '100%', marginTop: 40 }} >
+						<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
+					</Layout>
+				</Layout>
+			</ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 25
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginBottom: 25
     },
     select: {
-      flex: 1,
-      margin: 2,
-      marginStart: 0
+		flex: 1,
+		margin: 2,
+		marginStart: 0
+    },
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
     },
   });
 

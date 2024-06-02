@@ -5,9 +5,7 @@ import { TopNavBack } from '../../../components/TopNavBack';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
-import { InputPassword } from '../../../components/InputPassword';
-import TextTwo from '../../../components/TextTwo';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator , StyleSheet} from 'react-native';
 import { Layout, Text, Avatar } from '@ui-kitten/components';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 
@@ -38,6 +36,7 @@ const StepOne = (props) =>
 	const [isPasswordFocused, setIsPasswordFocused] = React.useState(false);
 	const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = React.useState(false);
 	const [isReady, setIsReady] = useState(false);
+	const [errors, setErrors] = useState({ email: '', firstName: '', lastName: '', email: '', password: '', password_confirm: '' });
 
     function handleInputChange(name, newValue) 
 	{
@@ -319,6 +318,42 @@ const StepOne = (props) =>
         props.navigation.navigate('LoginBusiness');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.email)
+		{
+			tempErrors = { ...tempErrors, email: 'Email is required' };
+		}
+		else if (!/\S+@\S+\.\S+/.test(state.email))
+		{
+			tempErrors = { ...tempErrors, email: 'Email address is not valid' };
+		}
+		if (!state.firstName)
+		{
+			tempErrors = { ...tempErrors, firstName: 'First Name is required' };
+		}
+		if (!state.lastName)
+		{
+			tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
+		}
+		if (!state.password)
+		{
+			tempErrors = { ...tempErrors, password: 'Password is required' };
+		}
+		if (state.password !== state.confirmPassword)
+		{
+			tempErrors = { ...tempErrors, password_confirm: 'Passwords do not match' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleNext();
+		}
+	}
+
     if (isLoading) 
     {
         return (
@@ -336,18 +371,33 @@ const StepOne = (props) =>
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
                         <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
                     </View>
-                    <View style={{ marginTop: 35 }} />
-                    <InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabelPassword placeholder="Enter password" name="password" value={state.password} onChange={handleInputChange} label="Password" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabelPassword placeholder="Retype password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} label="Retype Password" status="basic" />
+                    <View style={{ position: 'relative', marginTop: 35 }} >
+						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+					</View>
+
+                   	<View style={{ position: 'relative', marginTop: 15 }} >
+                   		<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+						   {errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabelPassword placeholder="Enter password" name="password" value={state.password} onChange={handleInputChange} label="Password" status="basic" bg={errors.password? '#ffe6e6' : '#f2f2f2'} />
+						{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabelPassword placeholder="Retype password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} label="Retype Password" status="basic" bg={errors.password_confirm ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
+					</View>
+
                     <View style={{ marginTop: 25 }} />
-                    <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
+                    <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 15 }} >
 						<Text style={{ fontSize: 15, color: '#000000' }}>Already have an account? &nbsp;</Text>
 						<TouchableOpacity onPress={handleLogin} >
@@ -359,5 +409,18 @@ const StepOne = (props) =>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default StepOne;

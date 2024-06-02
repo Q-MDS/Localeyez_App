@@ -7,7 +7,7 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
-import { SafeAreaView, ScrollView, View, ActivityIndicator, Image } from 'react-native';
+import { SafeAreaView, ScrollView, View, ActivityIndicator, Image, StyleSheet } from 'react-native';
 import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../components/InputOnly';
@@ -45,6 +45,7 @@ const StepTwo = (props) =>
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(true);
+	const [errors, setErrors] = useState({ contactNumber: '', company: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -154,28 +155,80 @@ const StepTwo = (props) =>
         props.navigation.navigate('SignupBusinessStepThree');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.contactNumber)
+		{
+			tempErrors = { ...tempErrors, contactNumber: 'Required' };
+		}
+		if (!state.companyName)
+		{
+			tempErrors = { ...tempErrors, companyName: 'Company Name is required' };
+		}
+		if (!state.addressOne)
+		{
+			tempErrors = { ...tempErrors, addressOne: 'Address line 1 is required' };
+		}
+		if (!state.addressTwo)
+		{
+			tempErrors = { ...tempErrors, addressTwo: 'Address line 2 is required' };
+		}
+		if (!state.city)
+		{
+			tempErrors = { ...tempErrors, city: 'City is required' };
+		}
+		if (!state.province)
+		{
+			tempErrors = { ...tempErrors, province: 'Provinceis required' };
+		}
+		if (!state.businessBio)
+		{
+			tempErrors = { ...tempErrors, businessBio: 'Business bio is required' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleNext();
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Business details" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ flex: 1, width: '100%' }}>
                 <Layout style={MainStyles.column_container}>
-                    <Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={16} />
-					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" />
-                    <View style={{ marginTop: 15 }} />
-					<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" />
+
+					<View style={{ position: 'relative' }} >
+                    	<Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={16} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+						<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
+					</View>
+					
+					<View style={{ marginTop: 15 }} />
+                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" />
+                    <InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="City" name="city" value={state.city} onChange={handleInputChange} />
+                    <InputOnly placeholder="City" name="city" value={state.city} onChange={handleInputChange} bg={errors.city ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} />
+                    <InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
                     <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} />
-                    <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" />
-                    <View style={{ marginTop: 15 }} />
+					
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+						<InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
+					</View>
+					
+					<View style={{ marginTop: 15 }} />
                     <Label title="Are a small & local business?" textalign="left" mb={5} status="basic" fontsize={16} />
                     <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
                         <Toggle
@@ -214,11 +267,24 @@ const StepTwo = (props) =>
                     <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" />
 
                     <View style={{ marginTop: 25 }} />
-                    <ButtonPrimary name="Next" width="100%" onpress={handleNext}/>
+                    <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
                 </Layout>
             </ScrollView>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default StepTwo;

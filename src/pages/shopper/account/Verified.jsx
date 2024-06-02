@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DbUtils from "../../../services/DbUtils";
 import MainStyles from "../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../components/TopNavBack";
 import { SafeAreaView } from "react-native";
 import { Layout, Avatar, Text } from "@ui-kitten/components";
 
@@ -31,7 +31,8 @@ const Verified = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Verified Member" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+            {/* <TopNavArrowTitle title="Verified Member" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" /> */}
+			<TopNavBack navigation={props.navigation} pops={1} />
             <Layout style={[MainStyles.layout_container, { justifyContent: 'center', alignItems: 'center' } ]}>
                 <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:40, paddingBottom: 30 }}>
 					{profilePic == '' || profilePic == null ? (
@@ -39,9 +40,9 @@ const Verified = (props) =>
 					) : (
 						<Avatar source={{ uri: profilePic }} style={{ width: 160, height: 160 }} />
 					)}
-                    <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${firstName} ${lastName}`}</Text>
+                    <Text category="h6" status="basic" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${firstName} ${lastName}`}</Text>
                     <Text category="p1" status="primary">{email}</Text>
-                    <Text category="p2" status="primary" style={{ marginTop: 50 }}>Show this to businesses offering discounts</Text>
+                    <Text category="p2" status="basic" style={{ marginTop: 50 }}>Show this to businesses offering discounts</Text>
                 </Layout>
             </Layout>
         </SafeAreaView>

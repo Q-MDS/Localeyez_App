@@ -50,7 +50,7 @@ export const InputLabelPassword = (props: any): React.ReactElement =>
 			secureTextEntry={secureTextEntry}
 			size="large"
 			onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: '#f2f2f2'}}
+			style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, borderWidth: 0, backgroundColor: props.bg}}
 			textStyle={{ marginStart: 0}}
 			/>
 			<TouchableOpacity style={{ position: 'absolute', right: 10, top: 37 }} onPress={toggleSecureEntry}>
