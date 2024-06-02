@@ -19,13 +19,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.3</string>
+	<string>1.1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This is used so that the user can select a photo for their business display and banner image. Or to add a picture to a promotion or event they create.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location in order to find businesses within the geo range you have selected</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location in order to find businesses within the geo range you have selected</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

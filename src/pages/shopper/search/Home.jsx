@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
+import { PermissionsAndroid } from 'react-native';
+import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import Geolocation from '@react-native-community/geolocation';
 import DbUtils from "../../../services/DbUtils";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { shopperSearch } from "../../../services/api_search";
@@ -54,6 +57,8 @@ const Home = (props) =>
 	const [numEvents, setNumEvents] = useState(0);
 	const [showTooltip, setShowTooltip] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
+	const [gpsLat, setGpsLat] = useState('0.0');
+	const [gpsLng, setGpsLng] = useState('0.0');
 
 	function handleInputChange(name, newValue) 
 	{
@@ -63,6 +68,11 @@ const Home = (props) =>
 			payload: {...state, [name]: newValue}
 		});
 	}
+
+	useEffect(() => 
+	{
+		requestLocationPermission();
+	}, []);
 
 	const getToken = async () => 
 	{
@@ -121,8 +131,8 @@ const Home = (props) =>
 				"shopper_id": state.shopperId,
 				"search_string": searchString,
 				"location": state.location,
-				"gps_lat": state.gpsLat,
-				"gps_lng": state.gpsLng,
+				"gps_lat": gpsLat,
+				"gps_lng": gpsLng,
 				"start_date": state.startDate,
 				"end_date": state.endDate,
 				"sector": state.sector
@@ -230,6 +240,56 @@ const Home = (props) =>
 	{
 		props.navigation.navigate('SearchEventView', { event: event });
 	}
+
+	const requestLocationPermission = async () => {
+		if (Platform.OS === 'ios') {
+		  let response = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+	  
+		  if (response === RESULTS.DENIED) {
+			request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((response) => {
+			  // …
+			});
+		  }
+		}
+	  
+		if (Platform.OS === 'android') {
+		  try {
+			const granted = await PermissionsAndroid.request(
+			  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+			  {
+				title: "Localeyez Location Permission",
+				message:
+				  "We need your location in order to find businesses " +
+				  "within the geo range you have selected.",
+				buttonNeutral: "Ask Me Later",
+				buttonNegative: "Cancel",
+				buttonPositive: "OK"
+			  }
+			);
+			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+			  console.log("You can use the location");
+			} else {
+			  console.log("Location permission denied");
+			}
+		  } catch (err) {
+			console.warn(err);
+		  }
+		}
+	  };
+
+	const getCurrentPosition = () => 
+	{
+		Geolocation.getCurrentPosition(position => 
+		{
+			const { latitude, longitude } = position.coords;
+			setGpsLat(latitude);
+			setGpsLng(longitude);
+			console.log(latitude, longitude);
+		},
+		  error => console.log(error.message),
+		  { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+		);
+	};
 
 	if (isLoading) 
 	{
@@ -373,9 +433,11 @@ const Home = (props) =>
 						<DropdownSingle name="location" data={radius} value={state.location} onChange={handleInputChange} />
 
 						<Text style={[MainStyles.title_a14]}>Current position</Text>
-						<Text category="s2" status="success" style={{ marginTop: 10 }}>Click here to get your current position</Text>
-						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>Latitude: -26.204103</Text>
-						<Text style={[MainStyles.title_a14, { marginBottom: 10 }]}>Longitude: 28.047305</Text>
+						<TouchableOpacity onPress={getCurrentPosition}>
+							<Text style={[MainStyles.title_a16, { marginTop: 10, color: '#612bc1' }]}>Click here to get your current position</Text>
+						</TouchableOpacity>
+						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 5 }]}>Latitude: {gpsLat}</Text>
+						<Text style={[MainStyles.title_a14, { marginBottom: 10 }]}>Longitude: {gpsLng}</Text>
 
 						<Text style={[MainStyles.title_a14, { marginTop: 10, marginBottom: 10 }]}>Please note these co-ordinates are not stored and are only used to fetch results within the selected radius</Text>
 

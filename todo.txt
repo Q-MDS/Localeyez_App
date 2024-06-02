@@ -198,3 +198,6 @@ useEffect(() =>
 MYSQL Replace:
 UPDATE users SET name = REPLACE(name, 'http://192.168.1.28/Localeyez_backend', 'https://localeyez.net/ap') WHERE name LIKE '%John%';
 UPDATE `business_promotions` SET display_image = REPLACE(display_image, 'http://192.168.1.28/Localeyez_backend', 'https://localeyez.net/ap')
+
+
+-26.14628499839455, 28.07499423623085
