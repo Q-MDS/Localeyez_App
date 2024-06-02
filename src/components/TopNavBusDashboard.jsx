@@ -13,8 +13,8 @@ export const TopNavBusDashboard = (props) =>
         props.navigation.navigate('BusDashAccHome');
     };
 
-    const NotiIcon = (props) => ( <Icon {...props} name='bell-outline' fill='#612bc1' style={{ width: 32, height: 32, }} /> );
-    const AccountIcon = (props) => ( <Icon {...props} name='person' fill='#612bc1' style={{ width: 32, height: 32, }} /> );
+    const NotiIcon = (props) => ( <Icon {...props} name='bell-outline' fill='#220622' style={{ width: 32, height: 32, }} /> );
+    const AccountIcon = (props) => ( <Icon {...props} name='person' fill='#220622' style={{ width: 32, height: 32, }} /> );
 
     const NotiAction = () => ( <TopNavigationAction icon={NotiIcon} onPress={gotoNotification} /> );
     const AccountAction = () => ( <TopNavigationAction icon={AccountIcon} onPress={gotoAccount} /> );
