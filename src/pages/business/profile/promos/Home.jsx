@@ -2,19 +2,14 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
-import { SafeAreaView, TouchableOpacity, Image, View, StyleSheet } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Image, View, StyleSheet, Linking } from 'react-native';
 import { Layout, Divider, Icon, Card, Tab, TabView, Text } from '@ui-kitten/components';
 import { TopNavTitle } from '../../../../components/TopNavTitle';
 import { IconText } from '../../../../components/IconText';
-import { TitleOne } from '../../../../components/TitleOne';
 import TextOne from '../../../../components/TextOne';
-import TextTwo from '../../../../components/TextTwo';
 import { BotNavBusiness } from '../../../../components/BotNavBusiness';
-import { TabsPromoEvent } from '../../../../components/TabsPromoEvent';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
-import { TitleFour } from '../../../../components/TitleFour';
-import CustomIcon from '../../../../components/CustomIcon';
 
 const initialState = {
 	displayImage: null,
@@ -69,7 +64,6 @@ const Home = (props) =>
         const profile = await DbUtils.getItem('business_profile')
 		.then((profile) => 
         {
-			console.log('SHITBALLS: ', profile);
 			dispatch(
 			{
 				type: 'BUSINESS_PROFILE',
@@ -93,22 +87,6 @@ const Home = (props) =>
 				},
 			});
 		});
-		// const parsedProfile = JSON.parse(profile);
-
-		// setCompanyName(parsedProfile.company_name);
-		// setBusinessBio(parsedProfile.business_bio);
-		// setAddressOne(parsedProfile.location[0].address_one);
-		// setAddressTwo(parsedProfile.location[0].address_two);
-		// setCity(parsedProfile.location[0].city);
-		// setProvince(parsedProfile.location[0].province);
-		// setZipCode(parsedProfile.location[0].zip);
-		// setContactNumber(parsedProfile.contact_number);
-		// setXUrl(parsedProfile.sm_x);
-		// setInstagramUrl(parsedProfile.sm_inst);
-		// setFacebookUrl(parsedProfile.sm_fb);
-		// setLinkedinUrl(parsedProfile.sm_linkedin);
-		// setWwwUrl(parsedProfile.sm_www);
-		// setDisplayImage(parsedProfile.displayImage);
     }
 
 	const getPromotions = async () => 
@@ -201,20 +179,40 @@ const Home = (props) =>
                 </Layout>
 				<Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginBottom: 10 }} />
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
-					{state.xUrl && <Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />}
+					{state.xUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
+							<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 8 }} />
-					{state.instagramUrl && <Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />}
+					{state.instagramUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
+							<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 10 }} />
-					{state.facebookUrl && <Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />}
+					{state.facebookUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
+							<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
+						</TouchableOpacity>
+						}
 					<View style={{ marginLeft: 10 }} />
-					{state.linkedinUrl && <Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />}
+					{state.linkedinUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
+							<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 8 }} />
-                    {state.wwwUrl && <Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />}
+                    {state.wwwUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
+							<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
+						</TouchableOpacity>
+					}
                     <View style={{ position: 'absolute', left: 0, top: -70, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
-						{state.profilePic 
+					{state.profilePic 
 						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
 						: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
-						}
+					}
                     </View>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>

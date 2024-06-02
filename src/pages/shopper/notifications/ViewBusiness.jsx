@@ -108,9 +108,9 @@ const ViewBusiness = (props) =>
 						<IconText title={record[0].contact_number} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
 						{/* <IconText title="4.5 Rating" iconname="star-outline" fontsize={14} width={20} status="basic" /> a */}
 					</Layout>
-					<View style={{ padding: 15 }}>
+					{/* <View style={{ padding: 15 }}>
 						<Image source={require('../../../assets/images/map.png')} style={{ width: '100%' }} />
-					</View>
+					</View> */}
 				</ScrollView>
 				<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
 			</SafeAreaView>

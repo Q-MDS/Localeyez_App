@@ -1,20 +1,13 @@
 import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
-import Toast from 'react-native-toast-message';
 import { getBusinessPromotions } from '../../../../services/api_search';
 import { getBusinessEvents } from '../../../../services/api_search';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet  } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking  } from 'react-native';
 import { Card, Divider, Icon, Layout, Tab, TabView, Text, TextElement } from '@ui-kitten/components';
-import TextTwo from '../../../../components/TextTwo';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
-import { ButtonPrimary } from '../../../../components/ButtonPrimary';
-import CustomIcon from '../../../../components/CustomIcon';
 import { IconText } from '../../../../components/IconText';
 import TextOne from '../../../../components/TextOne';
-import { TitleFour } from '../../../../components/TitleFour';
-import { TitleOne } from '../../../../components/TitleOne';
-import { TopNavTitle } from '../../../../components/TopNavTitle';
 import { TopNavBack } from '../../../../components/TopNavBack';
 
 const initialState = {
@@ -192,15 +185,35 @@ const Home = (props: any) =>
                 </Layout>
 				<Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginBottom: 10 }} />
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
-					{state.xUrl && <Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />}
+				{state.xUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
+							<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 8 }} />
-					{state.instagramUrl && <Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />}
+					{state.instagramUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
+							<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 10 }} />
-					{state.facebookUrl && <Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />}
+					{state.facebookUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
+							<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
+						</TouchableOpacity>
+						}
 					<View style={{ marginLeft: 10 }} />
-					{state.linkedinUrl && <Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />}
+					{state.linkedinUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
+							<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
+						</TouchableOpacity>
+					}
 					<View style={{ marginLeft: 8 }} />
-                    {state.wwwUrl && <Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />}
+                    {state.wwwUrl && 
+						<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
+							<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
+						</TouchableOpacity>
+					}
                     <View style={{ position: 'absolute', left: 0, top: -70, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
 						{state.profilePic 
 						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
