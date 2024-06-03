@@ -8,15 +8,12 @@ import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Image } from 'react-native';
-import { Layout, Text, Icon } from '@ui-kitten/components';
-import { TitleFour } from '../../../../../components/TitleFour';
-import TextTwo from '../../../../../components/TextTwo';
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
 import { Label } from '../../../../../components/Label';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
-import CustomIcon from '../../../../../components/CustomIcon';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../../../components/InputOnly';
 import { InputZip } from '../../../../../components/InputZip';
@@ -60,6 +57,7 @@ const Edit = (props) =>
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
+	const [errors, setErrors] = useState({ contactNumber: '', companyName: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -267,15 +265,6 @@ const Edit = (props) =>
 
 	}, [state.bannerImage]);
 
-    // if (selectedIndex === 0) 
-    // {
-    //     console.log('Goto Business Sectors');
-    // }
-    
-    // if (selectedIndex === 1) 
-    // {
-    //     props.navigation.navigate('BusProfSectorsEdit', {selectedIndex: 1});
-    // }
 	const handleGotoProfile = (index) => 
 	{
 		setSelectedIndex(index);
@@ -353,6 +342,47 @@ const Edit = (props) =>
         props.navigation.navigate('BusProfProHome');
     }
 
+	const validateForm = () => 
+	{
+		console.log('Validate Me ', state.contactNumber, state.companyName, state.addressOne, state.addressTwo, state.city, state.province, state.businessBio);
+		let tempErrors = {};
+
+		if (!state.contactNumber)
+		{
+			tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		}
+		if (!state.companyName || state.companyName === '')
+		{
+			tempErrors = { ...tempErrors, companyName: 'Company name is required' };
+		}
+		if (!state.addressOne || state.addressOne === '')
+		{
+			tempErrors = { ...tempErrors, addressOne: 'Address line 1 is required' };
+		}
+		if (!state.addressTwo || state.addressTwo === '')
+		{
+			tempErrors = { ...tempErrors, addressTwo: 'Address line 2 is required' };
+		}
+		if (!state.city || state.city === '')
+		{
+			tempErrors = { ...tempErrors, city: 'City is required' };
+		}
+		if (!state.province || state.province === '')
+		{
+			tempErrors = { ...tempErrors, province: 'Province is required' };
+		}
+		if (!state.businessBio || state.businessBio === '')
+		{
+			tempErrors = { ...tempErrors, businessBio: 'Business bio is required' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmit();
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 		<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
@@ -379,24 +409,49 @@ const Edit = (props) =>
 							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
-                    <View style={{ marginTop: 30 }} />
-					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} />
-                    <InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="+2782 111 2222" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" />
+
+                    <View style={{ position: 'relative', marginTop: 30 }} >
+						<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={16} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+                    	<InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
+					</View>
+
+                    <View style={{ position: 'relat', marginTop: 15 }} >
+						<Label title="Location" textalign="left" mb={5} status="basic" fontsize={16} />
+						<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
+						{/* {errors.addressOne && <Text style={styles.error}>{errors.addressOne}</Text>} */}
+					</View>
+
+					<View style={{ position: 'relative' }} >
+						<InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
+						{/* {errors.addressTwo && <Text style={styles.error}>{errors.addressTwo}</Text>} */}
+					</View>
+
+					<View style={{ position: 'relative' }} >
+						<InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} bg={errors.city ? '#ffe6e6' : '#f2f2f2'} />
+						{/* {errors.city && <Text style={styles.error}>{errors.city}</Text>} */}
+					</View>
+
+					<View style={{ position: 'relative' }} >
+						<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
+						{/* {errors.province && <Text style={styles.error}>{errors.province}</Text>} */}
+					</View>
+
+					<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+
+                    <View style={{ position: 'relative', marginTop: 15 }} >
+                    	<InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
+					</View>
 
                     <View style={{ marginTop: 15 }} />
-					<Label title="Location" textalign="left" mb={5} status="basic" fontsize={13} />
-					<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" />
-					<InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} />
-					<InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} />
-					<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} />
-					<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} />
-                    <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" />
-                    <View style={{ marginTop: 15 }} />
 
-					<Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" />
+					<Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} fontsize={16} status="basic" />
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }} >
 						<Image source={require('../../../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
 					</View>
@@ -422,11 +477,24 @@ const Edit = (props) =>
 					</View>
                     <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" />
                     <View style={{ marginTop: 25 }} />
-                    <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit}/>
+                    <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
                 </Layout>
             </ScrollView>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default Edit;

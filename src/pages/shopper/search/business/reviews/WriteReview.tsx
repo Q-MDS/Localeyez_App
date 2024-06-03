@@ -2,9 +2,8 @@ import React, { useState, useEffect, useReducer } from 'react';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import DbUtils from '../../../../../services/DbUtils';
 import { newReview } from '../../../../../services/api_search';
-import Toast from 'react-native-toast-message';
 import { Rating } from 'react-native-ratings';
-import { SafeAreaView, ScrollView, View, Image} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, Image} from 'react-native';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { Layout, Text } from '@ui-kitten/components';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
@@ -38,6 +37,7 @@ const WriteReview = (props:any) =>
 	const [businessImage, setBusinessImage] = useState<any>(props.route.params.businessImage);
 	const [starCount, setStarCount] = useState(3);
 	const [isReady, setIsReady] = useState(false);
+	const [errors, setErrors] = useState<{ title?: string, review?: string }>({});
 
 	function handleInputChange(name: any, newValue: any) 
 	{
@@ -124,6 +124,28 @@ const WriteReview = (props:any) =>
 		}
 	}
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.title || state.title === '')
+		{
+			tempErrors = { ...tempErrors, title: 'Required' };
+		}
+		
+		if (!state.review || state.review === '')
+		{
+			tempErrors = { ...tempErrors, review: 'Required' };
+		}
+		
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmitReview();
+		}
+	}
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Write Review" alignment="start" navigation={props.navigation} pops={1} />
@@ -143,16 +165,34 @@ const WriteReview = (props:any) =>
 						/>
 					</View>
 					<View style={{ marginTop: 25 }} />
-					<InputMultiline label="Write review title" name="title" status="basic" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={3} value={state.title} onChange={handleInputChange} />
-					<View style={{ marginTop: 25 }} />
-					<InputMultiline label="Write review message" name="review" status="basic" placeholder="Write your review here..." numLines={8} value={state.review} onChange={handleInputChange} />
+					<View style={{ position: 'relative' }} >
+						<InputMultiline label="Write review title" name="title" status="basic" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={3} value={state.title} onChange={handleInputChange} bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.title && <Text style={styles.error}>{errors.title}</Text>}
+					</View>
+					<View style={{ position: 'relative', marginTop: 25 }} >
+						<InputMultiline label="Write review message" name="review" status="basic" placeholder="Write your review here..." numLines={8} value={state.review} onChange={handleInputChange} bg={errors.review ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.review && <Text style={styles.error}>{errors.review}</Text>}
+					</View>
 				</Layout>
 			</ScrollView>
 			<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>
-				<ButtonPrimary name="Submit Review" width="100%" marginTop={25} onpress={handleSubmitReview}/>
+				<ButtonPrimary name="Submit Review" width="100%" marginTop={25} onpress={validateForm}/>
 			</Layout>
 		</SafeAreaView>
 	)
-}
+};
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default WriteReview

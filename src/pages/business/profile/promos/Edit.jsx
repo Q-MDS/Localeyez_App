@@ -6,13 +6,13 @@ import { updPromotionImage } from '../../../../services/api_upload';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
-import { Layout, Text, Icon } from '@ui-kitten/components';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
-import TextTwo from '../../../../components/TextTwo';
-import { TitleFour } from '../../../../components/TitleFour';
 import { InputLabel } from '../../../../components/InputLabel';
 import { InputMultiline } from '../../../../components/InputMultiline';
+import { InputLabelNumpad } from '../../../../components/InputLabelNumpad';
+import { InputNumpad } from '../../../../components/InputNumpad';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import DropdownSingle from '../../../../components/DropdownSingle';
@@ -74,6 +74,7 @@ const Edit = (props) =>
 	const [isNewPic, setIsNewPic] = useState(false);
 	const [imageType, setImageType] = useState('');
 	const [base64Data, setBase64Data] = useState('');
+	const [errors, setErrors] = useState({ sector: '', title: '', caption: '', desc: '', price: '', startDate: '', endDate: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -272,8 +273,6 @@ const Edit = (props) =>
 				// Save the updated array back to async-storage
 				await DbUtils.setItem('promotions', JSON.stringify(updatedData));
 
-				setIsUploading(false);
-
 				props.navigation.navigate('BusProfProHome');
 			}
 		} 
@@ -290,7 +289,49 @@ const Edit = (props) =>
 				bottomOffset: 40,
 			});
 		}
+
+		setIsUploading(false);
     }
+
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.sector)
+		{
+			tempErrors = { ...tempErrors, sector: 'Sector is required' };
+		}
+		if (!state.promoTitle || state.promoTitle === '')
+		{
+			tempErrors = { ...tempErrors, title: 'Title is required' };
+		}
+		if (!state.promoCaption || state.promoCaption === '')
+		{
+			tempErrors = { ...tempErrors, caption: 'Caption is required' };
+		}
+		if (!state.promoDesc || state.promoDesc === '')
+		{
+			tempErrors = { ...tempErrors, desc: 'Description is required' };
+		}
+		if (!state.promoPrice || state.promoPrice === '')
+		{
+			tempErrors = { ...tempErrors, price: 'Price is required' };
+		}
+		if (!state.promoStartDate || state.promoStartDate === '')
+		{
+			tempErrors = { ...tempErrors, startDate: 'Start date is required' };
+		}
+		if (!state.promoEndDate || state.promoEndDate === '')
+		{
+			tempErrors = { ...tempErrors, endDate: 'End date is required' };
+		}
+		setErrors(tempErrors);
+		
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmit();
+		} 
+	}
 
 	useEffect(() => 
 	{
@@ -321,11 +362,13 @@ const Edit = (props) =>
         <DividerTop />
         <ScrollView style={{ flex: 1, width: '100%' }}>
             <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-				<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
-					<View style={{ flex: 1, width: '100%' }} >
+				<Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
+
+					<View style={{ position: 'relative', flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
+						{errors.sector && <Text style={[styles.error, { textAlign: 'left' }]}>{errors.sector}</Text>}
 					</View>
-					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Promotion Display Picture</Text>
+					<Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Promotion Display Picture</Text>
 
 				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
@@ -337,34 +380,56 @@ const Edit = (props) =>
 					</Layout>
 				</TouchableOpacity>
 
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Write title here" status="basic" />
-                <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your promotion" status="basic" />
-                <View style={{ marginTop: 15 }} />
-                <InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a longer description up to 500 characters about your promotion" status="basic" />
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" />
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+                	<InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Write title here" status="basic" bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
+					{errors.title && <Text style={[styles.error]}>{errors.title}</Text>}
+				</View>
+
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+                	<InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your promotion" status="basic" bg={errors.caption ? '#ffe6e6' : '#f2f2f2'} />
+					{errors.caption && <Text style={[styles.error]}>{errors.caption}</Text>}
+				</View>
+
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+                	<InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a longer description up to 500 characters about your promotion" status="basic" bg={errors.desc ? '#ffe6e6' : '#f2f2f2'} />
+					{errors.desc && <Text style={[styles.error]}>{errors.desc}</Text>}
+				</View>
+
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+					{/* <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} /> */}
+					<InputLabelNumpad label="Price" name="promoPrice" value={state.price} onChange={handleInputChange} placeholder="Write product price" status="basic" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} />
+					{errors.price && <Text style={[styles.error]}>{errors.price}</Text>}
+				</View>
+
                 <View style={{ marginTop: 5 }} />
-                <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="Original Price" />
-                <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="Marked Down Price" />
+                {/* <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="Original Price" bg="#f2f2f2" /> */}
+				<InputLabelNumpad label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} placeholder="Original Price" status="basic" bg="#f2f2f2" />
+                {/* <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="Marked Down Price" bg="#f2f2f2" /> */}
+				<InputNumpad name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} placeholder="Marked Down Price" status="basic" mt={10} bg="#f2f2f2" />
+
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+					<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={16} />
+					<DateSelect value={state.promoStartDate} name="promoStartDate" onChange={handleInputChange} bg={errors.startDate ? '#ffe6e6' : '#f2f2f2'}  />
+					{errors.startDate && <Text style={[styles.error]}>{errors.startDate}</Text>}
+				</View>
+
+                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+					<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={16} />
+					<DateSelect value={state.promoEndDate} name="promoEndDate" onChange={handleInputChange} bg={errors.endDate ? '#ffe6e6' : '#f2f2f2'}  />
+					{errors.endDate && <Text style={[styles.error]}>{errors.endDate}</Text>}
+				</View>
+
                 <View style={{ marginTop: 15 }} />
-				<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={18} />
-                <DateSelect value={state.promoStartDate} name="promoStartDate" onChange={handleInputChange} />
-                <View style={{ marginTop: 15 }} />
-				<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={18} />
-                <DateSelect value={state.promoEndDate} name="promoEndDate" onChange={handleInputChange} />
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="Address line 1" />
+                <InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="Address line 1" bg="#f2f2f2"  />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Address line 2" />
+                <InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Address line 2" bg="#f2f2f2"  />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="City" />
+                <InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="City" bg="#f2f2f2"  />
                 <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" />
+                <InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" bg="#f2f2f2"  />
                 <View style={{ marginTop: 5 }} />
-                <InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" />
-                <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={handleSubmit}/>
+                <InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" bg="#f2f2f2"  />
+                <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={validateForm}/>
             </Layout>
         </ScrollView>
 
@@ -372,5 +437,18 @@ const Edit = (props) =>
       </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default Edit;

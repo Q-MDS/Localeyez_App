@@ -8,7 +8,7 @@ export const InputZip = (props: any) =>
         placeholder={props.placeholder}
         value={props.value}
         keyboardType="number-pad"
-        style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, marginStart: 0}}
+        style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, marginStart: 0, borderWidth: 0, backgroundColor: props.bg}}
 		textStyle={{ paddingTop: 5, paddingBottom: 5, marginStart: 0}}
         // onChangeText={props.setValue}
 		onChangeText={(newValue) => props.onChange(props.name, newValue)} 

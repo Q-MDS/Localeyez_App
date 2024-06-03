@@ -6,12 +6,10 @@ import { updEventImage } from '../../../../services/api_upload';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
-import { Layout, Text, Icon } from '@ui-kitten/components';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
-import { TitleFour } from '../../../../components/TitleFour';
 import { InputLabel } from '../../../../components/InputLabel';
-import TextTwo from '../../../../components/TextTwo';
 import { InputMultiline } from '../../../../components/InputMultiline';
 import { DateSelect } from '../../../../components/DateSelect';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
@@ -86,7 +84,7 @@ const data = [
     { label: '23:00', value: '23:00' },
   ];
 
-const Add = (props) => 
+const Edit = (props) => 
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -97,6 +95,7 @@ const Add = (props) =>
 	const [isNewPic, setIsNewPic] = useState(false);
 	const [imageType, setImageType] = useState('');
 	const [base64Data, setBase64Data] = useState('');
+	const [errors, setErrors] = useState({ sector: '', title: '', caption: '', desc: '', startDate: '', endDate: '', startTime: '', endTime: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -305,83 +304,61 @@ const Add = (props) =>
 			});
 		}
 
-		// Get the current array of records
-		// const data = await DbUtils.getItem('events');
-		// const parsedData = JSON.parse(data);
-	  
-		// // Update the record at the specified index
-		// const updatedData = parsedData.map((record, index) => {
-		//   if (index === Number(props.route.params.id)) {
-		// 	// This is the record to update
-		// 	return {
-		// 	  ...record,
-		// 	  display_image: state.displayImage,
-		// 	  event_title: state.title,
-		// 	  event_caption: state.caption,
-		// 	  event_desc: state.desc,
-		// 	  start_date: state.startDate,
-		// 	  end_date: state.endDate,
-		// 	  start_time: state.startTime,
-		// 	  end_ime: state.endTime,
-		// 	  loc_add_one: state.addressOne,
-		// 	  loc_add_two: state.addressTwo,
-		// 	  loc_city: state.city,
-		// 	  loc_province: state.province,
-		// 	  loc_zip_code: state.zipCode,
-		// 	};
-		//   } 
-		//   else 
-		//   {
-		// 	// This is not the record to update, so return it as is
-		// 	return record;
-		//   }
-		// });
-	  
-		// Save the updated array back to async-storage
-		// await DbUtils.setItem('events', JSON.stringify(updatedData));
-
-		// Send to server
-		// try 
-		// {
-		// 	const eventData = [{
-		// 		updateId: remoteId,
-		// 		sector: state.sector,
-		// 		display_image: state.displayImage,
-		// 		event_title: state.title,
-		// 		event_caption: state.caption,
-		// 		event_desc: state.desc,
-		// 		start_date: state.startDate,
-		// 		end_date: state.endDate,   
-		// 		start_time: state.startTime,   
-		// 		end_time: state.endTime,   
-		// 		loc_add_one: state.addressOne,
-		// 		loc_add_two: state.addressTwo,   
-		// 		loc_city: state.city,   
-		// 		loc_province: state.province,   
-		// 		loc_zip_code: state.zipCode,   
-		// 		updated: new Date().toLocaleDateString()
-		// 	}];
-		// 	let record = JSON.stringify(eventData);
-
-			// const res = await updEvent(token, record);
-			// console.log('Update promotion result: ', res);
-		// } 
-		// catch (error) 
-		// {
-		// 	console.error("XXX", error);
-		// 	Toast.show({
-		// 		type: 'error',
-		// 		position: 'bottom',
-		// 		text1: 'There was an error uploading the promotion',
-		// 		text2: 'Please try again.',
-		// 		visibilityTime: 4000,
-		// 		autoHide: true,
-		// 		topOffset: 30,
-		// 		bottomOffset: 40,
-		// 	});
-		// }
-        // props.navigation.navigate('BusProfProHome');
+		setIsUploading(false);
     }
+
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.sector)
+		{
+			tempErrors = { ...tempErrors, sector: 'Sector is required' };
+		}
+		if (!state.title || state.title === '')
+		{
+			tempErrors = { ...tempErrors, title: 'Title is required' };
+		}
+		if (!state.caption || state.caption === '')
+		{
+			tempErrors = { ...tempErrors, caption: 'Caption is required' };
+		}
+		if (!state.desc || state.desc === '')
+		{
+			tempErrors = { ...tempErrors, desc: 'Description is required' };
+		}
+		if (!state.startDate || state.startDate === '')
+		{
+			tempErrors = { ...tempErrors, startDate: 'Start date is required' };
+		}
+		if (!state.endDate || state.endDate === '')
+		{
+			tempErrors = { ...tempErrors, endDate: 'End date is required' };
+		}
+		if (!state.startTime || state.startTime === '')
+		{
+			tempErrors = { ...tempErrors, startTime: 'Start time is required' };
+		}
+		if (!state.endTime || state.endTime === '')
+		{
+			tempErrors = { ...tempErrors, endTime: 'End time is required' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmit();
+		} 
+	}
+
+	if (isUploading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
 
     return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -389,11 +366,13 @@ const Add = (props) =>
         <DividerTop />
 		<ScrollView style={{ flex: 1, width: '100%' }}>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
-					<View style={{ flex: 1, width: '100%' }} >
+					<Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
+
+					<View style={{ position: 'relative', flex: 1, width: '100%' }} >
 						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
+						{errors.sector && <Text style={[styles.error, { textAlign: 'left' }]}>{errors.sector}</Text>}
 					</View>
-                    <Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Event Display Picture</Text>
+                    <Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Event Display Picture</Text>
 
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
 						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
@@ -404,43 +383,77 @@ const Add = (props) =>
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						</Layout>
 					</TouchableOpacity>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<InputLabel label="Event Title" name="title" value={state.title} onChange={handleInputChange} status="basic" placeholder="Write title here" bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.title && <Text style={[styles.error]}>{errors.title}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<InputMultiline label="Event Caption" name="caption" value={state.caption} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your event" bg={errors.caption ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.caption && <Text style={[styles.error]}>{errors.caption}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<InputMultiline label="Event Description" name="desc" value={state.desc} onChange={handleInputChange} status="basic" placeholder="Write a longer description up to 500 characters about your event" bg={errors.desc ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.desc && <Text style={[styles.error]}>{errors.desc}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={16} />
+						<DateSelect name="startDate" value={state.startDate} onChange={handleInputChange} bg={errors.startDate ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.startDate && <Text style={[styles.error]}>{errors.startDate}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={16} />
+						<DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} bg={errors.endDate ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.endDate && <Text style={[styles.error]}>{errors.endDate}</Text>}
+					</View>
+
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Event Title" name="title" value={state.title} onChange={handleInputChange} status="basic" placeholder="Write title here" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Caption" name="caption" value={state.caption} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your event" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputMultiline label="Event Description" name="desc" value={state.desc} onChange={handleInputChange} status="basic" placeholder="Write a longer description up to 500 characters about your event" />
-                    <View style={{ marginTop: 15 }} />
-					<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={18} />
-                    <DateSelect name="startDate" value={state.startDate} onChange={handleInputChange} />
-                    <View style={{ marginTop: 15 }} />
-					<Label title="Event Start Date" textalign="left" mb={5} status="basic" fontsize={18} />
-                    <DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} />
-                    <View style={{ marginTop: 15 }} />
-					<Label title="Event Time" textalign="left" mb={5} status="basic" fontsize={18} />
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+					<Label title="Event Time" textalign="left" mb={5} status="basic" fontsize={16} />
+                    <View style={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }} >
 						<Text style={[MainStyles.title_a14, { textAlign: 'left', color: '#220622', width: 70, paddingEnd: 10 }]}>Starts:</Text>
                         <DropdownSingle name="startTime" data={data} value={state.startTime} onChange={handleInputChange} />
+						{errors.startTime && <Text style={[styles.error]}>{errors.startTime}</Text>}
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+
+                    <View style={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }} >
 						<Text style={[MainStyles.title_a14, { textAlign: 'left', color: '#220622', width: 70, paddingEnd: 10 }]}>Ends:</Text>
                         <DropdownSingle name="endTime" data={data} value={state.endTime} onChange={handleInputChange} />
+						{errors.endTime && <Text style={[styles.error]}>{errors.endTime}</Text>}
                     </View>
+
+
                     <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Event Location (Optional)" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" placeholder="Address 1" />
+                    <InputLabel label="Event Location (Optional)" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" placeholder="Address 1" bg="#f2f2f2"  />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange}  placeholder="Address 2" />
+                    <InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange}  placeholder="Address 2" bg="#f2f2f2" />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly name="city" value={state.city} onChange={handleInputChange}  placeholder="City" />
+                    <InputOnly name="city" value={state.city} onChange={handleInputChange}  placeholder="City" bg="#f2f2f2"  />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly name="province" value={state.province} onChange={handleInputChange}  placeholder="Province" />
+                    <InputOnly name="province" value={state.province} onChange={handleInputChange}  placeholder="Province" bg="#f2f2f2"  />
                     <View style={{ marginTop: 5 }} />
-                    <InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange}  placeholder="Zip code" />
-                    <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={handleSubmit}/>
+                    <InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange}  placeholder="Zip code" bg="#f2f2f2"  />
+                    <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={validateForm}/>
                 </Layout>
             </ScrollView>
         </SafeAreaView>
     );
 };
 
-export default Add;
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
+
+export default Edit;

@@ -17,7 +17,6 @@ export const ReviewCard = (props:any) =>
 	{
 		lastChar = props.lastName.charAt(0).toUpperCase();
 	} 
-	console.log('Fart props:', props.profilePic);
 
     return (
         <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="basic" onPress={() => props.onPress} >

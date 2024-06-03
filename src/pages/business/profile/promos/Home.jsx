@@ -49,6 +49,7 @@ const Home = (props) =>
     const [selectedTab, setSelectedTab] = useState(0);
 	const [promotions, setPromotions] = useState([]);
 	const [events, setEvents] = useState([]);
+	const [rating, setRating] = useState(0);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -106,6 +107,16 @@ const Home = (props) =>
 		setEvents(parsedData);
 	}
 
+	const getRating = async () => 
+	{
+		const rating = await DbUtils.getItem('rating')
+		.then((rating) => 
+		{
+			setRating(JSON.parse(rating));
+		});
+	
+	}
+
 	useFocusEffect(React.useCallback(() => 
 	{
 		const fetchProfile = async () => 
@@ -113,6 +124,7 @@ const Home = (props) =>
 			await getProfile();
 			await getPromotions();
 			await getEvents();
+			await getRating();
 		};
 
 		fetchProfile();
@@ -226,7 +238,7 @@ const Home = (props) =>
 					<View style={{ marginTop: 15 }} />
 					<IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
 					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
-					<IconText title="4.5 Rating - See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
+					<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
 					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} /> */}
 				</Layout>
 				<TabView

@@ -22,7 +22,7 @@ import { Icon } from '@ui-kitten/components';
       <Dropdown
 	  	name={props.name} 
 		mode="modal"
-        style={styles.dropdown}
+        style={[styles.dropdown]}
 		itemTextStyle={{ color: 'black' }}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
@@ -55,7 +55,7 @@ import { Icon } from '@ui-kitten/components';
       borderBottomColor: 'gray',
       borderBottomWidth: 0.5,
 	  color: 'black',
-	  flex: 1
+	  flex: 1,
     },
     icon: {
       marginRight: 5,

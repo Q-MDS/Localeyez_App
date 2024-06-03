@@ -104,7 +104,7 @@ const ReviewList = (props) =>
   							<ReviewCard key={index} profilePic={review.profile_pic} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
 						))
 						:
-							<Text>No reviews available</Text>
+							<Text style={[MainStyles.title_a16, { paddingTop: 20 }]}>No reviews available</Text>
 						}
                     </Layout>
                 </ScrollView>

@@ -3,17 +3,15 @@ import MainStyles from '../../../assets/styles/MainStyles';
 import DbUtils from '../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { register } from '../../../services/auth';
-import { TopNavArrowTitle } from '../../../components/TopNavArrowTitle';
-import { TitleTwo } from '../../../components/TitleTwo';
-import TextOne from '../../../components/TextOne';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
-import { SafeAreaView, View, Image } from 'react-native';
+import { SafeAreaView, View, Image, ActivityIndicator } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 const StepFour = (props) => 
 {
 	const [businessProfile, setBusinessProfile] = useState({});
 	const [businessSectors, setBusinessSectors] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
 	const [isReady, setIsReady] = useState(false);
 	const [isSaved, setIsSaved] = useState(false);
 	
@@ -52,45 +50,65 @@ const StepFour = (props) =>
 
     const handleGetStarted = async () => 
     {
-		const apiData = {business_profile: businessProfile, business_sectors: businessSectors};
-		const res = await register(apiData);
-
-		if (res.status)
+		try 
 		{
-			const businessId = res.data;
-			const token = res.token;
+			setIsLoading(true);
 
-			await DbUtils.setItem('business_id', JSON.stringify(businessId));
-			await DbUtils.setItem('token', JSON.stringify(token));
+			const apiData = {business_profile: businessProfile, business_sectors: businessSectors};
+			const res = await register(apiData);
 
-			Toast.show({
-				type: 'success',
-				position: 'bottom',
-				text1: 'Registration Successful',
-				text2: 'Thank you for registering.',
-				visibilityTime: 4000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
+			if (res.status)
+			{
+				const businessId = res.data;
+				const token = res.token;
 
-			props.navigation.navigate('BusProfProHome');
-		} 
-		else 
-		{
-			console.log('Sum Ting Wong');
+				await DbUtils.setItem('business_id', JSON.stringify(businessId));
+				await DbUtils.setItem('token', JSON.stringify(token));
 
-			Toast.show({
-				type: 'error',
-				position: 'bottom',
-				text1: 'Registration Failed',
-				text2: 'Please try again or contact support.',
-				visibilityTime: 4000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
+				Toast.show({
+					type: 'success',
+					position: 'bottom',
+					text1: 'Registration Successful',
+					text2: 'Thank you for registering.',
+					visibilityTime: 4000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+
+				props.navigation.navigate('BusProfProHome');
+			} 
+			else 
+			{
+				console.log('Sum Ting Wong');
+
+				Toast.show({
+					type: 'error',
+					position: 'bottom',
+					text1: 'Registration Failed',
+					text2: 'Please try again or contact support.',
+					visibilityTime: 4000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+			}
+
+			setIsLoading(false);
 		}
+		catch(error)
+		{
+			// Ooops sized error !!!
+		}
+    }
+
+	if (isLoading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
 
     return (

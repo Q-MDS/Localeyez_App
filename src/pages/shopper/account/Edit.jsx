@@ -226,6 +226,7 @@ const Edit = (props) =>
 			<TopNavBack title={`Edit Profile`} alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{ flex: 1, width: '100%' }}>
 				<Layout style={[MainStyles.layout_container ]}>
+				
 					<View style={{ position: 'relative', width: '100%' }} >
 						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.email && <Text style={styles.error}>{errors.email}</Text>}

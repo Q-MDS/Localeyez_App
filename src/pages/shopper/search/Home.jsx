@@ -148,20 +148,24 @@ const Home = (props) =>
 					if (res.status)
 					{
 						setBusinesses(res.businesses);
+						console.log('ELKELK: ', res.businesses, res.businesses.length);
 						setNumBusinesses(res.businesses.length);
 						setPromotions(res.promotions);
 						setNumPromotions(res.promotions.length);
 						setEvents(res.events);
 						setNumEvents(res.events.length);
-						// console.log('res.bus', res.businesses.length);
-						// console.log('res.promotions', res.promotions.length);
-						// console.log('res.events', res.events.length);
+						console.log('res.bus', res.businesses.length);
+						console.log('res.promotions', res.promotions.length);
+						console.log('res.events', res.events.length);
 					} 
 					else 
 					{
 						setBusinesses([]);
+						setNumBusinesses(0);
 						setPromotions([]);
+						setNumPromotions(0);
 						setEvents([]);
+						setNumEvents(0);
 						console.log('Search failed B: ', res.businesses);
 						console.log('Search failed P: ', res.promotions);
 						console.log('Search failed E: ', res.events);

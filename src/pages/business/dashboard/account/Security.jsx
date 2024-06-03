@@ -4,8 +4,8 @@ import Toast from 'react-native-toast-message';
 import { updCreds } from "../../../../services/api_helper";
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
-import { SafeAreaView, ScrollView, View } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import { Layout, Text } from "@ui-kitten/components";
 import { InputLabelPassword } from "../../../../components/InputLabelPassword";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
@@ -35,6 +35,7 @@ const Security = (props) =>
 	const [token, setToken] = useState('');
 	const [businessId, setBusinessId] = useState(0);
 	const [ready, setReady] = useState(false);
+	const [errors, setErrors] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -74,8 +75,6 @@ const Security = (props) =>
 
     const handleUpdate = async () => 
     {
-		// Only update the server
-		// TODO....
 		if (ready)
 		{
 			const apiRecord = [
@@ -122,20 +121,55 @@ const Security = (props) =>
         props.navigation.navigate('BusDashAccHome');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.oldPassword)
+		{
+			tempErrors = { ...tempErrors, oldPassword: 'Email is required' };
+		}
+		if (!state.newPassword)
+		{
+			tempErrors = { ...tempErrors, newPassword: 'Password is required' };
+		}
+		if (state.newPassword !== state.confirmPassword)
+		{
+			tempErrors = { ...tempErrors, confirmPassword: 'Passwords do not match' };
+		}
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleUpdate();
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Security" alignment="start" navigation={props.navigation} pops={1} />
 				<ScrollView style={{ flex: 1, width: '100%' }}>
 					<Layout style={ [MainStyles.column_container, {backgroundColor: 'white'}] }>
 						<View>
-							<InputLabelPassword label="Current Password" name="oldPassword" value={state.oldPassword} onChange={handleInputChange} status="basic" placeholder="Enter current password" />
-							<View style={{ marginTop: 15 }} />
-							<InputLabelPassword label="New Password" name="newPassword" value={state.newPassword} onChange={handleInputChange} status="basic" placeholder="Enter new password" />
-							<View style={{ marginTop: 15 }} />
-							<InputLabelPassword label="Confirm Password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} status="basic" placeholder="Retype password" />
+
+							<View style={{ position: 'relative', width: '100%' }} >
+								<InputLabelPassword label="Current Password" name="oldPassword" value={state.oldPassword} onChange={handleInputChange} status="basic" placeholder="Enter current password" bg={errors.oldPassword ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.oldPassword && <Text style={styles.error}>{errors.oldPassword}</Text>}
+							</View>
+
+							<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+								<InputLabelPassword label="New Password" name="newPassword" value={state.newPassword} onChange={handleInputChange} status="basic" placeholder="Enter new password" bg={errors.newPassword ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.newPassword && <Text style={styles.error}>{errors.newPassword}</Text>}
+							</View>
+							
+							<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+								<InputLabelPassword label="Confirm Password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} status="basic" placeholder="Retype password" bg={errors.confirmPassword ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+							</View>
+
 						</View>
 						<Layout style={{ flex: 1, width: '100%', marginTop: 60 }} >
-							<ButtonPrimary name="Update Password" width="100%" onpress={handleUpdate} />
+							<ButtonPrimary name="Update Password" width="100%" onpress={validateForm} />
 							<View style={{ marginTop: 15 }} />
 							<ButtonText name="Cancel" width="100%" onpress={handleCancel} />
 						</Layout>
@@ -144,6 +178,19 @@ const Security = (props) =>
 				</ScrollView>
         </SafeAreaView>
     )
-}
+};
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default Security;

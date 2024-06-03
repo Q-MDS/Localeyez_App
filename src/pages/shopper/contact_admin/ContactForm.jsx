@@ -4,9 +4,8 @@ import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { businesSupport } from "../../../services/api_helper";
 import { BotNavShopper } from "../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
 import { Layout, Divider, Text } from "@ui-kitten/components";
-import { TitleOne } from "../../../components/TitleOne";
 import { InputMultiline } from "../../../components/InputMultiline";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 
@@ -30,6 +29,7 @@ const ContactForm = (props) =>
     const [state, dispatch] = useReducer(reducer, initialState);
 	const [token, setToken] = useState('');
 	const [shopperId, setShopperId] = useState(0);
+	const [errors, setErrors] = useState({ message: '' });
 
 	function handleInputChange(name, newValue) 
 	{
@@ -108,6 +108,23 @@ const ContactForm = (props) =>
         props.navigation.navigate('ShopperContactConfirm');
     }
 
+	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.message || state.message === '')
+		{
+			tempErrors = { ...tempErrors, message: 'Required' };
+		}
+		
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSendMessage();
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<ScrollView style={{ flex: 1, width: '100%' }}>
@@ -117,9 +134,11 @@ const ContactForm = (props) =>
 						<Text style={[MainStyles.title_aaa, { textAlign: 'center' }]}>Contact Admin</Text>
 						<Text style={[MainStyles.title_a14, { textAlign: 'center', marginTop: 20 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
 						<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20, marginBottom: 20 }} />
-						{/* <Text style={[MainStyles.title_a18, { textAlign: 'left', marginTop: 20 }]}>Write a message to Admin</Text> */}
-						<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={300} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} />
-						<ButtonPrimary name="Send Message" width="100%" marginTop={30} onpress={handleSendMessage}/>
+						<View style={{ position: 'relative' }} >
+						<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={300} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} bg={errors.message ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.message && <Text style={styles.error}>{errors.message}</Text>}
+						</View>
+						<ButtonPrimary name="Send Message" width="100%" marginTop={30} onpress={validateForm}/>
 					</View>
 				</Layout>
 				<View style={{ flex: 1 }} />
@@ -129,5 +148,18 @@ const ContactForm = (props) =>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default ContactForm;

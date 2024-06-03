@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import DbUtils from "../../../../services/DbUtils";
+import MainStyles from "../../../../assets/styles/MainStyles";
 import { getBusinessNotifications } from "../../../../services/api_helper";
 import Toast from 'react-native-toast-message';
 import { TopNavBack } from "../../../../components/TopNavBack";
-import { Layout } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
 import { NotiCard } from "../../../../components/NotiCard";
@@ -61,29 +62,29 @@ const NotiList = (props) =>
 					// console.log('Notis:', res.data); asd
 					setNotifications(res.data);
 					console.log('res.data:', res.data);
-					Toast.show({
-						type: 'success',
-						position: 'bottom',
-						text1: 'Success',
-						text2: 'Notifications have been downloaded.',
-						visibilityTime: 1000,
-						autoHide: true,
-						topOffset: 30,
-						bottomOffset: 40,
-					});
+					// Toast.show({
+					// 	type: 'success',
+					// 	position: 'bottom',
+					// 	text1: 'Success',
+					// 	text2: 'Notifications have been downloaded.',
+					// 	visibilityTime: 1000,
+					// 	autoHide: true,
+					// 	topOffset: 30,
+					// 	bottomOffset: 40,
+					// });
 				} 
 				else 
 				{
-					Toast.show({
-						type: 'error',
-						position: 'bottom',
-						text1: 'Server error',
-						text2: 'There was a problen fetching notifications.',
-						visibilityTime: 1000,
-						autoHide: true,
-						topOffset: 30,
-						bottomOffset: 40,
-					});
+					// Toast.show({
+					// 	type: 'error',
+					// 	position: 'bottom',
+					// 	text1: 'Server error',
+					// 	text2: 'There was a problen fetching notifications.',
+					// 	visibilityTime: 1000,
+					// 	autoHide: true,
+					// 	topOffset: 30,
+					// 	bottomOffset: 40,
+					// });
 				}
 			}
 		}
@@ -115,10 +116,14 @@ const NotiList = (props) =>
 
 			<ScrollView style={styles.container}>
                 <Layout style={{ flex: 1, marginTop: 15 }}>
-					{notifications.map((item, index) => 
-					
+					{notifications.length > 0 
+					?
+					notifications.map((item, index) => (
 						<NotiCardBusiness key={index} pic={item.review_record.profile_pic} title={item.noti_title} desc={item.noti_detail} notiDate={item.noti_date} onPress={() => handleCardPress(item.review_record)} />
-					)}
+					))
+					:
+						<Text style={[MainStyles.title_a16, { paddingStart: 20 }]}>No notifications found</Text>
+					}
                 </Layout>
 				</ScrollView>
         </SafeAreaView>

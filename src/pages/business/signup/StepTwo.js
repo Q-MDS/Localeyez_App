@@ -221,7 +221,7 @@ const StepTwo = (props) =>
                     <View style={{ marginTop: 5 }} />
                     <InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} />
+                    <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} bg='#f2f2f2' />
 					
                     <View style={{ position: 'relative', marginTop: 15 }} >
 						<InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
@@ -244,27 +244,27 @@ const StepTwo = (props) =>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
 					</View>
-                    <InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" />
+                    <InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" bg='#f2f2f2' />
 					
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
 					</View>
-                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" />
+                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" bg='#f2f2f2' />
                     
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
 					</View>
-                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" />
+                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" bg='#f2f2f2' />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
 					</View>
-                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" />
+                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" bg='#f2f2f2' />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 						<Image source={require('../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
 					</View>
-                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" />
+                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" bg='#f2f2f2' />
 
                     <View style={{ marginTop: 25 }} />
                     <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>

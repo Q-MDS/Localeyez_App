@@ -72,42 +72,59 @@ const Login = (props) =>
 		// Auth on server
 		const res = await loginShopper(state.credOne, state.credTwo);
 		const status = res.status;
+		const credType = res.cred_type;
 
 		if (status)
 		{
-			const shopperId = res.shopper_id;
-			const token = res.token;
-			const shopperProfile = res.shopper_profile;
-			const shopperSectors = res.shopper_sectors;
+			if (credType === '1')
+			{
+				const shopperId = res.shopper_id;
+				const token = res.token;
+				const shopperProfile = res.shopper_profile;
+				const shopperSectors = res.shopper_sectors;
 
-			console.log('Login 1:', token);
-			console.log('Login 2:', shopperProfile);
+				console.log('Login 1:', token);
+				console.log('Login 2:', shopperProfile);
 
-			Toast.show({
-				type: 'success',
-				position: 'bottom',
-				text1: 'Login accepted',
-				text2: 'Going to the business dashboard',
-				visibilityTime: 1000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
-			
-			let jsonShopperId = JSON.stringify(shopperId);
-			await DbUtils.setItem('shopper_id', jsonShopperId);
-        	
-			let jsonToken = JSON.stringify(token);
-			await DbUtils.setItem('shopper_token', jsonToken);
+				Toast.show({
+					type: 'success',
+					position: 'bottom',
+					text1: 'Login accepted',
+					text2: 'Going to the business dashboard',
+					visibilityTime: 1000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+				
+				let jsonShopperId = JSON.stringify(shopperId);
+				await DbUtils.setItem('shopper_id', jsonShopperId);
+				
+				let jsonToken = JSON.stringify(token);
+				await DbUtils.setItem('shopper_token', jsonToken);
 
-			let jsonShopperProfile = JSON.stringify(shopperProfile);
-        	await DbUtils.setItem('shopper_profile', jsonShopperProfile);
+				let jsonShopperProfile = JSON.stringify(shopperProfile);
+				await DbUtils.setItem('shopper_profile', jsonShopperProfile);
 
-			// let jsonSectors = JSON.stringify(shopperSectors);
-        	// await DbUtils.setItem('shopper_sectors', jsonSectors);
-        	await DbUtils.setItem('shopper_sectors', shopperSectors);
+				// let jsonSectors = JSON.stringify(shopperSectors);
+				// await DbUtils.setItem('shopper_sectors', jsonSectors);
+				await DbUtils.setItem('shopper_sectors', shopperSectors);
 
-			props.navigation.navigate('ShopperHome');
+				props.navigation.navigate('ShopperHome');
+			} 
+			else if (credType === '0' || credType === '2')
+			{
+				Toast.show({
+					type: 'error',
+					position: 'bottom',
+					text1: 'Not a valid user login',
+					text2: 'Please try login as a business.',
+					visibilityTime: 4000,
+					autoHide: true,
+					topOffset: 30,
+					bottomOffset: 40,
+				});
+			}
 		} 
 		else 
 		{
@@ -135,29 +152,29 @@ const Login = (props) =>
     }
 
 	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.credOne)
 		{
-			let tempErrors = {};
-	
-			if (!state.credOne)
-			{
-				tempErrors = { ...tempErrors, userName: 'Username is required' };
-			}
-			else if (!/\S+@\S+\.\S+/.test(state.credOne))
-			{
-				tempErrors = { ...tempErrors, userName: 'Email address is not valid' };
-			}
-			if (!state.credTwo)
-			{
-				tempErrors = { ...tempErrors, password: 'Password is required' };
-			}
-			
-			setErrors(tempErrors);
-	
-			if (Object.keys(tempErrors).length === 0)
-			{
-				handleLogin();
-			}
+			tempErrors = { ...tempErrors, userName: 'Username is required' };
 		}
+		else if (!/\S+@\S+\.\S+/.test(state.credOne))
+		{
+			tempErrors = { ...tempErrors, userName: 'Email address is not valid' };
+		}
+		if (!state.credTwo)
+		{
+			tempErrors = { ...tempErrors, password: 'Password is required' };
+		}
+		
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleLogin();
+		}
+	}
 
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -174,15 +191,15 @@ const Login = (props) =>
 							{errors.password && <Text style={styles.error}>{errors.password}</Text>}
 						</View>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
-							<Layout >
+							{/*<Layout >
 								<Checkbox label="Remember me" />
 							</Layout>
-							<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
+							 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
 								<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>
 								<TouchableOpacity onPress={handleReset}>
 									<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
 								</TouchableOpacity>
-							</Layout>
+							</Layout> */}
 						</Layout>
 						<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >

@@ -88,10 +88,12 @@ const Login = (props: any) =>
 					const token = res.token;
 					const businessProfile = res.business_profile;
 					const businessSectors = res.business_sectors;
-					console.log('FRAKFRAK', businessSectors);
+					
 					const promotions = res.promotions;
 					const events = res.events;
+					const rating = res.rating;
 		
+					console.log('Rating:', rating);
 					console.log('Token at login:', token);
 		
 					Toast.show({
@@ -121,15 +123,31 @@ const Login = (props: any) =>
 		
 					let jsonEvents = JSON.stringify(events);
 					await DbUtils.setItem('events', jsonEvents);
+
+					let jsonRating = JSON.stringify(rating);
+					await DbUtils.setItem('rating', jsonRating);
 		
 					props.navigation.navigate('BusinessDashboard');
 				}
-				else 
+				else if (credType === '2')
 				{
 					const token = res.token;
 					let jsonToken = JSON.stringify(token);
 					await DbUtils.setItem('admin_token', jsonToken); 
 					props.navigation.navigate('AdminNewBusinessHome');
+				}
+				else 
+				{
+					Toast.show({
+						type: 'error',
+						position: 'bottom',
+						text1: 'Not a valid business login',
+						text2: 'Please try login as a user.',
+						visibilityTime: 4000,
+						autoHide: true,
+						topOffset: 30,
+						bottomOffset: 40,
+					});
 				}
 			} 
 			else 
@@ -233,7 +251,7 @@ const Login = (props: any) =>
 						{errors.password && <Text style={styles.error}>{errors.password}</Text>}
 					</View>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
-						<Layout style={{ flex: 1 }} >
+						{/* <Layout style={{ flex: 1 }} >
 							<Checkbox label="Remember me" />
 						</Layout>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
@@ -241,7 +259,7 @@ const Login = (props: any) =>
 							<TouchableOpacity onPress={handleReset}>
 								<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
 							</TouchableOpacity>
-						</Layout>
+						</Layout> */}
 					</Layout>
 					<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >

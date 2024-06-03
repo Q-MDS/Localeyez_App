@@ -188,6 +188,6 @@ const styles = StyleSheet.create({
         opacity: 0.5,
 		fontSize: 12,
     },
-  });
+});
 
 export default Security;

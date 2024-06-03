@@ -2,25 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 import { Input, Text } from '@ui-kitten/components';
 
-export const InputLabelNumpad = (props) => {
-
-	const renderLabel = () => {
-		if (props.label || props.label !== '') {
-			return(
-			<View>
-			<Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>{props.label}</Text>
-			</View>
-			);
-		} 
-		else 
-		{
-			return null;
-		}
-	};
-
+export const InputNumpad = (props) => 
+{
   	return (
     <Input
-        label={renderLabel}
         placeholder={props.placeholder}
         value={props.value}
         keyboardType="number-pad"

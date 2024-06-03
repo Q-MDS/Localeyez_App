@@ -3,11 +3,10 @@ import DbUtils from "../../../../services/DbUtils";
 import { updBusinessInfo } from "../../../../services/api_helper";
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
-import { SafeAreaView, ScrollView, View } from "react-native";
-import { Layout } from "@ui-kitten/components";
+import { SafeAreaView, View, StyleSheet } from "react-native";
+import { Layout, Text } from "@ui-kitten/components";
 import { InputLabelEmail } from "../../../../components/InputLabelEmail";
 import { InputLabel } from "../../../../components/InputLabel";
-import { InputLabelNumpad } from "../../../../components/InputLabelNumpad";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { InputPhoneNumber } from "../../../../components/InputPhoneNumber";
 import { Label } from "../../../../components/Label";
@@ -35,6 +34,7 @@ const Edit = (props) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
+	const [errors, setErrors] = useState({ email: '', firstName: '', lastName: '', contactNumber: '' });
 
 	const getProfile = async () => 
 	{
@@ -138,27 +138,86 @@ const Edit = (props) =>
         props.navigation.navigate('BusDashAccHome');
     }
 
+	const validateForm = () => 
+		{
+			let tempErrors = {};
+	
+			if (!state.email)
+			{
+				tempErrors = { ...tempErrors, email: 'Email is required' };
+			}
+			else if (!/\S+@\S+\.\S+/.test(state.email))
+			{
+				tempErrors = { ...tempErrors, email: 'Email address is not valid' };
+			}
+			if (!state.firstName)
+			{
+				tempErrors = { ...tempErrors, firstName: 'First Name is required' };
+			}
+			if (!state.lastName)
+			{
+				tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
+			}
+			if (!state.contactNumber)
+			{
+				tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+			}
+			setErrors(tempErrors);
+	
+			if (Object.keys(tempErrors).length === 0)
+			{
+				handleSubmit();
+			}
+		}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			{/* <ScrollView style={{ flex: 1, width: '100%' }}> */}
 			<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
                 <Layout style={[MainStyles.column_container, {flex: 1, paddingBottom: 30} ]}>
-					<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-                    <InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" />
-                    <View style={{ marginTop: 15 }} />
-					<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={18} />
-					<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" />
+
+					<View style={{ position: 'relative', width: '100%' }} >
+						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+                    	<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+					</View>
+
+                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={16} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+					</View>
+
                     <View style={{ flex: 1 }} />
 					<Layout style={{ marginTop: 50, }} >
-                        <ButtonPrimary name="Submit Changes" width="100%" onpress={handleSubmit} />
+                        <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
                     </Layout>
                 </Layout>
 			{/* </ScrollView> */}
         </SafeAreaView>
     )
-}
+};
+
+const styles = StyleSheet.create({
+	error: {
+		position: 'absolute',
+		top: 1,
+		right: 0,
+		textAlign: 'right',
+        width: '100%',
+        color: 'red',
+        opacity: 0.5,
+		fontSize: 12,
+    },
+});
 
 export default Edit;

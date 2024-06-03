@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import MainStyles from '../../../../../assets/styles/MainStyles';
 import DbUtils from '../../../../../services/DbUtils';
 import Toast from 'react-native-toast-message';
 import { getBusinessReviews } from '../../../../../services/api_helper';
@@ -50,39 +51,39 @@ const List = (props:any) =>
 		
 		const res = await getBusinessReviews(token, apiData);
 		const status = res.status;
-		console.log('Reviews: ', res.data.reviews);
+		
 		if (status)
 		{
 			setAverageRating(res.data.average_rating);
 			setReviews(res.data.reviews);
 			setGotReviews(true);
 			
-			Toast.show({
-				type: 'success',
-				position: 'bottom',
-				text1: 'Success',
-				text2: 'Reviews have been downloaded.',
-				visibilityTime: 1000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
+			// Toast.show({
+			// 	type: 'success',
+			// 	position: 'bottom',
+			// 	text1: 'Success',
+			// 	text2: 'Reviews have been downloaded.',
+			// 	visibilityTime: 1000,
+			// 	autoHide: true,
+			// 	topOffset: 30,
+			// 	bottomOffset: 40,
+			// });
 
 		} 
 		else 
 		{
 			setGotReviews(false);
 
-			Toast.show({
-				type: 'error',
-				position: 'bottom',
-				text1: 'Server error',
-				text2: 'There was a problen fetching reviews.',
-				visibilityTime: 1000,
-				autoHide: true,
-				topOffset: 30,
-				bottomOffset: 40,
-			});
+			// Toast.show({
+			// 	type: 'error',
+			// 	position: 'bottom',
+			// 	text1: 'Server error',
+			// 	text2: 'There was a problen fetching reviews.',
+			// 	visibilityTime: 1000,
+			// 	autoHide: true,
+			// 	topOffset: 30,
+			// 	bottomOffset: 40,
+			// });
 		}
 	}
 
@@ -124,12 +125,16 @@ const List = (props:any) =>
 		<ScrollView>
 			<Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', padding: 15, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', width: '100%' }}>
 				<Text>Reviews</Text>
-				
-				{reviews && reviews.map((review: { first_name: any; last_name: any; rating: any; review_title: any; review_desc: any; }, index: React.Key | null | undefined) => (
+				{reviews.length > 0 
+				?
+				reviews.map((review: { first_name: any; last_name: any; rating: any; review_title: any; review_desc: any; }, index: React.Key | null | undefined) => (
 					<TouchableOpacity key={index} style={{ flexDirection: 'row' }} onPress={() => handelViewReview(review)}>
 						<ReviewCard key={index} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc.length > 100 ? review.review_desc.substring(0, 100) + '...' : review.review_desc} />
 					</TouchableOpacity>
-				))}
+				))
+				:
+					<Text style={[MainStyles.title_a16, { paddingTop: 20 }]}>No reviews available</Text>
+				}
 			</Layout>
 		</ScrollView>
 		<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>

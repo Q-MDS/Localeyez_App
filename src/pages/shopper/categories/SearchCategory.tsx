@@ -145,7 +145,7 @@ const SearchCategory = (props:any) =>
 			</View>
 		);
 	}
-
+console.log('Business length: ', businesses.length);
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 		<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
@@ -161,11 +161,12 @@ const SearchCategory = (props:any) =>
 									<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
 										<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
 											<View style={styles.listIcon}>
-												<Image source={{ uri: business.profile_pic }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												<Image source={business && business.profile_pic ? { uri: business.profile_pic } : require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
 											</View>
 											<View style={styles.listContent}>
-												<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{business.company_name} </Text>
-												<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{business.business_bio} </Text>
+												<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{business && business.company_name} </Text>
+												<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{business && business.business_bio} </Text>
 											</View>
 										</View>
 									</TouchableOpacity>

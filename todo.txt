@@ -204,27 +204,28 @@ FORM VAILDATION TODO LIST
 SHOPPER
 1. Edit profile - DONE
 2. Security  - DONE
-3. Contact admin
-4. Write a review
+3. Contact admin - DONE
+4. Write a review - DONE
 
 BUSINESS
-1. Edit profile - account
-2. Security - account
-3. Contact admin
-4. Edit profile - profile
-5. Add event
-6. Edit event
-7. Add promotions
-8. Edit promotion
-
+1. Edit profile - account - DONE
+2. Security - account - DONE
+3. Contact admin - DONE
+4. Edit profile - profile - DONE
+5. Add event - DONE
+6. Edit event - DONE
+7. Add promotions - DONE
+8. Edit promotion - DONE
+9. Business > Add-edit promo & event - make price inputs numpad - DONE
 
 
 
 OTHER
 1. Edit interests - fix colors ? Same on business - profile > business sectors
-2. Get privacy policy off Apple Thingy
-3. Remember me (do or hide for v1)
+2. Get privacy policy off Apple Thingy - WHACK - DONE
+3. Remember me (do or hide for v1) - DONE
 4. Business > Profile > Promo home: Hide/fix see all reviews
 5. Check why "wrong" email address lands up on business login page: business_master and app_users have 2 different email addresses and the bus_mast is being prepoulated
 6. Ref pt 5. Should shopper's username also pre populate? - SEEMS TO BE WORKING
 7. Verified member - new look etc - DONE
+8. Get rating down from server - DONE
