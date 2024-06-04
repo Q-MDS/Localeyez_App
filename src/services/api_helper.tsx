@@ -190,3 +190,23 @@ export const getViewBusiness =  async (token: string, data: any) =>
 
 	return response.data;
 }
+
+export const closeBusinessAccount = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/close_business/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+
+	return response.data;
+}
+
+export const closeShopperAccount = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/close_shopper/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+
+	return response.data;
+}

@@ -82,20 +82,6 @@ const StepTwo = (props) =>
 					wwwUrl: JSON.parse(profile).sm_www,
 				},
 			});
-            // setContactNumber(JSON.parse(profile).contact_number);
-            // setCompanyName(JSON.parse(profile).company_name);
-            // setAddressOne(JSON.parse(profile).location[0].address_one);
-            // setAddressTwo(JSON.parse(profile).location[0].address_two);
-            // setCity(JSON.parse(profile).location[0].city);
-            // setProvince(JSON.parse(profile).location[0].province);
-            // setZipCode(JSON.parse(profile).location[0].zip);
-            // setBusinessBio(JSON.parse(profile).business_bio);
-            // setXUrl(JSON.parse(profile).sm_x);
-            // setInstagramUrl(JSON.parse(profile).sm_inst);
-            // setFacebookUrl(JSON.parse(profile).sm_fb);
-            // setLinkedinUrl(JSON.parse(profile).sm_linkedin);
-            // setWwwUrl(JSON.parse(profile).sm_www);
-            // setIsLocal(JSON.parse(profile).isLocal);
 
             setIsLoading(false);
         });
@@ -159,10 +145,10 @@ const StepTwo = (props) =>
 	{
 		let tempErrors = {};
 
-		if (!state.contactNumber)
-		{
-			tempErrors = { ...tempErrors, contactNumber: 'Required' };
-		}
+		// if (!state.contactNumber)
+		// {
+		// 	tempErrors = { ...tempErrors, contactNumber: 'Required' };
+		// }
 		if (!state.companyName)
 		{
 			tempErrors = { ...tempErrors, companyName: 'Company Name is required' };
@@ -208,12 +194,12 @@ const StepTwo = (props) =>
 					</View>
 
                     <View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabel label="Company" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
+						<InputLabel label="Company *" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
 					</View>
 					
 					<View style={{ marginTop: 15 }} />
-                    <InputLabel label="Location" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
+                    <InputLabel label="Location *" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
                     <InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
                     <View style={{ marginTop: 5 }} />
@@ -224,7 +210,7 @@ const StepTwo = (props) =>
                     <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} bg='#f2f2f2' />
 					
                     <View style={{ position: 'relative', marginTop: 15 }} >
-						<InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
+						<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
 					</View>
 					

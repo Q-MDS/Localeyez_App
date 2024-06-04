@@ -1,15 +1,77 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import DbUtils from '../../../../services/DbUtils';
+import { closeBusinessAccount } from '../../../../services/api_helper';
 import MainStyles from '../../../../assets/styles/MainStyles';
-import { SafeAreaView, View, Image } from 'react-native';
+import { SafeAreaView, View, Image, ActivityIndicator } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { ButtonText } from '../../../../components/ButtonText';
 
 const CloseAccount = (props) => 
 {
-    const handleDelete = () => 
+	const [businessId, setBusinessId] = useState('');
+	const [token, setToken] = useState('');
+	const [isLoading, setIsLoading] = useState(true);
+
+	const getBusniessId = async () => 
+	{
+		await DbUtils.getItem('business_id')
+		.then((id) => 
+		{
+			setBusinessId(JSON.parse(id));
+		});
+	}
+
+	const getToken = async () => 
+	{
+		const token = await DbUtils.getItem('token')
+		.then((token) => 
+		{
+			setToken(JSON.parse(token));
+		});
+	}
+
+	useEffect(() => 
+	{
+		const fetchProfile = async () => 
+		{
+			await getBusniessId();
+			await getToken();
+		};
+
+		fetchProfile();
+	}, []);
+
+	const clearAsyncStorage = async () => 
+	{
+		await DbUtils.clear()
+		.then(() =>
+		{
+			props.navigation.navigate('LoginBusiness');
+		});
+	}
+
+    const handleDelete = async () => 
     {
-        props.navigation.navigate('LoginBusiness');
+		const data = 
+		{
+			business_id: businessId,
+		}
+
+		try 
+		{
+			await closeBusinessAccount(token, data)
+			.then((res) =>
+			{
+				// Clear aync storage
+				clearAsyncStorage();
+				console.log('Business profile updated: ', res);
+			});
+		}
+		catch (error)
+		{
+			console.log('Server or network error: ', error);
+		}
     }
 
     const handleKeep = () => 

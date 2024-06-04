@@ -209,10 +209,10 @@ const Edit = (props) =>
 		{
 			tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
 		}
-		if (!state.contactNumber)
-		{
-			tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
-		}
+		// if (!state.contactNumber)
+		// {
+		// 	tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		// }
 		setErrors(tempErrors);
 
 		if (Object.keys(tempErrors).length === 0)
@@ -228,17 +228,17 @@ const Edit = (props) =>
 				<Layout style={[MainStyles.layout_container ]}>
 				
 					<View style={{ position: 'relative', width: '100%' }} >
-						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
 					</View>
 
 					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-						<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name"  bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'}/>
+						<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name"  bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'}/>
 						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
 					</View>
 
 					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-						<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+						<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
 					</View>
 

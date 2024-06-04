@@ -347,10 +347,10 @@ const Edit = (props) =>
 		console.log('Validate Me ', state.contactNumber, state.companyName, state.addressOne, state.addressTwo, state.city, state.province, state.businessBio);
 		let tempErrors = {};
 
-		if (!state.contactNumber)
-		{
-			tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
-		}
+		// if (!state.contactNumber)
+		// {
+		// 	tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		// }
 		if (!state.companyName || state.companyName === '')
 		{
 			tempErrors = { ...tempErrors, companyName: 'Company name is required' };
@@ -417,12 +417,12 @@ const Edit = (props) =>
 					</View>
 
                     <View style={{ position: 'relative', marginTop: 15 }} >
-                    	<InputLabel label="Company Name" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
+                    	<InputLabel label="Company Name *" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
 					</View>
 
                     <View style={{ position: 'relat', marginTop: 15 }} >
-						<Label title="Location" textalign="left" mb={5} status="basic" fontsize={16} />
+						<Label title="Location *" textalign="left" mb={5} status="basic" fontsize={16} />
 						<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
 						{/* {errors.addressOne && <Text style={styles.error}>{errors.addressOne}</Text>} */}
 					</View>
@@ -445,7 +445,7 @@ const Edit = (props) =>
 					<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
 
                     <View style={{ position: 'relative', marginTop: 15 }} >
-                    	<InputMultiline label="Business Bio" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
+                    	<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
 					</View>
 

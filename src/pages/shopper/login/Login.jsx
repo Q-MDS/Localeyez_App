@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
 import DbUtils from '../../../services/DbUtils';
@@ -12,7 +13,7 @@ import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet  } from 'r
 import { Layout, Text } from '@ui-kitten/components';
 
 const initialState = {
-	// credOne: "Harry@gmail.com",
+	// credOne: "Harry@gmail.com",a
 	// credTwo: "1",
 	credOne: "",
 	credTwo: "",
@@ -48,22 +49,41 @@ const Login = (props) =>
 		const profile = await DbUtils.getItem('shopper_profile')
         .then((profile) => 
         {
-			console.log('Profile:', profile);
-			if (profile === null) return;
-			dispatch(
+			if (profile === null)
 			{
-				type: 'SHOPPER_LOGIN',
-				payload: 
+				dispatch(
 				{
-					credOne: JSON.parse(profile).email,
-				},
-			});
+					type: 'SHOPPER_LOGIN',
+					payload: 
+					{
+						credOne: '',
+						credTwo: '',
+					},
+				});
+			} 
+			else 
+			{
+				dispatch(
+				{
+					type: 'SHOPPER_LOGIN',
+					payload: 
+					{
+						credOne: JSON.parse(profile).email,
+						credTwo: '',
+					},
+				});
+			}
         });
 	}
 
-	useEffect(() => {
+	useFocusEffect(React.useCallback(() => 
+	{
 		getProfile();
-	}, []);
+	}, []));
+
+	// useEffect(() => {
+	// 	getProfile();ada
+	// }, []);
 
     const handleLogin = async () => 
     {

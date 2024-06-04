@@ -139,36 +139,36 @@ const Edit = (props) =>
     }
 
 	const validateForm = () => 
+	{
+		let tempErrors = {};
+
+		if (!state.email)
 		{
-			let tempErrors = {};
-	
-			if (!state.email)
-			{
-				tempErrors = { ...tempErrors, email: 'Email is required' };
-			}
-			else if (!/\S+@\S+\.\S+/.test(state.email))
-			{
-				tempErrors = { ...tempErrors, email: 'Email address is not valid' };
-			}
-			if (!state.firstName)
-			{
-				tempErrors = { ...tempErrors, firstName: 'First Name is required' };
-			}
-			if (!state.lastName)
-			{
-				tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
-			}
-			if (!state.contactNumber)
-			{
-				tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
-			}
-			setErrors(tempErrors);
-	
-			if (Object.keys(tempErrors).length === 0)
-			{
-				handleSubmit();
-			}
+			tempErrors = { ...tempErrors, email: 'Email is required' };
 		}
+		else if (!/\S+@\S+\.\S+/.test(state.email))
+		{
+			tempErrors = { ...tempErrors, email: 'Email address is not valid' };
+		}
+		if (!state.firstName)
+		{
+			tempErrors = { ...tempErrors, firstName: 'First Name is required' };
+		}
+		if (!state.lastName)
+		{
+			tempErrors = { ...tempErrors, lastName: 'Last Name is required' };
+		}
+		// if (!state.contactNumber)
+		// {
+		// 	tempErrors = { ...tempErrors, contactNumber: 'Contact number is required' };
+		// }
+		setErrors(tempErrors);
+
+		if (Object.keys(tempErrors).length === 0)
+		{
+			handleSubmit();
+		}
+	}
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -177,17 +177,17 @@ const Edit = (props) =>
                 <Layout style={[MainStyles.column_container, {flex: 1, paddingBottom: 30} ]}>
 
 					<View style={{ position: 'relative', width: '100%' }} >
-						<InputLabelEmail label="Email" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+						<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
 					</View>
 
                     <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                    	<InputLabel label="First Name" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
+                    	<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
 					</View>
 
                     <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                    	<InputLabel label="Last Name" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+                    	<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
 					</View>
 

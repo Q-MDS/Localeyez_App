@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
 import DbUtils from '../../../services/DbUtils';
@@ -52,22 +53,42 @@ const Login = (props: any) =>
 		.then((profile:any) => 
 		{
 			console.log('Profile:', profile);
-			if (profile === null) return;
-			dispatch(
+			if (profile === null)
 			{
-				type: 'BUSINESS_LOGIN',
-				payload: 
+				dispatch(
 				{
-					credOne: JSON.parse(profile).email,
-				},
-			});
+					type: 'BUSINESS_LOGIN',
+					payload: 
+					{
+						credOne: '',
+						credTwo: '',
+					},
+				});
+			}
+			else 
+			{
+				dispatch(
+				{
+					type: 'BUSINESS_LOGIN',
+					payload: 
+					{
+						credOne: JSON.parse(profile).email,
+						credTwo: '',
+					},
+				});
+			}
 		});
 	}
 
-	useEffect(() => 
+	useFocusEffect(React.useCallback(() => 
 	{
 		getProfile();
-	}, []);
+	}, []));
+
+	// useEffect(() => 
+	// {
+	// 	getProfile();
+	// }, []);
 
     const handleLogin = async () => 
     {
