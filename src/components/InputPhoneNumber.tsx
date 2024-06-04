@@ -1,17 +1,16 @@
 import React from 'react';
-import { TextInputMask } from 'react-native-masked-text';
+import { Input, Text } from '@ui-kitten/components';
 
 export const InputPhoneNumber = (props: any) => 
 {
   	return (
-		<TextInputMask 
-		type={'custom'} 
-		options={{ mask: '+9999 999 9999' }} 
-		value={props.value} 
-		onChangeText={(newValue) => props.onChange(props.name, newValue)} 
-		placeholder={props.placeholder} 
-		placeholderTextColor="#929ab1"
-		keyboardType="phone-pad" 
-		style={{ color: '#000000', borderColor: '#e6e9f2', borderWidth: 0, width: '100%', padding: 10, paddingStart: 10, borderRadius: 5, backgroundColor: props.bg }} />
+		<Input
+        placeholder={props.placeholder}
+        value={props.value}
+        keyboardType="phone-pad"
+		textStyle={{ height: 35,paddingStart: 0, marginStart: 0}}
+        style={{ marginTop: props.mt, marginBottom: props.mb, width: props.width, backgroundColor: props.bg}}
+        onChangeText={(newValue) => props.onChange(props.name, newValue)} 
+    />
   	);
 };

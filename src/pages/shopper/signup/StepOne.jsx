@@ -389,7 +389,7 @@ const StepOne = (props) =>
 					
 					<View style={{ position: 'relative', marginTop: 15 }} >
 						<Label title="Contact Number" status="basic" mb={5} fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
                     </View>
 					

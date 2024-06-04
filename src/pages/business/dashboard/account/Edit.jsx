@@ -193,7 +193,7 @@ const Edit = (props) =>
 
                     <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
 						<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Enter contact number e.g.+27821112222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
 					</View>
 

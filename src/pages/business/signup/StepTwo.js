@@ -203,7 +203,7 @@ const StepTwo = (props) =>
 
 					<View style={{ position: 'relative' }} >
                     	<Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="+2782 111 2222" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Contact Number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
 					</View>
 
