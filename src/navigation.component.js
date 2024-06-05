@@ -92,6 +92,22 @@ import SearchBusinessReviewView from './pages/shopper/search/business/reviews/Vi
 import SearchBusinessReviewWrite from './pages/shopper/search/business/reviews/WriteReview.tsx'
 import SearchBusinessReviewWriteConfirm from './pages/shopper/search/business/reviews/WriteConfirm.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import BrowseHome from './pages/browse/Home';
+import BrowseRegister from './pages/browse/Register';
+import BrowseTravel from './pages/browse/Travel';
+import BrowseProperty from './pages/browse/Property';
+import BrowseCommunity from './pages/browse/Community';
+import BrowseEducation from './pages/browse/Education';
+import BrowseHealth from './pages/browse/Health';
+import BrowseServices from './pages/browse/Services';
+import BrowseEntertainment from './pages/browse/Entertainment';
+import BrowseShopping from './pages/browse/Shopping';
+import BrowseSearch from './pages/browse/SearchCategory';
+import BrowseViewBus from './pages/browse/business/Home';
+import BrowseBusReviews from './pages/browse/business/reviews/List';
+import BrowseBusReviewsView from './pages/browse/business/reviews/ViewReview';
+import BrowseViewPro from './pages/browse/promotion/Home';
+import BrowseViewEvt from './pages/browse/event/Home';
 
 
 const {Navigator, Screen} = createStackNavigator();
@@ -186,10 +202,25 @@ const HomeNavigator = () => (
     <Screen name="SearchBusinessReviewView" component={SearchBusinessReviewView} />
     <Screen name="SearchBusinessReviewWrite" component={SearchBusinessReviewWrite} />
     <Screen name="SearchBusinessReviewWriteConfirm" component={SearchBusinessReviewWriteConfirm} />
-
     <Screen name="SearchPromotionView" component={SearchPromotionView} />
     <Screen name="SearchEventView" component={SearchEventView} />
     <Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+    <Screen name="BrowseHome" component={BrowseHome} />
+    <Screen name="BrowseRegister" component={BrowseRegister} />
+    <Screen name="BrowseTravel" component={BrowseTravel} />
+    <Screen name="BrowseProperty" component={BrowseProperty} />
+    <Screen name="BrowseCommunity" component={BrowseCommunity} />
+    <Screen name="BrowseEducation" component={BrowseEducation} />
+    <Screen name="BrowseHealth" component={BrowseHealth} />
+    <Screen name="BrowseServices" component={BrowseServices} />
+    <Screen name="BrowseEntertainment" component={BrowseEntertainment} />
+    <Screen name="BrowseShopping" component={BrowseShopping} />
+    <Screen name="BrowseSearch" component={BrowseSearch} />
+    <Screen name="BrowseViewBus" component={BrowseViewBus} />
+    <Screen name="BrowseBusReviews" component={BrowseBusReviews} />
+    <Screen name="BrowseBusReviewsView" component={BrowseBusReviewsView} />
+    <Screen name="BrowseViewPro" component={BrowseViewPro} />
+    <Screen name="BrowseViewEvt" component={BrowseViewEvt} />
   </Navigator>
 );
 

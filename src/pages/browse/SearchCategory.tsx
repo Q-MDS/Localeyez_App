@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import DbUtils from '../../../services/DbUtils';
+import DbUtils from '../../services/DbUtils';
 import Toast from 'react-native-toast-message';
-import MainStyles from '../../../assets/styles/MainStyles';
-import { searchByCategory } from '../../../services/api_search';
+import MainStyles from '../../assets/styles/MainStyles';
+import { searchByCategory } from '../../services/api_search';
+import { browseByCategory } from '../../services/api_search';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Tab, TabView, Text } from '@ui-kitten/components';
-import { TopNavBack } from '../../../components/TopNavBack';
-import { BotNavShopper } from '../../../components/BotNavShopper';
-import TextTwo from '../../../components/TextTwo';
+import { TopNavBack } from '../../components/TopNavBack';
+import { BotNavShopper } from '../../components/BotNavShopper';
+import { BotNavBrowse } from '../../components/BotNavBrowse';
+import TextTwo from '../../components/TextTwo';
 
 const SearchCategory = (props:any) => 
 {
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [token, setToken] = useState('');
-	const [shopperId, setShopperId] = useState('');
+	// const [token, setToken] = useState('');
+	// const [shopperId, setShopperId] = useState('');
 	const [isReady, setIsReady] = useState(false);
 	const [searchSector, setSearchSector] = useState('');
 	const [searchType, setSearchType] = useState('');
@@ -27,20 +29,6 @@ const SearchCategory = (props:any) =>
 	const [numEvents, setNumEvents] = useState(0);
 	const [isLoading, setIsLoading] = useState(true);
 
-	const getToken = async () => 
-	{
-		const getToken = await DbUtils.getItem('shopper_token');
-		const parsedToken = getToken ? JSON.parse(getToken) : null;
-		setToken(parsedToken);
-	}
-
-	const getShopperId = async () => 
-	{
-		const id = await DbUtils.getItem('shopper_id');
-		const parsedId = id ? JSON.parse(id) : null;
-		
-		setShopperId(parsedId);
-	}
 	useEffect(() => 
 	{
 		setSearchSector(props.route.params.searchSector);
@@ -50,8 +38,6 @@ const SearchCategory = (props:any) =>
 		
 		const getParams = async () =>
 		{
-			await getToken();
-			await getShopperId();
 			setIsReady(true);
 		}
 
@@ -61,16 +47,16 @@ const SearchCategory = (props:any) =>
 	const fetchSearchResults = async () => 
 	{
 		setIsLoading(true);
-		console.log('Fetching search results: ', searchSector, " > ",  searchType, " >> ", category, " >>> ", categoryItem);
-		const apiData = {shopper_id: shopperId, search_sector: searchSector, search_type: searchType, category: category, category_item: categoryItem};
 		
-		const res = await searchByCategory(token, apiData);
+		const data = {search_sector: searchSector, search_type: searchType, category: category, category_item: categoryItem};
+		
+		const res = await browseByCategory(data);
 		const status = res.status;
-		console.log('Results: ', res);
+
+
+		console.log('OOOOPPPPSSSSSS: ', res);
 		if (status)
 		{
-			// setAverageRating(res.data.average_rating);
-			// setReviews(res.data.reviews);
 			setBusinesses(res.businesses);
 			setNumBusinesses(res.businesses.length);
 			setPromotions(res.promotions);
@@ -124,17 +110,17 @@ const SearchCategory = (props:any) =>
 
 	const handeleViewBusiness = (business: { profile_pic: any; company_name: any; business_bio: any; }) => 
 		{
-			props.navigation.navigate('SearchBusinessView', { business: business });
+			props.navigation.navigate('BrowseViewBus', { business: business });
 	}
 	
 	const handeleViewPromotion = (promotion: any) => 
 	{
-		props.navigation.navigate('SearchPromotionView', { promotion: promotion });
+		props.navigation.navigate('BrowseViewPro', { promotion: promotion });
 	}
 
 	const handeleViewEvent = (event: any) => 
 	{
-		props.navigation.navigate('SearchEventView', { event: event });
+		props.navigation.navigate('BrowseViewEvt', { event: event });
 	}
 
 	if (isLoading) 
@@ -161,7 +147,7 @@ console.log('Business length: ', businesses.length);
 									<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
 										<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
 											<View style={styles.listIcon}>
-												<Image source={business && business.profile_pic ? { uri: business.profile_pic } : require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												<Image source={business && business.profile_pic ? { uri: business.profile_pic } : require('../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
 												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
 											</View>
 											<View style={styles.listContent}>
@@ -221,7 +207,7 @@ console.log('Business length: ', businesses.length);
 						</View>
 					</Tab>
 				</TabView>
-        <BotNavShopper selected={0} />
+        <BotNavBrowse selected={0} />
         </SafeAreaView>
 	)
 }

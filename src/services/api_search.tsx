@@ -94,3 +94,19 @@ export const searchByCategory = async (token: string, data: any) =>
 		return false;
 	}
 }
+
+export const browseByCategory = async (data: any) => 
+{
+	try 
+	{
+		const response = await api.post('/api/browse/', data, {});
+
+		return response.data;
+	} 
+	catch (error) 
+	{
+		console.error(error);
+	
+		return false;
+	}
+}

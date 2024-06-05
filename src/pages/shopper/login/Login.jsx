@@ -224,7 +224,7 @@ const Login = (props) =>
 						<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >
 							<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
-							<TouchableOpacity onPress={handleSignup} >
+							<TouchableOpacity onPress={handleSignup} accessibilityLabel='Tap to signup' >
 								<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Sign up</Text>
 							</TouchableOpacity>
 						</Layout>
