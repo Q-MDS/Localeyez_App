@@ -22,7 +22,7 @@ export const BotNavBrowse = (props) =>
 	{
 		Alert.alert(
 			"Feature",
-			"User dashboard options:\n\n- View notifications\n- Manage your account\n- Advanced search\n- Your reviews\n- Contact admin",
+			"User dashboard options:\n\n- View notifications\n- Manage your account\n- Advanced search\n- Your reviews\n- Contact admin\n\nSignup to enable this feature.",
 			[
 				{
 				text: "Ok",
@@ -38,7 +38,7 @@ export const BotNavBrowse = (props) =>
 	{
 		Alert.alert(
 			"Feature",
-			"Search screen:\n\n- Search by geo-range\n- Search by date range\n- Search by category",
+			"Search screen:\n\n- Search by geo-range\n- Search by date range\n- Search by category\n\nSignup to enable this feature.",
 			[
 				{
 				text: "Ok",
@@ -54,7 +54,7 @@ export const BotNavBrowse = (props) =>
 	{
 		Alert.alert(
 			"Feature",
-			"Your reviews:\n\n- View reviews you have made",
+			"Your reviews:\n\n- View reviews you have made.\n\nSignup to enable this feature.",
 			[
 				{
 				text: "Ok",
@@ -70,7 +70,7 @@ export const BotNavBrowse = (props) =>
 	{
 		Alert.alert(
 			"Feature",
-			"Contact Admin/Support",
+			"Contact support. \n\nSignup to enable this feature.",
 			[
 				{
 				text: "Ok",

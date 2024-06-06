@@ -34,7 +34,7 @@ export const TopNavBrowseDashboard = (props) =>
 	{
 		Alert.alert(
 			"Feature",
-			"Manage your account options:\n\n- Edit profile\n- Business sectors that interest you\n- Change password\n- Privacy policy\n- Close Account\n- Sign out",
+			"Manage your account options:\n\n- Edit profile\n- Business sectors that interest you\n- Change password\n- Privacy policy\n- Close Account\n- Sign out\n\nSignup to enable this feature.",
 			[
 				{
 				text: "Ok",
