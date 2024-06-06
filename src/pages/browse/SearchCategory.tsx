@@ -137,8 +137,8 @@ console.log('Business length: ', businesses.length);
 		<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
 			<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 20 }} >
 					<Tab title={`Businesses [${numBusinesses}]`}>
-						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 15, paddingBottom: 15, backgroundColor: '#f5f5f5' }} >
-							<ScrollView>
+						<ScrollView>
+						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 15, paddingBottom: 15 }} >
 								<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Business List</Text>
 								{businesses.length === 0 ? (
 								<Text style={[MainStyles.title_a16, { paddingTop: 20, paddingStart: 20 }]}>No results found</Text>
@@ -158,34 +158,37 @@ console.log('Business length: ', businesses.length);
 									</TouchableOpacity>
 								))
 							)}
-							</ScrollView>
 						</View>
+						</ScrollView>
 					</Tab>
 					<Tab title={`Promotions [${numPromotions}]`}>
-					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
-					<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Promotion List</Text>
-							{promotions.length === 0 ? (
-							<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
-							) : (
-							promotions.map((promotion: { display_image: any; promo_title: any; promo_desc: any; }, index: number) => (
-								<TouchableOpacity key={index} onPress={() => handeleViewPromotion(promotion)} style={{ width: '100%' }}>
-									<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
-										<View style={styles.listIcon}>
-											{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
-											<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
-										</View>
-										<View style={styles.listContent}>
-											<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{promotion.promo_title} </Text>
-											<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
-										</View>
-									</View>
-								</TouchableOpacity>
-							))
-						)}
-						</View>
+						<ScrollView>
+							<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15 }} >
+								<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Promotion List</Text>
+									{promotions.length === 0 ? (
+									<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
+									) : (
+									promotions.map((promotion: { display_image: any; promo_title: any; promo_desc: any; }, index: number) => (
+										<TouchableOpacity key={index} onPress={() => handeleViewPromotion(promotion)} style={{ width: '100%' }}>
+											<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
+												<View style={styles.listIcon}>
+													{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+													<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												</View>
+												<View style={styles.listContent}>
+													<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{promotion.promo_title} </Text>
+													<Text style={[MainStyles.title_a14, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
+												</View>
+											</View>
+										</TouchableOpacity>
+									))
+								)}
+								</View>
+							</ScrollView>
 					</Tab>
 					<Tab title={`Events [${numEvents}]`}>
-						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15, backgroundColor: '#f5f5f5' }} >
+						<ScrollView>
+						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, padding: 15 }} >
 						<Text style={[MainStyles.title_a20, { paddingStart: 15, paddingBottom: 15, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }]}>Event List</Text>
 							{events.length === 0 ? (
 							<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
@@ -205,6 +208,7 @@ console.log('Business length: ', businesses.length);
 							))
 						)}
 						</View>
+						</ScrollView>
 					</Tab>
 				</TabView>
         <BotNavBrowse selected={0} />
