@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../services/DbUtils';
+import { checkUser } from '../../../services/auth';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Layout, Avatar } from '@ui-kitten/components';
 import { Label } from '../../../components/Label';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
@@ -307,6 +308,34 @@ const StepOne = (props) =>
 
     const handleNext = async () => 
     {
+		await checkUser(state.email)
+		.then((res) => 
+		{
+			if (res.status)
+			{
+				console.log('User exists');
+				Alert.alert(
+					"Validation",
+					"The email address you entered is already registered. Please login or use a different email address.",
+					[
+						{
+						text: "Ok",
+						onPress: () => console.log("Cancel Pressed"),
+						style: "cancel"
+						}
+					]
+				);
+			}
+			else 
+			{
+				console.log('User does not exist');
+				gotoStepTwo();
+			}
+		});
+    }
+
+	const gotoStepTwo = async () =>
+	{
 		await updProfile('email', state.email);
         await updProfile('first_name', state.firstName);
         await updProfile('last_name', state.lastName);
@@ -316,7 +345,7 @@ const StepOne = (props) =>
         await updProfile('geo_range', state.geoRange);
 
         props.navigation.navigate('SignupUserStepTwo');
-    }
+	}
 
     const handleLogin = () => 
     {
@@ -361,6 +390,11 @@ const StepOne = (props) =>
 		{
 			handleNext();
 		}
+	}
+
+	const checkCredOne = async () => 
+	{
+		
 	}
 
     return (

@@ -124,7 +124,7 @@ const StepFour = (props) =>
 				<View>
 					<Text status="primary" style={{ fontSize: 24, fontWeight: '600', textAlign: 'center', color: '#220622' }}>Thank you for registering!</Text>
 					<View style={{ marginTop: 25 }} />
-					<Text status="primary" style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', color: '#220622' }}>Your registration is under review by admin, you will be notified by email once your account.</Text>
+					<Text status="primary" style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', color: '#220622' }}>Your registration is under review by admin, you will be notified by email once your account is activated.</Text>
 					<View style={{ marginTop: 25 }} />
 					<Text status="primary" style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', color: '#220622' }}>In the meantime, you can start building your business profile.</Text>
 				</View>

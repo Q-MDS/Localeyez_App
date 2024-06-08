@@ -68,6 +68,7 @@ const Home = (props) =>
         const profile = await DbUtils.getItem('shopper_profile')
         .then((profile) => 
         {
+			console.log('Profile ZZZZ: ', profile);
 			dispatch(
 			{
 				type: 'PROFILE_HOME',
@@ -224,7 +225,7 @@ const Home = (props) =>
 					<Text style={[MainStyles.title_a18, { width: '100%', textAlign: 'center', fontWeight: 'bold', marginTop: 15 }]}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
 					<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5 }]}>{state.email}</Text>
 					<Divider style={{ height: 20, backgroundColor: 'transparent' }} />
-					{state.verified !== 0 && (
+					{state.verified == 1 && (
 						<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={() => props.navigation.navigate('ShopperVerified')}>
 							{/* <IconText title="Verified Member" iconname="checkmark-circle-2" textalign="center" fontsize={15} width={20} status="basic" /> */}
 							<Icon name="checkmark-circle-2" fill="#612bc1" style={{ width: 24, height: 24, marginEnd: 10 }} />

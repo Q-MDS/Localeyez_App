@@ -6,7 +6,7 @@ import { registerShopper } from "../../../services/auth";
 import { TitleTwo } from "../../../components/TitleTwo";
 import TextOne from "../../../components/TextOne";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
-import { SafeAreaView, View, Image } from "react-native";
+import { SafeAreaView, View, Image, ActivityIndicator } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { TopNavBack } from "../../../components/TopNavBack";
 
@@ -14,6 +14,7 @@ const StepThree = (props:any) =>
 {
 	const [shopperProfile, setShopperProfile] = useState({} as any);
 	const [shopperSectors, setShopperSectors] = useState([] as any);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchShopperProfile = async () => 
 	{
@@ -41,10 +42,11 @@ const StepThree = (props:any) =>
     const handelGetStarted = async () => 
     {
 		// Fetch shopper_profile
-		console.log('shopperProfile:', shopperProfile);
+		// console.log('shopperProfile:', shopperProfile);
 		// Fetch shopper_sectore
-		console.log('shopperSectors:', shopperSectors);
+		// console.log('shopperSectors:', shopperSectors);
 		// Merge fetches.
+		setIsLoading(true);
 		const shopperData = [ {profile: shopperProfile}, {sectors: shopperSectors} ];
     	
 		// Do api call
@@ -92,6 +94,7 @@ const StepThree = (props:any) =>
 				bottomOffset: 40,
 			});
 		}
+		setIsLoading(false);
     }
 
 	const updProfile = async (key: string | number, newValue: any) => 
@@ -103,6 +106,15 @@ const StepThree = (props:any) =>
 		
 		await DbUtils.setItem('shopper_profile', JSON.stringify(profileData));
 	};
+
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
