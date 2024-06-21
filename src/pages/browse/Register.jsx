@@ -3,7 +3,6 @@ import MainStyles from '../../assets/styles/MainStyles';
 import { SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
 import { Layout, Text, Card } from '@ui-kitten/components';
 import { ButtonPrimary } from '../../components/ButtonPrimary';
-import { ButtonText } from '../../components/ButtonText';
 
 const Register = (props) => 
 {

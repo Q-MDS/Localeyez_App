@@ -83,9 +83,9 @@ export const BotNavBrowse = (props) =>
 	}
 
 	const gotoRegister = () => 
-		{
-			props.navigation.navigate('BrowseRegister');
-		};
+	{
+		props.navigation.navigate('BrowseRegister');
+	};
 
     const navigateToScreen = (index) => {
         setSelectedIndex(index);

@@ -316,7 +316,7 @@ const Home = (props: any) =>
 			</TabView>
 			</ScrollView>
 		<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-		<BotNavBrowse selected={0}/>
+		<BotNavBrowse selected={0} navigation={props.navigation}/>
 	</SafeAreaView>
 	)
 }

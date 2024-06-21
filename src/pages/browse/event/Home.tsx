@@ -45,7 +45,7 @@ const Home = (props: any) =>
 					<ButtonPrimary name="View business profile" width="100%" marginTop={40} onpress={handleBusProfile}/>
                 </Layout>
             </ScrollView>
-        <BotNavBrowse selected={1} />
+        <BotNavBrowse selected={1} navigation={props.navigation} />
         </SafeAreaView>
 	)
 }

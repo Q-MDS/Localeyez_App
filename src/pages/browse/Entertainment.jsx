@@ -3,6 +3,7 @@ import { sectorData } from "../../sector.data";
 import MainStyles from "../../assets/styles/MainStyles";
 import { TopNavBack } from "../../components/TopNavBack";
 import { BotNavShopper } from "../../components/BotNavShopper";
+import { BotNavBrowse } from "../../components/BotNavBrowse";
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
 import { Layout, Text, Card } from "@ui-kitten/components";
 import { TextIcon } from "../../components/TextIcon";
@@ -74,7 +75,7 @@ const Entertainment = (props) =>
 					))}
                 </Layout>
             </ScrollView>
-        <BotNavShopper selected={1} />
+        <BotNavBrowse selected={1} navigation={props.navigation} />
         </SafeAreaView>
     );
 };

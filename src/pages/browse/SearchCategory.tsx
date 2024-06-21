@@ -211,7 +211,7 @@ console.log('Business length: ', businesses.length);
 						</ScrollView>
 					</Tab>
 				</TabView>
-        <BotNavBrowse selected={0} />
+        <BotNavBrowse selected={0} navigation={props.navigation} />
         </SafeAreaView>
 	)
 }
