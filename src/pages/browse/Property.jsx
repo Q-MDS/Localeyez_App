@@ -47,7 +47,7 @@ const Property = (props) =>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 
 					<View style={{ marginBottom: 20 }}>
-						<Image source={require('../../assets/images/cat_property.png')} style={{ width: 120, height: 120, borderRadius: 10, alignSelf: 'center', marginTop: 10 }} />
+						<Image source={require('../../assets/images/cat_property.png')} style={{ height: 120, objectFit: 'contain', borderRadius: 10, alignSelf: 'center', marginTop: 10 }} />
 						<Text style={[MainStyles.title_a18, {textAlign: 'center', marginTop: 10}]}>Property</Text>
 					</View>
 
