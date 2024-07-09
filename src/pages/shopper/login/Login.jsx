@@ -163,7 +163,7 @@ const Login = (props) =>
 
     const handleReset = () => 
     {
-        console.log('Reset password...');
+		props.navigation.navigate('ShopperForgot');
     }
 
     const handleSignup = () => 
@@ -211,15 +211,15 @@ const Login = (props) =>
 							{errors.password && <Text style={styles.error}>{errors.password}</Text>}
 						</View>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
-							{/*<Layout >
+							<Layout >
 								<Checkbox label="Remember me" />
 							</Layout>
-							 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%', height: 50 }} >
+							 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
 								<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>
 								<TouchableOpacity onPress={handleReset}>
 									<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
 								</TouchableOpacity>
-							</Layout> */}
+							</Layout>
 						</Layout>
 						<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >

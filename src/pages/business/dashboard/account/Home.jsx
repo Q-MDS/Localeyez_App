@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import DbUtils from "../../../../services/DbUtils";
 import { useFocusEffect } from '@react-navigation/native';
 import { businessProfilePic } from "../../../../services/api_upload";
+import { delBusProfilePic } from "../../../../services/api_helper";
 import Toast from 'react-native-toast-message';
 import { launchImageLibrary } from 'react-native-image-picker';
 import MainStyles from "../../../../assets/styles/MainStyles";
@@ -10,8 +11,8 @@ import { IconTextIcon } from "../../../../components/IconTextIcon";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
 import { ButtonText } from "../../../../components/ButtonText";
-import { SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Layout, Text, Avatar, Divider } from "@ui-kitten/components";
+import { SafeAreaView, TouchableOpacity, View, Alert } from "react-native";
+import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 
 const initialState = { 
 	email: null,
@@ -101,19 +102,6 @@ const Home = (props) =>
 		fetchData();
 	}, []));
 	
-	// useEffect(() => 
-	// {
-	// 	const fetchData = async () => 
-	// 	{
-	// 		await getToken();
-	// 		await getBusinessId();
-			
-	// 		setIsReady(true);
-	// 	};
-
-	// 	fetchData();
-	// }, []);
-
 	const updProfile = async (key, newValue) => 
     {
         const profileDataString = await DbUtils.getItem('business_profile');
@@ -221,6 +209,50 @@ const Home = (props) =>
         props.navigation.navigate('BusDashAccClose');
     }
 
+	const handleDeleteProfilePic = () => 
+	{
+		Alert.alert(
+			"Delete Image",
+			"Are you sure you want to delete this image?",
+			[
+				{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				},
+				{ text: "OK", onPress: () => deleteImage() }
+			]
+		);
+	}
+
+	const deleteImage = async () => 
+	{
+		// Update AS profile
+		// Update server profile
+		handleInputChange('profilePic', "");
+		updProfile('profile_pic', "");
+
+		const data = [{
+			business_id: businessId,
+		}];
+
+		let record = JSON.stringify(data);
+		await delBusProfilePic(token, record)
+		.then((res) => 
+		{
+			console.log('Image deleted:', res);
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Image deleted',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		});
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Account details" alignment="start" navigation={props.navigation} pops={1} />
@@ -234,8 +266,15 @@ const Home = (props) =>
 						<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
 					)}
 					</TouchableOpacity>
+					{state.profilePic && 
+					<TouchableOpacity onPress={handleDeleteProfilePic} style={{ position: 'absolute', top: 60, left: 210, opacity: 0.5, padding: 5, borderColor: 'black', borderWidth: 0 }} >
+						<Icon name="trash-2-outline" fill="#220622" style={{  width: 24, height: 24 }} />
+					</TouchableOpacity>
+					}
+					<Text  style={[MainStyles.title_a12, { width: '100%', textAlign: 'center', marginTop: 5 }]}>Tap on image to add/change</Text>
 					<Text style={[MainStyles.title_a18, { width: '100%', textAlign: 'center', fontWeight: 'bold', marginTop: 15 }]}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
 					<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5 }]}>{state.email}</Text>
+
 				</View>
 			
 				<View style={{ height: 1, backgroundColor: '#deded7', marginTop:30, marginBottom: 30 }} />
@@ -252,7 +291,6 @@ const Home = (props) =>
 				<View style={{ flex: 1 }} />
 				<Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%' }} >
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
-					<View style={{ marginTop: 15 }} />
 					<ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} />
 				</Layout>
 			</Layout>

@@ -123,3 +123,17 @@ export const logOut = async (token: string) =>
 
 	return response.data;
 };
+
+export const resetPassword = async (data: any) =>
+{
+	try
+	{
+		const response = await api.post('/api/reset_bus_password/', data);
+
+		return response.data;
+	}
+	catch(error)
+	{
+		return {"message": "Invalid Credentials" + error};
+	};
+}

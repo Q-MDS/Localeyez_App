@@ -4,11 +4,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
 import { businessDisplayImage } from '../../../../../services/api_upload';
 import { businessBannerImage } from '../../../../../services/api_upload';
+import { delBannerPic } from '../../../../../services/api_helper';
+import { delLogoPic } from '../../../../../services/api_helper';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
@@ -17,6 +19,7 @@ import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../../../components/InputOnly';
 import { InputZip } from '../../../../../components/InputZip';
+import Toast from 'react-native-toast-message';
 
 const initialState = {
 	businessId: null,
@@ -342,6 +345,88 @@ const Edit = (props) =>
         props.navigation.navigate('BusProfProHome');
     }
 
+	const handleDeleteBannerImage = async () => 
+	{
+		Alert.alert(
+			"Delete Image",
+			"Are you sure you want to delete this image?",
+			[
+				{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				},
+				{ text: "OK", onPress: () => deleteBannerImage() }
+			]
+		);
+	}
+
+	const deleteBannerImage = async () => 
+	{
+		handleInputChange('bannerImage', "");
+
+		const data = [{
+			business_id: businessId,
+		}];
+
+		let record = JSON.stringify(data);
+		await delBannerPic(token, record)
+		.then((res) => 
+		{
+			console.log('Image deleted:', res);
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Image deleted',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		});
+	}
+
+	const handleDeleteLogoImage = async () => 
+	{
+		Alert.alert(
+			"Delete Image",
+			"Are you sure you want to delete this image?",
+			[
+				{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				},
+				{ text: "OK", onPress: () => deleteLogoImage() }
+			]
+		);
+	}
+
+	const deleteLogoImage = async () => 
+	{
+		handleInputChange('displayImage', "");
+
+		const data = [{
+			business_id: businessId,
+		}];
+
+		let record = JSON.stringify(data);
+		await delLogoPic(token, record)
+		.then((res) => 
+		{
+			console.log('Image deleted:', res);
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Image deleted',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		});
+	}
+
 	const validateForm = () => 
 	{
 		console.log('Validate Me ', state.contactNumber, state.companyName, state.addressOne, state.addressTwo, state.city, state.province, state.businessBio);
@@ -381,6 +466,20 @@ const Edit = (props) =>
 		{
 			handleSubmit();
 		}
+		else 
+		{
+			Alert.alert(
+				"Validation error",
+				"One or more fields are missing or invalid. Please check the form and try again.",
+				[
+					{
+					text: "Ok",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel"
+					}
+				]
+			);
+		}
 	}
 
     return (
@@ -397,6 +496,14 @@ const Edit = (props) =>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specification: square</Text>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.displayImage && 
+								<>
+								<View style={{ marginTop: 15 }} />
+								<TouchableOpacity onPress={handleDeleteLogoImage}>
+									<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
+								</TouchableOpacity>
+								</>
+							}
 						</Layout>
 					</TouchableOpacity>
 					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginTop: 20, marginBottom: 10 }]}>Upload Banner Picture</Text>
@@ -407,6 +514,14 @@ const Edit = (props) =>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640 x 300px</Text>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.bannerImage && 
+							<>
+							<View style={{ marginTop: 15 }} />
+							<TouchableOpacity onPress={handleDeleteBannerImage}>
+								<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
+							</TouchableOpacity>
+							</>
+							}
 						</Layout>
 					</TouchableOpacity>
 

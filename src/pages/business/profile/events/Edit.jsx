@@ -3,10 +3,11 @@ import DbUtils from '../../../../services/DbUtils';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { updEvent } from '../../../../services/api_helper';
 import { updEventImage } from '../../../../services/api_upload';
+import { delEventPic } from '../../../../services/api_helper';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { InputLabel } from '../../../../components/InputLabel';
@@ -349,6 +350,78 @@ const Edit = (props) =>
 		{
 			handleSubmit();
 		} 
+		else 
+		{
+			Alert.alert(
+				"Validation error",
+				"One or more fields are missing or invalid. Please check the form and try again.",
+				[
+					{
+					text: "Ok",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel"
+					}
+				]
+			);
+		}
+	}
+
+	const handleDeleteImage = async () => 
+	{
+		Alert.alert(
+			"Delete Image",
+			"Are you sure you want to delete this image?",
+			[
+				{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				},
+				{ text: "OK", onPress: () => deleteImage() }
+			]
+		);
+	}
+
+	const deleteImage = async () =>
+	{
+		handleInputChange('displayImage', "");
+		
+		const data = [{
+			event_id: remoteId,
+		}];
+
+		let record = JSON.stringify(data);
+		await delEventPic(token, record)
+		.then((res) => 
+		{
+			console.log('Image deleted:', res);
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Image deleted',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		});
+
+		// Get the current array of records
+		const eventRecord = await DbUtils.getItem('events');
+		const parsedData = JSON.parse(eventRecord);
+		const updatedData = parsedData.map((record, index) => 
+		{
+			if (index === Number(props.route.params.id)) 
+			{
+				return {...record, display_image: ""};
+			} 
+			else 
+			{
+				return record;
+			}
+		});
+
+		await DbUtils.setItem('events', JSON.stringify(updatedData));
 	}
 
 	if (isUploading) 
@@ -381,6 +454,14 @@ const Edit = (props) =>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640px x 360px</Text>
 							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
 							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+							{state.displayImage && 
+							<>
+							<View style={{ marginTop: 15 }} />
+							<TouchableOpacity onPress={handleDeleteImage}>
+								<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
+							</TouchableOpacity>
+							</>
+							}
 						</Layout>
 					</TouchableOpacity>
 

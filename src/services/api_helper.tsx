@@ -10,6 +10,46 @@ export const updBusinessProfile = async (token: string, data: any) =>
 	return response.data;
 };
 
+export const delBusProfilePic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_bus_profile_pic/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		
+		return response.data;
+}
+
+export const delShpProfilePic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_shp_profile_pic/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		
+		return response.data;
+}
+
+export const delBannerPic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_banner_pic/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
+export const delLogoPic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_logo_pic/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
 export const updBusinessSectors =  async (token: string, data: any) => 
 {
 	const response = await api.post('/api/upd_business_sectors/', data, 
@@ -49,6 +89,16 @@ export const delPromotion = async (token: string, data: any) =>
 	return response.data;
 }
 
+export const delPromoPic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_promo_pic/', data,
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	
+	return response.data;
+}
+
 export const updEvent = async (token: string, data: any) => 
 {
 	const response = await api.post('/api/upd_event/', data,
@@ -81,6 +131,16 @@ export const delEvent = async (token: string, data: any) =>
 	});
 	
 	return response.data;
+}
+
+export const delEventPic = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/del_event_pic/', data,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		
+		return response.data;
 }
 
 export const getBusinessReviews = async (token: string, data: any) => 

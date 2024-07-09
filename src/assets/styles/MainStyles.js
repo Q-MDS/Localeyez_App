@@ -53,6 +53,14 @@ const MainStyles = StyleSheet.create({
 		fontWeight: '600', 
 		color: '#220622',
 	},
+	title_a13: {
+		fontSize: 13, 
+		color: '#220622',
+	},
+	title_a12: {
+		fontSize: 12, 
+		color: '#220622',
+	},
 
 
 

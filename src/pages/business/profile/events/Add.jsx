@@ -6,7 +6,7 @@ import { eventImage } from '../../../../services/api_upload';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TopNav } from '../../../../components/TopNav';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, Image, BackHandler, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { InputLabel } from '../../../../components/InputLabel';
@@ -322,6 +322,20 @@ const Add = (props) =>
 		{
 			handleUpload(); 
 		} 
+		else 
+		{
+			Alert.alert(
+				"Validation error",
+				"One or more fields are missing or invalid. Please check the form and try again.",
+				[
+					{
+					text: "Ok",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel"
+					}
+				]
+			);
+		}
 	}
 
 	useEffect(() => 

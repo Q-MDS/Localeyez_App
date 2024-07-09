@@ -2,12 +2,13 @@ import React, { useState, useEffect, useReducer} from "react";
 import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { shopperProfilePic } from "../../../services/api_upload";
+import { delShpProfilePic } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { IconTextIcon } from "../../../components/IconTextIcon";
 import { TopNavBack } from "../../../components/TopNavBack";
-import { TouchableOpacity, SafeAreaView, View } from "react-native";
+import { TouchableOpacity, SafeAreaView, View, Alert } from "react-native";
 import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
@@ -210,6 +211,50 @@ const Home = (props) =>
         props.navigation.navigate('ShopperAccClose');
     }
 
+	const handleDeleteProfilePic = () => 
+	{
+		Alert.alert(
+			"Delete Image",
+			"Are you sure you want to delete this image?",
+			[
+				{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				},
+				{ text: "OK", onPress: () => deleteImage() }
+			]
+		);
+	}
+
+	const deleteImage = async () => 
+	{
+		// Update AS profile
+		// Update server profile
+		handleInputChange('profilePic', "");
+		updProfile('profile_pic', "");
+
+		const data = [{
+			shopper_id: shopperId,
+		}];
+
+		let record = JSON.stringify(data);
+		await delShpProfilePic(token, record)
+		.then((res) => 
+		{
+			console.log('Image deleted:', res);
+			Toast.show({
+				type: 'success',
+				position: 'bottom',
+				text1: 'Image deleted',
+				visibilityTime: 1000,
+				autoHide: true,
+				topOffset: 30,
+				bottomOffset: 40,
+			});
+		});
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
@@ -222,6 +267,13 @@ const Home = (props) =>
 							<Avatar source={{ uri: state.profilePic }} style={{ width: 96, height: 96 }} />
 						)}
 					</TouchableOpacity>
+					{state.profilePic && 
+					<TouchableOpacity onPress={handleDeleteProfilePic} style={{ position: 'absolute', top: 60, left: 210, opacity: 0.5, padding: 5, borderColor: 'black', borderWidth: 0 }} >
+						<Icon name="trash-2-outline" fill="#220622" style={{  width: 24, height: 24 }} />
+					</TouchableOpacity>
+					}
+
+
 					<Text style={[MainStyles.title_a18, { width: '100%', textAlign: 'center', fontWeight: 'bold', marginTop: 15 }]}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
 					<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5 }]}>{state.email}</Text>
 					<Divider style={{ height: 20, backgroundColor: 'transparent' }} />

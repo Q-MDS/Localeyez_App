@@ -108,6 +108,8 @@ import BrowseBusReviews from './pages/browse/business/reviews/List';
 import BrowseBusReviewsView from './pages/browse/business/reviews/ViewReview';
 import BrowseViewPro from './pages/browse/promotion/Home';
 import BrowseViewEvt from './pages/browse/event/Home';
+import BusinessForgot from './pages/business/login/Forgot';
+import ShopperForgot from './pages/shopper/login/Forgot';
 
 
 const {Navigator, Screen} = createStackNavigator();
@@ -221,6 +223,8 @@ const HomeNavigator = () => (
     <Screen name="BrowseBusReviewsView" component={BrowseBusReviewsView} />
     <Screen name="BrowseViewPro" component={BrowseViewPro} />
     <Screen name="BrowseViewEvt" component={BrowseViewEvt} />
+    <Screen name="BusinessForgot" component={BusinessForgot} />
+    <Screen name="ShopperForgot" component={ShopperForgot} />
   </Navigator>
 );
 
