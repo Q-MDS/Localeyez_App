@@ -7,6 +7,7 @@ import { Card, Divider, Icon, Layout, Tab, TabView, Text, TextElement } from '@u
 import MainStyles from '../../../assets/styles/MainStyles';
 import { BotNavBrowse } from '../../../components/BotNavBrowse';
 import { IconText } from '../../../components/IconText';
+import { IconPhone } from '../../../components/IconPhone';
 import TextOne from '../../../components/TextOne';
 import { TopNavBack } from '../../../components/TopNavBack';
 
@@ -231,7 +232,7 @@ const Home = (props: any) =>
 					{/* <TextTwo title={state.businessBio} status="basic" /> */}
 					<View style={{ marginTop: 15 }} />
 					<IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
-					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
+					<IconPhone title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
 					<TouchableOpacity onPress={() => handleViewReviews()} >
 						<IconText title="See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
 					</TouchableOpacity>
