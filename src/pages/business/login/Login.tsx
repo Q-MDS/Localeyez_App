@@ -37,6 +37,7 @@ const Login = (props: any) =>
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const [errors, setErrors] = useState<{ userName?: string, password?: string }>({});
+	const [remember, setRemember] = useState(false);
 
 	function handleInputChange(name: any, newValue: any) 
 	{
@@ -82,13 +83,14 @@ const Login = (props: any) =>
 
 	useFocusEffect(React.useCallback(() => 
 	{
+		const loginCheck = async() =>
+		{
+			checkRememberedLogin();
+		}
+		loginCheck();
+		
 		getProfile();
 	}, []));
-
-	// useEffect(() => 
-	// {
-	// 	getProfile();
-	// }, []);
 
     const handleLogin = async () => 
     {
@@ -113,9 +115,6 @@ const Login = (props: any) =>
 					const promotions = res.promotions;
 					const events = res.events;
 					const rating = res.rating;
-		
-					console.log('Rating:', rating);
-					console.log('Token at login:', token);
 		
 					Toast.show({
 						type: 'success',
@@ -147,6 +146,16 @@ const Login = (props: any) =>
 
 					let jsonRating = JSON.stringify(rating);
 					await DbUtils.setItem('rating', jsonRating);
+
+					// Set remember me
+					if (remember)
+					{
+						rememberMe(state.credOne, state.credTwo);
+					}
+					else
+					{
+						forgetMe();
+					}
 		
 					props.navigation.navigate('BusinessDashboard');
 				}
@@ -173,7 +182,6 @@ const Login = (props: any) =>
 			} 
 			else 
 			{
-				console.log('Went here', res);
 				if (res == "AxiosError: Request failed with status code 404")
 				{
 					Toast.show({
@@ -217,14 +225,81 @@ const Login = (props: any) =>
 		}
     }
 
+	const checkRememberedLogin = async () =>
+	{
+		try 
+		{
+			const username = await DbUtils.getItem('rem_cred_one');
+			const password = await DbUtils.getItem('rem_cred_two');
+			const busRemember = await DbUtils.getItem('rem_business');
+
+			if (busRemember !== null)
+			{
+				if (busRemember === "1")
+				{
+					setRemember(true);
+				} 
+				else 
+				{
+					setRemember(false);
+				}
+			}
+			else
+			{
+				setRemember(false);
+			}
+
+			if (username !== null && password !== null)
+			{
+				// Log the user in
+				state.credOne = username;
+				state.credTwo = password;
+				handleLogin();
+			} 
+			else 
+			{
+				// No remembered login
+			}
+		}
+		catch(error)
+		{
+			// There was an error
+		}
+	}
+
+	const rememberMe = async (username: string, password: string) => 
+	{
+		try 
+		{
+		  await DbUtils.setItem('rem_cred_one', username);
+		  await DbUtils.setItem('rem_cred_two', password);
+		  await DbUtils.setItem('rem_business', "1");
+		} catch (error) {
+		  // Error saving data
+		}
+	};
+
+	const forgetMe = async () =>
+	{
+		try
+		{
+			await DbUtils.removeItem('rem_cred_one');
+			await DbUtils.removeItem('rem_cred_two');
+			await DbUtils.setItem('rem_business', "0");
+		}
+		catch (error)
+		{
+		// Error removing data
+		}
+	};
+
     const handleRememberMe = () => 
     {
-        console.log('Remember me...');
+		setRemember(!remember);
     }
 
     const handleReset = () => 
     {
-        console.log('Reset password...');
 		props.navigation.navigate('BusinessForgot');
     }
 
@@ -274,7 +349,7 @@ const Login = (props: any) =>
 					</View>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
 						<Layout style={{ flex: 1 }} >
-							<Checkbox label="Remember me" />
+							<Checkbox checked={remember} onChange={handleRememberMe}  label="Remember me" />
 						</Layout>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
 							<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>

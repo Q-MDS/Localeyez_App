@@ -201,8 +201,22 @@ const Home = (props) =>
 
     const handleLogout = () => 
     {
+		forgetMe();
         props.navigation.navigate('LoginBusiness');
     }
+
+	const forgetMe = async () =>
+	{
+		try
+		{
+			await DbUtils.removeItem('rem_cred_one');
+			await DbUtils.removeItem('rem_cred_two');
+		}
+		catch (error)
+		{
+		// Error removing data
+		}
+	};
 
     const handleCloseAccount = () => 
     {
