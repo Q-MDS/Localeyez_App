@@ -229,3 +229,9 @@ OTHER
 6. Ref pt 5. Should shopper's username also pre populate? - SEEMS TO BE WORKING
 7. Verified member - new look etc - DONE
 8. Get rating down from server - DONE
+
+Stripe Tut 1: https://www.youtube.com/watch?v=50bIefoMo3c
+Build a subscriptions integration
+https://docs.stripe.com/billing/subscriptions/build-subscriptions
+https://www.youtube.com/watch?v=Tmcxm1xDVMU
+https://www.youtube.com/watch?v=b4YRUEm1Rfs

@@ -14,17 +14,18 @@ const Home = (props) =>
         props.navigation.navigate('ShopperAccPlanMemCancel');
     }
 
-    const handleChangeCard = () => 
+    const handleClose = () => 
     {
-        props.navigation.navigate('ShopperAccPlanMemUpCardDet');
+        props.navigation.navigate('ShopperAccHome');
     }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <TopNavArrowTitle title="Pricing Plan" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
             <Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
-                <Avatar source={require('../../../../../assets/images/price_plan_member.png')} style={{ width: 64, height: 64 }} />
+                <Avatar source={require('../../../../../assets/images/price_plan_member.png')} style={{ width: 96, height: 96 }} />
                 <Text category="p1" status="primary" style={{ marginTop: 15 }}>$10/month</Text>
-                <Text category="h6" status="primary" style={{ fontWeight: 'bold', marginTop: 5 }}>Localeyez Member</Text>
+                <Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 5 }}>Localeyez Member</Text>
                 <Text category="h4" style={{ width: '100%', marginTop: 40, marginBottom: 10}}>Features</Text>
                 <Divider style={{width: "100%"}} />
                 <TextIcon title="Access to events" iconname="checkmark-circle-2" width={32} mt={15} mb={15} />
@@ -34,7 +35,7 @@ const Home = (props) =>
                 <TextIcon title="Access to Amazing Discounts" iconname="checkmark-circle-2" width={32} mt={15} mb={15} />
                 <Divider style={{width: "100%"}} />
                 <ButtonPrimary name="Cancel Subscription" width="100%" marginTop={35} onpress={handleCancel} />
-                <ButtonSecondary name="Change Card Details" width="100%" marginTop={15} onpress={handleChangeCard} />
+                <ButtonSecondary name="Close" width="100%" marginTop={15} onpress={handleClose} />
             </Layout>
         </SafeAreaView>
     );

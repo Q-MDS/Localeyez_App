@@ -15,7 +15,7 @@ export const TextIcon = (props) =>
     return (
     <View style={[styles.container, {marginTop: props.mt, marginBottom: props.mb}]}>
         <Text style={[styles.text, {fontSize: props.fontsize, fontWeight: props.fontweight, paddingStart: props.pl, color: '#220622'}]}>{props.title}</Text>
-        <Icon style={styles.icon} fill='#5D5A88' name={props.iconname} width={props.width} />
+        <Icon style={styles.icon} fill='#612bc1' name={props.iconname} width={props.width} />
     </View>
     );
 };

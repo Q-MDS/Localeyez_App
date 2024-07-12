@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { IconTextIcon } from "../../../components/IconTextIcon";
 import { TopNavBack } from "../../../components/TopNavBack";
-import { TouchableOpacity, SafeAreaView, View, Alert } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Alert } from "react-native";
 import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
@@ -258,7 +258,8 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
-			<Layout style={ MainStyles.column_container}>
+			<ScrollView style={{  flex: 1 }}>
+			<Layout style={ [MainStyles.column_container, {paddingTop: 12}] }>
 				<View>
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
 						{state.profilePic == '' || state.profilePic == null ? (
@@ -272,8 +273,6 @@ const Home = (props) =>
 						<Icon name="trash-2-outline" fill="#220622" style={{  width: 24, height: 24 }} />
 					</TouchableOpacity>
 					}
-
-
 					<Text style={[MainStyles.title_a18, { width: '100%', textAlign: 'center', fontWeight: 'bold', marginTop: 15 }]}>{`${state.firstName === null ? "-" : state.firstName} ${state.lastName === null ? "-" : state.lastName}`}</Text>
 					<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5 }]}>{state.email}</Text>
 					<Divider style={{ height: 20, backgroundColor: 'transparent' }} />
@@ -292,17 +291,18 @@ const Home = (props) =>
 				<IconTextIcon title="Edit Profile" status="basic" iconLeft="person-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccEdit" />
 				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
 				<IconTextIcon title="Edit Interests" status="basic" iconLeft="heart-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccIntHome" />
-				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
-				{/* {subType === 'free' ? 
-					<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanFree" />
+				<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
+				
+				{state.verified == 0 ? 
+					<IconTextIcon title="Pricing Plan" status="basic" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanFree" />
 				:
-					<IconTextIcon title="Pricing Plan" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanMem" />
+					<IconTextIcon title="Pricing Plan" status="basic" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanMem" />
 				}
-				<Divider style={{ height: 30, backgroundColor: 'transparent' }} /> */}
+				<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
 				<IconTextIcon title="Security" status="basic" iconLeft="shield-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccSecurity" />
-				<Divider style={{ height: 30, backgroundColor: 'transparent' }} />
+				<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
 				<IconTextIcon title="Privacy Policy" status="basic" iconLeft="lock-outline" iconRight="chevron-right-outline" type={1} navigation={props.navigation} onpress="PrivacyPolicy" />
-				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20 }} />
+				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 25 }} />
 			</View>
 
 				<View style={{ flex: 1 }} />
@@ -312,6 +312,7 @@ const Home = (props) =>
 					<ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
 				</Layout>
 			</Layout>
+			</ScrollView>
         </SafeAreaView>
     );
 };

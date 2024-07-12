@@ -1,7 +1,9 @@
 if (__DEV__) {
 	require("./ReactotronConfig");
 }
+
 import React from 'react';
+import {StripeProvider} from '@stripe/stripe-react-native';
 import { AuthProvider } from './src/services/AuthContext';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -13,11 +15,13 @@ import Toast from 'react-native-toast-message';
 const App = () => (
     <>
         <IconRegistry icons={EvaIconsPack} />
+		<StripeProvider publishableKey="pk_test_9VvzSCWXlvBTtzpWrciFHg5w00dVUMwe3x">
         <AuthProvider>
             <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
                 <AppNavigator />
             </ApplicationProvider>
         </AuthProvider>
+		</StripeProvider>
 		<Toast />
     </>
 );
