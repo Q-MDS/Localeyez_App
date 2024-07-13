@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import DbUtils from "../../../../../services/DbUtils";
 import { subscription } from "../../../../../services/api_stripe";
+import {subscribed} from "../../../../../services/api_helper";
 import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
@@ -12,11 +14,30 @@ const CardDetails = (props) =>
 {
 	const [form, setform] = useState({name: 'Mr Bean', email: 'mr.bean@gmail.com', shopper_id: '111'});
 	const { initPaymentSheet, presentPaymentSheet } = useStripe();
+	const [token, setToken] = useState('');
 	const [clientSecret, setClientSecret] = useState('');
+	const [shopperId, setShopperId] = useState('');
+	const [subscriptionId, setSubscriptionId] = useState('');
+	const [customerId, setCustomerId] = useState('');
+	const [priceId, setPriceId] = useState('');
+	const [prodId, setProdId] = useState('');
 
+	const getToken = async () => 
+	{
+		const getToken = await DbUtils.getItem('shopper_token');
+
+		setToken(JSON.parse(getToken));
+	}
+	
 	useEffect(() => 
 	{
+		getToken();
 		setClientSecret(props.route.params.cs);
+		setShopperId(props.route.params.shopperId);
+		setSubscriptionId(props.route.params.subscriptionId);
+		setCustomerId(props.route.params.customerId);
+		setPriceId(props.route.params.priceId);
+		setProdId(props.route.params.prodId);
 	}, []);
 
 	useEffect(() => 
@@ -72,13 +93,20 @@ const CardDetails = (props) =>
 			// Handle payment error here
 		  }
 		}*/
-	  };
+	};
+
+	const updProfile = async (key, newValue) => 
+	{
+		const profileDataString = await DbUtils.getItem('shopper_profile');
+		const profileData = JSON.parse(profileDataString);
+		
+		profileData[key] = newValue;
+		
+		await DbUtils.setItem('shopper_profile', JSON.stringify(profileData));
+	};
 
 	const handleCheckout = async () => 
 	{
-		console.log('Go to stripe and....');
-		// initializePaymentSheet();
-
 		const {error} = await presentPaymentSheet();
 		if (error) {
 			if (error.code === PaymentSheetError.Failed) {
@@ -90,8 +118,39 @@ const CardDetails = (props) =>
 			}
 		} else {
 			// Payment succeeded
-			Alert.alert("Payment was successful!");
+			// Alert.alert("Payment was successful!");
+			updateShopper();
 		}
+	}
+
+	const updateShopper = async () => 
+	{
+		const data = { shopper_id: shopperId, stripe_sub_id: subscriptionId, stripe_cust_id: customerId, stripe_price_id: priceId, stripe_prod_id: prodId };
+		console.log('Update Shopper:', data);
+		await subscribed(token, data)
+		.then((res) => 
+		{
+			updProfile('verified', "1");
+			Alert.alert(
+				'Payment was successful!',
+				'Thank you for your subscription', // Optional Alert message
+				[
+				  {
+					text: 'OK',
+					onPress: () => {
+					  // Code to execute after tapping OK
+					  // For example, navigate to another page
+					  props.navigation.navigate('ShopperAccHome');
+					},
+				  },
+				],
+				{ cancelable: false } // This prevents the alert from being dismissed by tapping outside of it
+			  );
+
+			// Shopper profile - update verified to 1
+			
+		});
+
 	}
 
     const handleClose = () => 

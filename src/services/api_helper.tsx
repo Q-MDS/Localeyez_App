@@ -270,3 +270,13 @@ export const closeShopperAccount = async (token: string, data: any) =>
 
 	return response.data;
 }
+
+export const subscribed = async (token: string, data: any) => 
+{
+	const response = await api.post('/api/subscribed/', data, 
+	{
+		headers: { Authorization: `Bearer ${token}` },
+	});
+
+	return response.data;	
+}

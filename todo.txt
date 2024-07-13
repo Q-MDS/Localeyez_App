@@ -235,3 +235,20 @@ Build a subscriptions integration
 https://docs.stripe.com/billing/subscriptions/build-subscriptions
 https://www.youtube.com/watch?v=Tmcxm1xDVMU
 https://www.youtube.com/watch?v=b4YRUEm1Rfs
+
+Stripe App integration
+- Shopper account: 
+  - Add option to cancel subscription
+  - Will need stripe_cust_id
+- I need to add strip_cust_id into shopper profile OR have a method that just sends the shopper_id to PHP and then PHP fetches the id
+- Card details:
+  - on payment successful make function to:
+    - add payment to PHP
+	- PHP: set verified to 1
+    - redirect back account, home - set verified to 1 in the profile
+
+Last to do on stripe
+- Close account:
+  - Do usual close but PHP must first cancel the subscription
+
+- Cancel subscription

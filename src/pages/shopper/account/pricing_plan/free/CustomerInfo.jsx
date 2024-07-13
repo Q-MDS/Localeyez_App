@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { subscription } from "../../../../../services/api_stripe";
 import DbUtils from '../../../../../services/DbUtils';
 import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
-import { SafeAreaView, ScrollView, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, TextInput, View, Alert, StyleSheet, ActivityIndicator } from "react-native";
 import { Layout, Text } from '@ui-kitten/components';
 import {InputLabel} from '../../../../../components/InputLabel';
 import {ButtonPrimary} from '../../../../../components/ButtonPrimary';
@@ -14,7 +14,12 @@ const CustomerInfo = (props) =>
 	const [shopperId, setShopperId] = useState(0);
 	const [isReady, setIsReady] = useState(false);
 	const [clientSecret, setClientSecret] = useState('');
+	const [subscriptionId, setSubscriptionId] = useState('');
+	const [customerId, setCustomerId] = useState('');
+	const [priceId, setPriceId] = useState('');
+	const [prodId, setProdId] = useState('');
 	const [gotSecret, setGotSecret] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getShopperId = async () => 
 	{
@@ -50,15 +55,26 @@ const CustomerInfo = (props) =>
 
 	const initializePaymentSheet = async () => 
 	{
-		console.log('KKASDLASKDALS: ', form);
 		const data = { first_name: form.firstName, last_name: form.lastName, email: form.email, shopper_id: form.shopper_id};
 		try 
 		{
 			const res = await subscription(data);
 			
+			console.log('Subscription:', res);
+
+			const subscriptionId = res.id;
+			const customerId = res.customer;
+			const priceId = res.plan.id;
+			const prodId = res.plan.product;
 			const clientSecret = res.latest_invoice.payment_intent.client_secret;
 			setClientSecret(clientSecret);
+			setSubscriptionId(subscriptionId);
+			setCustomerId(customerId);
+			setPriceId(priceId);
+			setProdId(prodId);
 			setGotSecret(true);
+
+			console.log('Subscription ID:', subscriptionId, 'Customer ID:', customerId, 'Price ID:', priceId, 'Product ID:', prodId);
 			console.log('PaymentIntent:', res.latest_invoice.payment_intent.client_secret);
 		} 
 		catch(error)
@@ -87,8 +103,9 @@ const CustomerInfo = (props) =>
 	{
 		console.log('Build and pass secret to Stripe');
 		// Do some basic validation
+		setIsLoading(true);
 		await initializePaymentSheet();
-		
+		setIsLoading(false);
 	}
 
 	useEffect(() => 
@@ -97,7 +114,7 @@ const CustomerInfo = (props) =>
 		{
 			if (clientSecret != '')
 			{
-				props.navigation.navigate('ShopperAccPlanFreeCardDet', { cs: clientSecret });
+				props.navigation.navigate('ShopperAccPlanFreeCardDet', { cs: clientSecret, shopperId: form.shopper_id, subscriptionId: subscriptionId, customerId: customerId, priceId: priceId, prodId: prodId });
 			}
 			else 
 			{
@@ -113,6 +130,15 @@ const CustomerInfo = (props) =>
 	const handleCancel = () => 
 	{
 		props.navigation.navigate('ShopperAccPlanFree');
+	}
+
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
 	}
 
 	return (
