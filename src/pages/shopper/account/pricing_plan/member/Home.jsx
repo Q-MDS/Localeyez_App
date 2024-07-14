@@ -34,8 +34,8 @@ const Home = (props) =>
                 <Divider style={{width: "100%"}} />
                 <TextIcon title="Access to Amazing Discounts" iconname="checkmark-circle-2" width={32} mt={15} mb={15} />
                 <Divider style={{width: "100%"}} />
-                <ButtonPrimary name="Cancel Subscription" width="100%" marginTop={35} onpress={handleCancel} />
-                <ButtonSecondary name="Close" width="100%" marginTop={15} onpress={handleClose} />
+                <ButtonPrimary name="Back" width="100%" marginTop={35} onpress={handleClose} />
+                <ButtonSecondary name="Cancel Subscription" width="100%" marginTop={15} onpress={handleCancel} />
             </Layout>
         </SafeAreaView>
     );
