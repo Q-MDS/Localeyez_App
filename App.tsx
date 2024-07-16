@@ -15,7 +15,7 @@ import Toast from 'react-native-toast-message';
 const App = () => (
     <>
         <IconRegistry icons={EvaIconsPack} />
-		<StripeProvider publishableKey="pk_test_9VvzSCWXlvBTtzpWrciFHg5w00dVUMwe3x">
+		<StripeProvider publishableKey="pk_test_9VvzSCWXlvBTtzpWrciFHg5w00dVUMwe3x" merchantIdentifier="merchant.net.localeyez.app">
         <AuthProvider>
             <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
                 <AppNavigator />

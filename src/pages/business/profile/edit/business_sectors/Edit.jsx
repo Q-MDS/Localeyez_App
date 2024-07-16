@@ -122,7 +122,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -131,7 +131,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -140,7 +140,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -149,7 +149,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -158,7 +158,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -167,7 +167,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -176,7 +176,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="primary" />
+									<TextTwo key={key} title={value} fontweight="bold" fontsize={20} mt={10} status="basic" />
 								</View>
 							);
 						}
@@ -185,7 +185,7 @@ const Edit = (props) =>
 							return (
 								<View key={key} style={{ marginTop: 0, marginBottom: 10, width: '100%' }}>
 									<View style={{ height: 1, backgroundColor: '#D5D2F3'}} />
-									<TextTwo  title={value} fontweight="bold" fontsize={18} mt={10} status="primary" />
+									<TextTwo  title={value} fontweight="bold" fontsize={18} mt={10} status="basic" />
 								</View>
 							);
 						}

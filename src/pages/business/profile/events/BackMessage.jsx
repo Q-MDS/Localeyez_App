@@ -28,7 +28,7 @@ const BackMessage = (props) =>
 					<Text style={[MainStyles.title_a16, {textAlign: 'center', marginBottom: 40}]}>If you go back, your event will be discarded.</Text>
 					<ButtonPrimary name="Continue Event Details" onpress={handleContinue} />
 					<View style={{ marginTop: 15 }} />
-					<ButtonText name="Discard Event" onpress={handleDiscard} />
+					<ButtonSecondary name="Discard Event" onpress={handleDiscard} />
 				</View>
             </Layout>
         </SafeAreaView>

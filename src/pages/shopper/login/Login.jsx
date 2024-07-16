@@ -285,7 +285,7 @@ const Login = (props) =>
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
 			<TopNavBack navigation={props.navigation} pops={1} />
-            <Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
+            <Layout style={[MainStyles.column_container, { paddingTop: 40}]}>
 				<ScrollView style={{ flex: 1, width: '100%' }}>
 					<Text style={MainStyles.title_one}>Login as a User</Text>
 						<View style={{ position: 'relative' }} >

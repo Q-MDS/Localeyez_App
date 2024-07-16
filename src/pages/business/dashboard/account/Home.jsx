@@ -11,7 +11,7 @@ import { IconTextIcon } from "../../../../components/IconTextIcon";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../components/ButtonSecondary";
 import { ButtonText } from "../../../../components/ButtonText";
-import { SafeAreaView, TouchableOpacity, View, Alert } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Alert } from "react-native";
 import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 
 const initialState = { 
@@ -270,7 +270,7 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Account details" alignment="start" navigation={props.navigation} pops={1} />
-			{/* <Layout style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop:40, paddingBottom: 30 }}> */}
+			<ScrollView style={{ flex: 1}}>
 			<Layout style={ MainStyles.column_container}>
 				<View>
 					<TouchableOpacity onPress={chooseDisplayImage} style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
@@ -302,12 +302,16 @@ const Home = (props) =>
 					<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
 					<IconTextIcon title="Privacy Policy" status="basic" fontsize={16} iconLeft="lock-outline" iconRight="chevron-right-outline" type={0} navigation={props.navigation} onpress="PrivacyPolicy" />
 				</View>
+				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 25 }} />
 				<View style={{ flex: 1 }} />
-				<Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%' }} >
+				<Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%', marginTop: 25 }} >
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
-					<ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} />
+					<View style={{ marginTop: 15 }} />
+					<ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
+					{/* <ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} /> */}
 				</Layout>
 			</Layout>
+			</ScrollView>
         </SafeAreaView>
 
     );
