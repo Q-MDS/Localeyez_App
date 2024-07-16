@@ -28,7 +28,7 @@ const Choose = (props) =>
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
 			<TopNavBack navigation={props.navigation} pops={1} />
-			<Layout style={[MainStyles.column_container]}>
+			<Layout style={[MainStyles.column_container, {paddingTop: 0}]}>
 				<View style={{ flex: 1 }} />
 				<Text style={MainStyles.title_one}>Choose which option applies to you:</Text>
 				<View style={{ marginBottom: 50 }}>

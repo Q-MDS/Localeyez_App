@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { subscription } from "../../../../../services/api_stripe";
 import DbUtils from '../../../../../services/DbUtils';
-import { TopNavArrowTitle } from '../../../../../components/TopNavArrowTitle';
+import { TopNavBack } from '../../../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, TextInput, View, Alert, StyleSheet, ActivityIndicator } from "react-native";
 import { Layout, Text } from '@ui-kitten/components';
 import {InputLabel} from '../../../../../components/InputLabel';
@@ -142,8 +142,9 @@ const CustomerInfo = (props) =>
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-        	<TopNavArrowTitle title="Pricing Plan: Customer Details" alignment="start" navigation={props.navigation} />
+		<SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
+			<TopNavBack title={`Pricing Plan: Customer Details`} alignment="start" navigation={props.navigation} pops={1} />
+			<ScrollView style={{ flex: 1 }}>
 			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
 				<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
 				<Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 20, textAlign: 'center' }}>Upgrade Subscription</Text>
@@ -159,6 +160,7 @@ const CustomerInfo = (props) =>
 					<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleCancel} />
 				</Layout>
 			</Layout>
+			</ScrollView>
 		</SafeAreaView>
 	);
 }

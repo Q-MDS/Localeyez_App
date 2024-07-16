@@ -224,8 +224,8 @@ const Edit = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title={`Edit Profile`} alignment="start" navigation={props.navigation} pops={1} />
-			<ScrollView style={{ flex: 1, width: '100%' }}>
-				<Layout style={[MainStyles.layout_container ]}>
+			{/* <ScrollView style={{ flex: 1, width: '100%', borderColor: 'red', borderWidth: 1 }}> */}
+				<Layout style={[MainStyles.layout_container]}>
 				
 					<View style={{ position: 'relative', width: '100%' }} >
 						<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
@@ -250,14 +250,16 @@ const Edit = (props) =>
 
 					<View style={{ marginTop: 15 }} />
 					<Label title="Geo-Location Range"  status="basic" fontsize={16} />
-						<View style={{ width: '100%', height: 70 }} >
-							<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
+					<View style={{ width: '100%', height: 70 }} >
+						<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, width: '100%' }}>
+						<View style={{ width: '100%', flex: 1 }} >
+							<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
 						</View>
-					<Layout style={{ width: '100%', marginTop: 40 }} >
-						<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
-					</Layout>
+					</View>
 				</Layout>
-			</ScrollView>
+			{/* </ScrollView> */}
         </SafeAreaView>
     );
 };

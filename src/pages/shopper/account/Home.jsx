@@ -305,7 +305,7 @@ const Home = (props) =>
 				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 25 }} />
 			</View>
 
-				<View style={{ flex: 1 }} />
+				<View style={{ flex: 1, marginTop: 25 }} />
 				<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
 					<View style={{ marginTop: 15 }} />

@@ -171,7 +171,7 @@ const Security = (props) =>
 						<Layout style={{ flex: 1, width: '100%', marginTop: 60 }} >
 							<ButtonPrimary name="Update Password" width="100%" onpress={validateForm} />
 							<View style={{ marginTop: 15 }} />
-							<ButtonText name="Cancel" width="100%" onpress={handleCancel} />
+							<ButtonSecondary name="Cancel" width="100%" onpress={handleCancel} />
 						</Layout>
 						<View style={{ flex: 1 }} />
 						</Layout>

@@ -1,8 +1,8 @@
 import React from "react";
 import MainStyles from "../../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../components/TopNavBack";
 import {TextIcon} from "../../../../../components/TextIcon";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { Layout, Text, Divider, Avatar } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 
@@ -14,8 +14,9 @@ const Home = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Pricing Plan" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <TopNavBack title={`Pricing Plan`} alignment="start" navigation={props.navigation} pops={1} />
+            <ScrollView style={{ flex: 1 }}>
             <Layout style={[MainStyles.layout_container, { justifyContent: 'flex-start', alignItems: 'center' } ]}>
 			<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
             <Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 20, textAlign: 'center' }}>Subscription Type</Text>
@@ -29,9 +30,10 @@ const Home = (props) =>
                 <TextIcon title="Review Businesses" iconname="checkmark-circle-2" width={32} mt={15} mb={15} />
                 <Divider style={{width: "100%"}} />
 				<Layout style={{ flexDirection: 'row', alignItems: 'flex-end', width: '100%', flex: 1, paddingBottom: 40 }}>
-                	<ButtonPrimary name="Upgrade Subscription" width="100%" marginTop={80} onpress={handleUpgrade} />
+                	<ButtonPrimary name="Upgrade Subscription" width="100%" marginTop={25} onpress={handleUpgrade} />
 				</Layout>
             </Layout>
+            </ScrollView>
         </SafeAreaView>
     );
 };

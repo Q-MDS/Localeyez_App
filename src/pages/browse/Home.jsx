@@ -119,8 +119,8 @@ const Home = (props) =>
                             </View>
                         </Layout>
 
-						<TouchableOpacity onPress={handleReadMore} style={{ width: '100%' }}>
-							<Text style={{ fontSize: 15, fontWeight: '500', textAlign: 'center', backgroundColor: '#612bc1', color: '#fff', padding:10, borderRadius: 20, marginTop: 10, borderTopColor: '#deded7', borderTopWidth: 1, borderBottomColor: '#deded7', borderBottomWidth: 1 }}>Read more about the benfits of signing up</Text>
+						<TouchableOpacity onPress={handleReadMore} style={{ alignITEMS: 'center', width: '100%', backgroundColor: '#612bc1', borderRadius: 10, marginTop: 15 }}>
+							<Text style={{ fontSize: 15, fontWeight: '500', textAlign: 'center', color: '#fff', padding:10, borderTopColor: '#deded7', borderTopWidth: 1, borderBottomColor: '#deded7', borderBottomWidth: 1 }}>Read more about the benfits of signing up</Text>
 						</TouchableOpacity>
 					</ScrollView>
                     </Layout>

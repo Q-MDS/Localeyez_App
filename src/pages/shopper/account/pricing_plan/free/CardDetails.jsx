@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DbUtils from "../../../../../services/DbUtils";
+import { PlatformPayButton, isPlatformPaySupported, PlatformPay } from '@stripe/stripe-react-native';
+import { confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { subscription } from "../../../../../services/api_stripe";
 import {subscribed} from "../../../../../services/api_helper";
 import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../components/TopNavBack";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
 import { SafeAreaView, ScrollView, Button, Alert } from "react-native";
@@ -12,6 +15,7 @@ import StripeLogo from '../../../../../assets/images/StripeLogo';
 
 const CardDetails = (props) => 
 {
+	const [isApplePaySupported, setIsApplePaySupported] = useState(false);
 	const [form, setform] = useState({name: 'Mr Bean', email: 'mr.bean@gmail.com', shopper_id: '111'});
 	const { initPaymentSheet, presentPaymentSheet } = useStripe();
 	const [token, setToken] = useState('');
@@ -21,6 +25,16 @@ const CardDetails = (props) =>
 	const [customerId, setCustomerId] = useState('');
 	const [priceId, setPriceId] = useState('');
 	const [prodId, setProdId] = useState('');
+
+	const {presentApplePay} = useStripe();
+
+	useEffect(() => 
+	{
+		(async function () 
+		{
+		  setIsApplePaySupported(await isPlatformPaySupported());
+		})();
+	}, [isPlatformPaySupported]);
 
 	const getToken = async () => 
 	{
@@ -123,6 +137,87 @@ const CardDetails = (props) =>
 		}
 	}
 
+	const pay = async () => 
+	{
+		// const clientSecret = await fetchPaymentIntentClientSecret()
+		const { error } = await confirmPlatformPayPayment(
+		clientSecret,
+		{
+			applePay: {
+			cartItems: [
+				{
+				label: 'Example item name',
+				amount: '14.00',
+				paymentType: PlatformPay.PaymentType.Immediate,
+				},
+				{
+				label: 'Total',
+				amount: '12.75',
+				paymentType: PlatformPay.PaymentType.Immediate,
+				},
+			],
+			merchantCountryCode: 'US',
+			currencyCode: 'USD',
+			requiredShippingAddressFields: [
+				PlatformPay.ContactField.PostalAddress,
+			],
+			requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
+			},
+		}
+		);
+		if (error) {
+		// handle error
+		} else {
+		Alert.alert('Success', 'Check the logs for payment intent details.');
+		console.log(JSON.stringify(paymentIntent, null, 2));
+		}
+	}
+
+	const handleApplePayPress = async () => 
+	{
+		const { error } = await confirmPlatformPayPayment(
+		clientSecret,
+		{
+			applePay: {
+			cartItems: [
+				{
+				label: 'Localeyez subscription',
+				amount: '10.00',
+				paymentType: PlatformPay.PaymentType.Immediate,
+				},
+				{
+				label: 'Total',
+				amount: '12.75',
+				paymentType: PlatformPay.PaymentType.Immediate,
+				},
+			],
+			merchantCountryCode: 'US',
+			currencyCode: 'USD',
+			requiredShippingAddressFields: [
+				PlatformPay.ContactField.PostalAddress,
+			],
+			requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
+			},
+		}
+		);
+		if (error) {
+			if (error.code === PaymentSheetError.Failed) 
+			{
+				// Handle stripe/server error
+				Alert.alert("There was a server error. Please try again later!", error.message);
+			} 
+			else if (error.code === PaymentSheetError.Canceled) 
+			{
+				// Handle canceled
+				Alert.alert("Payment was cancelled!");
+			}
+		} 
+		else 
+		{
+			updateShopper();
+		}
+	};
+
 	const updateShopper = async () => 
 	{
 		const data = { shopper_id: shopperId, stripe_sub_id: subscriptionId, stripe_cust_id: customerId, stripe_price_id: priceId, stripe_prod_id: prodId };
@@ -159,8 +254,8 @@ const CardDetails = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Back" alignment="start" navigation={props.navigation} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+			<TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{ flex: 1 }}>
             <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
 			<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
@@ -181,7 +276,23 @@ const CardDetails = (props) =>
 			<Text category="s1" style={{ width: '100%', marginTop: 20, marginBottom: 0, textAlign: 'left', fontWeight: 'bold' }}>Please note:</Text>
 			<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'left' }}>If you wish to cancel your subscription go to Profile, tap on Edit profile and then tap on Cancel Subscription</Text>
 			<StripeLogo />
-			<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
+			{isApplePaySupported ? (
+				<PlatformPayButton
+				onPress={handleApplePayPress}
+				type={PlatformPay.ButtonType.Subscribe}
+ 				appearance={PlatformPay.ButtonStyle.WhiteOutline}
+				borderRadius={4}
+				style={{
+					width: '100%',
+					height: 50,
+				}}
+				/>
+			)
+			:
+			(
+				<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
+			)}
+			
 			<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleClose} />
             </Layout>
 			{/* <Button

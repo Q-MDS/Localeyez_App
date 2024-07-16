@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import { PermissionsAndroid } from 'react-native';
-import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import { PermissionsAndroid, Platform } from 'react-native';
+// import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import DbUtils from "../../../services/DbUtils";
 import MainStyles from "../../../assets/styles/MainStyles";
@@ -245,41 +245,55 @@ const Home = (props) =>
 		props.navigation.navigate('SearchEventView', { event: event });
 	}
 
-	const requestLocationPermission = async () => {
-		if (Platform.OS === 'ios') {
-		  let response = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+	// const requestLocationPermission = async () => {
+	// 	if (Platform.OS === 'ios') {
+	// 	  let response = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
 	  
-		  if (response === RESULTS.DENIED) {
-			request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((response) => {
-			  // …
-			});
-		  }
-		}
+	// 	  if (response === RESULTS.DENIED) {
+	// 		request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((response) => {
+	// 		  // …
+	// 		});
+	// 	  }
+	// 	}
 	  
-		if (Platform.OS === 'android') {
-		  try {
-			const granted = await PermissionsAndroid.request(
-			  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-			  {
-				title: "Localeyez Location Permission",
-				message:
-				  "We need your location in order to find businesses " +
-				  "within the geo range you have selected.",
-				buttonNeutral: "Ask Me Later",
-				buttonNegative: "Cancel",
-				buttonPositive: "OK"
-			  }
+	// 	if (Platform.OS === 'android') {
+	// 	  try {
+	// 		const granted = await PermissionsAndroid.request(
+	// 		  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+	// 		  {
+	// 			title: "Localeyez Location Permission",
+	// 			message:
+	// 			  "We need your location in order to find businesses " +
+	// 			  "within the geo range you have selected.",
+	// 			buttonNeutral: "Ask Me Later",
+	// 			buttonNegative: "Cancel",
+	// 			buttonPositive: "OK"
+	// 		  }
+	// 		);
+	// 		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+	// 		  console.log("You can use the location");
+	// 		} else {
+	// 		  console.log("Location permission denied");
+	// 		}
+	// 	  } catch (err) {
+	// 		console.warn(err);
+	// 	  }
+	// 	}
+	// };
+
+	const requestLocationPermission = async () => 
+	{
+		if (Platform.OS === 'ios') 
+		{
+			Geolocation.requestAuthorization();
+		} 
+		else if (Platform.OS === 'android') 
+		{
+			await PermissionsAndroid.request(
+				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
 			);
-			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-			  console.log("You can use the location");
-			} else {
-			  console.log("Location permission denied");
-			}
-		  } catch (err) {
-			console.warn(err);
-		  }
 		}
-	  };
+	};
 
 	const getCurrentPosition = () => 
 	{
