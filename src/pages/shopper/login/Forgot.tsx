@@ -4,8 +4,9 @@ import { resetPassword } from '../../../services/auth';
 import { TopNavBack } from '../../../components/TopNavBack';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
+import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { ButtonText } from '../../../components/ButtonText';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 const initialState = {
@@ -26,6 +27,7 @@ function reducer(state: any, action: { type: any; payload: any; })
 const Forgot = (props: any) => 
 {
 	const [state, dispatch] = useReducer(reducer, initialState);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function handleInputChange(name: any, newValue: any) 
 	{
@@ -50,7 +52,7 @@ const Forgot = (props: any) =>
 
 	const handleSubmit = async () => 
 	{
-		console.log('Put the weed in the coconut and light that shit up: ', state.email);
+		setIsLoading(true);
 		try
 		{
 			if (state.email.trim() == '')
@@ -75,6 +77,8 @@ const Forgot = (props: any) =>
 					showAlert('Error', res.message, '');
 				}
 				handleInputChange('', 'email');
+
+				setIsLoading(false);
 			});
 		}
 		catch (error)
@@ -88,22 +92,31 @@ const Forgot = (props: any) =>
 		props.navigation.navigate('LoginUser');
 	}
 
-  return (
-	<SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-		<TopNavBack navigation={props.navigation} pops={1} />
-		<Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
-			<ScrollView style={{ flex: 1, width: '100%' }}>
-				<Text style={MainStyles.title_one}>Forgot Password</Text>
-				<Text style={[MainStyles.title_a18, {marginBottom: 20 }]}>Enter your email address below and we'll send you a link to reset your password.</Text>
-					<View style={{ position: 'relative' }} >
-						<InputLabelEmail label="Email Address" name="email"  value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" mb={20} bg={'#f2f2f2'} />
-					</View>
-					<ButtonPrimary name="Submit" marginTop={20} onpress={handleSubmit}/>
-					<ButtonText name="Back to login" marginTop={15} onpress={handleBack} />
-			</ScrollView>
-		</Layout>
-	</SafeAreaView>
-  )
+	if (isLoading) 
+		{
+			return (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<ActivityIndicator size="large" color="#0000ff" />
+				</View>
+			);
+		}
+
+  	return (
+		<SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+			<TopNavBack navigation={props.navigation} pops={1} />
+			<Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
+				<ScrollView style={{ flex: 1, width: '100%' }}>
+					<Text style={MainStyles.title_one}>Forgot Password</Text>
+					<Text style={[MainStyles.title_a18, {marginBottom: 20 }]}>Enter your email address below and we'll send you a link to reset your password.</Text>
+						<View style={{ position: 'relative' }} >
+							<InputLabelEmail label="Email Address" name="email"  value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" mb={20} bg={'#f2f2f2'} />
+						</View>
+						<ButtonPrimary name="Submit" marginTop={20} onpress={handleSubmit}/>
+						<ButtonSecondary name="Back to login" marginTop={15} onpress={handleBack} />
+				</ScrollView>
+			</Layout>
+		</SafeAreaView>
+  	)
 }
 
 const styles = StyleSheet.create({

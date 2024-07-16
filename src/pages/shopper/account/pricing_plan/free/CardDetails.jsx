@@ -146,13 +146,13 @@ const CardDetails = (props) =>
 			applePay: {
 			cartItems: [
 				{
-				label: 'Example item name',
-				amount: '14.00',
+				label: 'Localeyez Member monthly subscription fee',
+				amount: '10.00',
 				paymentType: PlatformPay.PaymentType.Immediate,
 				},
 				{
 				label: 'Total',
-				amount: '12.75',
+				amount: '10.00',
 				paymentType: PlatformPay.PaymentType.Immediate,
 				},
 			],
