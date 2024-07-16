@@ -233,6 +233,7 @@ OTHER
 Stripe Tut 1: https://www.youtube.com/watch?v=50bIefoMo3c
 Build a subscriptions integration
 https://docs.stripe.com/billing/subscriptions/build-subscriptions
+ApplePay: https://docs.stripe.com/apple-pay
 https://www.youtube.com/watch?v=Tmcxm1xDVMU
 https://www.youtube.com/watch?v=b4YRUEm1Rfs
 
@@ -252,3 +253,16 @@ Last to do on stripe
   - Do usual close but PHP must first cancel the subscription
 
 - Cancel subscription
+
+
+Stripe Apple Pay:
+Settings > Payment Methods > Apple Pay
+Next, go to this page on Apple's Developer Center
+1. Select the Merchant ID you'd like to add this certificate to, then click 'Create Certificate' in the Apple Pay Payment Processing Certificate section.
+2. When it prompts you to upload a Certificate Signing Request, choose the .certSigningRequest file you just downloaded.
+3. Verify your certificate details are correct. Download to save the certificate locally.
+
+Add new certificate
+1. Upload your new certificate file here and click Submit.
+2. Go back to this page on Apple's Developer Center, select the MerchantID and activate the Apple Pay Payment Processing Certificate you just created.
+Continue in the guide to integrate Apple Pay into your app.
