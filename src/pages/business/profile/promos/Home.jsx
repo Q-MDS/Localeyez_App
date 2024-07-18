@@ -236,7 +236,7 @@ const Home = (props) =>
 					<Text style={[MainStyles.title_a16]}>{state.businessBio}</Text>
 					{/* <TextTwo title={state.businessBio} status="basic" /> */}
 					<View style={{ marginTop: 15 }} />
-					<IconText title={`${state.addressOne}\n${state.addressTwo}\n${state.city}\n${state.province}\n${state.zipCode}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
+					<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
 					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
 					<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
 					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} /> */}
