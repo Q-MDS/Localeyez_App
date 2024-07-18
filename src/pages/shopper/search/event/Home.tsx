@@ -41,7 +41,7 @@ const Home = (props: any) =>
 					<Text style={[MainStyles.title_a16, { width: '100%' }]}>Date & Time</Text>
 					<IconText status="basic" title={`${parts[0]} at ${event.start_time}`} iconname="calendar" width={18} fontsize={16} fontweight="600" opacity={0.7} style={{ fontSize: 16, fontWeight: '600', lineHeight: 23, color: '#6A6A6A', opacity: 0.7, width: '100%' }} />
 					<Text style={[MainStyles.title_a16, { width: '100%', marginTop: 20 }]}>Location</Text>
-					<Text status="basic" style={{ fontSize: 16, fontWeight: '600', lineHeight: 23, color: '#6A6A6A', opacity: 0.8, width: '100%' }}>{`${event.loc_add_one}\n${event.loc_add_two}\n${event.loc_city}\n${event.loc_province}\n${event.loc_zip_code}`}</Text>
+					<Text status="basic" style={{ fontSize: 16, fontWeight: '600', lineHeight: 23, color: '#6A6A6A', opacity: 0.8, width: '100%' }}>{`${event.loc_add_one ? event.loc_add_one : '-'}\n${event.loc_add_two ? event.loc_add_two : '-'}\n${event.loc_city ? event.loc_city : '-'}\n${event.loc_province ? event.loc_province : '-'}\n${event.loc_zip_code ? event.loc_zip_code : '-'}`}</Text>
 					<ButtonPrimary name="View business profile" width="100%" marginTop={40} onpress={handleBusProfile}/>
                 </Layout>
             </ScrollView>
