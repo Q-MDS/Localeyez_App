@@ -9,7 +9,7 @@ import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
 import { TopNavBack } from "../../../../../components/TopNavBack";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
-import { SafeAreaView, ScrollView, Button, Alert } from "react-native";
+import { SafeAreaView, ScrollView, ActivityIndicator, Alert, View } from "react-native";
 import { Layout, Text, Card } from "@ui-kitten/components";
 import {CardField, useStripe, PaymentSheetError} from '@stripe/stripe-react-native';
 import StripeLogo from '../../../../../assets/images/StripeLogo';
@@ -28,6 +28,7 @@ const CardDetails = (props) =>
 	const [customerId, setCustomerId] = useState('');
 	const [priceId, setPriceId] = useState('');
 	const [prodId, setProdId] = useState('');
+	const [isUploading, setIsUploading] = useState(false);
 
 	// const {presentApplePay} = useStripe();
 
@@ -127,16 +128,16 @@ const CardDetails = (props) =>
 	{
 		const {error} = await presentPaymentSheet();
 		if (error) {
-			if (error.code === PaymentSheetError.Failed) {
-			// Handle failed
-			Alert.alert("There was a server error. Please try again later!", error.message);
+			if (error.code === PaymentSheetError.Failed) 
+			{
+				// Handle failed
+				Alert.alert("There was a server error. Please try again later!", error.message);
 			} else if (error.code === PaymentSheetError.Canceled) {
-			// Handle canceled
-			Alert.alert("Payment was cancelled!");
+				// Handle canceled
+				Alert.alert("Payment was cancelled!");
 			}
 		} else {
 			// Payment succeeded
-			// Alert.alert("Payment was successful!");
 			updateShopper();
 		}
 	}
@@ -196,7 +197,6 @@ const CardDetails = (props) =>
 				},
 				
 			],
-			requestPayerName: true,
 			merchantCountryCode: 'US',
 			merchantName: 'Localeyez',
 			merchantDisplayName: 'Localeyez',
@@ -226,52 +226,30 @@ const CardDetails = (props) =>
 		}
 	};
 
-	// const handleApplePayPress = async () => {
-	// 	const {error, paymentMethod} = await presentApplePay({
-	// 	  cartItems: [
-	// 		{label: 'Product Name', amount: '10.00'},
-	// 		{label: 'Tax', amount: '2.00'},
-	// 	  ],
-	// 	  country: 'US',
-	// 	  currency: 'USD',
-	// 	  shippingMethods: [
-	// 		// Define shipping methods if applicable
-	// 	  ],
-	// 	  requiredShippingAddressFields: ['emailAddress', 'postalAddress'],
-	// 	  requiredBillingContactFields: ['name'],
-	// 	  merchantName: 'Your Merchant Name',
-	// 	});
-	
-	// 	if (error) {
-	// 	  // Handle error
-	// 	  console.error(error);
-	// 	} else {
-	// 	  // Process the payment with the paymentMethod
-	// 	}
-	//   };
-
 	const updateShopper = async () => 
 	{
+		setIsUploading(true);
+
 		const data = { shopper_id: shopperId, stripe_sub_id: subscriptionId, stripe_cust_id: customerId, stripe_price_id: priceId, stripe_prod_id: prodId };
-		console.log('Update Shopper:', data);
+
 		await subscribed(token, data)
 		.then((res) => 
 		{
+			setIsUploading(false);
 			updProfile('verified', "1");
 			Alert.alert(
 				'Payment was successful!',
-				'Thank you for your subscription', // Optional Alert message
+				'Thank you for your subscription',
 				[
 				  {
 					text: 'OK',
-					onPress: () => {
-					  // Code to execute after tapping OK
-					  // For example, navigate to another page
+					onPress: () => 
+					{
 					  props.navigation.navigate('ShopperAccHome');
 					},
 				  },
 				],
-				{ cancelable: false } // This prevents the alert from being dismissed by tapping outside of it
+				{ cancelable: false }
 			  );
 
 			// Shopper profile - update verified to 1
@@ -293,6 +271,15 @@ const CardDetails = (props) =>
 	const handlePrivacy = () => 
 	{
 		props.navigation.navigate('PrivacyPolicy');
+	}
+
+	if (isUploading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
 	}
 
     return (
@@ -327,14 +314,15 @@ const CardDetails = (props) =>
 				<Text category="p2">Please note: If you wish to cancel your subscription, go to Account Details • Pricing Plan • Cancel Subscription.</Text>
 				<Text category="p2" style={{marginTop: 10}}>By subscribing, you agree to our Terms and Conditions and Privacy Policy.</Text>
 				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={handleTerms}>
-					<IconText title="Terms and Conditions" iconname="lock-outline" fontsize={14} width={20} status="basic" />
+					<IconText title="Terms and Conditions" iconname="file-text-outline" fontsize={14} width={20} status="basic" />
 				</TouchableOpacity>
 				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={handlePrivacy}>
 					<IconText title="Privacy Policy" iconname="lock-outline" fontsize={14} width={20} status="basic" style={{backgroundColor:'red'}} />
 				</TouchableOpacity>
 			</Layout>
 			
-			{isApplePaySupported ? (
+			{isApplePaySupported ? 
+			(
 				<PlatformPayButton
 				onPress={handleApplePayPress}
 				type={PlatformPay.ButtonType.Pay}
@@ -345,38 +333,16 @@ const CardDetails = (props) =>
 					height: 50,
 				}}
 				/>
-				
 			)
 			:
 			(
-				<Layout>
+				<Layout style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
 					<StripeLogo />
 					<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
 				</Layout>
 			)}
-			
 			<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleClose} />
             </Layout>
-			{/* <Button
-				title="Subscribe"
-				color={'#5cb85c'}
-				style={{width: "50%"}}
-				onPress={async () => {
-				const {error} = await presentPaymentSheet();
-				if (error) {
-					if (error.code === PaymentSheetError.Failed) {
-					// Handle failed
-					Alert.alert("There was a server error. Please try again later!", error.message);
-					} else if (error.code === PaymentSheetError.Canceled) {
-					// Handle canceled
-					Alert.alert("Payment was cancelled!");
-					}
-				} else {
-					// Payment succeeded
-					Alert.alert("Payment was successful!");
-				}
-				}}
-			/> */}
 			</ScrollView> 	
         </SafeAreaView>
     );

@@ -258,3 +258,8 @@ Last to do on stripe
 TODO 19-07-2024
 1. If a member then go to Pricing Plan. Add ScrollView to screen
 2. Apple Pay needs info...
+
+TESTING Version 1.1.13 IOS
+√ Terms: Contact info at the bottom is WHACK
+√ Logo and subscribe is WHACK
+√ After pressing the green processed button it takes awhile before the Confirmation alert is displayed...
