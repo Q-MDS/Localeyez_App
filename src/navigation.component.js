@@ -92,6 +92,7 @@ import SearchBusinessReviewView from './pages/shopper/search/business/reviews/Vi
 import SearchBusinessReviewWrite from './pages/shopper/search/business/reviews/WriteReview.tsx'
 import SearchBusinessReviewWriteConfirm from './pages/shopper/search/business/reviews/WriteConfirm.tsx'
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms.tsx';
 import BrowseHome from './pages/browse/Home';
 import BrowseRegister from './pages/browse/Register';
 import BrowseTravel from './pages/browse/Travel';
@@ -208,6 +209,7 @@ const HomeNavigator = () => (
 		<Screen name="SearchPromotionView" component={SearchPromotionView} />
 		<Screen name="SearchEventView" component={SearchEventView} />
 		<Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+		<Screen name="Terms" component={Terms} />
 		<Screen name="BrowseHome" component={BrowseHome} />
 		<Screen name="BrowseRegister" component={BrowseRegister} />
 		<Screen name="BrowseTravel" component={BrowseTravel} />

@@ -1,8 +1,8 @@
 import React from "react";
 import MainStyles from "../../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../components/TopNavBack";
 import {TextIcon} from "../../../../../components/TextIcon";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { Layout, Avatar, Text, Divider } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
@@ -20,8 +20,9 @@ const Home = (props) =>
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Pricing Plan" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
+            <ScrollView style={{ flex: 1 }}>
             <Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
                 <Avatar source={require('../../../../../assets/images/price_plan_member.png')} style={{ width: 96, height: 96 }} />
                 <Text category="p1" status="primary" style={{ marginTop: 15 }}>$10/month</Text>
@@ -37,6 +38,7 @@ const Home = (props) =>
                 <ButtonPrimary name="Back" width="100%" marginTop={35} onpress={handleClose} />
                 <ButtonSecondary name="Cancel Subscription" width="100%" marginTop={15} onpress={handleCancel} />
             </Layout>
+            </ScrollView>
         </SafeAreaView>
     );
 };

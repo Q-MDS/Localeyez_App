@@ -253,3 +253,8 @@ Last to do on stripe
   - Do usual close but PHP must first cancel the subscription
 
 - Cancel subscription
+
+
+TODO 19-07-2024
+1. If a member then go to Pricing Plan. Add ScrollView to screen
+2. Apple Pay needs info...

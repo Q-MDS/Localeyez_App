@@ -8,9 +8,9 @@ import TextTwo from "../components/TextTwo";
 
 const PrivacyPolicy = (props: any) => 
 {
-	console.log('props type', props);
+	// console.log('props type', props);
 	
-	const type = props.route.params.type; //aa
+	// const type = props.route.params.type; //aa
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -71,11 +71,17 @@ const PrivacyPolicy = (props: any) =>
 							{"We may update this privacy policy from time to time. The updated version will be indicated by an updated \"Revised\" date and the updated version will be effective as soon as it is accessible."}
 							{"\n"}
 							</Text>
+							<Text style={{ color: 'black', fontWeight: 'bold', width: '100%', fontSize: 16, paddingBottom: 5 }}>{"Stripe Payment Portal"}</Text>
+							<Text style={{ color: 'black' }}>
+							{"We use Stripe for payment, analytics, and other business services. Stripe collects and processes personal data, including identifying information about the devices that connect to its services. Stripe uses this information to operate and improve the services it provides to us, including for fraud detection and prevention. You can learn more about Stripe and its processing activities via privacy policy at https://stripe.com/privacy."}
+							{"\n"}
+							</Text>
+
 							<Text style={{ color: 'black', fontWeight: 'bold', width: '100%', fontSize: 16, paddingBottom: 5 }}>{"Contact Us"}</Text>
 							<Text style={{ color: 'black' }}>
 							{"If you have questions or comments about this policy, you may email us at charli_mwa@hotmail.com."}
 							{"\n"}
-						</Text>
+							</Text>
 					</Layout>
 			</ScrollView>
 		</SafeAreaView>

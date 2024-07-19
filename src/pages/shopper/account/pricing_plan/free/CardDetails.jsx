@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DbUtils from "../../../../../services/DbUtils";
-import { PlatformPayButton, isPlatformPaySupported, PlatformPay } from '@stripe/stripe-react-native';
+import { PlatformPayButton, isPlatformPaySupported, PlatformPay, useApplePay, ApplePayButton } from '@stripe/stripe-react-native';
+import {presentApplePay} from '@stripe/stripe-react-native';
 import { confirmPlatformPayPayment } from '@stripe/stripe-react-native';
 import { subscription } from "../../../../../services/api_stripe";
 import {subscribed} from "../../../../../services/api_helper";
@@ -9,9 +10,11 @@ import { TopNavBack } from "../../../../../components/TopNavBack";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
 import { SafeAreaView, ScrollView, Button, Alert } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, Card } from "@ui-kitten/components";
 import {CardField, useStripe, PaymentSheetError} from '@stripe/stripe-react-native';
 import StripeLogo from '../../../../../assets/images/StripeLogo';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { IconText } from "../../../../../components/IconText";
 
 const CardDetails = (props) => 
 {
@@ -26,13 +29,14 @@ const CardDetails = (props) =>
 	const [priceId, setPriceId] = useState('');
 	const [prodId, setProdId] = useState('');
 
-	const {presentApplePay} = useStripe();
+	// const {presentApplePay} = useStripe();
 
 	useEffect(() => 
 	{
 		(async function () 
 		{
 		  setIsApplePaySupported(await isPlatformPaySupported());
+		// setIsApplePaySupported(true);
 		})();
 	}, [isPlatformPaySupported]);
 
@@ -181,17 +185,21 @@ const CardDetails = (props) =>
 			applePay: {
 			cartItems: [
 				{
-				label: 'Localeyez subscription',
+				label: 'Monthly Localeyez subscription',
 				amount: '10.00',
 				paymentType: PlatformPay.PaymentType.Immediate,
 				},
 				{
-				label: 'Total',
-				amount: '12.75',
+				label: 'Localeyez',
+				amount: '10.00',
 				paymentType: PlatformPay.PaymentType.Immediate,
 				},
+				
 			],
+			requestPayerName: true,
 			merchantCountryCode: 'US',
+			merchantName: 'Localeyez',
+			merchantDisplayName: 'Localeyez',
 			currencyCode: 'USD',
 			requiredShippingAddressFields: [
 				PlatformPay.ContactField.PostalAddress,
@@ -209,7 +217,7 @@ const CardDetails = (props) =>
 			else if (error.code === PaymentSheetError.Canceled) 
 			{
 				// Handle canceled
-				Alert.alert("Payment was cancelled!");
+				Alert.alert("Payment was cancelled!", error.message);
 			}
 		} 
 		else 
@@ -217,6 +225,30 @@ const CardDetails = (props) =>
 			updateShopper();
 		}
 	};
+
+	// const handleApplePayPress = async () => {
+	// 	const {error, paymentMethod} = await presentApplePay({
+	// 	  cartItems: [
+	// 		{label: 'Product Name', amount: '10.00'},
+	// 		{label: 'Tax', amount: '2.00'},
+	// 	  ],
+	// 	  country: 'US',
+	// 	  currency: 'USD',
+	// 	  shippingMethods: [
+	// 		// Define shipping methods if applicable
+	// 	  ],
+	// 	  requiredShippingAddressFields: ['emailAddress', 'postalAddress'],
+	// 	  requiredBillingContactFields: ['name'],
+	// 	  merchantName: 'Your Merchant Name',
+	// 	});
+	
+	// 	if (error) {
+	// 	  // Handle error
+	// 	  console.error(error);
+	// 	} else {
+	// 	  // Process the payment with the paymentMethod
+	// 	}
+	//   };
 
 	const updateShopper = async () => 
 	{
@@ -253,6 +285,16 @@ const CardDetails = (props) =>
         props.navigation.navigate('ShopperAccHome');
     }
 
+	const handleTerms = () => 
+	{
+		props.navigation.navigate('Terms');
+	}
+
+	const handlePrivacy = () => 
+	{
+		props.navigation.navigate('PrivacyPolicy');
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
@@ -260,37 +302,57 @@ const CardDetails = (props) =>
             <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
 			<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
             <Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'center' }}>Upgrade Subscription</Text>
-			<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Tap on subscribe to open the Stripe payment interface.</Text>
+			{isApplePaySupported ? 
+			(
+				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please review your subscription details below before proceeding with Apple Pay.</Text>
+			) 
+			: 
+			(
+				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please review your subscription details below before proceeding with Stripe.</Text>
+			)
+			}
+			<Card style={{width: '100%'}}>
+			<Text category="s1" style={{ paddingTop: 10, paddingBottom: 10, flex: 1 }}>Subscription Details</Text>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="s1" style={{ padding: 5, borderColor: '#deded7', fontWeight: 'bold', borderWidth: 1, flex: 1 }}>Item</Text>
+				<Text category="p1" style={{ paddingBottom: 10, flex: 1 }}>Localeyez Member monthly subscription fee</Text>
 			</Layout>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="s1" style={{ padding: 5, paddingTop: 10, paddingBottom: 10, borderColor: '#deded7', borderWidth: 1, borderTopWidth: 0, flex: 1 }}>Localeyez Member monthly subscription fee</Text>
+				<Text category="p1" style={{ paddingBottom: 10, flex: 1 }}>$10 per month</Text>
 			</Layout>
-			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="s1" style={{ padding: 5, borderColor: '#deded7', borderWidth: 1, borderTopWidth: 0, flex: 1, fontWeight: 'bold' }}>Per Month</Text>
+			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%', borderTopColor: 'black', borderTopWidth: 1, paddingTop: 10 }}>
+				<Text category="p1" style={{ fontWeight: 'bold' }}>Total: $10/month</Text>
 			</Layout>
-			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="s1" style={{ padding: 5, paddingTop: 10, paddingBottom: 10, borderColor: '#deded7', borderWidth: 1, borderTopWidth: 0, flex: 1 }}>$10</Text>
+			</Card>
+			<Layout style={{ marginTop: 15, marginBottom: 25}}>
+				<Text category="p2">Please note: If you wish to cancel your subscription, go to Account Details • Pricing Plan • Cancel Subscription.</Text>
+				<Text category="p2" style={{marginTop: 10}}>By subscribing, you agree to our Terms and Conditions and Privacy Policy.</Text>
+				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={handleTerms}>
+					<IconText title="Terms and Conditions" iconname="lock-outline" fontsize={14} width={20} status="basic" />
+				</TouchableOpacity>
+				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={handlePrivacy}>
+					<IconText title="Privacy Policy" iconname="lock-outline" fontsize={14} width={20} status="basic" style={{backgroundColor:'red'}} />
+				</TouchableOpacity>
 			</Layout>
-			<Text category="s1" style={{ width: '100%', marginTop: 20, marginBottom: 0, textAlign: 'left', fontWeight: 'bold' }}>Please note:</Text>
-			<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'left' }}>If you wish to cancel your subscription go to Profile, tap on Edit profile and then tap on Cancel Subscription</Text>
-			<StripeLogo />
+			
 			{isApplePaySupported ? (
 				<PlatformPayButton
 				onPress={handleApplePayPress}
-				type={PlatformPay.ButtonType.Subscribe}
- 				appearance={PlatformPay.ButtonStyle.WhiteOutline}
+				type={PlatformPay.ButtonType.Pay}
+ 				appearance={PlatformPay.ButtonStyle.Black}
 				borderRadius={4}
 				style={{
 					width: '100%',
 					height: 50,
 				}}
 				/>
+				
 			)
 			:
 			(
-				<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
+				<Layout>
+					<StripeLogo />
+					<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
+				</Layout>
 			)}
 			
 			<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleClose} />
