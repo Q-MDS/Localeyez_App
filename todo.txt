@@ -259,3 +259,13 @@ Last to do on stripe
 We use Stripe for payment, analytics, and other business services. Stripe collects and processes personal data, including identifying information about the devices that connect to its services. Stripe uses this information to operate and improve the services it provides to us, including for fraud detection and prevention. You can learn more about Stripe and its processing activities via privacy policy at https://stripe.com/privacy.
 
 
+
+
+TODO 19-07-2024
+1. If a member then go to Pricing Plan. Add ScrollView to screen
+2. Apple Pay needs info...
+
+TESTING Version 1.1.13 IOS
+√ Terms: Contact info at the bottom is WHACK
+√ Logo and subscribe is WHACK
+√ After pressing the green processed button it takes awhile before the Confirmation alert is displayed...
