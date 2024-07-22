@@ -5,7 +5,7 @@ import { getBusinessNotifications } from "../../../../services/api_helper";
 import Toast from 'react-native-toast-message';
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { Layout, Text } from "@ui-kitten/components";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet, ActivityIndicator } from "react-native";
 import DividerTop from "../../../../components/DividerTop";
 import { NotiCard } from "../../../../components/NotiCard";
 import { NotiCardBusiness } from "../../../../components/NotiCardBusiness";
@@ -17,6 +17,7 @@ const NotiList = (props) =>
 	const [businessId, setBusinessId] = useState(0);
 	const [isReady, setIsReady] = useState(false);
 	const [notifications, setNotifications] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const getToken = async () => 
 	{
@@ -87,6 +88,8 @@ const NotiList = (props) =>
 					// });
 				}
 			}
+
+			setIsLoading(false);
 		}
 
 		if (isReady)
@@ -107,6 +110,15 @@ const NotiList = (props) =>
     const handleViewReview = () => 
     {
         props.navigation.navigate('BusDashNotiView');
+    }
+
+	if (isLoading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
     }
 
     return (

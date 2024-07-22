@@ -253,3 +253,9 @@ Last to do on stripe
   - Do usual close but PHP must first cancel the subscription
 
 - Cancel subscription
+
+
+
+We use Stripe for payment, analytics, and other business services. Stripe collects and processes personal data, including identifying information about the devices that connect to its services. Stripe uses this information to operate and improve the services it provides to us, including for fraud detection and prevention. You can learn more about Stripe and its processing activities via privacy policy at https://stripe.com/privacy.
+
+

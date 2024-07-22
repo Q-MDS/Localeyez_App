@@ -3,7 +3,7 @@ import DbUtils from "../../../services/DbUtils";
 import { getNotifications } from "../../../services/api_helper";
 import { TopNavBack } from "../../../components/TopNavBack";
 import { Text, Layout } from "@ui-kitten/components";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, View, StyleSheet, ActivityIndicator } from "react-native";
 import DividerTop from "../../../components/DividerTop";
 import { NotiCard } from "../../../components/NotiCard";
 
@@ -13,6 +13,7 @@ const NotiList = (props) =>
 	const [shopperId, setShopperId] = useState(0);
 	const [isReady, setIsReady] = useState(false);
 	const [notifications, setNotifications] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const getToken = async () => 
 	{
@@ -69,6 +70,8 @@ const NotiList = (props) =>
 				{
 					console.log('Error:', error);
 				}
+
+				setIsLoading(false);
 			}
 		}
 
@@ -93,6 +96,15 @@ const NotiList = (props) =>
 			return;
 		}
 	}
+
+	if (isLoading) 
+    {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

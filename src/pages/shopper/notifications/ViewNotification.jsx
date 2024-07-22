@@ -47,7 +47,7 @@ const ViewNotification = (props) =>
                         <View style={{ marginTop: 10 }} />
                         <TextTwo title="Location:" textalign="left" fontsize={16} fontweight='bold' />
                         <IconText title={`${props.route.params.linkRecord.loc_add_one} ${props.route.params.linkRecord.loc_add_two} ${props.route.params.linkRecord.loc_city} ${props.route.params.linkRecord.loc_province} ${props.route.params.linkRecord.loc_zip_code}`} iconname="pin-outline" fontsize={16} width={18} />
-                    	<ButtonPrimary name="View Business Profile sss" width="100%" marginTop={25} onpress={handleClose} />
+                    	<ButtonPrimary name="View Business Profile" width="100%" marginTop={25} onpress={handleClose} />
                     </Layout>
                 </ScrollView>
 				) : (
