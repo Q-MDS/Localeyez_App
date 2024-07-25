@@ -269,3 +269,7 @@ TESTING Version 1.1.13 IOS
 √ Terms: Contact info at the bottom is WHACK
 √ Logo and subscribe is WHACK
 √ After pressing the green processed button it takes awhile before the Confirmation alert is displayed...
+
+TODO 25-07-2024
+√ Login add a spinner
+2. On pricing plan detect platform and go to 2 different screens

@@ -4,6 +4,7 @@ if (__DEV__) {
 
 import React from 'react';
 import {StripeProvider} from '@stripe/stripe-react-native';
+import { withIAPContext } from "react-native-iap";
 import { AuthProvider } from './src/services/AuthContext';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
@@ -26,4 +27,4 @@ const App = () => (
     </>
 );
 
-export default App;
+export default withIAPContext(App);

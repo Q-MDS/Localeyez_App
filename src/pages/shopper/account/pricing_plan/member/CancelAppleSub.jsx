@@ -3,12 +3,12 @@ import DbUtils from "../../../../../services/DbUtils";
 import { cancelSubscription } from "../../../../../services/api_helper";
 import MainStyles from "../../../../../assets/styles/MainStyles";
 import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
-import { SafeAreaView, View, Image, Alert } from "react-native";
+import { Linking, SafeAreaView, ScrollView, View, Image, Alert } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
 
-const Cancel = (props) => 
+const CancelAppleSub = (props) => 
 {
 	const [token, setToken] = useState('');
 	const [shopperId, setShopperId] = useState(0);
@@ -53,6 +53,7 @@ const Cancel = (props) =>
 		});
 	};
 	
+	// Delete - used for android
 	const cancelSub = async () => 
 	{
         try 
@@ -75,26 +76,27 @@ const Cancel = (props) =>
 
     const handleCancel = () => 
     {
+		props.navigation.navigate('CancelAppleSubDo');
         // props.navigation.navigate('ShopperAccPlanMemCancel');
-		Alert.alert(
-			'Confirm Cancellation', // Alert Title
-			'Are you sure you want to cancel your subscription?', // Alert Message
-			[
-				{
-					text: 'Cancel',
-					onPress: () => console.log('Cancellation aborted'),
-					style: 'cancel',
-				},
-				{ 
-					text: 'Yes, Cancel it', 
-					onPress: () => 
-					{
-						cancelSub();
-					} 
-				},
-			],
-			{ cancelable: false }
-		);
+		// Alert.alert(
+		// 	'Confirm Cancellation', // Alert Title
+		// 	'Are you sure you want to cancel your subscription?', // Alert Message
+		// 	[
+		// 		{
+		// 			text: 'Cancel',
+		// 			onPress: () => console.log('Cancellation aborted'),
+		// 			style: 'cancel',
+		// 		},
+		// 		{ 
+		// 			text: 'Yes, Cancel it', 
+		// 			onPress: () => 
+		// 			{
+		// 				cancelSub();
+		// 			} 
+		// 		},
+		// 	],
+		// 	{ cancelable: false }
+		// );
     }
 
     const handleGoBack= () => 
@@ -123,25 +125,30 @@ const Cancel = (props) =>
 		}
 	}, [isCancelled]);
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopNavArrowTitle title="Pricing Plan" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
-            <Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
-				<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
-					<Image source={require('../../../../../assets/images/localeyez_logo_p.png')} style={{ objectFit: 'contain' }} />
-				</View>
-                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 20, paddingEnd: 20 }}>
-                    <Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 15, width: '100%', textAlign: 'center' }}>Are you sure you want to cancel your subscription?</Text>
-                    <Text category="p1" status="basic" style={{ marginTop: 15, width: '100%', textAlign: 'center' }}>If you cancel the subscription, you will loose access to amazing discounts from businesses around you.</Text>
-                    <View style={{ marginTop: 50 }} />
-                    <ButtonPrimary name="Cancel Subscription" width="100%" onpress={handleCancel} />
-                    <View style={{ marginTop: 15 }} />
-                    <ButtonSecondary name="Go Back" width="100%" onpress={handleGoBack} />
-                </View>
+	const handleManageSubscriptions = () => {
+        Linking.openURL('https://apps.apple.com/account/subscriptions');
+    };
 
-            </Layout>
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <TopNavArrowTitle title="Back" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+            <ScrollView style={{ flex: 1 }}>
+				<Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
+					<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+						<Image source={require('../../../../../assets/images/localeyez_logo_p.png')} style={{ objectFit: 'contain' }} />
+					</View>
+					<View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 20, paddingEnd: 20 }}>
+						<Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 25, width: '100%', textAlign: 'center' }}>Are you sure you want to cancel your subscription?</Text>
+						<Text category="p1" status="basic" style={{ marginTop: 15, width: '100%', textAlign: 'center' }}>If you cancel the subscription, you will loose access to amazing discounts from businesses around you.</Text>
+						<View style={{ marginTop: 50 }} />
+						<ButtonPrimary name="Cancel Subscription" width="100%" onpress={handleCancel} />
+						<View style={{ marginTop: 15 }} />
+						<ButtonSecondary name="Go Back" width="100%" onpress={handleGoBack} />
+					</View>
+				</Layout>
+			</ScrollView>
         </SafeAreaView>
     );
 };
 
-export default Cancel;
+export default CancelAppleSub;

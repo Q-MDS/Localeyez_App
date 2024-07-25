@@ -6,7 +6,7 @@ import DbUtils from '../../../services/DbUtils';
 import { login } from '../../../services/auth';
 import Toast from 'react-native-toast-message';
 import { Text } from '@ui-kitten/components';
-import { SafeAreaView, View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
@@ -38,6 +38,7 @@ const Login = (props: any) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const [errors, setErrors] = useState<{ userName?: string, password?: string }>({});
 	const [remember, setRemember] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function handleInputChange(name: any, newValue: any) 
 	{
@@ -96,6 +97,7 @@ const Login = (props: any) =>
     {
 		// Clear the local storage
 		await DbUtils.clear();
+		setIsLoading(true);
 
 		// Auth on server
 		try {
@@ -157,6 +159,7 @@ const Login = (props: any) =>
 						forgetMe();
 					}
 		
+					setIsLoading(false);
 					props.navigation.navigate('BusinessDashboard');
 				}
 				else if (credType === '2')
@@ -209,6 +212,7 @@ const Login = (props: any) =>
 					});
 				}
 			}
+			setIsLoading(false);
 		} 
 		catch (error)
 		{
@@ -331,6 +335,15 @@ const Login = (props: any) =>
 		{
 			handleLogin();
 		}
+	}
+
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
 	}
 
     return (

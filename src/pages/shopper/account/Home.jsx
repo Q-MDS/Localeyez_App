@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { IconTextIcon } from "../../../components/IconTextIcon";
 import { TopNavBack } from "../../../components/TopNavBack";
-import { TouchableOpacity, SafeAreaView, ScrollView, View, Alert } from "react-native";
+import { Platform, TouchableOpacity, SafeAreaView, ScrollView, View, Alert, StyleSheet } from "react-native";
 import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
@@ -255,6 +255,23 @@ const Home = (props) =>
 		});
 	}
 
+	const handlePricingPlan = () => 
+	{
+		const isAndroid = Platform.OS === 'android';
+		const isIOS = Platform.OS === 'ios';
+
+		if (isIOS) 
+		{
+			// Android
+			props.navigation.navigate('AndroidHome');
+		} 
+		else if (isIOS) 
+		{
+			// iPhone
+			props.navigation.navigate('AppleHome');
+		}
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
@@ -294,7 +311,12 @@ const Home = (props) =>
 				<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
 				
 				{state.verified == 0 ? 
-					<IconTextIcon title="Pricing Plan" status="basic" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanFree" />
+
+				<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={handlePricingPlan}>
+					<Icon style={styles.icon} fill='#5D5A88' name="pricetags-outline"  />
+					<Text style={[MainStyles.title_a14, { textAlign: 'left', flex: 1, paddingStart: 10, fontWeight: 'normal' }]}>Pricing Plan</Text>
+					<Icon style={styles.icon} fill='#5D5A88' name="chevron-right-outline"  />
+				</TouchableOpacity>
 				:
 					<IconTextIcon title="Pricing Plan" status="basic" iconLeft="pricetags-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccPlanMem" />
 				}
@@ -316,5 +338,21 @@ const Home = (props) =>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create(
+{
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	text: {
+		fontSize: 16,
+		margin: 2,
+	},
+	icon: {
+		width: 32,
+		height: 32,
+		},
+});
 
 export default Home;

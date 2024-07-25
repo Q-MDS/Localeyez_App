@@ -61,6 +61,10 @@ const MainStyles = StyleSheet.create({
 		fontSize: 12, 
 		color: '#220622',
 	},
+	title_a11: {
+		fontSize: 11, 
+		color: '#220622',
+	},
 
 
 

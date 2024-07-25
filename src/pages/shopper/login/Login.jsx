@@ -9,7 +9,7 @@ import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet  } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 const initialState = {
@@ -35,6 +35,7 @@ const Login = (props) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const [errors, setErrors] = useState({ userName: '', password: '' });
 	const [remember, setRemember] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -91,6 +92,7 @@ const Login = (props) =>
     const handleLogin = async () => 
     {
         await DbUtils.clear();
+		setIsLoading(true);
 
 		// Auth on server
 		const res = await loginShopper(state.credOne, state.credTwo);
@@ -143,6 +145,7 @@ const Login = (props) =>
 					forgetMe();
 				}
 
+				setIsLoading(false);
 				props.navigation.navigate('ShopperHome');
 			} 
 			else if (credType === '0' || credType === '2')
@@ -172,6 +175,7 @@ const Login = (props) =>
 				bottomOffset: 40,
 			});
 		}
+		setIsLoading(false);
     }
 
 	const checkRememberedLogin = async () =>
@@ -280,6 +284,15 @@ const Login = (props) =>
 		{
 			handleLogin();
 		}
+	}
+
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
 	}
 
     return (
