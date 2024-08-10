@@ -7,8 +7,8 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
-import { SafeAreaView, ScrollView, View, ActivityIndicator, Image, StyleSheet } from 'react-native';
-import { Layout, Icon, Toggle, Text } from '@ui-kitten/components';
+import { SafeAreaView, ScrollView, View, ActivityIndicator, Image, StyleSheet, TextInput, Alert } from 'react-native';
+import { Layout, Card, Toggle, Text } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../components/InputOnly';
 
@@ -28,6 +28,7 @@ const initialState = {
 	linkedinUrl: null,
 	wwwUrl: null,
 	isLocal: null,
+	businessHours: null
 };
 
 function reducer(state, action) 
@@ -46,6 +47,23 @@ const StepTwo = (props) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(true);
 	const [errors, setErrors] = useState({ contactNumber: '', company: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
+	
+	// const businessHours = [
+	// 	{ day: 'Mon', open: '08:00', close: '17:00' },
+	// 	{ day: 'Tue', open: '08:00', close: '17:00' },
+	// 	{ day: 'Wed', open: '08:00', close: '17:00' },
+	// 	{ day: 'Thu', open: '08:00', close: '17:00' },
+	// 	{ day: 'Fri', open: '08:00', close: '17:00' },
+	// 	{ day: 'Sat', open: '09:00', close: '14:00' },
+	// 	{ day: 'Sun', open: 'Closed', close: 'Closed' },
+	// ];
+	const [hours, setHours] = useState([]);
+	const handleTimeChange = (day, timeType, value) => {
+    const updatedHours = hours.map(hour => 
+      hour.day === day ? { ...hour, [timeType]: value } : hour
+    );
+    setHours(updatedHours);
+  };
 
 	function handleInputChange(name, newValue) 
 	{
@@ -80,9 +98,10 @@ const StepTwo = (props) =>
 					facebookUrl: JSON.parse(profile).sm_fb,
 					linkedinUrl: JSON.parse(profile).sm_linkedin,
 					wwwUrl: JSON.parse(profile).sm_www,
+					businessHours: JSON.parse(profile).business_hours
 				},
 			});
-
+			
             setIsLoading(false);
         });
     }
@@ -137,6 +156,7 @@ const StepTwo = (props) =>
         await updProfile('sm_fb', state.facebookUrl);
         await updProfile('sm_linkedin', state.linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);
+        await updProfile('business_hours', state.businessHours);
         
         props.navigation.navigate('SignupBusinessStepThree');
     }
@@ -151,108 +171,179 @@ const StepTwo = (props) =>
 		// }
 		if (!state.companyName)
 		{
-			tempErrors = { ...tempErrors, companyName: 'Company Name is required' };
+			tempErrors = { ...tempErrors, companyName: 'Required' };
 		}
 		if (!state.addressOne)
 		{
-			tempErrors = { ...tempErrors, addressOne: 'Address line 1 is required' };
+			tempErrors = { ...tempErrors, addressOne: 'Required' };
 		}
 		if (!state.addressTwo)
 		{
-			tempErrors = { ...tempErrors, addressTwo: 'Address line 2 is required' };
+			tempErrors = { ...tempErrors, addressTwo: 'Required' };
 		}
 		if (!state.city)
 		{
-			tempErrors = { ...tempErrors, city: 'City is required' };
+			tempErrors = { ...tempErrors, city: 'Required' };
 		}
 		if (!state.province)
 		{
-			tempErrors = { ...tempErrors, province: 'Provinceis required' };
+			tempErrors = { ...tempErrors, province: 'Required' };
 		}
 		if (!state.businessBio)
 		{
-			tempErrors = { ...tempErrors, businessBio: 'Business bio is required' };
+			tempErrors = { ...tempErrors, businessBio: 'Required' };
 		}
 		setErrors(tempErrors);
 
 		if (Object.keys(tempErrors).length === 0)
 		{
 			handleNext();
+		} 
+		else 
+		{
+			Alert.alert(
+				"Validation error",
+				"One or more fields are missing or invalid. Please check the form and try again.",
+				[
+					{
+					text: "Ok",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel"
+					}
+				]
+			);
 		}
 	}
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavBack title="Business details" alignment="start" navigation={props.navigation} pops={1} />
+			<TopNavBack title="Back: Login information" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ flex: 1, width: '100%' }}>
-                <Layout style={MainStyles.column_container}>
+                <Layout style={[MainStyles.column_container, {paddingStart: 20, paddingEnd: 20, paddingTop: 15}]}>
 
-					<View style={{ position: 'relative' }} >
-                    	<Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Contact Number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
-					</View>
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Company Information</Text>
+                    </View>
 
-                    <View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabel label="Company *" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
-					</View>
-					
-					<View style={{ marginTop: 15 }} />
-                    <InputLabel label="Location *" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
-                    <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
-                    <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="City" name="city" value={state.city} onChange={handleInputChange} bg={errors.city ? '#ffe6e6' : '#f2f2f2'} />
-                    <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
-                    <View style={{ marginTop: 5 }} />
-                    <InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} bg='#f2f2f2' />
-					
-                    <View style={{ position: 'relative', marginTop: 15 }} >
-						<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
-					</View>
-					
-					<View style={{ marginTop: 15 }} />
-                    <Label title="Are a small & local business?" textalign="left" mb={5} status="basic" fontsize={16} />
-                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
-                        <Toggle
-                            checked={state.isLocal}
-                            onChange={() => setIsLocal(!state.isLocal)}
-                            >
-                            <Text category='p2' status="basic">{state.isLocal ? 'Yes' : 'No'}</Text>
-                        </Toggle>
-                    </Layout>
-                    <View style={{ marginTop: 15 }} />
-                    <Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} status="basic" fontsize={16} />
-                    
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
-					</View>
-                    <InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" bg='#f2f2f2' />
-					
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" bg='#f2f2f2' />
-                    
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
-					</View>
-                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" bg='#f2f2f2' />
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<InputLabel label="Company Name*" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#efeaf9' : '#f2f2f2'} />
+							{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
+						</View>
+					</Card>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" bg='#f2f2f2' />
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<InputLabel label="Location *" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#efeaf9' : '#f2f2f2'} />
+							{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
+						</View>
+						<View style={{ marginTop: 5 }} />
+							<InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" bg={errors.addressTwo ? '#efeaf9' : '#f2f2f2'} />
+						<View style={{ marginTop: 5 }} />
+							<InputOnly placeholder="City" name="city" value={state.city} onChange={handleInputChange} bg={errors.city ? '#efeaf9' : '#f2f2f2'} />
+						<View style={{ marginTop: 5 }} />
+							<InputOnly placeholder="Province" name="province" value={state.province} onChange={handleInputChange} bg={errors.province ? '#efeaf9' : '#f2f2f2'} />
+						<View style={{ marginTop: 5 }} />
+							<InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} bg='#f2f2f2' />
+					</Card>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" bg='#f2f2f2' />
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+							<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Contact Number" bg={errors.contactNumber ? '#efeaf9' : '#f2f2f2'} />
+							{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+						</View>
+					</Card>
 
-                    <View style={{ marginTop: 25 }} />
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} status="basic" placeholder="Write a short description up to 120 characters about your business" bg={errors.businessBio ? '#efeaf9' : '#f2f2f2'} />
+							{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
+						</View>
+					</Card>
+
+					{/* Business hours */}
+					<Card style={{ marginBottom: 10 }}>
+						<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', marginTop: 0, marginBottom: 15 }}>Business Hours</Text>
+						<View>
+						{state.businessHours.map(({ day, open, close }) => (
+							<View key={day}>
+								<View 
+									style={{ 
+										flexDirection: 'row', 
+										alignItems: 'center', 
+										justifyContent: 'space-between', 
+										columnGap: 10, 
+										borderBottomColor: '#efe7fd', 
+										borderBottomWidth: 1, 
+										paddingTop: 5, 
+										paddingBottom: 5,
+										borderTopWidth: day === 'Mon' ? 1 : 0, 
+										borderTopColor: day === 'Mon' ? '#efe7fd' : 'transparent', 
+										}}  
+										key={day}
+										>
+									<Text style={{ width: 35, color: 'black' }}>{day}</Text>
+									<Text style={{ width: 40, color: '#612bc1', fontSize: 14 }}>Open</Text>
+									<TextInput
+										placeholder="Open"
+										value={open}
+										style={{ backgroundColor: '#f2f2f2', color: 'black', borderColor: '#efe7fd', borderWidth: 1, flex: 1, textAlign: 'center' }}
+										onChangeText={(value) => handleTimeChange(day, 'open', value)}
+									/>
+									<Text style={{ width: 40, color: '#612bc1', fontSize: 14 }}>Close</Text>
+									<TextInput
+										placeholder="Close"
+										value={close}
+										style={{ backgroundColor: '#f2f2f2', color: 'black', borderColor: '#efe7fd', borderWidth: 1, flex: 1, textAlign: 'center' }}
+										onChangeText={(value) => handleTimeChange(day, 'close', value)}
+									/>
+								</View>
+							</View>
+						))}
+						</View>
+					</Card>
+
+					<Card style={{ marginBottom: 10 }}>
+						<Label title="Are a small & local business?" textalign="left" mb={5} status="basic" fontweight="bold" />
+						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+							<Toggle
+								checked={state.isLocal}
+								onChange={() => setIsLocal(!state.isLocal)}
+								>
+								<Text category='p2' status="basic">{state.isLocal ? 'Yes' : 'No'}</Text>
+							</Toggle>
+						</Layout>
+					</Card>
+
+					<Card style={{ marginBottom: 20 }}>
+						<Label title="Connect Your Social Media (optional)" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
+						
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+						</View>
+						<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" bg='#f2f2f2' />
+						
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" bg='#f2f2f2' />
+						
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+						</View>
+						<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" bg='#f2f2f2' />
+
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" bg='#f2f2f2' />
+
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" bg='#f2f2f2' />
+					</Card>
                     <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
                 </Layout>
             </ScrollView>
@@ -267,8 +358,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		textAlign: 'right',
         width: '100%',
-        color: 'red',
-        opacity: 0.5,
+        color: '#b095e0',
 		fontSize: 12,
     },
 });

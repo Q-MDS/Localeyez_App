@@ -33,11 +33,11 @@ export const InputLabelPassword = (props: any): React.ReactElement =>
 	{
 		if (props.label !== '') 
 		{
-			return <><Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>{props.label}</Text></>;
+			return <><Text status={props.status} style={{ fontSize: 14, fontWeight: 'bold', color: '#612bc1', paddingBottom: 5 }}>{props.label}</Text></>;
 		} 
 		else 
 		{
-			return <><Text status={props.status} style={{ fontSize: 16, color: '#220622', paddingBottom: 5 }}>Password</Text></>;
+			return <><Text status={props.status} style={{ fontSize: 14, fontWeight: 'bold', color: '#612bc1', paddingBottom: 5 }}>Password</Text></>;
 		}
 	};
 

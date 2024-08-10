@@ -6,7 +6,9 @@ export const IconText = (props) =>
 {
     return (
     <View style={[styles.container]}>
-        <Icon style={styles.icon} fill='#612BC1' name={props.iconname} width={props.width} />
+		<View style={{ flexDirection: 'row', alignItems: 'start', height: '100%' }}>
+        	<Icon style={styles.icon} fill='#612BC1' name={props.iconname} width={props.width} />
+		</View>
         <Text status={props.status} style={[styles.text, { fontSize: props.fontsize, lineHeight: props.lineheight, textDecorationLine: props.underline, textAlign: props.textalign, fontWeight: props.fontweight, opacity: props.opacity}]}>{props.title}</Text>
     </View>
     );

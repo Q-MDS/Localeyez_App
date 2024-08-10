@@ -80,7 +80,7 @@ const StepFour = (props) =>
 			} 
 			else 
 			{
-				console.log('Sum Ting Wong');
+				console.log('Sum Ting Wong', res);
 
 				Toast.show({
 					type: 'error',

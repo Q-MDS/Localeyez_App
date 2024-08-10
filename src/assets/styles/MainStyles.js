@@ -21,7 +21,7 @@ const MainStyles = StyleSheet.create({
 	title_aaa: {
 		fontSize: 30, 
 		fontWeight: 'bold', 
-		color: '#220622',
+		color: '#612bc1',
 	},
 	title_a28: {
 		fontSize: 28, 
@@ -60,6 +60,9 @@ const MainStyles = StyleSheet.create({
 	title_a12: {
 		fontSize: 12, 
 		color: '#220622',
+	},
+	textItalic: {
+		fontStyle: 'italic',
 	},
 
 

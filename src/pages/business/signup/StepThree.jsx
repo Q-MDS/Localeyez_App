@@ -423,7 +423,7 @@ const StepThree = (props) =>
 
     return (
 		<SafeAreaView style={{ flex: 1, width: '100%' }}>
-			<TopNavBack title="Business sector(s)" alignment="start" navigation={props.navigation} pops={1} />
+			<TopNavBack title="Back: Company Information" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <Layout style={[MainStyles.column_container]}>
 					{/* Shopping */}

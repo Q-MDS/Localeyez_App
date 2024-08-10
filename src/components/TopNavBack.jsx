@@ -14,7 +14,7 @@ export const TopNavBack = (props) =>
     return (
         <TopNavigation
             accessoryLeft ={() => <BackAction navigation={props.navigation} />}
-            title={(evaProps) => <Text {...evaProps} style={{color: '#131141', fontSize: 20, fontWeight: 'bold'}}>{props.title}</Text>}
+            title={(evaProps) => <Text {...evaProps} style={{color: '#00000080', fontSize: 14, fontWeight: 'bold', textTransform: 'uppercase'}}>{props.title}</Text>}
         />
     );
 };

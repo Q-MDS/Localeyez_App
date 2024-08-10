@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../services/DbUtils';
 import MainStyles from '../../../../assets/styles/MainStyles';
-import { SafeAreaView, TouchableOpacity, Image, View, StyleSheet, Linking } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Image, View, StyleSheet, Linking, TextInput, ActivityIndicator } from 'react-native';
 import { Layout, Divider, Icon, Card, Tab, TabView, Text } from '@ui-kitten/components';
 import { TopNavTitle } from '../../../../components/TopNavTitle';
 import { IconText } from '../../../../components/IconText';
@@ -27,6 +27,7 @@ const initialState = {
 	facebookUrl: null,
 	linkedinUrl: null,
 	wwwUrl: null,
+	business_hours: null
 };
 
 function reducer(state, action) 
@@ -50,6 +51,7 @@ const Home = (props) =>
 	const [promotions, setPromotions] = useState([]);
 	const [events, setEvents] = useState([]);
 	const [rating, setRating] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -65,26 +67,28 @@ const Home = (props) =>
         const profile = await DbUtils.getItem('business_profile')
 		.then((profile) => 
         {
+			const record = JSON.parse(profile);
 			dispatch(
 			{
 				type: 'BUSINESS_PROFILE',
 				payload: 
 				{
-					displayImage: JSON.parse(profile).display_image,
-					profilePic: JSON.parse(profile).profile_pic,
-					companyName: JSON.parse(profile).company_name,
-					businessBio: JSON.parse(profile).business_bio,
-					contactNumber: JSON.parse(profile).contact_number,
-					addressOne: JSON.parse(profile).loc_add_one,
-					addressTwo: JSON.parse(profile).loc_add_two,
-					city: JSON.parse(profile).loc_city,
-					province: JSON.parse(profile).loc_province,
-					zipCode: JSON.parse(profile).loc_zip_code,
-					xUrl: JSON.parse(profile).sm_x,
-					instagramUrl: JSON.parse(profile).sm_inst,
-					facebookUrl: JSON.parse(profile).sm_fb,
-					linkedinUrl: JSON.parse(profile).sm_linkedin,
-					wwwUrl: JSON.parse(profile).sm_www,
+					displayImage: record.display_image,
+					profilePic: record.profile_pic,
+					companyName: record.company_name,
+					businessBio: record.business_bio,
+					contactNumber: record.contact_number,
+					addressOne: record.loc_add_one,
+					addressTwo: record.loc_add_two,
+					city: record.loc_city,
+					province: record.loc_province,
+					zipCode: record.loc_zip_code,
+					xUrl: record.sm_x,
+					instagramUrl: record.sm_inst,
+					facebookUrl: record.sm_fb,
+					linkedinUrl: record.sm_linkedin,
+					wwwUrl: record.sm_www,
+					businessHours: JSON.parse(record.business_hours),
 				},
 			});
 		});
@@ -96,7 +100,7 @@ const Home = (props) =>
 		const parsedData = JSON.parse(data);
 
 		setPromotions(parsedData);
-		// console.log('Promotions: ', parsedData);
+		// console.log('Promotions: ', parsedData);asdasd
 	}
 
 	const getEvents = async () => 
@@ -114,7 +118,6 @@ const Home = (props) =>
 		{
 			setRating(JSON.parse(rating));
 		});
-	
 	}
 
 	useFocusEffect(React.useCallback(() => 
@@ -125,6 +128,7 @@ const Home = (props) =>
 			await getPromotions();
 			await getEvents();
 			await getRating();
+			setIsLoading(false);
 		};
 
 		fetchProfile();
@@ -170,6 +174,15 @@ const Home = (props) =>
 		return formattedDate;
 	}
 
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavTitle title='Business Profile' alignment='start' />
@@ -184,7 +197,7 @@ const Home = (props) =>
                         <IconText title="Add Promotion" iconname="plus-circle" fontsize={13} width={18} status="primary" />
                     </TouchableOpacity>
                 </Layout>
-                <Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginTop: 10 }} />
+                <Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080', marginTop: 10 }} />
 				<ScrollView>
                 <Layout style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#efe7fd', height: 200, width: '100%' }}>
 					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
@@ -220,42 +233,82 @@ const Home = (props) =>
 							<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
 						</TouchableOpacity>
 					}
-                    <View style={{ position: 'absolute', left: 0, top: -70, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
+                    <View style={{ position: 'absolute', left: 0, top: -80, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
 					{state.profilePic 
-						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
+						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 2  }} /> 
 						: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
 					}
                     </View>
                     {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
                 </Layout>
                 
-				<Layout style={[MainStyles.column_container]}>    
-					{/* <TitleOne title={state.companyName} status="primary" /> */}
-					<Text style={[MainStyles.title_aaa]}>{state.companyName}</Text>
-					<View style={{ marginTop: 5 }} />
-					<Text style={[MainStyles.title_a16]}>{state.businessBio}</Text>
-					{/* <TextTwo title={state.businessBio} status="basic" /> */}
-					<View style={{ marginTop: 15 }} />
-					<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
-					<IconText title={state.contactNumber} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
-					<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
-					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} /> */}
+				<Layout style={[MainStyles.column_container, {paddingTop: 10, paddingStart: 20, paddingEnd: 20, paddingBottom: 0}]}>    
+					<Card style={{ backgroundColor: '#efeaf9', borderRadius: 10, marginBottom: 10 }}>
+						<Text style={[MainStyles.title_aaa]}>{state.companyName}</Text>
+						<View style={{ marginTop: 5 }} />
+						<Text style={[MainStyles.title_a16, MainStyles.textItalic]}>{state.businessBio}</Text>
+						{/* <TextTwo title={state.businessBio} status="basic" /> */}
+						
+					</Card>
+
+					<Card style={{ marginBottom: 10, borderRadius: 10 }}>
+						<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Details</Text>
+						<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
+						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+						<IconText title={state.contactNumber === "" ? 'No number available' : 'b'} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
+						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+						<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
+						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+					</Card>
+
+					{/* Business Hours */}
+					<Card style={{ marginBottom: 10, borderRadius: 10 }}>
+						<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Hours</Text>
+						{state.businessHours.map(({ day, open, close }) => (
+							<View key={day}>
+								<View 
+									style={{ 
+										flexDirection: 'row', 
+										alignItems: 'center', 
+										justifyContent: 'space-between', 
+										columnGap: 10, 
+										borderBottomColor: '#efe7fd', 
+										borderBottomWidth: 1, 
+										paddingTop: 5, 
+										paddingBottom: 5,
+										borderTopWidth: day === 'Mon' ? 1 : 0, 
+										borderTopColor: day === 'Mon' ? '#efe7fd' : 'transparent', 
+										}}  
+										key={day}
+										>
+									<Text style={{ width: 35, color: 'black' }}>{day}</Text>
+									<Text style={{ color: '#612bc1', fontSize: 14 }}>{open}</Text>
+									<Text style={{ color: '#612bc1', fontSize: 14 }}>-</Text>
+									<Text style={{ color: '#612bc1', fontSize: 14, flex: 1 }}>{close}</Text>
+								</View>
+							</View>
+						))}
+					</Card>
 				</Layout>
+
 				<TabView
 					selectedIndex={selectedIndex}
 					onSelect={index => setSelectedIndex(index)}
-					style={{ width: '100%' }}
+					
 				>
 				<Tab title='Promotions'>			
-				<Layout style={styles.tabContainer}>
+				<Layout style={[styles.tabContainer, {marginTop: 20}]}>
 					{promotions && promotions.length === 0 && (
-					<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+						<Card>
+					{/* <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} > */}
 						<TextOne title="You have no promotions listed" status="basic" />
 						<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
-					</Layout>
+					{/* </Layout> */}
+					</Card>
 					)}
 					{promotions && promotions.map((record, index) => (
-							<Card key={index} style={{ width: '100%', marginBottom: 15 }}  onPress={() => handleEditPromo(index)}>
+						<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
+							<Card style={{ marginBottom: 15, backgroundColor: '#ffffff' }}  onPress={() => handleEditPromo(index)}>
 								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200 }} >
 									{record.display_image 
 									? 
@@ -264,19 +317,36 @@ const Home = (props) =>
 									<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
 									}
 								</View>
-								<Text style={[MainStyles.title_a18, {marginTop: 10, fontWeight: '700'}]}>{record.promo_title}</Text>
-								<Text style={[MainStyles.title_a14, {marginTop: 5 }]}>{record.promo_caption}</Text>
-								<View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between', marginTop: 10}} >
-									<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-										<Icon fill='#612BC1' name="pricetags-outline" width={18} height={18} />
-										<Text style={[MainStyles.title_a14, { marginStart: 5, textAlign: 'left' }]}>{record.sale_item_mp}</Text>
-										<Text style={[MainStyles.title_a14, { marginStart: 10, textAlign: 'left', textDecorationLine: 'line-through' }]}>{record.sale_item_op}</Text>
+								<Text style={[MainStyles.title_a20, {marginTop: 10, fontWeight: '700', color: '#612bc1'}]}>{record.promo_title}</Text>
+								<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#00000080', fontStyle: 'italic' }]}>{record.promo_caption}</Text>
+								<Text style={[MainStyles.title_a14, {marginTop: 5, color: '#000' }]}>{record.promo_desc}</Text>
+								<View style={{ flexDirection: 'column', alignItems: 'start', width: '100%', justifyContent: 'center', marginTop: 10}} >
+
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										{/* <Icon fill='#612BC1' name="pricetags-outline" width={18} height={18} /> */}
+										{/* <Text style={[MainStyles.title_a14, { marginStart: 5, textAlign: 'left' }]}>{record.sale_item_mp}</Text> */}
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Promotional Price:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.promo_price}</Text>
 									</View>
-									<View style={{ flex: 1 }}>
-										<IconText title={formatDate(record.start_date)} iconname="clock-outline" fontsize={14} width={18} textAlign='right' status="basic"   />
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Off Price:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+									</View>
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+									</View>
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Start Date:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.start_date}</Text>
+									</View>
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>End Date:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.end_date}</Text>
 									</View>
 								</View>
 							</Card>
+							</View>
 						))}
 				</Layout>
 				</Tab>
@@ -327,8 +397,7 @@ const Home = (props) =>
 const styles = StyleSheet.create({
 	tabContainer: {
 	  alignItems: 'center',
-	  justifyContent: 'center',
-	  width: '100%'
+	  justifyContent: 'start',
 	},
 });
 
