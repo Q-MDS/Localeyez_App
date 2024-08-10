@@ -9,7 +9,7 @@ import { ButtonPrimary } from "../../../../../../components/ButtonPrimary";
 const Home = (props) => 
 {
 	const handleSubscribe = () => {
-
+		props.navigation.navigate('Subscriptions');
 	}
 
 	const handleEulaPress = () => 

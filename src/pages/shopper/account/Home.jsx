@@ -260,7 +260,7 @@ const Home = (props) =>
 		const isAndroid = Platform.OS === 'android';
 		const isIOS = Platform.OS === 'ios';
 
-		if (isIOS) 
+		if (isAndroid) 
 		{
 			// Android
 			props.navigation.navigate('AndroidHome');
