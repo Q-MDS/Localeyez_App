@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { subscription } from "../../../../../services/api_stripe";
-import DbUtils from '../../../../../services/DbUtils';
-import { TopNavBack } from '../../../../../components/TopNavBack';
-import { SafeAreaView, ScrollView, TextInput, View, Alert, StyleSheet, ActivityIndicator } from "react-native";
+import { subscription } from "../../../../../../services/api_stripe";
+import DbUtils from '../../../../../../services/DbUtils';
+import { TopNavBack } from '../../../../../../components/TopNavBack';
+import { Platform, SafeAreaView, ScrollView, TextInput, View, Alert, StyleSheet, ActivityIndicator } from "react-native";
 import { Layout, Text } from '@ui-kitten/components';
-import {InputLabel} from '../../../../../components/InputLabel';
-import {ButtonPrimary} from '../../../../../components/ButtonPrimary';
-import { ButtonSecondary } from '../../../../../components/ButtonSecondary';
+import {InputLabel} from '../../../../../../components/InputLabel';
+import {ButtonPrimary} from '../../../../../../components/ButtonPrimary';
+import { ButtonSecondary } from '../../../../../../components/ButtonSecondary';
 
 const CustomerInfo = (props) => 
 {
@@ -101,11 +101,24 @@ const CustomerInfo = (props) =>
 
 	const handleSubmit = async () => 
 	{
-		console.log('Build and pass secret to Stripe');
+		const isAndroid = Platform.OS === 'android';
+		const isIOS = Platform.OS === 'ios';
+
+		if (isIOS) 
+		{
+			console.log('This device is running Android.');
+			setIsLoading(true);
+			await initializePaymentSheet();
+			setIsLoading(false);
+		} 
+		else if (isIOS) 
+		{
+			console.log('This device is running iOS.');
+			props.navigation.navigate('Subscriptions');
+		}
+
 		// Do some basic validation
-		setIsLoading(true);
-		await initializePaymentSheet();
-		setIsLoading(false);
+		
 	}
 
 	useEffect(() => 
@@ -143,11 +156,11 @@ const CustomerInfo = (props) =>
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
-			<TopNavBack title={`Pricing Plan: Customer Details`} alignment="start" navigation={props.navigation} pops={1} />
+			<TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{ flex: 1 }}>
 			<Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
 				<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
-				<Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 20, textAlign: 'center' }}>Upgrade Subscription</Text>
+				<Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 20, textAlign: 'center' }}>Subscribe to Localeyez</Text>
 				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please complete following:</Text>
 				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 5, textAlign: 'left' }}>First Name</Text>
 				<TextInput value={form.firstName} onChangeText={handleFirstNameChange} placeholder="First Name" style={styles.input} />
@@ -155,7 +168,7 @@ const CustomerInfo = (props) =>
 				<TextInput value={form.lastName} onChangeText={handleLastNameChange} placeholder="Last Name" style={styles.input} />
 				<Text category="s1" style={{ width: '100%', marginTop: 15, marginBottom: 5, textAlign: 'left' }}>Email</Text>
 				<TextInput value={form.email} onChangeText={handleEmailChange} placeholder="Email" style={styles.input} />
-				<Layout style={{ width: '100%', marginTop: 40 }} >
+				<Layout style={{ width: '100%', marginTop: 25 }} >
 					<ButtonPrimary name="Submit" width="100%" onpress={handleSubmit} />
 					<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleCancel} />
 				</Layout>

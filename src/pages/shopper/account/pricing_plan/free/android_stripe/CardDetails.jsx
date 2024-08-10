@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import DbUtils from "../../../../../services/DbUtils";
+import DbUtils from "../../../../../../services/DbUtils";
+import MainStyles from "../../../../../../assets/styles/MainStyles";
 import { PlatformPayButton, isPlatformPaySupported, PlatformPay, useApplePay, ApplePayButton } from '@stripe/stripe-react-native';
 import {presentApplePay} from '@stripe/stripe-react-native';
 import { confirmPlatformPayPayment } from '@stripe/stripe-react-native';
-import { subscription } from "../../../../../services/api_stripe";
-import {subscribed} from "../../../../../services/api_helper";
-import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
-import { TopNavBack } from "../../../../../components/TopNavBack";
-import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
-import { ButtonSecondary } from "../../../../../components/ButtonSecondary";
+import { subscription } from "../../../../../../services/api_stripe";
+import {subscribed} from "../../../../../../services/api_helper";
+import { TopNavArrowTitle } from "../../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../../components/TopNavBack";
+import { ButtonPrimary } from "../../../../../../components/ButtonPrimary";
+import { ButtonSecondary } from "../../../../../../components/ButtonSecondary";
 import { SafeAreaView, ScrollView, ActivityIndicator, Alert, View } from "react-native";
-import { Layout, Text, Card } from "@ui-kitten/components";
+import { Layout, Text, Card, Divider } from "@ui-kitten/components";
 import {CardField, useStripe, PaymentSheetError} from '@stripe/stripe-react-native';
-import StripeLogo from '../../../../../assets/images/StripeLogo';
+import StripeLogo from '../../../../../../assets/images/StripeLogo';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { IconText } from "../../../../../components/IconText";
+import { IconText } from "../../../../../../components/IconText";
 
 const CardDetails = (props) => 
 {
@@ -178,53 +179,53 @@ const CardDetails = (props) =>
 		}
 	}
 
-	const handleApplePayPress = async () => 
-	{
-		const { error } = await confirmPlatformPayPayment(
-		clientSecret,
-		{
-			applePay: {
-			cartItems: [
-				{
-				label: 'Monthly Localeyez subscription',
-				amount: '10.00',
-				paymentType: PlatformPay.PaymentType.Immediate,
-				},
-				{
-				label: 'Localeyez',
-				amount: '10.00',
-				paymentType: PlatformPay.PaymentType.Immediate,
-				},
+	// const handleApplePayPress = async () => 
+	// {
+	// 	const { error } = await confirmPlatformPayPayment(
+	// 	clientSecret,
+	// 	{
+	// 		applePay: {
+	// 		cartItems: [
+	// 			{
+	// 			label: 'Monthly Localeyez subscription',
+	// 			amount: '10.00',
+	// 			paymentType: PlatformPay.PaymentType.Immediate,
+	// 			},
+	// 			{
+	// 			label: 'Localeyez',
+	// 			amount: '10.00',
+	// 			paymentType: PlatformPay.PaymentType.Immediate,
+	// 			},
 				
-			],
-			merchantCountryCode: 'US',
-			merchantName: 'Localeyez',
-			merchantDisplayName: 'Localeyez',
-			currencyCode: 'USD',
-			requiredShippingAddressFields: [
-				PlatformPay.ContactField.PostalAddress,
-			],
-			requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
-			},
-		}
-		);
-		if (error) {
-			if (error.code === PaymentSheetError.Failed) 
-			{
-				// Handle stripe/server error
-				Alert.alert("There was a server error. Please try again later!", error.message);
-			} 
-			else if (error.code === PaymentSheetError.Canceled) 
-			{
-				// Handle canceled
-				Alert.alert("Payment was cancelled!", error.message);
-			}
-		} 
-		else 
-		{
-			updateShopper();
-		}
-	};
+	// 		],
+	// 		merchantCountryCode: 'US',
+	// 		merchantName: 'Localeyez',
+	// 		merchantDisplayName: 'Localeyez',
+	// 		currencyCode: 'USD',
+	// 		requiredShippingAddressFields: [
+	// 			PlatformPay.ContactField.PostalAddress,
+	// 		],
+	// 		requiredBillingContactFields: [PlatformPay.ContactField.PhoneNumber],
+	// 		},
+	// 	}
+	// 	);
+	// 	if (error) {
+	// 		if (error.code === PaymentSheetError.Failed) 
+	// 		{
+	// 			// Handle stripe/server error
+	// 			Alert.alert("There was a server error. Please try again later!", error.message);
+	// 		} 
+	// 		else if (error.code === PaymentSheetError.Canceled) 
+	// 		{
+	// 			// Handle canceled
+	// 			Alert.alert("Payment was cancelled!", error.message);
+	// 		}
+	// 	} 
+	// 	else 
+	// 	{
+	// 		updateShopper();
+	// 	}
+	// };
 
 	const updateShopper = async () => 
 	{
@@ -273,6 +274,11 @@ const CardDetails = (props) =>
 		props.navigation.navigate('PrivacyPolicy');
 	}
 
+	const handleStripeEula = () => 
+	{
+
+	}
+
 	if (isUploading) 
 	{
 		return (
@@ -286,62 +292,49 @@ const CardDetails = (props) =>
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{ flex: 1 }}>
-            <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25 }}>
+            <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 25, paddingTop: 0 }}>
 			<Text category="h1" status="primary" style={{ textAlign: "center", marginBottom: 10 }}>Pricing Plan</Text>
-            <Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'center' }}>Upgrade Subscription</Text>
-			{isApplePaySupported ? 
-			(
-				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please review your subscription details below before proceeding with Apple Pay.</Text>
-			) 
-			: 
-			(
-				<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please review your subscription details below before proceeding with Stripe.</Text>
-			)
-			}
+            <Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'center' }}>Subscription Checkout</Text>
+			<Text category="s1" style={{ width: '100%', marginTop: 0, marginBottom: 30, textAlign: 'center', fontWeight: 'bold' }}>Please review your subscription details below before proceeding with Stripe.</Text>
 			<Card style={{width: '100%'}}>
-			<Text category="s1" style={{ paddingTop: 10, paddingBottom: 10, flex: 1 }}>Subscription Details</Text>
-			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="p1" style={{ paddingBottom: 10, flex: 1 }}>Localeyez Member monthly subscription fee</Text>
-			</Layout>
-			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-				<Text category="p1" style={{ paddingBottom: 10, flex: 1 }}>$10 per month</Text>
-			</Layout>
-			<Layout style={{ flexDirection: 'row', alignItems: 'center', width: '100%', borderTopColor: 'black', borderTopWidth: 1, paddingTop: 10 }}>
-				<Text category="p1" style={{ fontWeight: 'bold' }}>Total: $10/month</Text>
-			</Layout>
+			<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'bold', width: '100%', marginTop: 10, marginBottom: 0 }]}>Localeyez monthly subscription</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', marginTop: 10, marginBottom: 10 }]}>Subscription length:</Text>
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', marginTop: 10, marginBottom: 10 }]}>Monthly</Text>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', marginTop: 0, marginBottom: 10 }]}>Subscription amount:</Text>
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', marginTop: 0, marginBottom: 10 }]}>$10/month</Text>
+						</View>
 			</Card>
-			<Layout style={{ marginTop: 15, marginBottom: 25}}>
-				<Text category="p2">Please note: If you wish to cancel your subscription, go to Account Details • Pricing Plan • Cancel Subscription.</Text>
-				<Text category="p2" style={{marginTop: 10}}>By subscribing, you agree to our Terms and Conditions and Privacy Policy.</Text>
-				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={handleTerms}>
-					<IconText title="Terms and Conditions" iconname="file-text-outline" fontsize={14} width={20} status="basic" />
-				</TouchableOpacity>
-				<TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={handlePrivacy}>
-					<IconText title="Privacy Policy" iconname="lock-outline" fontsize={14} width={20} status="basic" style={{backgroundColor:'red'}} />
-				</TouchableOpacity>
+			<Divider style={{ width: "100%", marginTop: 10 }} />
+			<Layout style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
+				<StripeLogo />
+				<ButtonPrimary name="Checkout" width="100%" marginTop={10} onpress={handleCheckout} />
 			</Layout>
-			
-			{isApplePaySupported ? 
-			(
-				<PlatformPayButton
-				onPress={handleApplePayPress}
-				type={PlatformPay.ButtonType.Pay}
- 				appearance={PlatformPay.ButtonStyle.Black}
-				borderRadius={4}
-				style={{
-					width: '100%',
-					height: 50,
-				}}
-				/>
-			)
-			:
-			(
-				<Layout style={{flexDirection: 'column', width: '100%', alignItems: 'center'}}>
-					<StripeLogo />
-					<ButtonPrimary name="Subscribe" width="100%" marginTop={10} onpress={handleCheckout} />
-				</Layout>
-			)}
+
 			<ButtonSecondary name="Cancel" width="100%" marginTop={15} onpress={handleClose} />
+
+
+
+
+
+
+
+					<Text style={[MainStyles.title_a11, { textAlign: 'left', fontWeight: 'bold', width: '100%', marginTop: 10 }]}>Please Note:</Text>
+					<Text style={[MainStyles.title_a11, { textAlign: 'left', width: '100%', marginTop: 10, marginBottom: 0 }]}>Please note: If you wish to cancel your subscription, go to Account Details • Pricing Plan • Cancel Subscription.</Text>
+				<Text category="p2"></Text>
+				<Text style={[MainStyles.title_a11, { textAlign: 'left', fontWeight: 'bold', width: '100%', marginBottom: 10, color: '#612bc1' }]} onPress={handleStripeEula}>
+                        Stripe Consumer Terms of Service
+                    </Text>
+					<Text style={[MainStyles.title_a11, { textAlign: 'left', fontWeight: 'bold', width: '100%', marginBottom: 10, color: '#612bc1' }]} onPress={handlePrivacy}>
+                        Privacy Policy
+                    </Text>
+
+
+
+			
+			
             </Layout>
 			</ScrollView> 	
         </SafeAreaView>

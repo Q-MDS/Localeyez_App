@@ -63,7 +63,7 @@ import ShopperAccPlanMemUpCardDet from './pages/shopper/account/pricing_plan/mem
 import ShopperAccPlanMemUpdCardDetDone from './pages/shopper/account/pricing_plan/member/CardDetailsConfirm';
 import ShopperAccPlanFree from './pages/shopper/account/pricing_plan/free/Home';
 import ShopperAccPlanFreeUpgrade from './pages/shopper/account/pricing_plan/free/Upgrade';
-import ShopperAccPlanFreeCardDet from './pages/shopper/account/pricing_plan/free/CardDetails';
+import ShopperAccPlanFreeCardDet from './pages/shopper/account/pricing_plan/free/android_stripe/CardDetails.jsx';
 import ShopperAccPlanFreeCardDetDone from './pages/shopper/account/pricing_plan/free/CardDetailsConfirm';
 import ShopperAccClose from './pages/shopper/account/Close';
 import ShopperNotiList from './pages/shopper/notifications/List';
@@ -111,8 +111,12 @@ import BrowseViewPro from './pages/browse/promotion/Home';
 import BrowseViewEvt from './pages/browse/event/Home';
 import BusinessForgot from './pages/business/login/Forgot';
 import ShopperForgot from './pages/shopper/login/Forgot';
-import CustomerInfo from './pages/shopper/account/pricing_plan/free/CustomerInfo';
-
+import CustomerInfo from './pages/shopper/account/pricing_plan/free/android_stripe/CustomerInfo.jsx';
+import Subscriptions from './pages/shopper/account/pricing_plan/free/apple_pay/Subscriptions.js';
+import AppleHome from './pages/shopper/account/pricing_plan/free/apple_pay/Home.js';
+import AndroidHome from './pages/shopper/account/pricing_plan/free/android_stripe/Home.js';
+import CancelAppleSub from './pages/shopper/account/pricing_plan/member/CancelAppleSub.jsx';
+import CancelAppleSubDo from './pages/shopper/account/pricing_plan/member/CancelAppleSubDo.jsx';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -229,6 +233,11 @@ const HomeNavigator = () => (
 		<Screen name="BusinessForgot" component={BusinessForgot} />
 		<Screen name="ShopperForgot" component={ShopperForgot} />
 		<Screen name="CustomerInfo" component={CustomerInfo} />
+		<Screen name="Subscriptions" component={Subscriptions} />
+		<Screen name="AppleHome" component={AppleHome} />
+		<Screen name="AndroidHome" component={AndroidHome} />
+		<Screen name="CancelAppleSub" component={CancelAppleSub} />
+		<Screen name="CancelAppleSubDo" component={CancelAppleSubDo} />
 	</Navigator>
 );
 

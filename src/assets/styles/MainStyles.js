@@ -61,9 +61,6 @@ const MainStyles = StyleSheet.create({
 		fontSize: 12, 
 		color: '#220622',
 	},
-	textItalic: {
-		fontStyle: 'italic',
-	},
 
 
 
