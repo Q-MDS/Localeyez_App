@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Platform, ScrollView, SafeAreaView } from 'react-native';
-import { useIAP } from 'react-native-iap';
+// import { useIAP } from 'react-native-iap';
 
 const subscriptionSkus = Platform.select({
   ios: ["localeyezmonthly_1"],
 });
 
 const Subscriptions = ({ navigation }) => {
-  const { connected, getSubscriptions } = useIAP();
+//   const { connected, getSubscriptions } = useIAP();
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
 

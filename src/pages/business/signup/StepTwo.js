@@ -58,12 +58,13 @@ const StepTwo = (props) =>
 	// 	{ day: 'Sun', open: 'Closed', close: 'Closed' },
 	// ];
 	const [hours, setHours] = useState([]);
-	const handleTimeChange = (day, timeType, value) => {
-    const updatedHours = hours.map(hour => 
-      hour.day === day ? { ...hour, [timeType]: value } : hour
-    );
-    setHours(updatedHours);
-  };
+	const handleTimeChange = (day, timeType, value) => 
+	{
+		const updatedHours = hours.map(hour => 
+		hour.day === day ? { ...hour, [timeType]: value } : hour
+		);
+		setHours(updatedHours);
+	};
 
 	function handleInputChange(name, newValue) 
 	{
@@ -235,7 +236,7 @@ const StepTwo = (props) =>
 					<Card style={{ marginBottom: 10 }}>
 						<View>
 							<InputLabel label="Location *" placeholder="Address line 1" name="addressOne" value={state.addressOne} onChange={handleInputChange} status="basic" bg={errors.addressOne ? '#efeaf9' : '#f2f2f2'} />
-							{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
+							{errors.addressOne && <Text style={styles.error}>{errors.addressOne}</Text>}
 						</View>
 						<View style={{ marginTop: 5 }} />
 							<InputOnly placeholder="Address line 2" name="addressTwo" value={state.addressTwo} onChange={handleInputChange} status="basic" bg={errors.addressTwo ? '#efeaf9' : '#f2f2f2'} />

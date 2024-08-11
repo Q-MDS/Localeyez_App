@@ -10,8 +10,8 @@ import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput } from 'react-native';
+import { Layout, Text, Card } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
 import { Label } from '../../../../../components/Label';
@@ -40,6 +40,7 @@ const initialState = {
 	linkedinUrl: null,
 	wwwUrl: null,
 	isLocal: null,
+	businessHours: null
 };
 
 function reducer(state, action) 
@@ -61,6 +62,8 @@ const Edit = (props) =>
 	const [businessId, setBusinessId] = useState('');
 	const [token, setToken] = useState('');
 	const [errors, setErrors] = useState({ contactNumber: '', companyName: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
+	const [isLoading, setIsLoading] = useState(true);
+	const [hours, setHours] = useState([]);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -76,31 +79,34 @@ const Edit = (props) =>
         const profile = await DbUtils.getItem('business_profile')
 		.then((profile) => 
         {
+			const record = JSON.parse(profile);
 			dispatch(
 			{
 				type: 'EDIT_BUS_PROFILE',
 				payload: 
 				{
-					businessId: JSON.parse(profile).id,
-					displayImage: JSON.parse(profile).display_image,
-					bannerImage: JSON.parse(profile).banner_image,
-					email: JSON.parse(profile).email,
-					contactNumber: JSON.parse(profile).contact_number,
-					companyName: JSON.parse(profile).company_name,
-					addressOne: JSON.parse(profile).loc_add_one,
-					addressTwo: JSON.parse(profile).loc_add_two,
-					city: JSON.parse(profile).loc_city,
-					province: JSON.parse(profile).loc_province,
-					zipCode: JSON.parse(profile).loc_zip_code,
-					businessBio: JSON.parse(profile).business_bio,
-					xUrl: JSON.parse(profile).sm_x,
-					instagramUrl: JSON.parse(profile).sm_inst,
-					facebookUrl: JSON.parse(profile).sm_fb,
-					linkedinUrl: JSON.parse(profile).sm_linkedin,
-					wwwUrl: JSON.parse(profile).sm_www,
-					isLocal: JSON.parse(profile).is_local,
+					businessId: record.id,
+					displayImage: record.display_image,
+					bannerImage: record.banner_image,
+					email: record.email,
+					contactNumber: record.contact_number,
+					companyName: record.company_name,
+					addressOne: record.loc_add_one,
+					addressTwo: record.loc_add_two,
+					city: record.loc_city,
+					province: record.loc_province,
+					zipCode: record.loc_zip_code,
+					businessBio: record.business_bio,
+					xUrl: record.sm_x,
+					instagramUrl: record.sm_inst,
+					facebookUrl: record.sm_fb,
+					linkedinUrl: record.sm_linkedin,
+					wwwUrl: record.sm_www,
+					isLocal: record.is_local,
+					businessHours: JSON.parse(record.business_hours),
 				},
 			});
+			setHours(JSON.parse(record.business_hours));
         });
     }
 
@@ -241,6 +247,8 @@ const Edit = (props) =>
 			await getProfile();
 			await getBusniessId();
 			await getToken();
+
+			setIsLoading(false);
 		};
 
 		fetchProfile();
@@ -310,6 +318,7 @@ const Edit = (props) =>
 		await updProfile('sm_fb', state.facebookUrl);
 		await updProfile('sm_linkedin', state.linkedinUrl);
 		await updProfile('sm_www', state.wwwUrl);
+		await updProfile('business_hours', JSON.stringify(hours));
 		// await updProfile('display_image', state.displayImage);
 		// await updProfile('banner_image', state.bannerImage);
 
@@ -331,10 +340,12 @@ const Edit = (props) =>
 			sm_www: state.wwwUrl,
 			display_image: state.displayImage,
 			banner_image: state.bannerImage,
+			business_hours: JSON.stringify(hours),
 		}
 
 		try 
 		{
+			console.log('DATA: ', data);
 			const res = await updBusinessProfile(token, data);
 		}
 		catch (error)
@@ -482,116 +493,185 @@ const Edit = (props) =>
 		}
 	}
 
+	const handleTimeChange = (day, timeType, value) => 
+	{
+		const updatedHours = hours.map(hour => 
+		hour.day === day ? { ...hour, [timeType]: value } : hour
+		);
+		setHours(updatedHours);
+	};
+
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-		<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
+		<TopNavBack title="Back: Business Profile" alignment="start" navigation={props.navigation} pops={1} />
         <TabsBusProf selected={0} value={selectedIndex} onchange={handleGotoProfile} />
             <ScrollView style={{ width: '100%' }}>
-                <Layout style={[MainStyles.column_container, {backgroundColor: '#fff'}]}>
-					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Display Picture</Text>
-					<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
-						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
-							<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
-							<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the logo of your business</Text>
-							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specification: square</Text>
-							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
-							{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
-							{state.displayImage && 
+                <Layout style={[MainStyles.column_container, {paddingStart: 20, paddingEnd: 20, paddingTop: 15}]}>
+					{/* Page title */}
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Edit Business Profile</Text>
+                    </View>
+					{/* Upload display picture */}
+					<Card style={{ marginBottom: 10 }}>
+						<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', marginTop: 0, marginBottom: 15 }}>Upload Display Picture</Text>
+						<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
+							<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+								<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+								<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the logo of your business</Text>
+								<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specification: square</Text>
+								<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
+								{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+								{state.displayImage && 
+									<>
+									<View style={{ marginTop: 15 }} />
+									<TouchableOpacity onPress={handleDeleteLogoImage}>
+										<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
+									</TouchableOpacity>
+									</>
+								}
+							</Layout>
+						</TouchableOpacity>
+					</Card>
+					{/* Upload banner picture */}
+					<Card style={{ marginBottom: 10 }}>
+						<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', marginTop: 0, marginBottom: 15 }}>Upload Banner Picture</Text>
+						<TouchableOpacity onPress={chooseBannerImage} style={{ width: '100%' }}>
+							<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+								<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
+								<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an banner image for your business profile</Text>
+								<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640 x 300px</Text>
+								<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
+								{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
+								{state.bannerImage && 
 								<>
 								<View style={{ marginTop: 15 }} />
-								<TouchableOpacity onPress={handleDeleteLogoImage}>
+								<TouchableOpacity onPress={handleDeleteBannerImage}>
 									<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
 								</TouchableOpacity>
 								</>
-							}
-						</Layout>
-					</TouchableOpacity>
-					<Text style={[MainStyles.title_a18, { textAlign: 'left', width: '100%', marginTop: 20, marginBottom: 10 }]}>Upload Banner Picture</Text>
-					<TouchableOpacity onPress={chooseBannerImage} style={{ width: '100%' }}>
-						<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
-							<Image source={require('../../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
-							<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an banner image for your business profile</Text>
-							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640 x 300px</Text>
-							<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
-							{state.bannerImage && <Image source={{ uri: state.bannerImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
-							{state.bannerImage && 
-							<>
-							<View style={{ marginTop: 15 }} />
-							<TouchableOpacity onPress={handleDeleteBannerImage}>
-								<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
-							</TouchableOpacity>
-							</>
-							}
-						</Layout>
-					</TouchableOpacity>
-
-                    <View style={{ position: 'relative', marginTop: 30 }} >
-						<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
-					</View>
-
-                    <View style={{ position: 'relative', marginTop: 15 }} >
+								}
+							</Layout>
+						</TouchableOpacity>
+					</Card>
+					{/* Company name */}
+					<Card style={{ marginBottom: 10 }}>
                     	<InputLabel label="Company Name *" name="companyName" value={state.companyName} onChange={handleInputChange} placeholder="Company name" status="basic" bg={errors.companyName ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}
-					</View>
+					</Card>
+					{/* Location */}
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<Label title="Location *" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+							<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
+							{/* {errors.addressOne && <Text style={styles.error}>{errors.addressOne}</Text>} */}
+						</View>
+						<View>
+							<InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
+							{/* {errors.addressTwo && <Text style={styles.error}>{errors.addressTwo}</Text>} */}
+						</View>
+						<View>
+							<InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} bg={errors.city ? '#ffe6e6' : '#f2f2f2'} />
+							{/* {errors.city && <Text style={styles.error}>{errors.city}</Text>} */}
+						</View>
+						<View>
+							<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
+							{/* {errors.province && <Text style={styles.error}>{errors.province}</Text>} */}
+						</View>
+						<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+					</Card>
+					{/* Contact number */}
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<Label title="Contact Number (for business)" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+							<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+							{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+						</View>
+					</Card>
+					{/* Business hours */}
+					<Card style={{ marginBottom: 10 }}>
+						<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', marginTop: 0, marginBottom: 15 }}>Business Hours</Text>
+						<View>
+						{hours.map(({ day, open, close }) => (
+							<View key={day}>
+								<View 
+									style={{ 
+										flexDirection: 'row', 
+										alignItems: 'center', 
+										justifyContent: 'space-between', 
+										columnGap: 10, 
+										borderBottomColor: '#efe7fd', 
+										borderBottomWidth: 1, 
+										paddingTop: 5, 
+										paddingBottom: 5,
+										borderTopWidth: day === 'Mon' ? 1 : 0, 
+										borderTopColor: day === 'Mon' ? '#efe7fd' : 'transparent', 
+										}}  
+										key={day}
+										>
+									<Text style={{ width: 35, color: 'black' }}>{day}</Text>
+									<Text style={{ width: 40, color: '#612bc1', fontSize: 14 }}>Open</Text>
+									<TextInput
+										placeholder="Open"
+										value={open}
+										style={{ backgroundColor: '#f2f2f2', color: 'black', borderColor: '#efe7fd', borderWidth: 1, flex: 1, textAlign: 'center' }}
+										onChangeText={(value) => handleTimeChange(day, 'open', value)}
+									/>
+									<Text style={{ width: 40, color: '#612bc1', fontSize: 14 }}>Close</Text>
+									<TextInput
+										placeholder="Close"
+										value={close}
+										style={{ backgroundColor: '#f2f2f2', color: 'black', borderColor: '#efe7fd', borderWidth: 1, flex: 1, textAlign: 'center' }}
+										onChangeText={(value) => handleTimeChange(day, 'close', value)}
+									/>
+								</View>
+							</View>
+						))}
+						</View>
+					</Card>
+					{/* Business bio */}
+					<Card style={{ marginBottom: 10 }}>
+						<View>
+							<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
+							{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
+						</View>
+					</Card>
+					{/* Social media */}
+                    <Card style={{ marginBottom: 20 }}>
+						<Label title="Connect Your Social Media (optional)" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }} >
+							<Image source={require('../../../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+						</View>
+						<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" status="basic" bg='#f2f2f2'  />
 
-                    <View style={{ position: 'relat', marginTop: 15 }} >
-						<Label title="Location *" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputOnly name="addressOne" value={state.addressOne} onChange={handleInputChange} placeholder="Address Line 1" bg={errors.addressOne ? '#ffe6e6' : '#f2f2f2'} />
-						{/* {errors.addressOne && <Text style={styles.error}>{errors.addressOne}</Text>} */}
-					</View>
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" bg='#f2f2f2'  />
 
-					<View style={{ position: 'relative' }} >
-						<InputOnly name="addressTwo" value={state.addressTwo} onChange={handleInputChange} placeholder="Address Line 2" mt={5} bg={errors.addressTwo ? '#ffe6e6' : '#f2f2f2'} />
-						{/* {errors.addressTwo && <Text style={styles.error}>{errors.addressTwo}</Text>} */}
-					</View>
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+						</View>
+						<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" bg='#f2f2f2'  />
 
-					<View style={{ position: 'relative' }} >
-						<InputOnly name="city" value={state.city} onChange={handleInputChange} placeholder="City" mt={5} bg={errors.city ? '#ffe6e6' : '#f2f2f2'} />
-						{/* {errors.city && <Text style={styles.error}>{errors.city}</Text>} */}
-					</View>
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" bg='#f2f2f2'  />
 
-					<View style={{ position: 'relative' }} >
-						<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
-						{/* {errors.province && <Text style={styles.error}>{errors.province}</Text>} */}
-					</View>
-
-					<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
-
-                    <View style={{ position: 'relative', marginTop: 15 }} >
-                    	<InputMultiline label="Business Bio *" name="businessBio" value={state.businessBio} onChange={handleInputChange} placeholder={`Write a description up to 120 characters`} status="basic" bg={errors.businessBio ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.businessBio && <Text style={styles.error}>{errors.businessBio}</Text>}
-					</View>
-
-                    <View style={{ marginTop: 15 }} />
-
-					<Label title="Connect Your Social Media (optional)" textalign="left" mt={15} mb={5} fontsize={16} status="basic" />
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }} >
-						<Image source={require('../../../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
-					</View>
-					<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" status="basic" />
-
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" />
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-                    	<Image source={require('../../../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
-					</View>
-                    <InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" />
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" />
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
-						<Image source={require('../../../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
-					</View>
-                    <InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" />
-                    <View style={{ marginTop: 25 }} />
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<Image source={require('../../../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
+						</View>
+						<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" bg='#f2f2f2'  />
+					</Card>
                     <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
                 </Layout>
             </ScrollView>

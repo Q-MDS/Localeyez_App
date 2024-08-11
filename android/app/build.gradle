@@ -83,6 +83,17 @@ android {
         versionCode 9
         versionName "1.8"
     }
+	// IAP
+	// flavorDimensions "store"
+    // productFlavors {
+    //     amazon {
+    //         dimension "store"
+    //     }
+    //     play {
+    //         dimension "store"
+    //     }
+    // }
+	// IAP
     signingConfigs {
 		release {
 			if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) 
@@ -118,6 +129,10 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
+	// IAP
+	// amazonImplementation project(path: ':react-native-iap', configuration: 'amazonDebugApiElements')
+    // playImplementation project(path: ':react-native-iap', configuration: 'playDebugApiElements')
+	// IAP
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

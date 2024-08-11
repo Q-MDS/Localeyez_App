@@ -9,8 +9,8 @@ export const TabsBusProf = (props) => {
 		onSelect={index => props.onchange(index)}
 		tabBarStyle={{ backgroundColor: '#612BC1', fontSize: 23 }}
 		>
-		<Tab title='Business Profile' />
-		<Tab title='Business Sectors' />
+		<Tab title='Edit Business Profile' />
+		<Tab title='Edit Business Sectors' />
 		</TabBar>
   	);
 };

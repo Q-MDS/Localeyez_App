@@ -351,7 +351,7 @@ const Home = (props) =>
 				</Layout>
 				</Tab>
 				<Tab title='Events'>
-					<Layout style={styles.tabContainer}>
+					<Layout style={[styles.tabContainer, {marginTop: 20}]}>
 						{events && events.length === 0 && (
 						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
 							<TextOne title="You have no events listed" status="basic" />
@@ -360,28 +360,42 @@ const Home = (props) =>
 						)}
 						{events && events.map((record, index) => 
 						(
-							<Card key={index} style={{ width: '100%', marginBottom: 15 }} onPress={() => handleEditEvent(index)}>
-								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200 }} >
-									{record.display_image 
-									? 
-									<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%', borderRadius: 5 }} /> 
-									:
-									<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
-									}
-								</View>
-								<Text style={[MainStyles.title_a18, {marginTop: 10, fontWeight: '700'}]}>{record.event_title}</Text>
-								<Text style={[MainStyles.title_a14, {marginTop: 5 }]}>{record.event_caption}</Text>
-								<Text style={[MainStyles.title_a14, {marginTop: 5, fontWeight: 'bold', marginTop: 10 }]}>{state.companyName}</Text>
-								<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
-									<Icon fill='#612BC1' name="calendar-outline" width={18} height={18} />
-									<Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{formatDate(record.start_date)}</Text>
-								</View>
-								<View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
-									<Icon fill='#612BC1' name="pin-outline" width={18} height={18} />
-									{/* <Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{`${record.loc_add_one}, ${record.loc_add_two}, ${record.loc_city}`}</Text> */}
-									<Text style={[MainStyles.title_a14, {marginStart: 10 }]}>{`${record.loc_add_one || '-', record.loc_add_two || '-', record.loc_city || '-'}`}</Text>
-								</View>
-							</Card>
+							<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
+								<Card key={index} style={{ marginBottom: 15, backgroundColor: '#ffffff' }} onPress={() => handleEditEvent(index)}>
+									<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200, borderColor: 'black', borderWidth: 1 }} >
+										{record.display_image 
+										? 
+										<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%', borderRadius: 5 }} /> 
+										:
+										<Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 64, height: 64 }} /> 
+										}
+									</View>
+									<Text style={[MainStyles.title_a20, {marginTop: 15, fontWeight: '700', color: '#612bc1'}]}>{record.event_title}</Text>
+									<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#00000080', fontStyle: 'italic' }]}>{record.event_caption}</Text>
+									<Text style={[MainStyles.title_a14, {marginTop: 5, color: '#000' }]}>{record.event_desc}</Text>
+
+									<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#612bc1', fontWeight: 'bold' }]}>{state.companyName}</Text>
+
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Starts:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.start_date)} - {record.start_time}</Text>
+									</View>
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Ends:</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.end_date)} - {record.end_time}</Text>
+									</View>
+									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1', height: '100%' }]}>Where:</Text>
+										<View style={{ flexDirection: 'column', alignItems: 'flex-end', flex: 1 }}>
+											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_one || '-'}`}</Text>
+											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_two || '-'}`}</Text>
+											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_city || '-'}`}</Text>
+											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
+
+										</View>
+									</View>
+								</Card>
+							</View>
 						))}
 					</Layout>
 				</Tab>
