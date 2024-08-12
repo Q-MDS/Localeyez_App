@@ -48,6 +48,11 @@ const MainStyles = StyleSheet.create({
 		fontWeight: '600', 
 		color: '#220622',
 	},
+	title_a15: {
+		fontSize: 16, 
+		fontWeight: '600', 
+		color: '#220622',
+	},
 	title_a14: {
 		fontSize: 14, 
 		fontWeight: '600', 
@@ -60,6 +65,12 @@ const MainStyles = StyleSheet.create({
 	title_a12: {
 		fontSize: 12, 
 		color: '#220622',
+	},
+	textItalic: {
+		fontStyle: 'italic',
+	},
+	textBold: {
+		fontWeight: 'bold',
 	},
 
 

@@ -148,14 +148,14 @@ const WriteReview = (props:any) =>
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavBack title="Write Review" alignment="start" navigation={props.navigation} pops={1} />
+			<TopNavBack title="Back: View reviews" alignment="start" navigation={props.navigation} pops={1} />
 			<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
 				{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
-				<Text style={[MainStyles.title_a20, { paddingStart: 15,  }]} >{`${businessName}`}</Text>
+				<Text category='h5' status="primary" >{`${businessName}`}</Text>
 			</View>
 			<ScrollView>
 				<Layout style={{ flex: 1, marginTop: 20, paddingStart: 20, paddingEnd: 20, marginBottom: 20 }}>
-					<Text style={[MainStyles.title_a20, { marginBottom: 15 }]} >Rate the service</Text>
+					<Text style={[MainStyles.title_a16, MainStyles.textBold, { marginBottom: 15 }]} >Rate the service</Text>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
 						<Rating
 						type='star'
@@ -166,16 +166,16 @@ const WriteReview = (props:any) =>
 					</View>
 					<View style={{ marginTop: 25 }} />
 					<View style={{ position: 'relative' }} >
-						<InputMultiline label="Write review title" name="title" status="basic" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={3} value={state.title} onChange={handleInputChange} bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
+						<InputMultiline label="Write review title" name="title" status="basic" placeholder="Please provide a brief 5-word caption describing the business for your review." numLines={3} value={state.title} onChange={handleInputChange} bg={errors.title ? '#efeaf9' : '#f2f2f2'} />
 						{errors.title && <Text style={styles.error}>{errors.title}</Text>}
 					</View>
 					<View style={{ position: 'relative', marginTop: 25 }} >
-						<InputMultiline label="Write review message" name="review" status="basic" placeholder="Write your review here..." numLines={8} value={state.review} onChange={handleInputChange} bg={errors.review ? '#ffe6e6' : '#f2f2f2'} />
+						<InputMultiline label="Write review message" name="review" status="basic" placeholder="Write your review here..." numLines={8} value={state.review} onChange={handleInputChange} bg={errors.review ? '#efeaf9' : '#f2f2f2'} />
 						{errors.review && <Text style={styles.error}>{errors.review}</Text>}
 					</View>
 				</Layout>
 			</ScrollView>
-			<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>
+			<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white' }}>
 				<ButtonPrimary name="Submit Review" width="100%" marginTop={25} onpress={validateForm}/>
 			</Layout>
 		</SafeAreaView>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		textAlign: 'right',
         width: '100%',
-        color: 'red',
+        color: '#b095e0',
         opacity: 0.5,
 		fontSize: 12,
     },

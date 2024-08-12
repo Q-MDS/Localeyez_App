@@ -116,15 +116,15 @@ const List = (props:any) =>
 	}
 
 	return (
-	<SafeAreaView style={{ flex: 1 }}>
-		<TopNavBack title="Reviews" alignment="start" navigation={props.navigation} pops={1} />
-		<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
+	<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+		<TopNavBack title="Back: View Business" alignment="start" navigation={props.navigation} pops={1} />
+		<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#efeaf9', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
 			{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
-			<Text category='h5' status="primary" style={{ paddingStart: 15,  }} >{`${businessName}`}</Text>
+			<Text category='h5' status="primary" >{`${businessName}`}</Text>
 		</View>
 		<ScrollView>
 			<Layout style={{ flexDirection: 'column', flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', padding: 15, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', width: '100%' }}>
-				<Text>Reviews</Text>
+				<Text style={[MainStyles.title_a16, MainStyles.textBold, MainStyles.mb_3]}>Reviews</Text>
 				{reviews.length > 0 
 				?
 				reviews.map((review: { first_name: any; last_name: any; rating: any; review_title: any; review_desc: any; }, index: React.Key | null | undefined) => (
@@ -133,11 +133,11 @@ const List = (props:any) =>
 					</TouchableOpacity>
 				))
 				:
-					<Text style={[MainStyles.title_a16, { paddingTop: 20 }]}>No reviews available</Text>
+					<Text style={[MainStyles.title_a14, { paddingTop: 20 }]}>No reviews available</Text>
 				}
 			</Layout>
 		</ScrollView>
-		<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white', borderTopColor: '#DEDDE7', borderTopWidth: 1 }}>
+		<Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: 'white' }}>
 			<ButtonPrimary name="Write a Review" width="100%" marginTop={25} onpress={handleWriteReview}/>
 		</Layout>
 	</SafeAreaView>

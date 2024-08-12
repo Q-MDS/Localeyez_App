@@ -12,6 +12,8 @@ Colors S: #efe7fd
 Colors T: #F2F2F2 5% black
 Colors T: #E6E6E6 10% black
 Colors T: #CCCCCC 20% black
+Lines: d6d6d6
+image border: #ccc
 
 Make own font file: https://icomoon.io/app/#/select/font
 

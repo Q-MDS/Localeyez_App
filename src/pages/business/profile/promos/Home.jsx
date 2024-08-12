@@ -186,6 +186,7 @@ const Home = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavTitle title='Business Profile' alignment='start' />
+				{/* Action icons  */}
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 10, paddingRight: 10, marginTop: 10 }}>
                     <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1 }} onPress={handleEditProfile}>
                         <IconText title="Edit Profile" iconname="edit" fontsize={13} width={20} status="primary" />
@@ -199,117 +200,117 @@ const Home = (props) =>
                 </Layout>
                 <Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080', marginTop: 10 }} />
 				<ScrollView>
-                <Layout style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#efe7fd', height: 200, width: '100%' }}>
-					{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
-                </Layout>
-				<Divider style={{ height: 2, width: '100%', backgroundColor: '#612BC1', marginBottom: 10 }} />
-                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
-					{state.xUrl && 
-						<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
-							<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
-						</TouchableOpacity>
-					}
-					<View style={{ marginLeft: 8 }} />
-					{state.instagramUrl && 
-						<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
-							<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
-						</TouchableOpacity>
-					}
-					<View style={{ marginLeft: 10 }} />
-					{state.facebookUrl && 
-						<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
-							<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
-						</TouchableOpacity>
+					{/* Business diaply image */}
+					<Layout style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#efe7fd', height: 200, width: '100%' }}>
+						{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
+					</Layout>
+					<Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080', marginTop: 10 }} />
+					{/* Social media icons/links */}
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
+						{state.xUrl && 
+							<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
+								<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
+							</TouchableOpacity>
 						}
-					<View style={{ marginLeft: 10 }} />
-					{state.linkedinUrl && 
-						<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
-							<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
-						</TouchableOpacity>
-					}
-					<View style={{ marginLeft: 8 }} />
-                    {state.wwwUrl && 
-						<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
-							<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
-						</TouchableOpacity>
-					}
-                    <View style={{ position: 'absolute', left: 0, top: -80, borderColor: '#000', borderWidth: 0, borderRadius: 60, padding:  20, backgroundColor: 'transparent' }} >
-					{state.profilePic 
-						? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 2  }} /> 
-						: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
-					}
-                    </View>
-                    {/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
-                </Layout>
-                
-				<Layout style={[MainStyles.column_container, {paddingTop: 10, paddingStart: 20, paddingEnd: 20, paddingBottom: 0}]}>    
-					<Card style={{ backgroundColor: '#efeaf9', borderRadius: 10, marginBottom: 10 }}>
-						<Text style={[MainStyles.title_aaa]}>{state.companyName}</Text>
-						<View style={{ marginTop: 5 }} />
-						<Text style={[MainStyles.title_a16, MainStyles.textItalic]}>{state.businessBio}</Text>
-						{/* <TextTwo title={state.businessBio} status="basic" /> */}
-						
-					</Card>
-
-					<Card style={{ marginBottom: 10, borderRadius: 10 }}>
-						<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Details</Text>
-						<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
-						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
-						<IconText title={state.contactNumber === "" ? 'No number available' : 'b'} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
-						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
-						<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
-						<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
-					</Card>
-
-					{/* Business Hours */}
-					<Card style={{ marginBottom: 10, borderRadius: 10 }}>
-						<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Hours</Text>
-						{state.businessHours.map(({ day, open, close }) => (
-							<View key={day}>
-								<View 
-									style={{ 
-										flexDirection: 'row', 
-										alignItems: 'center', 
-										justifyContent: 'space-between', 
-										columnGap: 10, 
-										borderBottomColor: '#efe7fd', 
-										borderBottomWidth: 1, 
-										paddingTop: 5, 
-										paddingBottom: 5,
-										borderTopWidth: day === 'Mon' ? 1 : 0, 
-										borderTopColor: day === 'Mon' ? '#efe7fd' : 'transparent', 
-										}}  
-										key={day}
-										>
-									<Text style={{ width: 35, color: 'black' }}>{day}</Text>
-									<Text style={{ color: '#612bc1', fontSize: 14 }}>{open}</Text>
-									<Text style={{ color: '#612bc1', fontSize: 14 }}>-</Text>
-									<Text style={{ color: '#612bc1', fontSize: 14, flex: 1 }}>{close}</Text>
-								</View>
+						<View style={{ marginLeft: 8 }} />
+						{state.instagramUrl && 
+							<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
+								<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
+							</TouchableOpacity>
+						}
+						<View style={{ marginLeft: 10 }} />
+						{state.facebookUrl && 
+							<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
+								<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
+							</TouchableOpacity>
+							}
+						<View style={{ marginLeft: 10 }} />
+						{state.linkedinUrl && 
+							<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
+								<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
+							</TouchableOpacity>
+						}
+						<View style={{ marginLeft: 8 }} />
+						{state.wwwUrl && 
+							<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
+								<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
+							</TouchableOpacity>
+						}
+						<View style={{ position: 'relative', height: 30, width: '100%' }}>
+							<View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 0, borderRadius: 60, backgroundColor: 'transparent'}} >
+								{state.profilePic 
+								? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
+								: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
+								}
 							</View>
-						))}
-					</Card>
-				</Layout>
+						</View>
+						{/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
+					</Layout>
+                	{/* Business Information */}
+					<Layout style={[MainStyles.column_container, {paddingTop: 10, paddingStart: 20, paddingEnd: 20, paddingBottom: 0}]}>   
+					 	{/* Company name and business bio */}
+						<Card style={{ backgroundColor: '#efeaf9', borderRadius: 10, marginBottom: 10 }}>
+							<Text style={[MainStyles.title_aaa]}>{state.companyName}</Text>
+							<View style={{ marginTop: 5 }} />
+							<Text style={[MainStyles.title_a16, MainStyles.textItalic]}>{state.businessBio}</Text>
+							{/* <TextTwo title={state.businessBio} status="basic" /> */}
+						</Card>
+						{/* Business details: Address and contact number */}
+						<Card style={{ marginBottom: 10, borderRadius: 10 }}>
+							<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Details</Text>
+							<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
+							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+							<IconText title={state.contactNumber === "" ? 'No number available' : 'b'} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
+							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+							<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
+							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
+						</Card>
+
+						{/* Business Hours */}
+						<Card style={{ marginBottom: 10, borderRadius: 10 }}>
+							<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Hours</Text>
+							{state.businessHours.map(({ day, open, close }) => (
+								<View key={day}>
+									<View 
+										style={{ 
+											flexDirection: 'row', 
+											alignItems: 'center', 
+											justifyContent: 'space-between', 
+											columnGap: 10, 
+											borderBottomColor: '#efe7fd', 
+											borderBottomWidth: 1, 
+											paddingTop: 5, 
+											paddingBottom: 5,
+											borderTopWidth: day === 'Mon' ? 1 : 0, 
+											borderTopColor: day === 'Mon' ? '#efe7fd' : 'transparent', 
+											}}  
+											key={day}
+											>
+										<Text style={{ width: 35, color: 'black' }}>{day}</Text>
+										<Text style={{ color: '#612bc1', fontSize: 14 }}>{open}</Text>
+										<Text style={{ color: '#612bc1', fontSize: 14 }}>-</Text>
+										<Text style={{ color: '#612bc1', fontSize: 14, flex: 1 }}>{close}</Text>
+									</View>
+								</View>
+							))}
+						</Card>
+					</Layout>
 
 				<TabView
-					selectedIndex={selectedIndex}
-					onSelect={index => setSelectedIndex(index)}
-					
+				selectedIndex={selectedIndex}
+				onSelect={index => setSelectedIndex(index)}
 				>
 				<Tab title='Promotions'>			
 				<Layout style={[styles.tabContainer, {marginTop: 20}]}>
 					{promotions && promotions.length === 0 && (
-						<Card>
-					{/* <Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} > */}
-						<TextOne title="You have no promotions listed" status="basic" />
-						<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
-					{/* </Layout> */}
-					</Card>
+						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
+						<TextOne title="No promotions listed" status="basic" />
+					</Layout>
 					)}
 					{promotions && promotions.map((record, index) => (
 						<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
 							<Card style={{ marginBottom: 15, backgroundColor: '#ffffff' }}  onPress={() => handleEditPromo(index)}>
-								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200 }} >
+								<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200, borderColor: '#CCCCCC', borderWidth: 1 }} >
 									{record.display_image 
 									? 
 									<Image source={{ uri: record.display_image }} style={{ width: '100%', height: '100%', borderRadius: 5 }} /> 
@@ -320,8 +321,8 @@ const Home = (props) =>
 								<Text style={[MainStyles.title_a20, {marginTop: 10, fontWeight: '700', color: '#612bc1'}]}>{record.promo_title}</Text>
 								<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#00000080', fontStyle: 'italic' }]}>{record.promo_caption}</Text>
 								<Text style={[MainStyles.title_a14, {marginTop: 5, color: '#000' }]}>{record.promo_desc}</Text>
-								<View style={{ flexDirection: 'column', alignItems: 'start', width: '100%', justifyContent: 'center', marginTop: 10}} >
 
+								<View style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', justifyContent: 'center', marginTop: 10}} >
 									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
 										{/* <Icon fill='#612BC1' name="pricetags-outline" width={18} height={18} /> */}
 										{/* <Text style={[MainStyles.title_a14, { marginStart: 5, textAlign: 'left' }]}>{record.sale_item_mp}</Text> */}
@@ -346,7 +347,7 @@ const Home = (props) =>
 									</View>
 								</View>
 							</Card>
-							</View>
+						</View>
 						))}
 				</Layout>
 				</Tab>
@@ -361,7 +362,7 @@ const Home = (props) =>
 						{events && events.map((record, index) => 
 						(
 							<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
-								<Card key={index} style={{ marginBottom: 15, backgroundColor: '#ffffff' }} onPress={() => handleEditEvent(index)}>
+								<Card style={{ marginBottom: 15, backgroundColor: '#ffffff' }} onPress={() => handleEditEvent(index)}>
 									<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200, borderColor: 'black', borderWidth: 1 }} >
 										{record.display_image 
 										? 
@@ -391,7 +392,6 @@ const Home = (props) =>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_two || '-'}`}</Text>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_city || '-'}`}</Text>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
-
 										</View>
 									</View>
 								</Card>

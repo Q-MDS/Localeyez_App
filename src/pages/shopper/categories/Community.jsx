@@ -54,7 +54,7 @@ const Community = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
+        <TopNavBack title={`Back: Search Page`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 

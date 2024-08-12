@@ -19,7 +19,7 @@ export const ReviewCard = (props:any) =>
 	} 
 
     return (
-        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="basic" onPress={() => props.onPress} >
+        <Card style={[MainStyles.card_review, {marginBottom: 20, elevation: 2}]} onPress={() => props.onPress} >
 			<TouchableOpacity onPress={props.onPress}>
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
 				
