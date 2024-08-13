@@ -10,7 +10,8 @@ import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Card } from '@ui-kitten/components';
+import LogoLand from '../../../assets/images/LogoLand';
 
 const initialState = {
 	// credOne: "Harry@gmail.com",a
@@ -298,37 +299,46 @@ const Login = (props) =>
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
 			<TopNavBack navigation={props.navigation} pops={1} />
-            <Layout style={[MainStyles.column_container, { paddingTop: 40}]}>
-				<ScrollView style={{ flex: 1, width: '100%' }}>
-					<Text style={MainStyles.title_one}>Login as a User</Text>
-						<View style={{ position: 'relative' }} >
-							<InputLabelEmail label="Username" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter username" status="basic" mb={20} bg={errors.userName ? '#ffe6e6' : '#f2f2f2'} />
-							{errors.userName && <Text style={styles.error}>{errors.userName}</Text>}
+			<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 20, flex: 1 }}>
+				<Layout style={[MainStyles.column_container]}>
+					<ScrollView style={{ width: '100%' }}>
+						<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
+							<LogoLand />
 						</View>
-						<View style={{ position: 'relative' }} >
-							<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" status="basic" bg={errors.password ? '#ffe6e6' : '#f2f2f2'} />
-							{errors.password && <Text style={styles.error}>{errors.password}</Text>}
-						</View>
-						<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1, marginTop: 20 }} >
-							<Layout >
-								<Checkbox checked={remember} onChange={handleRememberMe}  label="Remember me" />
+						<Text style={[MainStyles.title_a24, {textAlign: 'center', marginBottom: 40, color: '#000000', marginTop: 15}]}>Login as a User</Text>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+							<View style={{ position: 'relative' }} >
+								<InputLabelEmail label="Username" name="credOne" value={state.credOne} onChange={handleInputChange} placeholder="Enter username" status="basic" mb={20} bg={errors.userName ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.userName && <Text style={styles.error}>{errors.userName}</Text>}
+							</View>
+							<View style={{ position: 'relative' }} >
+								<InputLabelPassword label="Password" name="credTwo" value={state.credTwo} onChange={handleInputChange} placeholder="Enter password" status="basic" bg={errors.password ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
+							<Layout style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
+								<Layout >
+									<Checkbox checked={remember} onChange={handleRememberMe}  label="Remember me" />
+								</Layout>
+								<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
+									<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>
+									<TouchableOpacity onPress={handleReset}>
+										<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
+									</TouchableOpacity>
+								</Layout>
 							</Layout>
-							 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
-								<Text style={{ fontSize: 13, color: '#000000' }}>Forgot passord?&nbsp;</Text>
-								<TouchableOpacity onPress={handleReset}>
-									<Text status="primary" style={{ fontSize: 13 }}>Reset</Text>
-								</TouchableOpacity>
-							</Layout>
-						</Layout>
-						<ButtonPrimary name="Login" marginTop={20} onpress={validateForm}/>
-						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 50 }} >
+						</Card>
+						<ButtonPrimary name="Login" onpress={validateForm}/>
+						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 40 }} >
 							<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
 							<TouchableOpacity onPress={handleSignup} accessibilityLabel='Tap to signup' >
 								<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Sign up</Text>
 							</TouchableOpacity>
 						</Layout>
-				</ScrollView>
-            </Layout>
+					</ScrollView>
+				</Layout>
+			</View>
         </SafeAreaView>
     )
 };

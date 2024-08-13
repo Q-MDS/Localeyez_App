@@ -7,7 +7,7 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator , StyleSheet, Alert} from 'react-native';
-import { Layout, Text, Avatar, Card } from '@ui-kitten/components';
+import { Layout, Text, Avatar, Card, Divider } from '@ui-kitten/components';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 
 const initialState = {
@@ -405,19 +405,23 @@ const StepOne = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Back: Login screen" alignment="start" navigation={props.navigation} pops={1} />
-            <ScrollView style={{ flex: 1, width: '100%' }}>
+            
                 <Layout style={[MainStyles.column_container, {paddingStart: 20, paddingEnd: 20, paddingTop: 12}]}>
-
-                    <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Login Information</Text>
-                    </View>
-
-					<Card style={{ marginBottom: 20 }}>
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+					{/* Page title */}
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Login Information</Text>
+					</View>
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+					<ScrollView style={{ flex: 1, width: '100%' }}>
+					<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 10 }}>
 						<View>
 							<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#efeaf9' : '#f2f2f2'} />
 							{errors.email && <Text style={styles.error}>{errors.email}</Text>}
 						</View>
-						<View style={{ marginTop: 15 }}>
+					</Card>
+					<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+						<View>
 							<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#efeaf9' : '#f2f2f2'} />
 							{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
 						</View>
@@ -425,16 +429,17 @@ const StepOne = (props) =>
 							<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#efeaf9' : '#f2f2f2'} />
 							{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
 						</View>
-						<View style={{ marginTop: 15 }} >
-							<InputLabelPassword placeholder="Enter password" name="password" value={state.password} onChange={handleInputChange} label="Password *" status="basic" bg={errors.password? '#efeaf9' : '#f2f2f2'} />
-							{errors.password && <Text style={styles.error}>{errors.password}</Text>}
-						</View>
-
-						<View style={{ marginTop: 15 }} >
-							<InputLabelPassword placeholder="Retype password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} label="Retype Password" status="basic" bg={errors.password_confirm ? '#efeaf9' : '#f2f2f2'} />
-							{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
-						</View>
-					</Card>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
+							<View >
+								<InputLabelPassword placeholder="Enter password" name="password" value={state.password} onChange={handleInputChange} label="Password *" status="basic" bg={errors.password? '#efeaf9' : '#f2f2f2'} />
+								{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+							</View>
+							<View style={{ marginTop: 15 }} >
+								<InputLabelPassword placeholder="Retype password" name="confirmPassword" value={state.confirmPassword} onChange={handleInputChange} label="Retype Password" status="basic" bg={errors.password_confirm ? '#efeaf9' : '#f2f2f2'} />
+								{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
+							</View>
+						</Card>
 
                     <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 15 }} >
@@ -443,8 +448,8 @@ const StepOne = (props) =>
 							<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Login</Text>
 						</TouchableOpacity>
 					</Layout>
-                </Layout>
             </ScrollView>
+                </Layout>
         </SafeAreaView>
     );
 };

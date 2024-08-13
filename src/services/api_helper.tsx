@@ -169,7 +169,7 @@ export const getShopperReviews = async (token: string, data: any) =>
 	{
 		headers: { Authorization: `Bearer ${token}` },
 	});
-	
+	console.log('Response from getShopperReviews: ', response.data);
 	return response.data;
 }
 

@@ -6,10 +6,10 @@ const MainStyles = StyleSheet.create({
     },
 	column_container: {
 		flexDirection: 'column', 
-		justifyContent: 'space-between',  
+		justifyContent: 'space-between',
 		flex: 1, 
 		width: '100%', 
-		padding: 30
+		padding: 20
 	},
 	title_one: {
 		fontSize: 30, 
@@ -49,7 +49,7 @@ const MainStyles = StyleSheet.create({
 		color: '#220622',
 	},
 	title_a15: {
-		fontSize: 16, 
+		fontSize: 15, 
 		fontWeight: '600', 
 		color: '#220622',
 	},

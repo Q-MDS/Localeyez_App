@@ -7,7 +7,7 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { ButtonText } from '../../../components/ButtonText';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Card } from '@ui-kitten/components';
 
 const initialState = {
 	email: '',
@@ -104,15 +104,17 @@ const Forgot = (props: any) =>
   	return (
 		<SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
 			<TopNavBack navigation={props.navigation} pops={1} />
-			<Layout style={[MainStyles.column_container, { paddingTop: 100}]}>
+			<Layout style={[MainStyles.column_container, { paddingTop: 40}]}>
 				<ScrollView style={{ flex: 1, width: '100%' }}>
-					<Text style={MainStyles.title_one}>Forgot Password</Text>
-					<Text style={[MainStyles.title_a18, {marginBottom: 20 }]}>Enter your email address below and we'll send you a link to reset your password.</Text>
+					<Text style={[MainStyles.title_a28, {marginBottom: 10, color: '#000000', textAlign: 'center'}]}>Forgot Password ?</Text>
+					<Text style={[MainStyles.title_a16, {marginBottom: 25, textAlign: 'center' }]}>Enter your email address below and we'll send you a link to reset your password.</Text>
+					<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
 						<View style={{ position: 'relative' }} >
-							<InputLabelEmail label="Email Address" name="email"  value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" mb={20} bg={'#f2f2f2'} />
+							<InputLabelEmail label="Email Address" name="email"  value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={'#f2f2f2'} />
 						</View>
-						<ButtonPrimary name="Submit" marginTop={20} onpress={handleSubmit}/>
-						<ButtonSecondary name="Back to login" marginTop={15} onpress={handleBack} />
+					</Card>
+					<ButtonPrimary name="Submit" onpress={handleSubmit}/>
+					<ButtonSecondary name="Back to login" marginTop={15} onpress={handleBack} />
 				</ScrollView>
 			</Layout>
 		</SafeAreaView>

@@ -274,7 +274,7 @@ const Home = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-			<TopNavBack title="Account Details" alignment="start" navigation={props.navigation} pops={1} />
+			<TopNavBack title="Back: Search Page" alignment="start" navigation={props.navigation} pops={1} />
 			<ScrollView style={{  flex: 1 }}>
 			<Layout style={ [MainStyles.column_container, {paddingTop: 12}] }>
 				<View>

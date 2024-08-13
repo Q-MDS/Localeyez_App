@@ -126,89 +126,89 @@ const SearchCategory = (props:any) =>
 console.log('Business length: ', businesses.length);
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-		<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
-
-		<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
-			{/* Page title */}
-			<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-				<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Search Results</Text>
-			</View>
-			<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 10 }} />
-			
-			<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 10 }} >
-				<Tab title={`Businesses [${numBusinesses}]`}>
-					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
-						<ScrollView>
-							<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Business List</Text>
-							{businesses.length === 0 ? (
-							<Text style={[MainStyles.title_a16, { paddingTop: 20, paddingStart: 20 }]}>No results found</Text>
-							) : (
-							businesses.map((business: { profile_pic: any; company_name: any; business_bio: any; }, index: number) => (
-								<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
-									<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f9f9' : 'white' }]}>
-										<View style={styles.listIcon}>
-											<Image source={business && business.profile_pic ? { uri: business.profile_pic } : require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
-											{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
-										</View>
-										<View style={styles.listContent}>
-											<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold' }]}>{business && business.company_name} </Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{business && business.business_bio} </Text>
-										</View>
-									</View>
-								</TouchableOpacity>
-							))
-						)}
-						</ScrollView>
+			<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
+				<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+					{/* Page title */}
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Search Results</Text>
 					</View>
-				</Tab>
-				<Tab title={`Promotions [${numPromotions}]`}>
-					<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
-						<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Promotion List</Text>
-						{promotions.length === 0 ? (
-						<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
-						) : (
-						promotions.map((promotion: { display_image: any; promo_title: any; promo_desc: any; }, index: number) => (
-							<TouchableOpacity key={index} onPress={() => handeleViewPromotion(promotion)} style={{ width: '100%' }}>
-								<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f5f5f5' : 'white' }]}>
-									<View style={styles.listIcon}>
-										{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
-										<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
-									</View>
-									<View style={styles.listContent}>
-										<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold' }]}>{promotion.promo_title} </Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-						))
-					)}
-					</View>
-				</Tab>
-					<Tab title={`Events [${numEvents}]`}>
-						<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
-							<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Events List</Text>
-							{events.length === 0 ? (
-							<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
-							) : (
-							events.map((event: { display_image: any; event_title: any; event_desc: any; }, index: number) => (
-								<TouchableOpacity key={index} onPress={() => handeleViewEvent(event)} style={{ width: '100%' }}>
-									<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f5f5f5' : 'white' }]}>
-										<View style={styles.listIcon}>
-											<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+				
+					<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 10 }} >
+						<Tab title={`Businesses [${numBusinesses}]`}>
+							<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
+								<ScrollView>
+									<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Business List</Text>
+									{businesses.length === 0 ? (
+									<Text style={[MainStyles.title_a16, { paddingTop: 20, paddingStart: 20 }]}>No results found</Text>
+									) : (
+									businesses.map((business: { profile_pic: any; company_name: any; business_bio: any; }, index: number) => (
+										<TouchableOpacity key={index} onPress={() => handeleViewBusiness(business)} style={{ width: '100%' }}>
+											<View style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? 'white' : '#f9f9f9' }]}>
+												<View style={styles.listIcon}>
+													<Image source={business && business.profile_pic ? { uri: business.profile_pic } : require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
+													{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+												</View>
+												<View style={styles.listContent}>
+													<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{business && business.company_name} </Text>
+													<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{business && business.business_bio} </Text>
+												</View>
+											</View>
+										</TouchableOpacity>
+									))
+								)}
+								</ScrollView>
+							</View>
+						</Tab>
+						<Tab title={`Promotions [${numPromotions}]`}>
+							<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
+								<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Promotion List</Text>
+								{promotions.length === 0 ? (
+								<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
+								) : (
+								promotions.map((promotion: { display_image: any; promo_title: any; promo_desc: any; }, index: number) => (
+									<TouchableOpacity key={index} onPress={() => handeleViewPromotion(promotion)} style={{ width: '100%' }}>
+										<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? 'white' : '#f9f9f9' }]}>
+											<View style={styles.listIcon}>
+												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+												<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+											</View>
+											<View style={styles.listContent}>
+												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{promotion.promo_title} </Text>
+												<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
+											</View>
 										</View>
-										<View style={styles.listContent}>
-											<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold' }]}>{event.event_title} </Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{event.event_desc} </Text>
+									</TouchableOpacity>
+								))
+							)}
+							</View>
+						</Tab>
+						<Tab title={`Events [${numEvents}]`}>
+							<View style={{ flexDirection: 'column', width: '100%', flexGrow: 1, paddingTop: 5, paddingBottom: 0, backgroundColor: '#fff' }} >
+								<Text style={[MainStyles.title_a20, { flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingStart: 10, borderRadius: 10, color: '#612bc1', borderTopColor: '#d6d6d6', borderTopWidth: 1, borderBottomColor: '#d6d6d6', borderBottomWidth: 1 }]}>Events List</Text>
+								{events.length === 0 ? (
+								<Text category='p1' status="primary" style={{ paddingTop: 20, paddingStart: 20 }}>No results found</Text>
+								) : (
+								events.map((event: { display_image: any; event_title: any; event_desc: any; }, index: number) => (
+									<TouchableOpacity key={index} onPress={() => handeleViewEvent(event)} style={{ width: '100%' }}>
+										<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? 'white' : '#f9f9f9' }]}>
+											<View style={styles.listIcon}>
+												<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+											</View>
+											<View style={styles.listContent}>
+												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{event.event_title} </Text>
+												<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{event.event_desc} </Text>
+											</View>
 										</View>
-									</View>
-								</TouchableOpacity>
-							))
-						)}
-						</View>
-					</Tab>
-				</TabView>
-			</Layout>
-        <BotNavShopper selected={0} />
+									</TouchableOpacity>
+								))
+							)}
+							</View>
+						</Tab>
+					</TabView>
+				</Layout>
+			<BotNavShopper selected={0} />
         </SafeAreaView>
 	)
 }

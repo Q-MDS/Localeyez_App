@@ -53,13 +53,11 @@ const ReviewList = (props) =>
 			setIsLoading(true);
 			try 
 			{
-				console.log('Fetching reviews...');
 				const data = {shopper_id: shopperId};
 				let params = JSON.stringify(data);
 
 				const res = await getShopperReviews(token, params);
 
-				console.log('Shopper reviews: ', res);
 				setReviews(res.data);
 			} 
 			catch (error) 
@@ -86,9 +84,16 @@ const ReviewList = (props) =>
 		}
 	}, [isReady]);
 
-    const handelView = (companyName, rating, title, desc) => 
+    // const handleView = (companyName, rating, title, desc) => 
+    const handleView = (data) => 
     {
-        props.navigation.navigate('ShopperReviewView', { companyName: companyName, rating: rating, title: title, desc: desc });
+		console.log('Got here: ', data);
+		const companyName = data.review.company_name;
+		const rating = data.review.rating;
+		const title = data.review.review_title;
+		const desc = data.review.review_desc;
+		const created = data.review.createrd_at;
+        props.navigation.navigate('ShopperReviewView', { companyName, rating, title, desc, created });
     }
 
 	if (isLoading) 
@@ -102,22 +107,26 @@ const ReviewList = (props) =>
 
 	reviews
 	{
-		console.log('Reviews: ', reviews);
 		return (
 			<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-				<ScrollView style={{ flex: 1, width: '100%', paddingTop: 30 }}>
-				<Text style={[ MainStyles.title_aaa, { textAlign: 'center' }]}>Your Reviews</Text>
-				<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-					<Layout style={[MainStyles.column_container, {backgroundColor: '#f2f2f2', paddingTop: 20, paddingStart: 20, paddingEnd: 20, marginBottom: 20 }]}>
-						{reviews.length > 0 ?
-							reviews.map((review, index) => (
-							<ReviewBusCard key={index} profilePic={review.profile_pic} companyName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc} />
-						))
-						:
-							<Text>No records found</Text>
-						}
-					</Layout>
-				</ScrollView>
+				<Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+					{/* Page title */}
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Your Reviews</Text>
+					</View>
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+					{/* Notification List */}
+					<ScrollView style={{ flex: 1, width: '100%', paddingTop: 20 }}>
+							{reviews.length > 0 ?
+								reviews.map((review, index) => (
+								<ReviewBusCard key={index} profilePic={review.profile_pic} companyName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc} handleView={() => handleView({review})} />
+							))
+							:
+								<Text>No records found</Text>
+							}
+					</ScrollView>
+				</Layout>
 				<BotNavShopper selected={2}/>
 			</SafeAreaView>
 		);

@@ -8,7 +8,7 @@ import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Layout, Avatar } from '@ui-kitten/components';
+import { Layout, Avatar, Card, Divider } from '@ui-kitten/components';
 import { Label } from '../../../components/Label';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import DropdownSingle from '../../../components/DropdownSingle';
@@ -399,58 +399,65 @@ const StepOne = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavBack title="Create your account" alignment="start" navigation={props.navigation} pops={1} />
-				<ScrollView style={{ flex: 1, width: '100%' }}>
-                <Layout style={MainStyles.column_container}>
-                    <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Avatar source={require('../../../assets/images/list_icon.png')} style={{ width: 96, height: 96 }} />
-                    </View>
+			<TopNavBack title="Back: Login Screen" alignment="start" navigation={props.navigation} pops={1} />
+				<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+					{/* Page title */}
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Login Information</Text>
+					</View>
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+					<ScrollView style={{ width: '100%' }}>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 10 }}>
+							<View style={{ position: 'relative' }} >
+								<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#efeaf9' : '#f2f2f2'} />
+								{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+							<View style={{ position: 'relative' }} >
+								<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name" bg={errors.firstName ? '#efeaf9' : '#f2f2f2'} />
+								{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+							</View>
+							<View style={{ position: 'relative', marginTop: 15 }} >
+								<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#efeaf9' : '#f2f2f2'} />
+								{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+							<View style={{ position: 'relative' }} >
+								<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+								<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number" bg={errors.contactNumber ? '#efeaf9' : '#f2f2f2'} />
+								{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+							<View style={{ position: 'relative'}} >
+								<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password *" status="basic" bg={errors.password ? '#efeaf9' : '#f2f2f2'} />
+								{errors.password && <Text style={styles.error}>{errors.password}</Text>}
+							</View>
+							
+							<View style={{ position: 'relative', marginTop: 15 }} >
+								<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" bg={errors.password_confirm ? '#efeaf9' : '#f2f2f2'} />
+								{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
+							<Label title="Geo-Location Range" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+							<View style={{ flex: 1, width: '100%' }} >
+								<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
+							</View>
+						</Card>
+                    	<ButtonPrimary name="Submit" width="100%" onpress={validateForm}/>
 
-                    <View style={{ position: 'relative', marginTop: 35 }} >
-						<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} status="basic" placeholder="Enter email" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
-					</View>
-
-                    <View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} status="basic" placeholder="Enter first name" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
-					</View>
-					
-					<View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} status="basic" placeholder="Enter last name" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
-					</View>
-					
-					<View style={{ position: 'relative', marginTop: 15 }} >
-						<Label title="Contact Number" status="basic" mb={5} fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
-                    </View>
-					
-					<View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabelPassword placeholder="Enter password" name="credTwo" value={state.credTwo} onChange={handleInputChange} label="Password *" status="basic" bg={errors.password ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.password && <Text style={styles.error}>{errors.password}</Text>}
-					</View>
-					
-					<View style={{ position: 'relative', marginTop: 15 }} >
-						<InputLabelPassword placeholder="Confirm password" name="confirm" value={state.confirm} onChange={handleInputChange} label="Confirm Password" status="basic" bg={errors.password_confirm ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.password_confirm && <Text style={styles.error}>{errors.password_confirm}</Text>}
-					</View>
-
-					<View style={{ position: 'relative', marginTop: 15 }} />
-                    <Label title="Geo-Location Range" status="basic" mb={5} fontsize={16} />
-					<View style={{ flex: 1, width: '100%' }} >
-						<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
-					</View>
-                    <ButtonPrimary name="Submit" width="100%" onpress={validateForm}/>
-					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 30 }} >
-						<Text style={[MainStyles.title_a16]}>Already have an account? &nbsp;</Text>
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, marginBottom: 30 }} >
+						<Text style={[MainStyles.title_a14]}>Already have an account? &nbsp;</Text>
 						<TouchableOpacity onPress={handleLogin} >
-							<Text style={[ MainStyles.title_a16, {  fontWeight: 'bold', textDecorationLine: 'underline' }]}>Login</Text>
+							<Text style={[ MainStyles.title_a14, {  fontWeight: 'bold', textDecorationLine: 'underline' }]}>Login</Text>
 						</TouchableOpacity>
 					</Layout>
-                </Layout>
             </ScrollView>
+			</Layout>
         </SafeAreaView>
     );
 };
@@ -471,7 +478,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		textAlign: 'right',
         width: '100%',
-        color: 'red',
+        color: '#b095e0',
         opacity: 0.5,
 		fontSize: 12,
     },

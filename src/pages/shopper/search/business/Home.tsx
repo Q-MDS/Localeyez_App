@@ -236,7 +236,7 @@ const Home = (props: any) =>
 						{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
 					</Layout>
 					<Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080' }} />
-					{/* Social media icons/links */}
+					{/* Social media icons/links :: Check ViewBusiness.jsx in shopper > notifications for new layout */}
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
 					{state.xUrl && 
 							<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
@@ -340,10 +340,7 @@ const Home = (props: any) =>
 								</View>
 							))}
 						</Card>
-								
-						
-
-				</Layout>
+					</Layout>
 						
 				<TabView
 				selectedIndex={selectedIndex}

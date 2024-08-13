@@ -204,47 +204,67 @@ const Home = (props) =>
 					<Layout style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#efe7fd', height: 200, width: '100%' }}>
 						{state.displayImage ? <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: '100%',  objectFit: 'cover' }} /> : null}
 					</Layout>
-					<Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080', marginTop: 10 }} />
+					<Divider style={{ height: 2, width: '100%', backgroundColor: '#00000080'}} />
 					{/* Social media icons/links */}
-					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingTop: 5, paddingBottom: 10, paddingEnd: 15 }} >
-						{state.xUrl && 
-							<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
-								<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
-							</TouchableOpacity>
-						}
-						<View style={{ marginLeft: 8 }} />
-						{state.instagramUrl && 
-							<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
-								<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
-							</TouchableOpacity>
-						}
-						<View style={{ marginLeft: 10 }} />
-						{state.facebookUrl && 
-							<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
-								<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
-							</TouchableOpacity>
-							}
-						<View style={{ marginLeft: 10 }} />
-						{state.linkedinUrl && 
-							<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
-								<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
-							</TouchableOpacity>
-						}
-						<View style={{ marginLeft: 8 }} />
-						{state.wwwUrl && 
-							<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
-								<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
-							</TouchableOpacity>
-						}
-						<View style={{ position: 'relative', height: 30, width: '100%' }}>
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 5, paddingBottom: 10, paddingEnd: 15, columnGap: 5, width: '100%' }} >
+						<View style={{ position: 'relative', height: 30, flex: 1 }}>
 							<View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 0, borderRadius: 60, backgroundColor: 'transparent'}} >
-								{state.profilePic 
-								? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
+								{state.profile_pic 
+								? <Image source={{ uri: state.profile_pic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
 								: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
 								}
 							</View>
 						</View>
-						{/* <Avatar source={require('../../../../assets/images/pic_holder.png')} size="giant" style={{ position: 'absolute', left: 20, top: -40, padding: 20,  borderColor: '#000', borderWidth: 1, backgroundColor: 'red', objectFit: 'contain'  }} /> */}
+						<View  style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end', columnGap: 15}}>
+						{state.xUrl ? 
+						(
+							<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
+								<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
+							</TouchableOpacity>
+
+						) : (
+							<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30, opacity: 0.1 }} />
+						)
+						}
+						{state.instagramUrl ? 
+						(
+							<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
+								<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
+							</TouchableOpacity>
+
+						) : (
+							<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28, opacity: 0.1 }} />
+						)
+						}
+						{state.facebookUrl ? 
+						(
+							<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
+								<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
+							</TouchableOpacity>
+
+						) : (
+							<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32, opacity: 0.1 }} />
+						)
+							}
+						{state.linkedinUrl ? 
+						(
+							<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
+								<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
+							</TouchableOpacity>
+						) : (
+							<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28, opacity: 0.1 }} />
+						)
+						}
+						{state.wwwUrl ? 
+						(
+							<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
+								<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
+							</TouchableOpacity>
+						) : (
+							<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30, opacity: 0.1 }} />
+						)
+						}
+						</View>
 					</Layout>
                 	{/* Business Information */}
 					<Layout style={[MainStyles.column_container, {paddingTop: 10, paddingStart: 20, paddingEnd: 20, paddingBottom: 0}]}>   

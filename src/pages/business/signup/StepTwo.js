@@ -8,7 +8,7 @@ import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
 import { SafeAreaView, ScrollView, View, ActivityIndicator, Image, StyleSheet, TextInput, Alert } from 'react-native';
-import { Layout, Card, Toggle, Text } from '@ui-kitten/components';
+import { Layout, Card, Toggle, Text, Divider } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../components/InputOnly';
 
@@ -221,12 +221,13 @@ const StepTwo = (props) =>
 			<TopNavBack title="Back: Login information" alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ flex: 1, width: '100%' }}>
                 <Layout style={[MainStyles.column_container, {paddingStart: 20, paddingEnd: 20, paddingTop: 15}]}>
-
+					{/* Page title */}
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
 					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Company Information</Text>
-                    </View>
-
-					<Card style={{ marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Company Information</Text>
+					</View>
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+					<Card style={{ marginTop: 20, marginBottom: 10 }}>
 						<View>
 							<InputLabel label="Company Name*" name="companyName" value={state.companyName} onChange={handleInputChange} status="basic" placeholder="Company name" bg={errors.companyName ? '#efeaf9' : '#f2f2f2'} />
 							{errors.companyName && <Text style={styles.error}>{errors.companyName}</Text>}

@@ -7,15 +7,15 @@ import {IconText} from './IconText';
 
 export const ReviewBusCard = (props:any) => 
 {
+	console.log('ReviewBusCard props: ', props);
 	let firstChar = "";
 	if (props.firstName) 
 	{
 		firstChar = props.firstName.charAt(0).toUpperCase();
 	} 
-	console.log('Fart props:', props.profilePic);
 
     return (
-        <Card style={[MainStyles.card_review, {marginBottom: 20}]} status="basic" onPress={() => props.onPress} >
+        <Card style={[MainStyles.card_review, {marginBottom: 20}]} onPress={props.handleView} >
 			<Layout style={{ flexDirection: 'row', alignItems: 'center' }} >
 				
 				{props.profilePic 
