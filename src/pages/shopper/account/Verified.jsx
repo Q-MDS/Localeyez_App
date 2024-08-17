@@ -42,7 +42,7 @@ const Verified = (props) =>
 					)}
                     <Text category="h6" status="basic" style={{ fontWeight: 'bold', marginTop: 15 }}>{`${firstName} ${lastName}`}</Text>
                     <Text category="p1" status="primary">{email}</Text>
-                    <Text category="p2" status="basic" style={{ marginTop: 50 }}>Show this to businesses offering discounts</Text>
+                    <Text style={[MainStyles.title_a15, { marginTop: 50 }]}>Show this to businesses offering discounts</Text>
                 </Layout>
             </Layout>
         </SafeAreaView>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../../components/TopNavBack';
-import { SafeAreaView, ScrollView, View, Image  } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, Share, Alert  } from 'react-native';
 import { Layout, Text, Divider, Card } from '@ui-kitten/components';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
 import { IconText } from '../../../../components/IconText';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { Label } from '../../../../components/Label';
+import IconShare from '../../../../assets/images/IconShare';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Home = (props: any) => 
 {
@@ -27,14 +29,39 @@ const Home = (props: any) =>
 		props.navigation.navigate('ShopperNotiBusView', {businessId: businessId});
 	}
 
+	const handleShare = async () => {
+        try {
+            const result = await Share.share({
+                message: `Check out this event: ${event.name} happening on ${startSplit[0]}!`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         	<TopNavBack title={`Back: Events List`} alignment="start" navigation={props.navigation} pops={1} />
 				<Layout style={[MainStyles.layout_container, { width: '100%', paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 					{/* Page title */}
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
-					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>View Event</Text>
+					<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1' }}>View Event</Text>
+						<TouchableOpacity onPress={handleShare}>
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+							<IconShare />
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+						</View>
+						</TouchableOpacity>
 					</View>
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 5 }} />
 					<ScrollView style={{ width: '100%' }}>
@@ -52,11 +79,11 @@ const Home = (props: any) =>
 							<Label title="Event Start & End Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Starts</Text>
-								<Text style={[MainStyles.title_a16, {fontWeight: 'bold'}]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
+								<Text style={[MainStyles.title_a16]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
 							</View>
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Ends</Text>
-								<Text style={[MainStyles.title_a16, {fontWeight: 'bold'}]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
+								<Text style={[MainStyles.title_a16]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
 							</View>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>

@@ -6,7 +6,7 @@ import MainStyles from "../../../assets/styles/MainStyles";
 import { ReviewCard } from "../../../components/ReviewCard";
 import { TopNavBusReviews } from "../../../components/TopNavBusReviews";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
-import { SafeAreaView, ScrollView, View, TouchableOpacity } from "react-native";
+import { SafeAreaView, ScrollView, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Layout, Divider, Card, Text, Avatar, Icon } from "@ui-kitten/components";
 
 const ReviewList = (props) => 
@@ -17,6 +17,7 @@ const ReviewList = (props) =>
 	const [isReady, setIsReady] = useState(false);
 	const [averageRating, setAverageRating] = useState('0');
 	const [reviews, setReviews] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getToken = async () => 
 	{
@@ -48,6 +49,7 @@ const ReviewList = (props) =>
 	{
 		const fetchData = async () => 
 		{
+			setIsLoading(true);
 			try 
 			{
 				const data = {business_id: businessId};
@@ -59,7 +61,8 @@ const ReviewList = (props) =>
 					if (res.status)
 					{
 						let avgRating = res.data.average_rating;
-						setAverageRating(Number(avgRating.toFixed(2)));
+						// setAverageRating(Number(avgRating.toFixed(2)));
+						setAverageRating(avgRating);
 						setReviews(res.data.reviews);
 					} 
 					else 
@@ -73,6 +76,8 @@ const ReviewList = (props) =>
 			{
 				// console.log('Error fetching reviews:', error);;
 			}
+			setIsLoading(false);
+			console.log('Reviews:', reviews.length);
 		};
 
 		if (isReady) 
@@ -88,27 +93,36 @@ const ReviewList = (props) =>
         props.navigation.navigate('ReviewView', {reviewRecord: review});
     }
 
+	if (isLoading) 
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            {/* <TopNavBusReviews title='Your Reviews' rating={averageRating} /> */}
-			<ScrollView style={{ flex: 1, width: '100%', paddingTop: 40 }}>
-				<Text style={[ MainStyles.title_aaa, { textAlign: 'center' }]}>Your Reviews</Text>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-					<Icon name="star" fill='#000' style={{ width: 16, height: 16}}/>
-					<Text style={[MainStyles.title_a16, {textAlign: 'center', paddingStart: 5}]}>{averageRating}</Text>
-				</View>
-				<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-                    <Layout style={[MainStyles.column_container, {backgroundColor: '#f2f2f2', paddingTop: 20,paddingStart: 20, paddingEnd: 20, marginBottom: 20 }]}>
+            <Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+				<ScrollView style={{ width: '100%', paddingTop: 0 }}>
+					<Text style={[ MainStyles.title_aaa, { textAlign: 'left' }]}>Your Reviews</Text>
+					<View style={{ flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start', marginTop: 10 }}>
+						<Icon name="star" fill='#000' style={{ width: 16, height: 16}}/>
+						<Text style={[MainStyles.title_a14, {textAlign: 'left', paddingStart: 5}]}>{averageRating} (Reviews: {reviews.length})</Text>
+					</View>
+                    <Layout style={[{ paddingTop: 20, marginBottom: 20 }]}>
 						{reviews.length > 0 ?
 							reviews.map((review, index) => (
   							<ReviewCard key={index} profilePic={review.profile_pic} firstName={review.first_name} lastName={review.last_name} rating={review.rating} title={review.review_title} review={review.review_desc} onPress={() => handelView(review)} />
 						))
 						:
-							<Text style={[MainStyles.title_a16, { paddingTop: 20 }]}>No reviews available</Text>
+							<Text style={[MainStyles.title_a16]}>No reviews available</Text>
 						}
                     </Layout>
                 </ScrollView>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7' }} />
+				</Layout>
                 <BotNavBusiness selected={2}/>
             </SafeAreaView>
     );

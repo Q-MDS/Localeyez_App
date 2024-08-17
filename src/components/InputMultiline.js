@@ -8,7 +8,7 @@ export const InputMultiline = (props) =>
 		if (props.label !== '') {
 			return(
 			<View>
-			<Text status={props.status} style={{ fontSize: 14, fontWeight: 'bold', color: '#612bc1', paddingBottom: 5 }}>{props.label}</Text>
+			<Text status={props.status} style={{ fontSize: 14, fontWeight: 'bold', color: '#612bc1', paddingBottom: 10 }}>{props.label}</Text>
 			</View>
 			);
 		} 

@@ -8,6 +8,7 @@ import { BotNavShopper } from '../../../../components/BotNavShopper';
 import { IconText } from '../../../../components/IconText';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { Label } from '../../../../components/Label';
+import IconShare from '../../../../assets/images/IconShare';
 
 const Home = (props: any) => 
 {
@@ -30,8 +31,12 @@ const Home = (props: any) =>
 				<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 					{/* Page title */}
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
-					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>View Promotion</Text>
+					<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1' }}>View Promotion</Text>
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+							<IconShare />
+							<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+						</View>
 					</View>
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 5 }} />
 					{/* Promotion details */}
@@ -50,31 +55,31 @@ const Home = (props: any) =>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
 							<Label title="Promotion Details" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Price</Text>
-								<Text style={[MainStyles.title_a16, {fontWeight: 'bold'}]}>{promotion.promo_price}</Text>
+								<Text style={[MainStyles.title_a16]}>{promotion.promo_price}</Text>
 							</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Sale Price</Text>
-								<Text style={[MainStyles.title_a16, {fontWeight: 'bold'}]}>{promotion.sale_item_op}</Text>
+								<Text style={[MainStyles.title_a16]}>{promotion.sale_item_op}</Text>
 							</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Marked Down Price</Text>
-								<Text style={[MainStyles.title_a16, {fontWeight: 'bold'}]}>{promotion.sale_item_mp === null || promotion.sale_item_mp === "" ? "-" : promotion.sale_item_mp}</Text>
+								<Text style={[MainStyles.title_a16]}>{promotion.sale_item_mp === null || promotion.sale_item_mp === "" ? "-" : promotion.sale_item_mp}</Text>
 							</View>
 							</Card>
 							<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
 								<Label title="Promotion Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-								<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+								<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 									<Text style={[MainStyles.title_a14]}>Promotion Starts</Text>
 									<Text style={[MainStyles.title_a16]}>{promotion.start_date}</Text>
 								</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Promotion Ends</Text>
 								<Text style={[MainStyles.title_a16]}>{promotion.end_date}</Text>
 							</View>
 						</Card>
-						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 10, marginBottom: 20 }}>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10,marginBottom: 20 }}>
 							<Label title="Location" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
 							<Text style={[MainStyles.title_a14]}>{promotion.loc_add_one === null || promotion.loc_add_one === "" ? "-" : promotion.loc_add_one}</Text>
 							<Text style={[MainStyles.title_a14]}>{promotion.loc_add_two === null || promotion.loc_add_two === "" ? "-" : promotion.loc_add_two}</Text>

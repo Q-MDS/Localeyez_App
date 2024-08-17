@@ -129,24 +129,15 @@ const ContactForm = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
-				{/* Page title */}
-				<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
-				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-					<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Contact Admin</Text>
-				</View>
-				<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
 				<ScrollView style={{ width: '100%' }}>
-					<View style={{ flexDirection: 'column', marginTop: 20, alignItems: 'center', justifyContent: 'center', width: '100%' }} >
-						<IconSupport />
-						<Text style={[MainStyles.title_a24, { color: '#612bc1', textAlign: 'center', marginTop: 10 }]}>Contact Admin</Text>
-						<Text style={[MainStyles.title_a15, { textAlign: 'center', marginTop: 10 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
+					<Text style={[ MainStyles.title_aaa, { textAlign: 'left' }]}>Contact Admin</Text>
+					<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
+						<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
 					</View>
-					<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
-						<View style={{ position: 'relative' }} >
-						<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={230} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} bg={errors.message ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.message && <Text style={styles.error}>{errors.message}</Text>}
+					<View style={{ marginTop: 30, marginBottom: 20}}>
+							<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={230} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} bg={errors.message ? '#ffe6e6' : '#f2f2f2'} />
+							{errors.message && <Text style={styles.error}>{errors.message}</Text>}
 						</View>
-					</Card>
 					<ButtonPrimary name="Send Message" width="100%" onpress={validateForm}/>
 			</ScrollView>
 		</Layout>

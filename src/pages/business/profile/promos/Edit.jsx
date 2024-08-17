@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator, StyleSheet, Alert } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Card, Divider } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { InputLabel } from '../../../../components/InputLabel';
 import { InputMultiline } from '../../../../components/InputMultiline';
@@ -443,85 +443,100 @@ const Edit = (props) =>
 
     return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-        <TopNavBackTitleIcon title="Edit Promotion" alignment="start" navigation={props.navigation} goBackTo="BusProProAddEditBack" goDelete="BusProfProDelete" deleteId={remoteId} />
-        <DividerTop />
-        <ScrollView style={{ flex: 1, width: '100%' }}>
-            <Layout style={[MainStyles.layout_container, {backgroundColor: '#fff'}]}>
-				<Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Choose which business sector(s) your promotion falls under:</Text>
+        	<TopNavBackTitleIcon title="Back: Business Profile" alignment="start" navigation={props.navigation} goBackTo="BusProProAddEditBack" goDelete="BusProfProDelete" deleteId={remoteId} />
+			<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+				{/* Page title */}
+				<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+				<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 5 }}>
+					<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Edit Promotion</Text>
+				</View>
+				<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+        		<ScrollView style={{ width: '100%' }}>
 
+				<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
+					<Label title="Choose which business sector(s) your promotion falls under:" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
 					<View style={{ position: 'relative', flex: 1, width: '100%' }} >
-						<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
-						{errors.sector && <Text style={[styles.error, { textAlign: 'left' }]}>{errors.sector}</Text>}
+					<DropdownSingle name="sector" data={sectors} value={state.sector} onChange={handleInputChange} />
+					{errors.sector && <Text style={[styles.error, { textAlign: 'left' }]}>{errors.sector}</Text>}
 					</View>
-					<Text style={[MainStyles.title_a16, { textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Promotion Display Picture</Text>
+				</Card>
 
-				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%' }}>
-					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#FAF9FD', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
+				<Text style={[MainStyles.title_a14, { color: '#612bc1', fontWeight: 'bold', textAlign: 'left', width: '100%', marginBottom: 10 }]}>Upload Promotion Display Picture</Text>
+				<TouchableOpacity onPress={chooseDisplayImage} style={{ width: '100%', marginBottom: 10 }}>
+					<Layout style={{  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',backgroundColor: '#efeaf9', borderColor: '#612bc1', borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', padding: 20 }} >
 						<Image source={require('../../../../assets/images/icon_pic_upload.png')} style={{ width: 48, height: 48 }} />
-						<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#612bc1', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the banner of your promotion</Text>
-						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1', marginTop: 10 }]}>Image specifications: 640px x 360px</Text>
-						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#612bc1' }]}>Image size: max 5MB</Text>
+						<Text style={[MainStyles.title_a16, { textAlign: 'center', color: '#000000', marginTop: 20, paddingStart: 40, paddingEnd: 40 }]}>Add an image for the banner of your promotion</Text>
+						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#000000', marginTop: 10 }]}>Image specifications: 640px x 360px</Text>
+						<Text style={[MainStyles.title_a14, { textAlign: 'center', color: '#000000' }]}>Image size: max 5MB</Text>
 						{state.displayImage && <Image source={{ uri: state.displayImage }} style={{ width: '100%', height: 200, marginTop: 15, borderRadius: 8 }} onLoadStart={() => console.log('Loading image...')} onLoad={() => console.log('Image loaded')} onError={(error) => console.log('Error loading image', error)} />}
 						<View style={{ marginTop: 15 }} />
 						<TouchableOpacity onPress={handleDeleteImage}>
-							<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#612BC1' }]}>Delete Image</Text>
+							<Text style={[MainStyles.title_a14, { width: '100%', textAlign: 'center', marginTop: 5, color: '#000000' }]}>Delete Image</Text>
 						</TouchableOpacity>
 					</Layout>
 				</TouchableOpacity>
 
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                	<InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Write title here" status="basic" bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
-					{errors.title && <Text style={[styles.error]}>{errors.title}</Text>}
-				</View>
+				<Card style={{ marginBottom: 10 }}>
+					<View style={{ width: '100%' }} >
+						<InputLabel label="Promotion Title" name="promoTitle" value={state.promoTitle} onChange={handleInputChange} placeholder="Write title here" status="basic" bg={errors.title ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.title && <Text style={[styles.error]}>{errors.title}</Text>}
+					</View>
+				</Card>
 
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                	<InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your promotion" status="basic" bg={errors.caption ? '#ffe6e6' : '#f2f2f2'} />
-					{errors.caption && <Text style={[styles.error]}>{errors.caption}</Text>}
-				</View>
+				<Card style={{ marginBottom: 10 }}>
+					<View style={{ width: '100%' }} >
+						<InputMultiline label="Promotion Caption" name="promoCaption" value={state.promoCaption} onChange={handleInputChange} placeholder="Write a short description up to 120 characters about your promotion" status="basic" bg={errors.caption ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.caption && <Text style={[styles.error]}>{errors.caption}</Text>}
+					</View>
+				</Card>
 
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                	<InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a longer description up to 500 characters about your promotion" status="basic" bg={errors.desc ? '#ffe6e6' : '#f2f2f2'} />
-					{errors.desc && <Text style={[styles.error]}>{errors.desc}</Text>}
-				</View>
+				<Card style={{ marginBottom: 10 }}>
+					<View style={{ width: '100%' }} >
+						<InputMultiline label="Promotion Description" name="promoDesc" value={state.promoDesc} onChange={handleInputChange} placeholder="Write a longer description up to 500 characters about your promotion" status="basic" bg={errors.desc ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.desc && <Text style={[styles.error]}>{errors.desc}</Text>}
+					</View>
+				</Card>
 
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-					{/* <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} /> */}
-					<InputLabelNumpad label="Price" name="promoPrice" value={state.price} onChange={handleInputChange} placeholder="Write product price" status="basic" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} />
-					{errors.price && <Text style={[styles.error]}>{errors.price}</Text>}
-				</View>
+				<Card style={{ marginBottom: 10 }}>
+					<View style={{ width: '100%' }} >
+						{/* <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} /> */}
+						<InputLabelNumpad label="Price" name="promoPrice" value={state.price} onChange={handleInputChange} placeholder="Write product price" status="basic" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} />
+						{errors.price && <Text style={[styles.error]}>{errors.price}</Text>}
+					</View>
+					<View style={{ marginTop: 5 }} />
+					{/* <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="Original Price" bg="#f2f2f2" /> */}
+					<InputLabelNumpad label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} placeholder="Original Price" status="basic" bg="#f2f2f2" />
+					{/* <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="Marked Down Price" bg="#f2f2f2" /> */}
+					<InputNumpad name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} placeholder="Marked Down Price" status="basic" mt={10} bg="#f2f2f2" />
+				</Card>
 
-                <View style={{ marginTop: 5 }} />
-                {/* <InputLabel label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} status="basic" placeholder="Original Price" bg="#f2f2f2" /> */}
-				<InputLabelNumpad label="Sale Item (Optional)" name="promoSiOp" value={state.promoSiOp} onChange={handleInputChange} placeholder="Original Price" status="basic" bg="#f2f2f2" />
-                {/* <InputOnly mt={5} name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} status="primary" placeholder="Marked Down Price" bg="#f2f2f2" /> */}
-				<InputNumpad name="promoSiMp" value={state.promoSiMp} onChange={handleInputChange} placeholder="Marked Down Price" status="basic" mt={10} bg="#f2f2f2" />
+				<Card style={{ marginBottom: 10 }}>
+					<View style={{ width: '100%' }} >
+					<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
+						<DateSelect value={state.promoStartDate} name="promoStartDate" onChange={handleInputChange} bg={errors.startDate ? '#ffe6e6' : '#f2f2f2'}  />
+						{errors.startDate && <Text style={[styles.error]}>{errors.startDate}</Text>}
+					</View>
+					<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+						<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
+						<DateSelect value={state.promoEndDate} name="promoEndDate" onChange={handleInputChange} bg={errors.endDate ? '#ffe6e6' : '#f2f2f2'}  />
+						{errors.endDate && <Text style={[styles.error]}>{errors.endDate}</Text>}
+					</View>
+				</Card>
 
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-					<Label title="Promotion Start Date" textalign="left" mb={5} status="basic" fontsize={16} />
-					<DateSelect value={state.promoStartDate} name="promoStartDate" onChange={handleInputChange} bg={errors.startDate ? '#ffe6e6' : '#f2f2f2'}  />
-					{errors.startDate && <Text style={[styles.error]}>{errors.startDate}</Text>}
-				</View>
-
-                <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-					<Label title="Promotion End Date" textalign="left" mb={5} status="basic" fontsize={16} />
-					<DateSelect value={state.promoEndDate} name="promoEndDate" onChange={handleInputChange} bg={errors.endDate ? '#ffe6e6' : '#f2f2f2'}  />
-					{errors.endDate && <Text style={[styles.error]}>{errors.endDate}</Text>}
-				</View>
-
-                <View style={{ marginTop: 15 }} />
-                <InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="Address line 1" bg="#f2f2f2"  />
-                <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Address line 2" bg="#f2f2f2"  />
-                <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="City" bg="#f2f2f2"  />
-                <View style={{ marginTop: 5 }} />
-                <InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" bg="#f2f2f2"  />
-                <View style={{ marginTop: 5 }} />
-                <InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" bg="#f2f2f2"  />
-                <ButtonPrimary name="Submit Changes" width="100%" marginTop={25} onpress={validateForm}/>
-            </Layout>
+				<Card style={{ marginBottom: 20 }}>
+					<InputLabel label="Promotion Location (Optional)" name="promoLocAdd1" value={state.promoLocAdd1} onChange={handleInputChange} status="basic" placeholder="Address line 1" bg="#f2f2f2"  />
+					<View style={{ marginTop: 5 }} />
+					<InputOnly name="promoLocAdd2" value={state.promoLocAdd2} onChange={handleInputChange} placeholder="Address line 2" bg="#f2f2f2"  />
+					<View style={{ marginTop: 5 }} />
+					<InputOnly name="promoLocCity" value={state.promoLocCity} onChange={handleInputChange} placeholder="City" bg="#f2f2f2"  />
+					<View style={{ marginTop: 5 }} />
+					<InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" bg="#f2f2f2"  />
+					<View style={{ marginTop: 5 }} />
+					<InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" bg="#f2f2f2"  />
+				</Card>
+                <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
         </ScrollView>
-
+		</Layout>
 
       </SafeAreaView>
     );

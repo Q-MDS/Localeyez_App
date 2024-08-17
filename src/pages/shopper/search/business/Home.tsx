@@ -292,7 +292,7 @@ const Home = (props: any) =>
 							<TouchableOpacity  onPress={() => openMap(state.gpsLat, state.gpsLng)} >
 								<View style={{ flexDirection: 'row', alignItems: 'center' }} >
 									<IconMap />
-									<Text style={ MainStyles.title_a14 } >View Map</Text>
+									<Text style={[ MainStyles.title_a14, { paddingStart: 6, fontWeight: 'bold', color: '#612bc1'} ]} >View Map</Text>
 								</View>
 							</TouchableOpacity>
 							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>

@@ -110,14 +110,8 @@ const ReviewList = (props) =>
 		return (
 			<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 				<Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
-					{/* Page title */}
-					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
-					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Your Reviews</Text>
-					</View>
-					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
-					{/* Notification List */}
 					<ScrollView style={{ flex: 1, width: '100%', paddingTop: 20 }}>
+						<Text style={[ MainStyles.title_aaa, { textAlign: 'left' }]}>Your Reviews</Text>
 							{reviews.length > 0 ?
 								reviews.map((review, index) => (
 								<ReviewBusCard key={index} profilePic={review.profile_pic} companyName={review.company_name} rating={review.rating} title={review.review_title} review={review.review_desc} handleView={() => handleView({review})} />

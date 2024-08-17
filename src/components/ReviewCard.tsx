@@ -53,7 +53,7 @@ export const ReviewCard = (props:any) =>
 				))}
 				</Layout>
 				<Text style={[ MainStyles.title_a18, { width: '100%', textAlign: 'left', marginTop: 15 }]}>{props.title}</Text>
-				<Text style={[ MainStyles.title_a14, { width: '100%', textAlign: 'left', marginTop: 5 }]}>{props.review}</Text>
+				<Text style={[ MainStyles.title_a14, { width: '100%', textAlign: 'left', marginTop: 5 }]}>{props.review.length > 25 ? `${props.review.substring(0, 25)}...` : props.review}</Text>
 			</Layout>
 			</TouchableOpacity>
 		</Card>

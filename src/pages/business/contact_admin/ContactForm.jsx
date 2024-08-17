@@ -5,9 +5,10 @@ import Toast from 'react-native-toast-message';
 import { businesSupport } from "../../../services/api_helper";
 import { BotNavBusiness } from "../../../components/BotNavBusiness";
 import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
-import { Layout, Divider, Text } from "@ui-kitten/components";
+import { Layout, Divider, Text, Card } from "@ui-kitten/components";
 import { InputMultiline } from "../../../components/InputMultiline";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
+import IconSupport from "../../../assets/images/IconSupport";
 
 const initialState = {
 	message: null,
@@ -128,23 +129,23 @@ const ContactForm = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<ScrollView style={{ flex: 1, width: '100%' }}>
-            <Layout style={[MainStyles.column_container]}>
-                <View style={{ marginTop: 50 }} />
-				<View>
-					<Text style={[MainStyles.title_aaa, { textAlign: 'center' }]}>Contact Admin</Text>
-					<Text style={[MainStyles.title_a14, { textAlign: 'center', marginTop: 20 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
-					<Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20, marginBottom: 20 }} />
-					<View style={{ position: 'relative' }} >
-						<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={300} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} bg={errors.message ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.message && <Text style={styles.error}>{errors.message}</Text>}
+			<Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: '#fff'}]}>
+				<ScrollView style={{ width: '100%' }}>
+					<Text style={[ MainStyles.title_aaa, { textAlign: 'left' }]}>Contact Admin</Text>
+					<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
+						<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
 					</View>
-					<ButtonPrimary name="Send Message" width="100%" marginTop={30} onpress={validateForm}/>
-				</View>
-            </Layout>
-			<View style={{ flex: 1 }} />
-            <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7', marginTop: 20 }} />
-			</ScrollView>
+					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 20, marginBottom: 20 }} /> */}
+					{/* <Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}> */}
+						<View style={{ marginTop: 30, marginBottom: 20}}>
+							<InputMultiline label="Write a message to Admin" name="message" value={state.message} onChange={handleInputChange} height={230} placeholder="Write your message here" status="basic" style={{ marginTop: 20 }} bg={errors.message ? '#ffe6e6' : '#f2f2f2'} />
+							{errors.message && <Text style={styles.error}>{errors.message}</Text>}
+						</View>
+					{/* </Card> */}
+					{/* <Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 20, marginBottom: 20 }} />/ */}
+					<ButtonPrimary name="Send Message" width="100%" onpress={validateForm}/>
+				</ScrollView>
+			</Layout>
             <BotNavBusiness selected={3}/>
         </SafeAreaView>
     );

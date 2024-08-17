@@ -3,8 +3,8 @@ import DbUtils from "../../../../services/DbUtils";
 import { updBusinessInfo } from "../../../../services/api_helper";
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
-import { SafeAreaView, View, StyleSheet } from "react-native";
-import { Layout, Text } from "@ui-kitten/components";
+import { SafeAreaView, ScrollView, View, StyleSheet } from "react-native";
+import { Layout, Text, Card, Divider } from "@ui-kitten/components";
 import { InputLabelEmail } from "../../../../components/InputLabelEmail";
 import { InputLabel } from "../../../../components/InputLabel";
 import { ButtonPrimary } from "../../../../components/ButtonPrimary";
@@ -173,36 +173,41 @@ const Edit = (props) =>
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			{/* <ScrollView style={{ flex: 1, width: '100%' }}> */}
-			<TopNavBack title="Edit profile" alignment="start" navigation={props.navigation} pops={1} />
-                <Layout style={[MainStyles.column_container, {flex: 1, paddingBottom: 30} ]}>
-
-					<View style={{ position: 'relative', width: '100%' }} >
-						<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+			<TopNavBack title="Back: Account Settings" alignment="start" navigation={props.navigation} pops={1} />
+				<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
+					{/* Page title */}
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
+					<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', marginBottom: 5 }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1', width: '100%' }}>Edit Profile</Text>
 					</View>
-
-                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                    	<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
-					</View>
-
-                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-                    	<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
-					</View>
-
-                    <View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
-						<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={16} />
-						<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
-						{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
-					</View>
-
-                    <View style={{ flex: 1 }} />
-					<Layout style={{ marginTop: 50, }} >
+					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginTop: 5 }} />
+					<ScrollView style={{ width: '100%' }}>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 10 }}>
+							<View style={{ position: 'relative', width: '100%' }} >
+								<InputLabelEmail label="Email *" name="email" value={state.email} onChange={handleInputChange} placeholder="Enter email" status="basic" bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.email && <Text style={styles.error}>{errors.email}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 10 }}>
+							<View style={{ position: 'relative', width: '100%' }} >
+								<InputLabel label="First Name *" name="firstName" value={state.firstName} onChange={handleInputChange} placeholder="Enter first name" status="basic" bg={errors.firstName ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.firstName && <Text style={styles.error}>{errors.firstName}</Text>}
+							</View>
+							<View style={{ position: 'relative', marginTop: 15, width: '100%' }} >
+								<InputLabel label="Last Name *" name="lastName" value={state.lastName} onChange={handleInputChange} placeholder="Enter last name" status="basic" bg={errors.lastName ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.lastName && <Text style={styles.error}>{errors.lastName}</Text>}
+							</View>
+						</Card>
+						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
+							<View style={{ position: 'relative', width: '100%' }} >
+								<Label title="Contact Number" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+								<InputPhoneNumber name="contactNumber" value={state.contactNumber} onChange={handleInputChange} status="basic" placeholder="Enter contact number" bg={errors.contactNumber ? '#ffe6e6' : '#f2f2f2'} />
+								{errors.contactNumber && <Text style={styles.error}>{errors.contactNumber}</Text>}
+							</View>
+						</Card>
                         <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
-                    </Layout>
-                </Layout>
-			{/* </ScrollView> */}
+				</ScrollView>
+			</Layout>
         </SafeAreaView>
     )
 };
