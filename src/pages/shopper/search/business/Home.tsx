@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import { getBusinessPromotions } from '../../../../services/api_search';
 import { getBusinessEvents } from '../../../../services/api_search';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
+import { Share, SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { Card, Divider, Icon, Layout, Tab, TabView, Text, TextElement } from '@ui-kitten/components';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
@@ -113,6 +113,7 @@ const Home = (props: any) =>
 
 	useEffect(() => 
 	{
+		console.log('Business ID 111: ', business);
 		dispatch(
 		{
 			type: 'SEARCH_BUSINESS',
@@ -216,6 +217,57 @@ const Home = (props: any) =>
 		const url = `https://www.google.com/maps?q=${-26.14752740498222},${28.079103084261373}`;
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
+
+	const handlePromotionShare = async (record: any) => 
+	{
+        try 
+		{
+			const promoTitle = record.promo_title === null || record.promo_title === "" ? 'No title' : record.promo_title;
+			const promoCaption = record.promo_caption === null || record.promo_caption === "" ? 'No caption' : record.promo_caption;
+			const promoPrice = record.promo_price === null || record.promo_price === "" ? 'No price' : record.promo_price;
+
+            const result = await Share.share({
+                message: `Check out this promotion I found on Localeyez: ${promoTitle}. ${promoCaption}. Promotion price ${promoPrice}`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
+
+	const handleEventShare = async (record: any) => 
+	{
+        try 
+		{
+			const eventTitle = record.event_title === null || record.event_title === "" ? 'No title' : record.event_title;
+			const eventCaption = record.event_caption === null || record.event_caption === "" ? 'No caption' : record.event_caption;
+			const eventStartDate = formatDate(record.start_date) === null || formatDate(record.start_date) === "" ? 'No start date' : formatDate(record.start_date);
+			const eventstartTime = record.start_time === null || record.start_time === "" ? 'No start time' : record.start_time;
+
+            const result = await Share.share({
+                message: `Check out this event I found on Localeyez: ${eventTitle} happening on ${eventStartDate} at ${eventstartTime}!\n${eventCaption}`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
 
 	if (isLoading) 
 	{
@@ -390,10 +442,12 @@ const Home = (props: any) =>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.end_date}</Text>
 										</View>
 									</View>
-									<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
-										<IconShare />
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
-									</View>
+									<TouchableOpacity onPress={() => handlePromotionShare(record)} >
+										<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+											<IconShare />
+											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+										</View>
+									</TouchableOpacity>
 								</Card>
 							</View>
 						))}
@@ -441,10 +495,12 @@ const Home = (props: any) =>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
 										</View>
 									</View>
-									<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
-										<IconShare />
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
-									</View>
+									<TouchableOpacity onPress={() => handleEventShare(record)} >
+										<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+											<IconShare />
+											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+										</View>
+									</TouchableOpacity>
 								</Card>
 							</View>
 						))}

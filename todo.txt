@@ -30,7 +30,9 @@ Purple tints:
 90 - 7140c7
 100 - 612bc1
 
-
+MAC User logins
+Shopper: Demo_user@localeyez.net & 123456
+Business: bus111@gmail.com
 
 -------------------------------------------------------------------------------------------------------------
 1. Async-storage examples:
@@ -283,3 +285,10 @@ TESTING Version 1.1.13 IOS
 √ Terms: Contact info at the bottom is WHACK
 √ Logo and subscribe is WHACK
 √ After pressing the green processed button it takes awhile before the Confirmation alert is displayed...
+
+Share event example: 
+Check out this event I found on Localeyez: Talk happening on 2024-05-28 at 08:00!
+Bbb 222
+
+Share Promotion example: 
+Check out this promotion I found on Localeyez: Magic warts . Big and crusty. Promotion price 55

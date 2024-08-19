@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer} from 'react';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../../components/TopNavBack';
-import { SafeAreaView, ScrollView, View, Image  } from 'react-native';
+import { Share, SafeAreaView, ScrollView, View, Image  } from 'react-native';
 import { Layout, Text, Card, Divider } from '@ui-kitten/components';
 import TextTwo from '../../../../components/TextTwo';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
@@ -9,6 +9,7 @@ import { IconText } from '../../../../components/IconText';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { Label } from '../../../../components/Label';
 import IconShare from '../../../../assets/images/IconShare';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Home = (props: any) => 
 {
@@ -25,6 +26,31 @@ const Home = (props: any) =>
 		props.navigation.navigate('ShopperNotiBusView', {businessId: businessId});
 	}
 
+	const handleShare = async () => 
+	{
+        try 
+		{
+			const promoTitle = promotion.promo_title === null || promotion.promo_title === "" ? 'No title' : promotion.promo_title;
+			const promoCaption = promotion.promo_caption === null || promotion.promo_caption === "" ? 'No caption' : promotion.promo_caption;
+			const promoPrice = promotion.promo_price === null || promotion.promo_price === "" ? 'No price' : promotion.promo_price;
+
+            const result = await Share.share({
+                message: `Check out this promotion I found on Localeyez: ${promoTitle}. ${promoCaption}. Promotion price ${promoPrice}`,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         	<TopNavBack title={`Back: Promotion List`} alignment="start" navigation={props.navigation} pops={1} />
@@ -33,10 +59,12 @@ const Home = (props: any) =>
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 10 }} />
 					<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
 						<Text style={{ fontSize: 20, fontWeight: 'bold', color: '#612bc1' }}>View Promotion</Text>
-						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
-							<IconShare />
-							<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
-						</View>
+							<TouchableOpacity onPress={handleShare}>
+								<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+									<IconShare />
+									<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+								</View>
+							</TouchableOpacity>
 					</View>
 					<Divider style={{ height: 1, width: '100%', backgroundColor: '#d6d6d6', marginBottom: 5 }} />
 					{/* Promotion details */}
@@ -57,26 +85,26 @@ const Home = (props: any) =>
 							<Label title="Promotion Details" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Price</Text>
-								<Text style={[MainStyles.title_a16]}>{promotion.promo_price}</Text>
+								<Text style={[MainStyles.title_a14]}>{promotion.promo_price}</Text>
 							</View>
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Sale Price</Text>
-								<Text style={[MainStyles.title_a16]}>{promotion.sale_item_op}</Text>
+								<Text style={[MainStyles.title_a14]}>{promotion.sale_item_op}</Text>
 							</View>
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Marked Down Price</Text>
-								<Text style={[MainStyles.title_a16]}>{promotion.sale_item_mp === null || promotion.sale_item_mp === "" ? "-" : promotion.sale_item_mp}</Text>
+								<Text style={[MainStyles.title_a14]}>{promotion.sale_item_mp === null || promotion.sale_item_mp === "" ? "-" : promotion.sale_item_mp}</Text>
 							</View>
 							</Card>
 							<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
 								<Label title="Promotion Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
 								<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 									<Text style={[MainStyles.title_a14]}>Promotion Starts</Text>
-									<Text style={[MainStyles.title_a16]}>{promotion.start_date}</Text>
+									<Text style={[MainStyles.title_a14]}>{promotion.start_date}</Text>
 								</View>
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 5 }}>
 								<Text style={[MainStyles.title_a14]}>Promotion Ends</Text>
-								<Text style={[MainStyles.title_a16]}>{promotion.end_date}</Text>
+								<Text style={[MainStyles.title_a14]}>{promotion.end_date}</Text>
 							</View>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10,marginBottom: 20 }}>

@@ -20,19 +20,26 @@ const Home = (props: any) =>
 	const endSplit = endDate.split('T');
 
 	useEffect(() => 
-		{
-			setBusinessId(event.business_id);
-		}, []);
+	{
+		setBusinessId(event.business_id);
+	}, []);
 
 	const handleBusProfile = () => 
 	{
 		props.navigation.navigate('ShopperNotiBusView', {businessId: businessId});
 	}
 
-	const handleShare = async () => {
-        try {
+	const handleShare = async () => 
+	{
+        try 
+		{
+			const eventTitle = event.event_title === null || event.event_title === "" ? 'No title' : event.event_title;
+			const eventCaption = event.event_caption === null || event.event_caption === "" ? 'No caption' : event.event_caption;
+			const eventStartDate = formatDate(event.start_date) === null || formatDate(event.start_date) === "" ? 'No start date' : formatDate(event.start_date);
+			const eventstartTime = event.start_time === null || event.start_time === "" ? 'No start time' : event.start_time;
+
             const result = await Share.share({
-                message: `Check out this event: ${event.name} happening on ${startSplit[0]}!`,
+                message: `Check out this event I found on Localeyez: ${eventTitle} happening on ${eventStartDate} at ${eventstartTime}!\n${eventCaption}`,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -47,6 +54,14 @@ const Home = (props: any) =>
             console.log(error.message);
         }
     };
+
+	function formatDate(dateString: string | number | Date) 
+	{
+		if (dateString === "") return "No date set.";
+		const date = new Date(dateString);
+		const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+		return formattedDate;
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -77,13 +92,13 @@ const Home = (props: any) =>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
 							<Label title="Event Start & End Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Starts</Text>
-								<Text style={[MainStyles.title_a16]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
+								<Text style={[MainStyles.title_a14]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
 							</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0, paddingTop: 3, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Ends</Text>
-								<Text style={[MainStyles.title_a16]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
+								<Text style={[MainStyles.title_a14]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
 							</View>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
