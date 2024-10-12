@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../../components/TopNavBack';
-import { SafeAreaView, ScrollView, View, Image, Share, Alert  } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, Share, Linking  } from 'react-native';
 import { Layout, Text, Divider, Card } from '@ui-kitten/components';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
 import { IconText } from '../../../../components/IconText';
@@ -20,9 +20,9 @@ const Home = (props: any) =>
 	const endSplit = endDate.split('T');
 
 	useEffect(() => 
-	{
-		setBusinessId(event.business_id);
-	}, []);
+		{
+			setBusinessId(event.business_id);
+		}, []);
 
 	const handleBusProfile = () => 
 	{
@@ -31,37 +31,29 @@ const Home = (props: any) =>
 
 	const handleShare = async () => 
 	{
-        try 
-		{
-			const eventTitle = event.event_title === null || event.event_title === "" ? 'No title' : event.event_title;
-			const eventCaption = event.event_caption === null || event.event_caption === "" ? 'No caption' : event.event_caption;
-			const eventStartDate = formatDate(event.start_date) === null || formatDate(event.start_date) === "" ? 'No start date' : formatDate(event.start_date);
-			const eventstartTime = event.start_time === null || event.start_time === "" ? 'No start time' : event.start_time;
+		console.log('Got to share');
 
-            const result = await Share.share({
-                message: `Check out this event I found on Localeyez: ${eventTitle} happening on ${eventStartDate} at ${eventstartTime}!\n${eventCaption}`,
-            });
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error: any) {
-            console.log(error.message);
-        }
+		const url = `http://192.168.1.28/localeyez_backend/share/init/e/${event.id}`;
+        Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+
+
+        // try {
+        //     const result = await Share.share({
+        //         message: `Check out this event: ${event.name} happening on ${startSplit[0]}!`,
+        //     });
+        //     if (result.action === Share.sharedAction) {
+        //         if (result.activityType) {
+        //             // shared with activity type of result.activityType
+        //         } else {
+        //             // shared
+        //         }
+        //     } else if (result.action === Share.dismissedAction) {
+        //         // dismissed
+        //     }
+        // } catch (error: any) {
+        //     console.log(error.message);
+        // }
     };
-
-	function formatDate(dateString: string | number | Date) 
-	{
-		if (dateString === "") return "No date set.";
-		const date = new Date(dateString);
-		const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-		return formattedDate;
-	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -92,13 +84,13 @@ const Home = (props: any) =>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
 							<Label title="Event Start & End Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Starts</Text>
-								<Text style={[MainStyles.title_a14]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
+								<Text style={[MainStyles.title_a16]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
 							</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0, paddingTop: 3, paddingStart: 0 }}>
+							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
 								<Text style={[MainStyles.title_a14]}>Ends</Text>
-								<Text style={[MainStyles.title_a14]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
+								<Text style={[MainStyles.title_a16]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
 							</View>
 						</Card>
 						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
 import { getBusinessPromotions } from '../../../../services/api_search';
 import { getBusinessEvents } from '../../../../services/api_search';
-import { Share, SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { Card, Divider, Icon, Layout, Tab, TabView, Text, TextElement } from '@ui-kitten/components';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
@@ -113,7 +113,6 @@ const Home = (props: any) =>
 
 	useEffect(() => 
 	{
-		console.log('Business ID 111: ', business);
 		dispatch(
 		{
 			type: 'SEARCH_BUSINESS',
@@ -181,10 +180,22 @@ const Home = (props: any) =>
 		props.navigation.navigate('SearchPromotionView', { promotion: promotion });
 	}
 
+	const handlePromotionShare = (promotionId: number) => 
+		{
+			const url = `http://192.168.1.28/localeyez_backend/share/init/p/${promotionId}`;
+			Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+		}
+
 	const handeleViewEvent = (record: any) => 
 	{
 		console.log('ASDASDASDASDASDSD');
 		props.navigation.navigate('SearchEventView', { event: record });
+	}
+
+	const handleEventShare = (eventId: number) => 
+	{
+		const url = `http://192.168.1.28/localeyez_backend/share/init/e/${eventId}`;
+        Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	}
 
 	function formatDate(dateString: string | number | Date) 
@@ -217,57 +228,6 @@ const Home = (props: any) =>
 		const url = `https://www.google.com/maps?q=${-26.14752740498222},${28.079103084261373}`;
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
-
-	const handlePromotionShare = async (record: any) => 
-	{
-        try 
-		{
-			const promoTitle = record.promo_title === null || record.promo_title === "" ? 'No title' : record.promo_title;
-			const promoCaption = record.promo_caption === null || record.promo_caption === "" ? 'No caption' : record.promo_caption;
-			const promoPrice = record.promo_price === null || record.promo_price === "" ? 'No price' : record.promo_price;
-
-            const result = await Share.share({
-                message: `Check out this promotion I found on Localeyez: ${promoTitle}. ${promoCaption}. Promotion price ${promoPrice}`,
-            });
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error: any) {
-            console.log(error.message);
-        }
-    };
-
-	const handleEventShare = async (record: any) => 
-	{
-        try 
-		{
-			const eventTitle = record.event_title === null || record.event_title === "" ? 'No title' : record.event_title;
-			const eventCaption = record.event_caption === null || record.event_caption === "" ? 'No caption' : record.event_caption;
-			const eventStartDate = formatDate(record.start_date) === null || formatDate(record.start_date) === "" ? 'No start date' : formatDate(record.start_date);
-			const eventstartTime = record.start_time === null || record.start_time === "" ? 'No start time' : record.start_time;
-
-            const result = await Share.share({
-                message: `Check out this event I found on Localeyez: ${eventTitle} happening on ${eventStartDate} at ${eventstartTime}!\n${eventCaption}`,
-            });
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error: any) {
-            console.log(error.message);
-        }
-    };
 
 	if (isLoading) 
 	{
@@ -405,7 +365,7 @@ const Home = (props: any) =>
 							<TextOne title="No promotions listed" status="basic" />
 						</Layout>
 						)}
-						{promotions && promotions.map((record: { display_image: any; promo_title: string; promo_caption: string; promo_desc: string, promo_price: string, sale_item_mp: string; sale_item_op: string; start_date: string, end_date: string}, index: React.Key | null | undefined) => (
+						{promotions && promotions.map((record: { id: number, display_image: any; promo_title: string; promo_caption: string; promo_desc: string, promo_price: string, sale_item_mp: string; sale_item_op: string; start_date: string, end_date: string}, index: React.Key | null | undefined) => (
 							<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
 								<Card key={index} style={{ width: '100%', marginBottom: 15 }}>
 									<View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', width: '100%', height: 200, borderColor: '#CCCCCC', borderWidth: 1 }} >
@@ -442,7 +402,7 @@ const Home = (props: any) =>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.end_date}</Text>
 										</View>
 									</View>
-									<TouchableOpacity onPress={() => handlePromotionShare(record)} >
+									<TouchableOpacity onPress={() => handlePromotionShare(record.id)}>
 										<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
 											<IconShare />
 											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
@@ -460,7 +420,7 @@ const Home = (props: any) =>
 							<TextOne title="No events listed" status="basic" />
 						</Layout>
 						)}
-						{events && events.map((record: { display_image: any; event_title: string; event_caption: string; event_desc: string, start_date: string | number | Date; start_time: string, end_date: string, end_time: string, loc_add_one: any; loc_add_two: any; loc_city: any; loc_province: string }, index: React.Key | null | undefined) => 
+						{events && events.map((record: { id: number, display_image: any; event_title: string; event_caption: string; event_desc: string, start_date: string | number | Date; start_time: string, end_date: string, end_time: string, loc_add_one: any; loc_add_two: any; loc_city: any; loc_province: string }, index: React.Key | null | undefined) => 
 						(
 							<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
 								<Card style={{ marginBottom: 15, backgroundColor: '#ffffff' }}>
@@ -495,11 +455,11 @@ const Home = (props: any) =>
 											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
 										</View>
 									</View>
-									<TouchableOpacity onPress={() => handleEventShare(record)} >
-										<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
-											<IconShare />
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
-										</View>
+									<TouchableOpacity onPress={() => handleEventShare(record.id)}>
+									<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+										<IconShare />
+										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+									</View>
 									</TouchableOpacity>
 								</Card>
 							</View>
