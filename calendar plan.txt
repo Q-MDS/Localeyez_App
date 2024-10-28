@@ -1,0 +1,14 @@
+BUSINESS
+- new menu icon of Calendar
+- menu: first time - enable button and settings for # timeslots
+- calendar is a dat picker and a flat list
+  - Date + time CR Name CR Email CR Contact Number CR message
+- timeslots is the amoint of booking per hour...  
+- home page - show number of bookings
+
+
+SHOPPER
+- button will be on the business page at the top
+- user can enter Name, email, contact number, message. Only email is mandatory
+- user selects a date and time slot.
+- Does the shopper need a menu option to record bookings? Add one
