@@ -11,7 +11,7 @@ import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
 import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput } from 'react-native';
-import { Layout, Text, Card, Divider } from '@ui-kitten/components';
+import { Layout, Text, Card, Divider, Toggle } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
 import { Label } from '../../../../../components/Label';
@@ -19,6 +19,7 @@ import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../../../components/InputOnly';
 import { InputZip } from '../../../../../components/InputZip';
+import { InputNumpad } from '../../../../../components/InputNumpad';
 import Toast from 'react-native-toast-message';
 
 const initialState = {
@@ -40,7 +41,9 @@ const initialState = {
 	linkedinUrl: null,
 	wwwUrl: null,
 	isLocal: null,
-	businessHours: null
+	businessHours: null,
+	bookingsEnabled: null,
+	bookingsMax: null,
 };
 
 function reducer(state, action) 
@@ -64,6 +67,8 @@ const Edit = (props) =>
 	const [errors, setErrors] = useState({ contactNumber: '', companyName: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
 	const [isLoading, setIsLoading] = useState(true);
 	const [hours, setHours] = useState([]);
+	// const [checked, setChecked] = useState(false);
+	// const [max, setMax] = useState('2'); dd
 
 	function handleInputChange(name, newValue) 
 	{
@@ -104,6 +109,8 @@ const Edit = (props) =>
 					wwwUrl: record.sm_www,
 					isLocal: record.is_local,
 					businessHours: JSON.parse(record.business_hours),
+					bookingsEnabled: record.bookings_enabled == 1 ? true : false,
+					bookingsMax: record.bookings_max
 				},
 			});
 			setHours(JSON.parse(record.business_hours));
@@ -319,6 +326,8 @@ const Edit = (props) =>
 		await updProfile('sm_linkedin', state.linkedinUrl);
 		await updProfile('sm_www', state.wwwUrl);
 		await updProfile('business_hours', JSON.stringify(hours));
+		await updProfile('bookings_max', state.bookingsMax);
+		await updProfile('bookings_enabled', state.bookingsEnabled);
 		// await updProfile('display_image', state.displayImage);
 		// await updProfile('banner_image', state.bannerImage);
 
@@ -341,6 +350,8 @@ const Edit = (props) =>
 			display_image: state.displayImage,
 			banner_image: state.bannerImage,
 			business_hours: JSON.stringify(hours),
+			bookings_max: state.bookingsMax,
+			bookings_enabled: state.bookingsEnabled,
 		}
 
 		try 
@@ -643,6 +654,29 @@ const Edit = (props) =>
 							))}
 							</View>
 						</Card>
+
+						{/* Boookings */}
+						<Card style={{ marginBottom: 10 }}>
+							<Label title="Bookings" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
+							<View>
+								<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 0 }}>	
+									<Text style={[MainStyles.title_a14, MainStyles.mb_0]}>Enable bookings</Text>
+									<Toggle
+										name="bookingsEnabled"
+										checked={state.bookingsEnabled}
+										// onChange={state.setChecked}
+										onChange={() => handleInputChange('bookingsEnabled', !state.bookingsEnabled)}
+										>
+									</Toggle>
+								</View>
+								<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingBottom: 0}}>
+									<Text style={[MainStyles.title_a14, MainStyles.mb_0]}>Maximum bookings per hour:</Text>
+									<InputNumpad name="bookingsMax" value={state.bookingsMax} onChange={handleInputChange} placeholder="" mt={10} width={60} />
+								</View>
+							</View>
+						</Card>
+
+
 						{/* Business bio */}
 						<Card style={{ marginBottom: 10 }}>
 							<View>
@@ -697,6 +731,17 @@ const styles = StyleSheet.create({
         opacity: 0.5,
 		fontSize: 12,
     },
+	input: {
+		height: 36,
+		width: 50,
+		margin: 12,
+		marginEnd: 0,
+		borderWidth: 1,
+		borderColor: '#9a9a9a',
+		padding: 10,
+		borderRadius: 5,
+		textAlign: 'center',
+	}
 });
 
 export default Edit;

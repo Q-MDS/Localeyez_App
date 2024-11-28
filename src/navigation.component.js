@@ -117,6 +117,7 @@ import AppleHome from './pages/shopper/account/pricing_plan/free/apple_pay/Home.
 import AndroidHome from './pages/shopper/account/pricing_plan/free/android_stripe/Home.js';
 import CancelAppleSub from './pages/shopper/account/pricing_plan/member/CancelAppleSub.jsx';
 import CancelAppleSubDo from './pages/shopper/account/pricing_plan/member/CancelAppleSubDo.jsx';
+import Bookings from './pages/business/calendar/Bookings.jsx';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -238,6 +239,7 @@ const HomeNavigator = () => (
 		<Screen name="AndroidHome" component={AndroidHome} />
 		<Screen name="CancelAppleSub" component={CancelAppleSub} />
 		<Screen name="CancelAppleSubDo" component={CancelAppleSubDo} />
+		<Screen name="Bookings" component={Bookings} />
 	</Navigator>
 );
 

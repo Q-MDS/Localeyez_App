@@ -8,6 +8,7 @@ const IconOne = (props) => <Icon {...props} name="home-outline" />;
 const IconTwo = (props) => <Icon {...props} name="briefcase-outline" />;
 const IconThree = (props) => <Icon {...props} name="star-outline" />;
 const IconFour = (props) => <Icon {...props} name="headphones-outline" />;
+const IconFive = (props) => <Icon {...props} name="calendar-outline" />;
 
 export const BotNavBusiness = (props) => 
 {
@@ -29,9 +30,12 @@ export const BotNavBusiness = (props) =>
                 navigation.navigate('BusProfProHome');
                 break;
             case 2:
-                navigation.navigate('ReviewList');
+                navigation.navigate('Bookings');
                 break;
             case 3:
+                navigation.navigate('ReviewList');
+                break;
+            case 4:
                 navigation.navigate('ContactForm');
                 break;
             default:
@@ -47,6 +51,7 @@ export const BotNavBusiness = (props) =>
         >
             <BottomNavigationTab  icon={IconOne} />
             <BottomNavigationTab icon={IconTwo} />
+            <BottomNavigationTab  icon={IconFive} />
             <BottomNavigationTab icon={IconThree} />
             <BottomNavigationTab icon={IconFour} />
         </BottomNavigation>

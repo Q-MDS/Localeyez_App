@@ -290,3 +290,13 @@ export const cancelSubscription = async (token: string, data: any) =>
 
 	return response.data;	
 }
+
+export const getBusBookings = async (data: any) => 
+{
+	const response = await api.post('/bus_bookings/', data, 
+	{
+		// headers: { Authorization: `Bearer ${token}` },
+	});
+
+	return response.data;	
+}

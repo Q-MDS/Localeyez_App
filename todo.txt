@@ -32,7 +32,7 @@ Purple tints:
 
 MAC User logins
 Shopper: Demo_user@localeyez.net & 123456
-Business: bus111@gmail.com
+Business: bus111@gmail.com & 123456
 
 -------------------------------------------------------------------------------------------------------------
 1. Async-storage examples:

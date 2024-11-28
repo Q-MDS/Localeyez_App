@@ -146,7 +146,7 @@ const ContactForm = (props) =>
 					<ButtonPrimary name="Send Message" width="100%" onpress={validateForm}/>
 				</ScrollView>
 			</Layout>
-            <BotNavBusiness selected={3}/>
+            <BotNavBusiness selected={4}/>
         </SafeAreaView>
     );
 };

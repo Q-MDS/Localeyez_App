@@ -113,6 +113,7 @@ const Login = (props: any) =>
 					const businessId = res.business_id;
 					const token = res.token;
 					const businessProfile = res.business_profile;
+					
 					const businessHours = businessProfile.business_hours;
 					
 					const businessSectors = res.business_sectors;

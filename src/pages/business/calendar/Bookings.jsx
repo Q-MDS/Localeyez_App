@@ -1,33 +1,5 @@
-BUSINESS
-√ new menu icon of Calendar
-√ menu: first time - enable button and settings for # timeslots
-- calendar is a dat picker and a flat list
-  - Date + time CR Name CR Email CR Contact Number CR message
-- timeslots is the amoint of booking per hour...  
-- home page - show number of bookings
-- need to add timeslots to business profile
-
-SHOPPER
-- button will be on the business page at the top
-- user can enter Name, email, contact number, message. Only email is mandatory
-- user selects a date and time slot.
-- Does the shopper need a menu option to record bookings? Add one
-- Maybe point above: Place to see bookings placed: WHERE booking_date > current
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useState, useReducer } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import DataPool from '../../../services/Datapool';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getBusBookings } from '../../../services/api_helper';
 import { ActivityIndicator, SafeAreaView, StyleSheet, ScrollView, FlatList, TouchableOpacity, View, TextInput } from "react-native";
@@ -36,30 +8,11 @@ import { Layout, Toggle, Card, Text, Icon } from "@ui-kitten/components";
 import { BotNavBusiness } from '../../../components/BotNavBusiness';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 
-const initialState = {
-	businessId: null,
-};
-
-function reducer(state, action) 
-{
-	switch (action.type) 
-	{
-	  case 'BUS_BOOKINGS':
-		return { ...state, ...action.payload };
-	  default:
-		throw new Error();
-	}
-}
-
 const Bookings = () => 
 {
-	const dp = DataPool.getInstance();
 	const [isLoading, setIsLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
 	const [businessId, setBusinessId] = useState('');
-	const [isEnabled, setIsEnabled] = useState(dp.getCalendarEnabled());
-	const [checked, setChecked] = useState(false);
-	const [max, setMax] = useState('');
 	const [bookings, setBookings] = useState([]);
 	const [listMsg, setListMsg] = useState('');
 
@@ -67,42 +20,27 @@ const Bookings = () =>
 	{
 		const fetchSettings = async () => 
 		{
-			const calendarEnabled = await AsyncStorage.getItem('calendar_enabled');
-			console.log('enabled xxx ', calendarEnabled);
-			const maxBookings = await AsyncStorage.getItem('max_bookings');
-			console.log('maxBookings xxx ', maxBookings);
 			const bId = await AsyncStorage.getItem('business_id');
-			setIsEnabled(JSON.parse(calendarEnabled));
-			setChecked(JSON.parse(calendarEnabled));
-			setMax(maxBookings);
+			
 			setBusinessId(JSON.parse(bId));
-			console.log('businessId xxx ',checked);
 
-			if (checked)
+			await getBusBookings(businessId)
+			.then((res) => 
 			{
-				await getBusBookings(businessId)
-				.then((res) => 
+				console.log('FUCK FUCK c xxadx ', res);
+				setBookings(res.records);
+
+				if (bookings.length > 0)
 				{
-					console.log('FUCK FUCK c xxadx ', res);
-					setBookings(res.records);
+					setListMsg("Upcoming bookings list")
+				} 
+				else 
+				{
+					setListMsg("No bookings");
+				}
 
-					if (bookings.length > 0)
-					{
-						setListMsg("Upcoming bookings list")
-					} 
-					else 
-					{
-						setListMsg("No bookings");
-					}
-
-					setIsLoading(false);
-				});
-			} 
-			else 
-			{
-				setBookings([]);
 				setIsLoading(false);
-			}
+			});
 		}
 
 		fetchSettings();
@@ -115,7 +53,6 @@ const Bookings = () =>
 				await getBusBookings(businessId)
 				.then((res) => 
 				{
-					console.log('FUCK FUCK c xxadx ', res);
 					setBookings(res.records);
 
 					if (bookings.length > 0)
@@ -134,23 +71,6 @@ const Bookings = () =>
 			fetchData();
 		}, [refresh]));
 
-	const handleSaveSettings = async () => 
-	{
-		await AsyncStorage.setItem('calendar_enabled', JSON.stringify(checked));
-		await AsyncStorage.setItem('max_bookings', max);
-
-		AsyncStorage.getAllKeys((err, keys) => {
-			AsyncStorage.multiGet(keys, (error, stores) => {
-			  stores.map((result, i, store) => {
-				console.log({ [store[i][0]]: store[i][1] });
-				return true;
-			  });
-			});
-		  });
-		
-		dp.setCalendarEnabled(checked);
-		setIsEnabled(checked);
-	}
 
 	const renderItem = ({ item }) => (
 		<Card style={{marginBottom: 5}}>
@@ -223,61 +143,18 @@ const Bookings = () =>
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 0 }}>	
 					<Text style={[ MainStyles.title_aaa, { textAlign: 'left', flex: 1 }]}>Bookings</Text>
 					<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: 50 }} onPress={() => setRefresh(!refresh)}>
-						<Icon name="refresh-outline" fill={isEnabled ? '#898989' : '#612bc1'} style={{ width: 24, height: 24, marginStart: 5}}/>
-					</TouchableOpacity>
-					<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: 40 }} onPress={() => setIsEnabled(!isEnabled)}>
-						<Icon name="settings-outline" fill={isEnabled ? '#898989' : '#612bc1'} style={{ width: 24, height: 24, marginStart: 5}}/>
+						<Icon name="refresh-outline" fill={'#898989'} style={{ width: 24, height: 24, marginStart: 5}}/>
 					</TouchableOpacity>
 				</View>
-					{isEnabled ? 
-					(
-						<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
-							<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>{listMsg}</Text>
-							<FlatList
-							data={bookings}
-							keyExtractor={(item) => item.id.toString()}
-							renderItem={renderItem}
-							style={{ width: '100%', paddingTop: 10 }}
-						/>
-						</View>
-					) 
-					: 
-					(
-						<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
-							<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 0, paddingEnd: 10 }]}>Bookings settings</Text>
-							<Card style={{ marginTop: 20, marginBottom: 10 }}>
-							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 0 }}>	
-								<Text style={[MainStyles.title_a14, MainStyles.mb_0]}>Enable bookings</Text>
-								<Toggle
-									checked={checked}
-									onChange={setChecked}
-									>
-								</Toggle>
-							</View>
-							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingBottom: 20}}>
-								<Text style={[MainStyles.title_a14, MainStyles.mb_0]}>Maximum bookings per hour:</Text>
-								<TextInput
-								style={styles.input}
-								onChangeText={nextValue => {
-								  const numericValue = nextValue.replace(/[^0-9]/g, '');
-								  setMax(numericValue);
-								}}
-								value={max}
-								placeholder=""
-								keyboardType="numeric"
-								/>
-							</View>
-							<ButtonPrimary name="Save Settings" width="100%" onpress={handleSaveSettings}/>
-							</Card>
-						</View>
-					)}
-
-
-					{/* <View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
-						<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>Please contact admin when you have an issue such as reporting a user, system issues etc.</Text>
-					</View> */}
-					
-				{/* </ScrollView> */}
+				<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
+					<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>{listMsg}</Text>
+					<FlatList
+					data={bookings}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={renderItem}
+					style={{ width: '100%', paddingTop: 10 }}
+				/>
+				</View>
 			</Layout>
             <BotNavBusiness selected={2}/>
         </SafeAreaView>

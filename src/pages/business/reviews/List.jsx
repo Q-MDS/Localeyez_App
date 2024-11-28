@@ -123,7 +123,7 @@ const ReviewList = (props) =>
                 </ScrollView>
                 <Divider style={{ height: 1, width: '100%', backgroundColor: '#DEDDE7' }} />
 				</Layout>
-                <BotNavBusiness selected={2}/>
+                <BotNavBusiness selected={3}/>
             </SafeAreaView>
     );
 };
