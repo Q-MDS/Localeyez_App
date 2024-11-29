@@ -22,6 +22,7 @@ const BusinessDashboard = (props) =>
 	const [firstName, setFirstName] = useState('');
 	const [businessId, setBusinessId] = useState(0);
 	const [totViews, setTotViews] = useState('0');
+	const [totBookings, setTotBookings] = useState('0');
 
 	const getToken = async () => 
 	{
@@ -79,10 +80,12 @@ const BusinessDashboard = (props) =>
 						if (res.status)
 						{
 							setTotViews(res.data);
+							setTotBookings(res.bookings);
 						} 
 						else 
 						{
-							setTotViews('0.');
+							setTotViews('0');
+							setTotBookings('0');
 						}
 					});
 				}
@@ -114,9 +117,12 @@ const BusinessDashboard = (props) =>
                 <DividerTop />
                 <Layout style={[MainStyles.column_container, {backgroundColor: '#ffffff'}]}>
                     <Text style={[MainStyles.title_a18, {textAlign: 'center', marginBottom: 30}]}>Your business in review:</Text>
-                    <Card style={{ marginTop: 10, padding: 10, borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}>
-                        <Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold' }]} status="primary">Total number of views:</Text>
-                        <Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">{totViews}</Text>
+                    {/* <Card style={{ marginTop: 10, padding: 10, borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}> */}
+                    <Card style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#FFF', width: '100%' }}>
+							<Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold', paddingTop: 20 }]} status="primary">Total number of views:</Text>
+							<Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">{totViews}</Text>
+							<Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold', marginTop: 20 }]} status="primary">Bookings:</Text>
+							<Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">33</Text>
                     </Card>
 					<View style={{ flex: 1 }} />
 					<View>

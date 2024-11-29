@@ -1,11 +1,11 @@
 BUSINESS
 √ new menu icon of Calendar
 √ menu: first time - enable button and settings for # timeslots
-- calendar is a dat picker and a flat list
-  - Date + time CR Name CR Email CR Contact Number CR message
-- timeslots is the amoint of booking per hour...  
-- home page - show number of bookings
-- need to add timeslots to business profile
+√ calendar is a date picker and a flat list
+  √ Date + time CR Name CR Email CR Contact Number CR message
+√ timeslots is the amoint of booking per hour...  
+√ home page - show number of bookings
+√ need to add timeslots to business profile
 
 SHOPPER
 - button will be on the business page at the top
@@ -15,7 +15,14 @@ SHOPPER
 - Maybe point above: Place to see bookings placed: WHERE booking_date > current
 
 
-
+<Picker
+  selectedValue={selectedLanguage}
+  onValueChange={(itemValue, itemIndex) =>
+    setSelectedLanguage(itemValue)
+  }>
+  <Picker.Item label="Java" value="java" />
+  <Picker.Item label="JavaScript" value="js" />
+</Picker>
 
 
 

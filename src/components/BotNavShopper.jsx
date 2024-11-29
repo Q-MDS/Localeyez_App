@@ -11,6 +11,7 @@ const IconOne = (props) => <Icon {...props} name="home-outline" />;
 const IconTwo = (props) => <Icon {...props} name="search-outline" />;
 const IconThree = (props) => <Icon {...props} name="star-outline" />;
 const IconFour = (props) => <Icon {...props} name="headphones-outline" />;
+const IconFive = (props) => <Icon {...props} name="calendar-outline" />;
 
 export const BotNavShopper = (props) => 
 {
@@ -35,6 +36,9 @@ export const BotNavShopper = (props) =>
                 navigation.navigate('ShopperReviewList');
                 break;
             case 3:
+                navigation.navigate('ShopperReviewList');
+                break;
+            case 4:
                 navigation.navigate('ShopperContactAdmin');
                 break;
             default:
@@ -50,6 +54,7 @@ export const BotNavShopper = (props) =>
         >
             <BottomNavigationTab icon={IconOne} />
             <BottomNavigationTab icon={IconTwo} />
+            <BottomNavigationTab  icon={IconFive} />
             <BottomNavigationTab icon={IconThree} />
             <BottomNavigationTab icon={IconFour} />
         </BottomNavigation>

@@ -118,6 +118,7 @@ import AndroidHome from './pages/shopper/account/pricing_plan/free/android_strip
 import CancelAppleSub from './pages/shopper/account/pricing_plan/member/CancelAppleSub.jsx';
 import CancelAppleSubDo from './pages/shopper/account/pricing_plan/member/CancelAppleSubDo.jsx';
 import Bookings from './pages/business/calendar/Bookings.jsx';
+import MakeBooking from './pages/shopper/calendar/Bookings.jsx'; 
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -240,6 +241,7 @@ const HomeNavigator = () => (
 		<Screen name="CancelAppleSub" component={CancelAppleSub} />
 		<Screen name="CancelAppleSubDo" component={CancelAppleSubDo} />
 		<Screen name="Bookings" component={Bookings} />
+		<Screen name="MakeBooking" component={MakeBooking} />
 	</Navigator>
 );
 

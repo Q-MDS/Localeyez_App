@@ -4,6 +4,7 @@ import { getBusinessPromotions } from '../../../../services/api_search';
 import { getBusinessEvents } from '../../../../services/api_search';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { Card, Divider, Icon, Layout, Tab, TabView, Text, TextElement } from '@ui-kitten/components';
+import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
 import { IconText } from '../../../../components/IconText';
@@ -32,6 +33,8 @@ const initialState = {
 	businessHours: null,
 	gpsLat: null,
 	gpsLng: null,
+	bookingsEnabled: null,
+	bookingsMax: null,
 };
 
 interface BusinessHour 
@@ -137,6 +140,8 @@ const Home = (props: any) =>
 				businessHours: JSON.parse(business.business_hours),
 				gpsLat: business.loc_latitude,
 				apdLng: business.loc_longitude,
+				bookingsEnabled: business.bookings_enabled,
+				bookingsmax: business.bookings_max
 			},
 		});
 		
@@ -168,6 +173,11 @@ const Home = (props: any) =>
 			// console.log('Got events', events);
 		}
 	},[gotPromotions, gotEvents])
+
+	const handleMakeBooking = () => 
+	{
+		props.navigation.navigate('MakeBooking', { business: business });
+	}
 
 	const handleViewReviews = () => 
 	{
@@ -315,6 +325,19 @@ const Home = (props: any) =>
 							<IconText title="See all reviews" iconname="star-outline" fontsize={14} width={20} status="basic" />
 						</TouchableOpacity>
 						</Card>
+						
+						
+						{/* Make a booking */}
+						{state.bookingsEnabled == 1 && (
+						<Card style={{ marginBottom: 10, borderRadius: 10 }}>
+							<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Bookings</Text>
+							<Text style={{ fontSize: 14, color: '#00000080', marginBottom: 10 }}>Tap on the button below to make a booking.</Text>
+							<ButtonPrimary name="Make a booking" width="100%" onpress={handleMakeBooking} />
+						</Card>
+						)}
+
+
+
 						{/* Business Hours */}
 						<Card style={{ marginBottom: 10, borderRadius: 10 }}>
 							<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Hours</Text>

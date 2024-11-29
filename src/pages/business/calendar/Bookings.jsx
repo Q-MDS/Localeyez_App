@@ -2,9 +2,11 @@ import React, { useEffect, useState, useReducer } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getBusBookings } from '../../../services/api_helper';
-import { ActivityIndicator, SafeAreaView, StyleSheet, ScrollView, FlatList, TouchableOpacity, View, TextInput } from "react-native";
+import { ActivityIndicator, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, View, TextInput } from "react-native";
+import RNPickerSelect from 'react-native-picker-select';
 import MainStyles from "../../../assets/styles/MainStyles";
-import { Layout, Toggle, Card, Text, Icon } from "@ui-kitten/components";
+import { Layout, Card, Text, Icon } from "@ui-kitten/components";
+// import { Dropdown } from 'react-native-element-dropdown';
 import { BotNavBusiness } from '../../../components/BotNavBusiness';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 
@@ -15,6 +17,8 @@ const Bookings = () =>
 	const [businessId, setBusinessId] = useState('');
 	const [bookings, setBookings] = useState([]);
 	const [listMsg, setListMsg] = useState('');
+	const [selectedDate, setSelectedDate] = useState('');
+	const [uniqueDates, setUniqueDates] = useState([]);
 
 	useEffect(() => 
 	{
@@ -27,7 +31,7 @@ const Bookings = () =>
 			await getBusBookings(businessId)
 			.then((res) => 
 			{
-				console.log('FUCK FUCK c xxadx ', res);
+				console.log('Test ', res);
 				setBookings(res.records);
 
 				if (bookings.length > 0)
@@ -47,30 +51,39 @@ const Bookings = () =>
 	}, []);
 
 	useFocusEffect(React.useCallback(() => 
+	{
+		const fetchData = async () => 
 		{
-			const fetchData = async () => 
+			await getBusBookings(businessId)
+			.then((res) => 
 			{
-				await getBusBookings(businessId)
-				.then((res) => 
+				setBookings(res.records);
+
+				if (bookings.length > 0)
 				{
-					setBookings(res.records);
+					setListMsg("Upcoming bookings list")
+				} 
+				else 
+				{
+					setListMsg("No bookings");
+				}
 
-					if (bookings.length > 0)
-					{
-						setListMsg("Upcoming bookings list")
-					} 
-					else 
-					{
-						setListMsg("No bookings");
-					}
+				setIsLoading(false);
+			});
+		};
+		setIsLoading(true);
+		fetchData();
+	}, [refresh]));
 
-					setIsLoading(false);
-				});
-			};
-			setIsLoading(true);
-			fetchData();
-		}, [refresh]));
+	useEffect(() => {
+		// Extract unique dates from bookings
+		const dates = [...new Set(bookings.map(item => item.booking_date))];
+		setUniqueDates(dates);
+	  }, [bookings]);
 
+  	const filteredBookings = selectedDate
+    ? bookings.filter(item => item.booking_date === selectedDate)
+    : bookings;
 
 	const renderItem = ({ item }) => (
 		<Card style={{marginBottom: 5}}>
@@ -137,9 +150,8 @@ const Bookings = () =>
 	}
 
 	return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+		<SafeAreaView style={{ flex: 1 }}>
 			<Layout style={[MainStyles.layout_container, { paddingTop: 30, paddingStart: 20, paddingEnd: 20, backgroundColor: '#fff'}]}>
-				{/* <ScrollView style={{ width: '100%' }}> */}
 				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 0 }}>	
 					<Text style={[ MainStyles.title_aaa, { textAlign: 'left', flex: 1 }]}>Bookings</Text>
 					<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', width: 50 }} onPress={() => setRefresh(!refresh)}>
@@ -148,16 +160,22 @@ const Bookings = () =>
 				</View>
 				<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
 					<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>{listMsg}</Text>
+					<RNPickerSelect
+						onValueChange={(value) => setSelectedDate(value)}
+						items={uniqueDates.map(date => ({ label: date, value: date }))}
+						placeholder={{ label: "Select a date...", value: "" }}
+						style={pickerSelectStyles}
+					/>
 					<FlatList
-					data={bookings}
+					data={filteredBookings}
 					keyExtractor={(item) => item.id.toString()}
 					renderItem={renderItem}
 					style={{ width: '100%', paddingTop: 10 }}
-				/>
+					/>
 				</View>
-			</Layout>
-            <BotNavBusiness selected={2}/>
-        </SafeAreaView>
+		  </Layout>
+		  <BotNavBusiness selected={2}/>
+	  </SafeAreaView>
     );
 }
 
@@ -176,6 +194,30 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		marginBottom: 5
 	}
+  });
+
+  const pickerSelectStyles = StyleSheet.create({
+	inputIOS: {
+	  fontSize: 16,
+	  paddingVertical: 12,
+	  paddingHorizontal: 10,
+	  borderWidth: 1,
+	  borderColor: 'gray',
+	  borderRadius: 4,
+	  color: 'black',
+	  paddingRight: 30, // to ensure the text is never behind the icon
+	  marginTop: 10
+	},
+	inputAndroid: {
+	  fontSize: 16,
+	  paddingHorizontal: 10,
+	  paddingVertical: 8,
+	  borderWidth: 0.5,
+	  borderColor: 'purple',
+	  borderRadius: 8,
+	  color: 'black',
+	  paddingRight: 30, // to ensure the text is never behind the icon
+	},
   });
 
 export default Bookings;
