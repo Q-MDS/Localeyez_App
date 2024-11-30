@@ -3,12 +3,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getBusBookings } from '../../../services/api_helper';
 import { ActivityIndicator, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, View, TextInput } from "react-native";
-import RNPickerSelect from 'react-native-picker-select';
+import DropDownPicker from 'react-native-dropdown-picker';
 import MainStyles from "../../../assets/styles/MainStyles";
 import { Layout, Card, Text, Icon } from "@ui-kitten/components";
-// import { Dropdown } from 'react-native-element-dropdown';
 import { BotNavBusiness } from '../../../components/BotNavBusiness';
-import { ButtonPrimary } from '../../../components/ButtonPrimary';
 
 const Bookings = () => 
 {
@@ -19,6 +17,16 @@ const Bookings = () =>
 	const [listMsg, setListMsg] = useState('');
 	const [selectedDate, setSelectedDate] = useState('');
 	const [uniqueDates, setUniqueDates] = useState([]);
+
+
+	const [open, setOpen] = useState(false);
+	const [value, setValue] = useState(null);
+	const [items, setItems] = useState([
+		{ label: 'Option 1', value: 'option1' },
+		{ label: 'Option 2', value: 'option2' },
+		{ label: 'Option 3', value: 'option3' },
+	]);
+
 
 	useEffect(() => 
 	{
@@ -78,6 +86,7 @@ const Bookings = () =>
 	useEffect(() => {
 		// Extract unique dates from bookings
 		const dates = [...new Set(bookings.map(item => item.booking_date))];
+		console.log('Dates: ', dates);
 		setUniqueDates(dates);
 	  }, [bookings]);
 
@@ -159,12 +168,15 @@ const Bookings = () =>
 					</TouchableOpacity>
 				</View>
 				<View style={{ flexDirection: 'column', marginTop: 0, alignItems: 'left', justifyContent: 'center', width: '100%' }} >
-					<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, paddingEnd: 10 }]}>{listMsg}</Text>
-					<RNPickerSelect
-						onValueChange={(value) => setSelectedDate(value)}
+					<Text style={[MainStyles.title_a15, { textAlign: 'left', marginTop: 10, marginBottom: 10, paddingEnd: 10 }]}>{listMsg}</Text>
+					<DropDownPicker
+						open={open}
+						value={value}
 						items={uniqueDates.map(date => ({ label: date, value: date }))}
-						placeholder={{ label: "Select a date...", value: "" }}
-						style={pickerSelectStyles}
+						setOpen={setOpen}
+						setValue={(value) => setSelectedDate(value)}
+						setItems={setItems}
+						placeholder='Select a date...'
 					/>
 					<FlatList
 					data={filteredBookings}

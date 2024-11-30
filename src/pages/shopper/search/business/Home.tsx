@@ -326,7 +326,6 @@ const Home = (props: any) =>
 						</TouchableOpacity>
 						</Card>
 						
-						
 						{/* Make a booking */}
 						{state.bookingsEnabled == 1 && (
 						<Card style={{ marginBottom: 10, borderRadius: 10 }}>
@@ -335,8 +334,6 @@ const Home = (props: any) =>
 							<ButtonPrimary name="Make a booking" width="100%" onpress={handleMakeBooking} />
 						</Card>
 						)}
-
-
 
 						{/* Business Hours */}
 						<Card style={{ marginBottom: 10, borderRadius: 10 }}>

@@ -131,7 +131,7 @@ const SearchCategory = (props:any) =>
 			</View>
 		);
 	}
-console.log('Business length: ', businesses.length);
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 		<TopNavBack title={`Back to ${props.route.params.searchSector}`} alignment="start" navigation={props.navigation} pops={1} />
