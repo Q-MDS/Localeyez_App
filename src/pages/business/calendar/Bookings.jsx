@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
+import DbUtils from '../../../services/DbUtils';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getBusBookings } from '../../../services/api_helper';
@@ -10,6 +11,9 @@ import { BotNavBusiness } from '../../../components/BotNavBusiness';
 
 const Bookings = () => 
 {
+	const [token, setToken] = useState('');
+	const [profile, setProfile] = useState(null);
+	const [ready, setIsReady] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
 	const [businessId, setBusinessId] = useState('');
@@ -27,19 +31,49 @@ const Bookings = () =>
 		{ label: 'Option 3', value: 'option3' },
 	]);
 
+	const getToken = async () => 
+	{
+		const getToken = await DbUtils.getItem('business_token');
+
+		setToken(JSON.parse(getToken));
+	}
+
+	const getProfile = async () => 
+	{
+		const businessProfile = await DbUtils.getItem('business_profile')
+		.then((businessProfile) => 
+		{
+			setProfile(JSON.parse(businessProfile));
+			
+			console.log('EYC');
+		});
+	}
+
+	useEffect(() => 
+	{
+		const fetchData = async () => 
+		{
+			await getToken();
+			await getProfile();
+			setIsReady(true);
+		};
+
+		fetchData();
+	}, []);
+
 
 	useEffect(() => 
 	{
 		const fetchSettings = async () => 
 		{
-			const bId = await AsyncStorage.getItem('business_id');
+			const bId = profile.id;
+			const data = {business_id: profile.id};
 			
-			setBusinessId(JSON.parse(bId));
+			// setBusinessId(JSON.parse(bId));
 
-			await getBusBookings(businessId)
+			await getBusBookings(data)
 			.then((res) => 
 			{
-				console.log('Test ', res);
 				setBookings(res.records);
 
 				if (bookings.length > 0)
@@ -54,17 +88,23 @@ const Bookings = () =>
 				setIsLoading(false);
 			});
 		}
-
-		fetchSettings();
-	}, []);
+		if (ready)
+		{
+			console.log('SSSHHHIIITTT');
+			fetchSettings();
+		}
+	}, [ready]);
 
 	useFocusEffect(React.useCallback(() => 
 	{
 		const fetchData = async () => 
 		{
-			await getBusBookings(businessId)
+			const data = {business_id: profile.id};
+			
+			await getBusBookings(data)
 			.then((res) => 
 			{
+				console.log('RES: ', res);
 				setBookings(res.records);
 
 				if (bookings.length > 0)
@@ -79,9 +119,13 @@ const Bookings = () =>
 				setIsLoading(false);
 			});
 		};
-		setIsLoading(true);
-		fetchData();
-	}, [refresh]));
+		if (ready)
+		{
+			setIsLoading(true);
+			fetchData();
+
+		}
+	}, [refresh, ready]));
 
 	useEffect(() => {
 		// Extract unique dates from bookings

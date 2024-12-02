@@ -293,6 +293,7 @@ export const cancelSubscription = async (token: string, data: any) =>
 
 export const getBusBookings = async (data: any) => 
 {
+	console.log('CIMMAA: ', data);
 	const response = await api.post('/api/bus_bookings/', data, 
 	{
 		// headers: { Authorization: `Bearer ${token}` },
