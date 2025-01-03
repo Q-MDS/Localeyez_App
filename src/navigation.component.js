@@ -75,13 +75,39 @@ import ShopperContactConfirm from './pages/shopper/contact_admin/ContactConfirm'
 import ShopperReviewList from './pages/shopper/reviews/ReviewList';
 import ShopperReviewView from './pages/shopper/reviews/ReviewView';
 import CatTravel from './pages/shopper/categories/Travel';
+import TravelHome from './pages/shopper/categories/travel/Home';
+import TravelAccomodation from './pages/shopper/categories/travel/SubAccomodation';
+import TravelTransport from './pages/shopper/categories/travel/SubTransport';
 import CatProperty from './pages/shopper/categories/Property';
+import PropertyHome from './pages/shopper/categories/property/Home';
 import CatCommunity from './pages/shopper/categories/Community';
+import CommunityHome from './pages/shopper/categories/community/Home';
+import CommunityCharity from './pages/shopper/categories/community/SubCharity';
 import CatEducation from './pages/shopper/categories/Education';
+import EducationHome from './pages/shopper/categories/education/Home';
+import EducationSchools from './pages/shopper/categories/education/SubSchools';
+import EducationLearning from './pages/shopper/categories/education/SubLearning';
+import EducationEmployment from './pages/shopper/categories/education/SubEmployment';
 import CatHealth from './pages/shopper/categories/Health';
+import HealthHome from './pages/shopper/categories/health/Home';
+import HealthSports from './pages/shopper/categories/health/SubSports';
+import HealthDoctors from './pages/shopper/categories/health/SubDoctors';
 import CatShopping from './pages/shopper/categories/Shopping';
+import ShoppingHome from './pages/shopper/categories/shopping/Home';
+import ShoppingFashion from './pages/shopper/categories/shopping/SubFashion';
+import ShoppingSubHome from './pages/shopper/categories/shopping/SubHome';
+import ShoppingGroceries from './pages/shopper/categories/shopping/SubGroceries';
 import CatEntertainment from './pages/shopper/categories/Entertainment';
+import EntertainmentHome from './pages/shopper/categories/entertainment/Home';
+import EntertainmentEat from './pages/shopper/categories/entertainment/SubEat';
+import EntertainmentActivities from './pages/shopper/categories/entertainment/SubActivities';
+import EntertainmentEvents from './pages/shopper/categories/entertainment/SubEvents';
 import CatServices from './pages/shopper/categories/Services';
+import ServicesHome from './pages/shopper/categories/services/Home';
+import ServicesSubHome from './pages/shopper/categories/services/SubHome';
+import ServicesSelfCare from './pages/shopper/categories/services/SubSelfCare';
+import servicesFinancial from './pages/shopper/categories/services/SubFinancial';
+import ServicesPublic from './pages/shopper/categories/services/SubPublic';
 import CatSearch from './pages/shopper/categories/SearchCategory.tsx';
 import Search from './pages/shopper/search/Home';
 import SearchBusinessView from './pages/shopper/search/business/Home.tsx'
@@ -198,13 +224,39 @@ const HomeNavigator = () => (
 		<Screen name="ShopperReviewList" component={ShopperReviewList} />
 		<Screen name="ShopperReviewView" component={ShopperReviewView} />
 		<Screen name="CatTravel" component={CatTravel} />
+		<Screen name="TravelHome" component={TravelHome} />
+		<Screen name="TravelAccomodation" component={TravelAccomodation} />
+		<Screen name="TravelTransport" component={TravelTransport} />
 		<Screen name="CatProperty" component={CatProperty} />
+		<Screen name="PropertyHome" component={PropertyHome} />
 		<Screen name="CatCommunity" component={CatCommunity} />
+		<Screen name="CommunityHome" component={CommunityHome} />
+		<Screen name="CommunityCharity" component={CommunityCharity} />
 		<Screen name="CatEducation" component={CatEducation} />
+		<Screen name="EducationHome" component={EducationHome} />
+		<Screen name="EducationSchools" component={EducationSchools} />
+		<Screen name="EducationLearning" component={EducationLearning} />
+		<Screen name="EducationEmployment" component={EducationEmployment} />
 		<Screen name="CatHealth" component={CatHealth} />
+		<Screen name="HealthHome" component={HealthHome} />
+		<Screen name="HealthSports" component={HealthSports} />
+		<Screen name="HealthDoctors" component={HealthDoctors} />
 		<Screen name="CatShopping" component={CatShopping} />
+		<Screen name="ShoppingHome" component={ShoppingHome} />
+		<Screen name="ShoppingFashion" component={ShoppingFashion} />
+		<Screen name="ShoppingGroceries" component={ShoppingGroceries} />
+		<Screen name="ShoppingSubHome" component={ShoppingSubHome} />
 		<Screen name="CatEntertainment" component={CatEntertainment} />
+		<Screen name="EntertainmentHome" component={EntertainmentHome} />
+		<Screen name="EntertainmentEat" component={EntertainmentEat} />
+		<Screen name="EntertainmentActivities" component={EntertainmentActivities} />
+		<Screen name="EntertainmentEvents" component={EntertainmentEvents} />
 		<Screen name="CatServices" component={CatServices} />
+		<Screen name="ServicesHome" component={ServicesHome} />
+		<Screen name="ServicesSubHome" component={ServicesSubHome} />
+		<Screen name="ServicesSelfCare" component={ServicesSelfCare} />
+		<Screen name="servicesFinancial" component={servicesFinancial} />
+		<Screen name="ServicesPublic" component={ServicesPublic} />
 		<Screen name="CatSearch" component={CatSearch} />
 		<Screen name="Search" component={Search} />
 		<Screen name="SearchBusinessView" component={SearchBusinessView} />

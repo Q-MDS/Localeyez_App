@@ -30,42 +30,42 @@ const Home = (props) =>
 
     const gotoCatTravel = () => 
     {
-        props.navigation.navigate('CatTravel');
+        props.navigation.navigate('TravelHome');
     }
 
     const gotoCatProperty = () => 
     {
-        props.navigation.navigate('CatProperty');
+        props.navigation.navigate('PropertyHome');
     }
 
     const gotoCatCommunity = () => 
     {
-        props.navigation.navigate('CatCommunity');
+        props.navigation.navigate('CommunityHome');
     }
 
     const gotoCatEducation = () => 
     {
-        props.navigation.navigate('CatEducation');
+        props.navigation.navigate('EducationHome');
     }
 
     const gotoCatHealth = () => 
     {
-        props.navigation.navigate('CatHealth');
+        props.navigation.navigate('HealthHome');
     }
 
     const gotoCatShopping = () => 
     {
-        props.navigation.navigate('CatShopping');
+        props.navigation.navigate('ShoppingHome');
     }
 
     const gotoCatEntertainment = () => 
     {
-        props.navigation.navigate('CatEntertainment');
+        props.navigation.navigate('EntertainmentHome');
     }
 
     const gotoCatServices = () => 
     {
-        props.navigation.navigate('CatServices');
+        props.navigation.navigate('ServicesHome');
     }
 
 	const handleSearch = () => 
@@ -82,7 +82,7 @@ const Home = (props) =>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fafafa', paddingStart: 20, paddingEnd: 20}]}>
                     <InputSearch value={searchFor} setValue={setSearchFor} onpress={handleSearch} placeholder="Find what you're looking for..." />
                     <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
-				<ScrollView style={{ width: '100%' }}>
+				        <ScrollView style={{ width: '100%' }}>
 
                         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 5, flex: 1 }}>
                                 <View style={{ flex: 1 }}>
