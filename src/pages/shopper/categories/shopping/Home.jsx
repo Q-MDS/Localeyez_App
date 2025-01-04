@@ -26,16 +26,19 @@ const Home = (props) =>
 	const handelSearchHardware = () =>
 	{
 		console.log('Search Hardware & Electrical');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "shoppingOpt1", categoryItem: "shoppingOpt1"});
 	}
 
 	const handelSearchStationary = () =>
 	{
 		console.log('Search Stationary & Gifts');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "shoppingOpt2", categoryItem: "shoppingOpt2"});
 	}
 
 	const handelSearchChildren = () =>
 	{
 		console.log('Search Children');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "shoppingOpt3", categoryItem: "shoppingOpt3"});
 	}
 
   	return (

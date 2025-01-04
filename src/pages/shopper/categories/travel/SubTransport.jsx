@@ -3,53 +3,52 @@ import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
-import { Layout, Text, Card } from "@ui-kitten/components";
-import { TextIcon } from "../../../../components/TextIcon";
+import { Layout, Text } from "@ui-kitten/components";
 import CatButtonMed from "../../../../components/CatButtonMed";
 import CatButtonWide from "../../../../components/CatButtonWide";
 
 const SubTransport = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		console.log('Search Category: Fashion & Beauty');
+
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Travel", category: "transport", categoryItem: "transport"});
+	}
+
 	const handleSearchAirlines = () => 
 	{
-		// Search results
-		console.log('Search Airlines');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Airlines"});
 	}
 
 	const handleSearchTrain = () => 
 	{
-		// Search results
-		console.log('Search Train Services');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Train Services"});
 	}
 
 	const handleSearchBus = () => 
 	{
-		// Search results
-		console.log('Search Bus Services');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Bus Services"});
 	}
 
 	const handleSearchShuttle = () => 
 	{
-		// Search results
-		console.log('Search Shuttle Services');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Shuttle Services"});
 	}
 
 	const handleSearchTaxi = () => 
 	{
-		// Search results
-		console.log('Search Taxi Services');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Taxi’s"});
 	}
 
 	const handleSearchCarHire = () => 
 	{
-		// Search results
-		console.log('Search Car Hire');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Car Hire"});
 	}
 
 	const handleSearchChauffeur = () => 
 	{
-		// Search results
-		console.log('Search Chauffeur Services');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "transport", categoryItem: "Chauffeur Services"});
 	}
 
   	return (
@@ -58,10 +57,12 @@ const SubTransport = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 40 }}>
-						<Image source={require('../../../../assets/sectors/travel/cat_transport.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Transport</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 40 }}>
+							<Image source={require('../../../../assets/sectors/travel/cat_transport.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Transport</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonMed bgColor="#C5EDEC" btnImage={require('../../../../assets/sectors/travel/airlines.png')} btnText="Airlines" onPress={handleSearchAirlines} />

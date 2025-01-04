@@ -292,3 +292,8 @@ Bbb 222
 
 Share Promotion example: 
 Check out this promotion I found on Localeyez: Magic warts . Big and crusty. Promotion price 55
+
+
+2025-01-04
+Missing items from sector array:
+1. Community -> Charity & Orgs -> Conservation

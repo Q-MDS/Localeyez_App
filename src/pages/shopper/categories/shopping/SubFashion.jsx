@@ -2,61 +2,80 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import CatButtonMed from "../../../../components/CatButtonMed";
 import CatButtonSml from '../../../../components/CatButtonSml';
 
 const SubFashion = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		console.log('Search Category: Fashion & Beauty');
+
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "fashion", categoryItem: "fashion"});
+	}
+
 	const handelSearchClothing = () =>
 	{
 		console.log('Search Clothing');
+		// category === "Fashion & Beauty" ? category = "fashion" : category === "fashion";
+		// category === "Home" ? category = "home" : category === "home";
+		// category === "Groceries" ? category = "groceries" : category === "groceries";
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Clothing"});
 	}
 
 	const handelSearchShoes = () =>
 	{
 		console.log('Search Shoes');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Shoes"});
 	}
 
 	const handelSearchAccessories = () =>
 	{
 		console.log('Search Accessories');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Accessories"});
 	}
 
 	const handelSearchMakeUp = () =>
 	{
 		console.log('Search Make Up');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Make-Up & Cosmetics"});
 	}
 	
 	const handelSearchBath = () =>
 	{
-		console.log('Search Accessories');
+		console.log('Search Bath');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Bath & Body"});
 	}
 
 	const handelSearchDesigner = () =>
 	{
-		console.log('Search Make Up');
+		console.log('Search Designer');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Clothing Designers & Stylists"});
 	}
 
 	const handelSearchHair = () =>
 	{
-		console.log('Search Accessories');
+		console.log('Search Hair');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Hair Stylists & Products"});
 	}
 
 	const handelSearchMakeUpArtist = () =>
 	{
-		console.log('Search Make Up');
+		console.log('Search Make Up Artist');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Make-up artists"});
 	}
 
 	const handelSearchSkin = () =>
 	{
-		console.log('Search Make Up');
+		console.log('Search Skin');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Skin and beauty Technicians"});
 	}
 
 	const handelSearchCostume = () =>
 	{
-		console.log('Search Make Up');
+		console.log('Search Costume');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Shopping", category: "fashion", categoryItem: "Costume Hire"});
 	}
 	
 
@@ -66,10 +85,12 @@ const SubFashion = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 30 }}>
-						<Image source={require('../../../../assets/sectors/shopping/cat_fashion.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Fashion & Beauty</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 30 }}>
+							<Image source={require('../../../../assets/sectors/shopping/cat_fashion.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Fashion & Beauty</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../../assets/sectors/shopping/clothing.png')} btnText="Clothing" onPress={handelSearchClothing} />

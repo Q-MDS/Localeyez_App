@@ -3,53 +3,66 @@ import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
-import { Layout, Text, Card } from "@ui-kitten/components";
-import { TextIcon } from "../../../../components/TextIcon";
+import { Layout, Text } from "@ui-kitten/components";
 import CatButtonMed from "../../../../components/CatButtonMed";
 import CatButtonWide from "../../../../components/CatButtonWide";
 
 const SubAccomodation = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		console.log('Search Category: Fashion & Beauty');
+
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Travel", category: "accomodation", categoryItem: "accomodation"});
+	}
+
 	const handleSearchHotels = () => 
 	{
 		// Search results
 		console.log('Search Hotels');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Hotels"});
 	}
 
 	const handleSearchGuestLodges = () => 
 	{
 		// Search results
 		console.log('Search Guest Lodges');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Guest Lodges"});
 	}
 
 	const handleSearchBnb = () => 
 	{
 		// Search results
 		console.log('Search BnB');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "BnB’s"});
 	}
 
 	const handleSearchLodges = () => 
 	{
 		// Search results
 		console.log('Search Lodges');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Lodges"});
 	}
 
 	const handleSearchVillas = () => 
 	{
 		// Search results
 		console.log('Search Villas');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Villa’s and Private Homes"});
 	}
 
 	const handleSearchBackpackers = () => 
 	{
 		// Search results
 		console.log('Search Backpackers');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Backpackers"});
 	}
 
 	const handleSearchOther = () => 
 	{
 		// Search results
 		console.log('Search Other');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Travel", category: "accomodation", categoryItem: "Other –eg houseboats"});
 	}
 
 
@@ -59,10 +72,12 @@ const SubAccomodation = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 40 }}>
-						<Image source={require('../../../../assets/sectors/travel/cat_accomodation.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Accomodation</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 40 }}>
+							<Image source={require('../../../../assets/sectors/travel/cat_accomodation.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Accomodation</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonMed bgColor="#C5EDEC" btnImage={require('../../../../assets/sectors/travel/hotels.png')} btnText="Hotels" onPress={handleSearchHotels} />

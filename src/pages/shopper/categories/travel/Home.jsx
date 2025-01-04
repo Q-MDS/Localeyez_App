@@ -19,7 +19,7 @@ const Home = (props) =>
 	}
 	const handelSearchTravelAgents = () =>
 	{
-		// Search results
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Travel", category: "travelOpt1", categoryItem: "travelOpt1"});
 	}
 
 

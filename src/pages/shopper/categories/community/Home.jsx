@@ -14,15 +14,15 @@ const Home = (props) =>
 	}
 	const handelSearchNonProfit = () =>
 	{
-		// Search results
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Community", category: "communityOpt2", categoryItem: "communityOpt2"});
 	}
 	const handelSearchNgo = () =>
 	{
-		// Search results
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Community", category: "communityOpt3", categoryItem: "communityOpt3"});
 	}
 	const handelSearchSupport = () =>
 	{
-		// Search results
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Community", category: "communityOpt4", categoryItem: "communityOpt4"});
 	}
 
   	return (

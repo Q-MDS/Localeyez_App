@@ -56,6 +56,7 @@ const Home = (props) =>
     const gotoCatShopping = () => 
     {
         props.navigation.navigate('ShoppingHome');
+        // props.navigation.navigate('CatShopping');
     }
 
     const gotoCatEntertainment = () => 
