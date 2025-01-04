@@ -2,37 +2,41 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import CatButtonMed from "../../../../components/CatButtonMed";
 import CatButtonWide from "../../../../components/CatButtonWide";
 import CatButtonSml from '../../../../components/CatButtonSml';
 
 const SubFinancial = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Services", category: "serFin", categoryItem: "serFin"});
+	}
+  
 	const handelSearchBanks = () =>
 	{
-		console.log('Search Banks');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serFin", categoryItem: "Banks"});
 	}
 
 	const handelSearchBureau = () =>
 	{
-		console.log('Search Bureau');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serFin", categoryItem: "Bureau De change"});
 	}
 
 	const handelSearchInsurance = () =>
 	{
-		console.log('Search Insurance');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serFin", categoryItem: "Insurance"});
 	}
 
 	const handelsearchAccountants = () =>
 	{
-		console.log('Search Accountants');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serFin", categoryItem: "Accountants"});
 	}
 
 	const handelSearchFinManagement = () =>
 	{
-		console.log('Search Financial Management');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serFin", categoryItem: "Financial Management"});
 	}
 
 
@@ -42,10 +46,12 @@ const SubFinancial = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-                <View style={{ marginBottom: 30 }}>
-                  <Image source={require('../../../../assets/sectors/services/cat_financial.png')} style={{ alignSelf: 'center' }} />
-                  <Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Financial</Text>
-                </View>
+				<TouchableOpacity onPress={handleSearchCategory}>
+					<View style={{ marginBottom: 30 }}>
+					<Image source={require('../../../../assets/sectors/services/cat_financial.png')} style={{ alignSelf: 'center' }} />
+					<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Financial</Text>
+					</View>
+				</TouchableOpacity>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
                   <CatButtonSml bgColor="#CDECFF" btnImage={require('../../../../assets/sectors/services/banks.png')} btnText="Banks" onPress={handelSearchBanks} />

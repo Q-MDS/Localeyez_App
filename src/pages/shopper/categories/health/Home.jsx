@@ -21,12 +21,12 @@ const Home = (props) =>
 
 	const handelSearchStores = () =>
 	{
-		console.log('Search Health Stores & Pharmacies');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "healthOpt1", categoryItem: "healthOpt1"});
 	}
 
 	const handelSearchHospitals = () =>
 	{
-		console.log('Search Hospitals & Yrauma Centers');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "healthOpt2", categoryItem: "healthOpt2"});
 	}
 
   	return (

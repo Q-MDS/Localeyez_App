@@ -11,22 +11,22 @@ const Home = (props) =>
 {
 	const handelSearchForSale = () =>
 	{
-		console.log('Search For Sale');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Property", category: "propertyOpt1", categoryItem: "propertyOpt1"});
 	}
 
 	const handelSearchRent = () =>
 	{
-		console.log('Search To Rent');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Property", category: "propertyOpt2", categoryItem: "propertyOpt2"});
 	}
 
 	const handelSearchCommercial = () =>
 	{
-		console.log('Search Commercial');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Property", category: "propertyOpt3", categoryItem: "propertyOpt3"});
 	}
 
 	const handelSearchLegal = () =>
 	{
-		console.log('Search Legal');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Property", category: "propertyOpt4", categoryItem: "propertyOpt4"});
 	}
 
   	return (

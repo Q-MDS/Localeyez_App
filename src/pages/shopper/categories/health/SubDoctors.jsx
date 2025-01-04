@@ -2,56 +2,61 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import CatButtonSml from '../../../../components/CatButtonSml';
 import CatButtonWide from '../../../../components/CatButtonWide';
 
 const SubDoctors = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Health & Wellness", category: "doctor", categoryItem: "doctor"});
+	}
+
 	const handelSearchGeneral = () =>
 	{
-		console.log('Search General');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "General Practitioners"});
 	}
 
 	const handelSearchPhysicians = () =>
 	{
-		console.log('Search Physicians');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Physicians"});
 	}
 
 	const handelSearchChiro = () =>
 	{
-		console.log('Search Chiro');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Chiropractors"});
 	}
 
 	const handelSearchSurgeons = () =>
 	{
-		console.log('Search Surgeons');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Surgeons"});
 	}
 
 	const handelSearchDental = () =>
 	{
-		console.log('Search Dental');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Dental"});
 	}
 
 	const handelSearchHomeo = () =>
 	{
-		console.log('Search Homeo');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Homeopathic"});
 	}
 
 	const handelSearchMental = () =>
 	{
-		console.log('Search Mental');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Mental Health"});
 	}
 
 	const handelSearchPeadiatric = () =>
 	{
-		console.log('Search Peadiatric');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Peadiatric"});
 	}
 
 	const handelSearchOther = () =>
 	{
-		console.log('Search Other Specialists');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Health & Wellness", category: "doctor", categoryItem: "Other Specialists"});
 	}
 
   	return (
@@ -60,10 +65,12 @@ const SubDoctors = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 30 }}>
-						<Image source={require('../../../../assets/sectors/health/cat_doctors.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Doctors & Specialists</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 30 }}>
+							<Image source={require('../../../../assets/sectors/health/cat_doctors.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Doctors & Specialists</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#FFDED1" btnImage={require('../../../../assets/sectors/health/general.png')} btnText="General Practitioners" onPress={handelSearchGeneral} />

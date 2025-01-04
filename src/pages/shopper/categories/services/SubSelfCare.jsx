@@ -3,22 +3,26 @@ import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
 import { SafeAreaView, ScrollView, View, TouchableOpacity, Image } from "react-native";
-import { Layout, Text, Card } from "@ui-kitten/components";
-import { TextIcon } from "../../../../components/TextIcon";
+import { Layout, Text } from "@ui-kitten/components";
 import CatButtonWideTall from '../../../../components/CatButtonWideTall';
 
 const SubSelfCare = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Services", category: "serSelf", categoryItem: "serSelf"});
+	}
+
 	const handleSearchHair = () => 
 	{
 		// Search results
-		console.log('Search Hair');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serSelf", categoryItem: "Hair dressers and stylists"});
 	}
 
 	const handleSearchBeauty = () => 
 	{
 		// Search results
-		console.log('Search Beauty');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serSelf", categoryItem: "Beauty Spa’s"});
 	}
    
   	return (
@@ -27,10 +31,12 @@ const SubSelfCare = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 
-                <View style={{ marginBottom: 40 }}>
-                  <Image source={require('../../../../assets/sectors/services/cat_self_care.png')} style={{ alignSelf: 'center' }} />
-                  <Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Self Care</Text>
-                </View>
+                <TouchableOpacity onPress={handleSearchCategory}>
+                  	<View style={{ marginBottom: 40 }}>
+						<Image source={require('../../../../assets/sectors/services/cat_self_care.png')} style={{ alignSelf: 'center' }} />
+						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Self Care</Text>
+                 	</View>
+                </TouchableOpacity>
 
                 <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
                   <CatButtonWideTall bgColor="#CDECFF" btnImage={require('../../../../assets/sectors/services/hair.png')} btnText="Hair Dressers & Stylists" onPress={handleSearchHair} />

@@ -10,28 +10,29 @@ import CatButtonWide from "../../../../components/CatButtonWide";
 
 const SubSchools = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Education & Employment", category: "eduEvent", categoryItem: "eduEvent"});
+	}
+
 	const handleSearchPreSchool = () => 
 	{
-		// Search results
-		console.log('Search Children');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Education & Employment", category: "eduEvent", categoryItem: "Preschools"});
 	}
 
 	const handleSearchPrimary = () => 
 	{
-		// Search results
-		console.log('Search Old Age Pensioners');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Education & Employment", category: "eduEvent", categoryItem: "Primary Schools"});
 	}
 
 	const handleSearchSecondary = () => 
 	{
-		// Search results
-		console.log('Search Community Projects');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Education & Employment", category: "eduEvent", categoryItem: "Secondary Schools"});
 	}
 
 	const handleSearchTertiary = () => 
 	{
-		// Search results
-		console.log('Search Conservation');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Education & Employment", category: "eduEvent", categoryItem: "Tertiary Education"});
 	}
    
   	return (
@@ -40,10 +41,12 @@ const SubSchools = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 40 }}>
-						<Image source={require('../../../../assets/sectors/education/cat_schools.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Charity Organisations</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 40 }}>
+							<Image source={require('../../../../assets/sectors/education/cat_schools.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Schools</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonMed bgColor="#FFEEC8" btnImage={require('../../../../assets/sectors/education/pre_schools.png')} btnText="Preschools" onPress={handleSearchPreSchool} />

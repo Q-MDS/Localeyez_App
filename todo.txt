@@ -297,3 +297,5 @@ Check out this promotion I found on Localeyez: Magic warts . Big and crusty. Pro
 2025-01-04
 Missing items from sector array:
 1. Community -> Charity & Orgs -> Conservation
+2. Health -> Doctors -> Physiotherapists is in the array but not on the menu's
+3. Services -> Home -> Communications and connectivity is in the array but not on the menu's

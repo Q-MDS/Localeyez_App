@@ -2,60 +2,65 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import CatButtonSml from '../../../../components/CatButtonSml';
 
 const SubHome = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Services", category: "serHome", categoryItem: "serHome"});
+	}
+
 	const handelSearchBuilding = () =>
 	{
-		console.log('Search Building');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Building"});
 	}
 
 	const handelSearchInteriors = () =>
 	{
-		console.log('Search Interiors');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Interiors"});
 	}
 
 	const handelSearchPlumbing = () =>
 	{
-		console.log('Search Plumbing');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Plumbing"});
 	}
 
 	const handelSearchelectrical = () =>
 	{
-		console.log('Search Electrical');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Electrical"});
 	}
 	
 	const handelSearchPainting = () =>
 	{
-		console.log('Search Painting');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Painting"});
 	}
 
 	const handelSearchLandscaping = () =>
 	{
-		console.log('Search Landscaping');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Landscaping"});
 	}
 
 	const handelSearchCleaning = () =>
 	{
-		console.log('Search Cleaning');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Cleaning"});
 	}
 
 	const handelSearchPest = () =>
 	{
-		console.log('Search Pest');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Pest Control"});
 	}
 
 	const handelSearchVet = () =>
 	{
-		console.log('Search Vet');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Veterinary and Pet parlours"});
 	}
 
 	const handelSearchSecurity = () =>
 	{
-		console.log('Search Security');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serHome", categoryItem: "Veterinary and Pet parlours"});
 	}
 
   	return (
@@ -64,10 +69,12 @@ const SubHome = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 30 }}>
-						<Image source={require('../../../../assets/sectors/services/cat_home.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Home</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 30 }}>
+							<Image source={require('../../../../assets/sectors/services/cat_home.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Home</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#CDECFF" btnImage={require('../../../../assets/sectors/services/building.png')} btnText="Building" onPress={handelSearchBuilding} />

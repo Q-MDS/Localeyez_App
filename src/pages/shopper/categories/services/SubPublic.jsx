@@ -2,53 +2,59 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import CatButtonSml from '../../../../components/CatButtonSml';
 
 const SubPublic = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Services", category: "serPub", categoryItem: "serPub"});
+	}
+
 	const handelSearchWater = () =>
 	{
-		console.log('Search Water');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Water"});
 	}
 
 	const handelSearchEletricity = () =>
 	{
-		console.log('Search electricity');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Electricity"});
 	}
 
 	const handelSearchRoads = () =>
 	{
-		console.log('Search Roads');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Roads"});
 	}
 
 	const handelsearchPolice = () =>
 	{
-		console.log('Search Police');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Police"});
 	}
 
 	const handelSearchFire = () =>
 	{
-		console.log('Search Fire');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Fire department"});
 	}
 
 	const handelSearchAccident = () =>
 	{
-		console.log('Search accident');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Services", category: "serPub", categoryItem: "Accident and Emergency"});
 	}
 
-
-  return (
+  	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <TopNavBack title={`Back: Services`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-                <View style={{ marginBottom: 30 }}>
-                  <Image source={require('../../../../assets/sectors/services/cat_public.png')} style={{ alignSelf: 'center' }} />
-                  <Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Public Services Contacts</Text>
-                </View>
+				<TouchableOpacity onPress={handleSearchCategory}>
+					<View style={{ marginBottom: 30 }}>
+					<Image source={require('../../../../assets/sectors/services/cat_public.png')} style={{ alignSelf: 'center' }} />
+					<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Public Services Contacts</Text>
+					</View>
+				</TouchableOpacity>
 
                 <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
                   <CatButtonSml bgColor="#CDECFF" btnImage={require('../../../../assets/sectors/services/water.png')} btnText="Water" onPress={handelSearchWater} />

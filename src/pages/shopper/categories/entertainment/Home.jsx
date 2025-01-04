@@ -22,7 +22,6 @@ const Home = (props) =>
 		props.navigation.navigate('EntertainmentEvents');
 	}
 
-
   	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <TopNavBack title={`Back: Search Page`} alignment="start" navigation={props.navigation} pops={1} />

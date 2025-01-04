@@ -32,7 +32,7 @@ const Home = (props) =>
 
 	const handelSearchLegal = () =>
 	{
-		console.log('Search Legal');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Services", category: "servicesOpt1", categoryItem: "servicesOpt1"});
 	}
 
 

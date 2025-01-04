@@ -2,22 +2,25 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import CatButtonWideTall from '../../../../components/CatButtonWideTall';
 
 const SubEvents = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Entertainment", category: "entEvent", categoryItem: "entEvent"});
+	}
+
 	const handleSearchMusic = () => 
 	{
-		// Search results
-		console.log('Search Music');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "entEvent", categoryItem: "Music"});
 	}
 
 	const handleSearchArts = () => 
 	{
-		// Search results
-		console.log('Search Arts');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "entEvent", categoryItem: "Arts"});
 	}
    
   	return (
@@ -26,10 +29,12 @@ const SubEvents = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 40 }}>
-						<Image source={require('../../../../assets/sectors/entertainment/cat_events.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Events</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 40 }}>
+							<Image source={require('../../../../assets/sectors/entertainment/cat_events.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Events</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonWideTall bgColor="#C2F1E6" btnImage={require('../../../../assets/sectors/entertainment/music.png')} btnText="Music" onPress={handleSearchMusic} />

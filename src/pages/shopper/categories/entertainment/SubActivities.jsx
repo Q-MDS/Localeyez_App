@@ -2,51 +2,55 @@ import React from 'react';
 import MainStyles from "../../../../assets/styles/MainStyles";
 import { TopNavBack } from "../../../../components/TopNavBack";
 import { BotNavShopper } from "../../../../components/BotNavShopper";
-import { SafeAreaView, ScrollView, View, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, ScrollView, View, Image } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
-import CatButtonMed from "../../../../components/CatButtonMed";
 import CatButtonSml from '../../../../components/CatButtonSml';
 
 const SubActivities = (props) => 
 {
+	const handleSearchCategory = () =>
+	{
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Entertainment", category: "activities", categoryItem: "activities"});
+	}
+
 	const handelSearchMovies = () =>
 	{
-		console.log('Search Movies');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Movies"});
 	}
 
 	const handelSearchCentres = () =>
 	{
-		console.log('Search Centres');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Entertainment Centres"});
 	}
 
 	const handelSearchArts = () =>
 	{
-		console.log('Search Arts & Crafts');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Arts"});
 	}
 
 	const handelSearchOutdoor = () =>
 	{
-		console.log('Search Outdoor Activities');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Outdoor leisure"});
 	}
 	
 	const handelSearchEventHire = () =>
 	{
-		console.log('Search Event Hire');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Event hire specialists"});
 	}
 
 	const handelSearchVenues = () =>
 	{
-		console.log('Search Venues');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Venues"});
 	}
 
 	const handelSearchEventPlanners = () =>
 	{
-		console.log('Search Event Planners');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Event planners"});
 	}
 
 	const handelSearchChildren = () =>
 	{
-		console.log('Search Children');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Entertainment", category: "activities", categoryItem: "Children"});
 	}
 
   	return (
@@ -55,10 +59,12 @@ const SubActivities = (props) =>
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, backgroundColor: '#fff'}]}>
 
-					<View style={{ marginBottom: 30 }}>
-						<Image source={require('../../../../assets/sectors/entertainment/cat_activities.png')} style={{ alignSelf: 'center' }} />
-						<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Activities</Text>
-					</View>
+					<TouchableOpacity onPress={handleSearchCategory}>
+						<View style={{ marginBottom: 30 }}>
+							<Image source={require('../../../../assets/sectors/entertainment/cat_activities.png')} style={{ alignSelf: 'center' }} />
+							<Text style={[MainStyles.title_a24, MainStyles.mb_0, {textAlign: 'center', marginTop: 20 }]}>Activities</Text>
+						</View>
+					</TouchableOpacity>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#C2F1E6" btnImage={require('../../../../assets/sectors/entertainment/movies.png')} btnText="Movies" onPress={handelSearchMovies} />
