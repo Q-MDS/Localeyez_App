@@ -299,3 +299,8 @@ Missing items from sector array:
 1. Community -> Charity & Orgs -> Conservation
 2. Health -> Doctors -> Physiotherapists is in the array but not on the menu's
 3. Services -> Home -> Communications and connectivity is in the array but not on the menu's
+
+TO INSTALL AND SETUP REVENUECAT PAWALL
+shopper > account > procomg plan > free
+1. npm install react-native-purchases react-native-purchases-ui
+2. pod install

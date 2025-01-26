@@ -32,7 +32,7 @@ const Home = (props) =>
 					<Text category="h4" style={{ width: '100%', marginTop: 0, marginBottom: 10, textAlign: 'center' }}>Free Account</Text>
 					<Divider style={{ width: "100%" }} />
 					<Text style={[MainStyles.title_a16, { textAlign: 'center', width: '80%', marginTop: 10, marginBottom: 0, color: '#612bc1' }]}>Subscribe to become a localeyez Verfied Member</Text>
-					<Text style={[MainStyles.title_a13, { textAlign: 'center', width: '100%', marginTop: 10, marginBottom: 10 }]}>A small amount a month can save you big time with access to events happening in your area</Text>
+					<Text style={[MainStyles.title_a13, { textAlign: 'center', width: '100%', marginTop: 10, marginBottom: 10 }]}>ABC small amount a month can save you big time with access to events happening in your area</Text>
 					<Card style={{ width: '100%'}}>
 						<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'bold', width: '100%', marginTop: 10, marginBottom: 0 }]}>Localeyez monthly subscription</Text>
 						<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'normal', width: '100%', marginTop: 10, marginBottom: 0, color: '#612bc1' }]}>As a verified member you get:</Text>

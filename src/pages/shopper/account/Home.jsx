@@ -257,19 +257,20 @@ const Home = (props) =>
 
 	const handlePricingPlan = () => 
 	{
-		const isAndroid = Platform.OS === 'android';
-		const isIOS = Platform.OS === 'ios';
+		props.navigation.navigate('Subscribe');
+		// const isAndroid = Platform.OS === 'android';
+		// const isIOS = Platform.OS === 'ios';
 
-		if (isAndroid) 
-		{
-			// Android
-			props.navigation.navigate('AndroidHome');
-		} 
-		else if (isIOS) 
-		{
-			// iPhone
-			props.navigation.navigate('AppleHome');
-		}
+		// if (isAndroid) 
+		// {
+		// 	// Android
+		// 	props.navigation.navigate('AndroidHome');
+		// } 
+		// else if (isIOS) 
+		// {
+		// 	// iPhone
+		// 	props.navigation.navigate('AppleHome');
+		// }
 	}
 
     return (

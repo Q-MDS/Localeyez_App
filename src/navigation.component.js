@@ -141,6 +141,8 @@ import CustomerInfo from './pages/shopper/account/pricing_plan/free/android_stri
 import Subscriptions from './pages/shopper/account/pricing_plan/free/apple_pay/Subscriptions.js';
 import AppleHome from './pages/shopper/account/pricing_plan/free/apple_pay/Home.js';
 import AndroidHome from './pages/shopper/account/pricing_plan/free/android_stripe/Home.js';
+import Subscribe from './pages/shopper/account/pricing_plan/free/Subscribe.jsx';
+import Paywall from './pages/shopper/account/pricing_plan/free/Paywall.jsx';
 import CancelAppleSub from './pages/shopper/account/pricing_plan/member/CancelAppleSub.jsx';
 import CancelAppleSubDo from './pages/shopper/account/pricing_plan/member/CancelAppleSubDo.jsx';
 import Bookings from './pages/business/calendar/Bookings.jsx';
@@ -288,6 +290,8 @@ const HomeNavigator = () => (
 		<Screen name="ShopperForgot" component={ShopperForgot} />
 		<Screen name="CustomerInfo" component={CustomerInfo} />
 		<Screen name="Subscriptions" component={Subscriptions} />
+		<Screen name="Subscribe" component={Subscribe} />
+		<Screen name="Paywall" component={Paywall} />
 		<Screen name="AppleHome" component={AppleHome} />
 		<Screen name="AndroidHome" component={AndroidHome} />
 		<Screen name="CancelAppleSub" component={CancelAppleSub} />
