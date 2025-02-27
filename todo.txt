@@ -304,3 +304,7 @@ TO INSTALL AND SETUP REVENUECAT PAWALL
 shopper > account > procomg plan > free
 1. npm install react-native-purchases react-native-purchases-ui
 2. pod install
+
+TODO 27022025
+Paywallpoints
+- Shopper > Profile > Pricing Plan > Subscribe button

@@ -298,7 +298,7 @@ const Home = (props) =>
 						<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={() => props.navigation.navigate('ShopperVerified')}>
 							{/* <IconText title="Verified Member" iconname="checkmark-circle-2" textalign="center" fontsize={15} width={20} status="basic" /> */}
 							<Icon name="checkmark-circle-2" fill="#612bc1" style={{ width: 24, height: 24, marginEnd: 10 }} />
-							<Text style={[MainStyles.title_a18]}>Verified Member</Text>
+							<Text style={[MainStyles.title_a18]}>Verified Member BBBB</Text>
 						</TouchableOpacity>
 					)}
 					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20, marginBottom: 20 }} />
