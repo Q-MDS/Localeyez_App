@@ -106,11 +106,13 @@ const Login = (props) =>
 			{
 				const shopperId = res.shopper_id;
 				const token = res.token;
+				const subscribed = res.subscribed;
 				const shopperProfile = res.shopper_profile;
 				const shopperSectors = res.shopper_sectors;
 
 				console.log('Login 1:', token);
 				console.log('Login 2:', shopperProfile);
+				console.log('Subscribed:', subscribed);
 
 				Toast.show({
 					type: 'success',
@@ -125,6 +127,9 @@ const Login = (props) =>
 				
 				let jsonShopperId = JSON.stringify(shopperId);
 				await DbUtils.setItem('shopper_id', jsonShopperId);
+				
+				let jsonSubscribed = JSON.stringify(subscribed);
+				await DbUtils.setItem('subscribed', jsonSubscribed);
 				
 				let jsonToken = JSON.stringify(token);
 				await DbUtils.setItem('shopper_token', jsonToken);

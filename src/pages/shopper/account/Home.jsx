@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer} from "react";
 import DbUtils from "../../../services/DbUtils";
 import Toast from 'react-native-toast-message';
 import { shopperProfilePic } from "../../../services/api_upload";
-import { delShpProfilePic } from "../../../services/api_helper";
+import { delShpProfilePic, subscribed } from "../../../services/api_helper";
 import MainStyles from "../../../assets/styles/MainStyles";
 import { useFocusEffect } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -19,7 +19,8 @@ const initialState = {
 	firstName: null,
 	lastName: null,
 	profilePic: null,
-	verified: 0
+	verified: 0,
+	subscribed: 0
 };
 
 function reducer(state, action) 
@@ -69,7 +70,7 @@ const Home = (props) =>
         const profile = await DbUtils.getItem('shopper_profile')
         .then((profile) => 
         {
-			console.log('Profile ZZZZ: ', profile);
+			console.log('Profile ZXZXZXZ: ', profile);
 			dispatch(
 			{
 				type: 'PROFILE_HOME',
@@ -79,7 +80,8 @@ const Home = (props) =>
 					firstName: JSON.parse(profile).first_name,
 					lastName: JSON.parse(profile).last_name,
 					profilePic: JSON.parse(profile).profile_pic,
-					verified: JSON.parse(profile).verified
+					verified: JSON.parse(profile).verified,
+					subscribed: JSON.parse(profile).subscribed
 				},
 			});
         });
@@ -298,7 +300,7 @@ const Home = (props) =>
 						<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} onPress={() => props.navigation.navigate('ShopperVerified')}>
 							{/* <IconText title="Verified Member" iconname="checkmark-circle-2" textalign="center" fontsize={15} width={20} status="basic" /> */}
 							<Icon name="checkmark-circle-2" fill="#612bc1" style={{ width: 24, height: 24, marginEnd: 10 }} />
-							<Text style={[MainStyles.title_a18]}>Verified Member BBBB</Text>
+							<Text style={[MainStyles.title_a18]}>Verified Member</Text>
 						</TouchableOpacity>
 					)}
 					<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 20, marginBottom: 20 }} />
@@ -311,7 +313,7 @@ const Home = (props) =>
 				<IconTextIcon title="Edit Interests" status="basic" iconLeft="heart-outline" iconRight="chevron-right-outline" navigation={props.navigation} onpress="ShopperAccIntHome" />
 				<Divider style={{ height: 25, backgroundColor: 'transparent' }} />
 				
-				{state.verified == 0 ? 
+				{state.subscribed == 0 ? 
 
 				<TouchableOpacity style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={handlePricingPlan}>
 					<Icon style={styles.icon} fill='#5D5A88' name="pricetags-outline"  />

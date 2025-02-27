@@ -77,6 +77,7 @@ const StepThree = (props:any) =>
 
 				await DbUtils.setItem('shopper_id', JSON.stringify(remoteId));
 				await DbUtils.setItem('shopper_token', JSON.stringify(token));
+				await DbUtils.setItem('subscribed', '0');
 
 				props.navigation.navigate("ShopperHome");
 			}

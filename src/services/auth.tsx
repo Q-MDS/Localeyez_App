@@ -137,3 +137,17 @@ export const resetPassword = async (data: any) =>
 		return {"message": "Invalid Credentials" + error};
 	};
 }
+
+export const subscribe = async (data: any) =>
+{
+	try
+	{
+		const response = await api.post('/api/subscribe_user/', {data});
+
+		return response.data;
+	}
+	catch(error)
+	{
+		return {"message": "Invalid Credentials" + error};
+	};
+}
