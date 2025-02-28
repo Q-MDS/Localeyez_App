@@ -173,6 +173,7 @@ console.log('Business length: ', businesses.length);
 											<View style={styles.listIcon}>
 												{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
 												<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												<Image source={promotion.display_image ? { uri: promotion.display_image }  : require('../../../assets/images/pic_holder.png') } style={{ width: 62, height: 62, borderRadius: 32 }} />
 											</View>
 											<View style={styles.listContent}>
 												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{promotion.promo_title} </Text>
@@ -195,6 +196,7 @@ console.log('Business length: ', businesses.length);
 										<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? 'white' : '#f9f9f9' }]}>
 											<View style={styles.listIcon}>
 												<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+												<Image source={event.display_image ? { uri: event.display_image } : require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
 											</View>
 											<View style={styles.listContent}>
 												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{event.event_title} </Text>

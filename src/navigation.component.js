@@ -121,14 +121,32 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms.tsx';
 import BrowseHome from './pages/browse/Home';
 import BrowseRegister from './pages/browse/Register';
-import BrowseTravel from './pages/browse/Travel';
-import BrowseProperty from './pages/browse/Property';
-import BrowseCommunity from './pages/browse/Community';
-import BrowseEducation from './pages/browse/Education';
-import BrowseHealth from './pages/browse/Health';
-import BrowseServices from './pages/browse/Services';
-import BrowseEntertainment from './pages/browse/Entertainment';
-import BrowseShopping from './pages/browse/Shopping';
+import BrowseTravel from './pages/browse/travel/Home.jsx';
+import BrowseTravelAccomodation from './pages/browse/travel/SubAccomodation.jsx';
+import BrowseTravelTransport from './pages/browse/travel/SubTransport.jsx';
+import BrowseProperty from './pages/browse/property/Home';
+import BrowseCommunity from './pages/browse/community/Home.jsx';
+import BrowseCommunityCharity from './pages/browse/community/SubCharity.jsx';
+import BrowseEducation from './pages/browse/education/Home.jsx';
+import BrowseEducationEmployment from './pages/browse/education/SubEmployment.jsx';
+import BrowseEducationLearning from './pages/browse/education/SubLearning.jsx';
+import BrowseEducationSchools from './pages/browse/education/SubSchools.jsx';
+import BrowseHealth from './pages/browse/health/Home.jsx';
+import BrowseHealthDoctors from './pages/browse/health/SubDoctors.jsx';
+import BrowseHealthSports from './pages/browse/health/SubSports.jsx';
+import BrowseServices from './pages/browse/services/Home.jsx';
+import BrowseServicesSelfCare from './pages/browse/services/SubSelfCare.jsx';
+import BrowseServicesFinancial from './pages/browse/services/SubFinancial.jsx';
+import BrowseServicesPublic from './pages/browse/services/SubPublic.jsx';
+import BrowseServicesHome from './pages/browse/services/SubHome.jsx';
+import BrowseEntertainment from './pages/browse/entertainment/Home.jsx';
+import BrowseEntertainmentEat from './pages/browse/entertainment/SubEat.jsx';
+import BrowseEntertainmentActivities from './pages/browse/entertainment/SubActivities.jsx';
+import BrowseEntertainmentEvents from './pages/browse/entertainment/SubEvents.jsx';
+import BrowseShopping from './pages/browse/shopping/Home.jsx';
+import BrowseShoppingFashion from './pages/browse/shopping/SubFashion.jsx';
+import BrowseShoppingGroceries from './pages/browse/shopping/SubGroceries.jsx';
+import BrowseShoppingHome from './pages/browse/shopping/SubHome.jsx';
 import BrowseSearch from './pages/browse/SearchCategory';
 import BrowseViewBus from './pages/browse/business/Home';
 import BrowseBusReviews from './pages/browse/business/reviews/List';
@@ -273,13 +291,31 @@ const HomeNavigator = () => (
 		<Screen name="BrowseHome" component={BrowseHome} />
 		<Screen name="BrowseRegister" component={BrowseRegister} />
 		<Screen name="BrowseTravel" component={BrowseTravel} />
+		<Screen name="BrowseTravelAccomodation" component={BrowseTravelAccomodation} />
+		<Screen name="BrowseTravelTransport" component={BrowseTravelTransport} />
 		<Screen name="BrowseProperty" component={BrowseProperty} />
 		<Screen name="BrowseCommunity" component={BrowseCommunity} />
+		<Screen name="BrowseCommunityCharity" component={BrowseCommunityCharity} />
 		<Screen name="BrowseEducation" component={BrowseEducation} />
+		<Screen name="BrowseEducationEmployment" component={BrowseEducationEmployment} />
+		<Screen name="BrowseEducationLearning" component={BrowseEducationLearning} />
+		<Screen name="BrowseEducationSchools" component={BrowseEducationSchools} />
 		<Screen name="BrowseHealth" component={BrowseHealth} />
+		<Screen name="BrowseHealthDoctors" component={BrowseHealthDoctors} />
+		<Screen name="BrowseHealthSports" component={BrowseHealthSports} />
 		<Screen name="BrowseServices" component={BrowseServices} />
+		<Screen name="BrowseServicesHome" component={BrowseServicesHome} />
+		<Screen name="BrowseServicesFinancial" component={BrowseServicesFinancial} />
+		<Screen name="BrowseServicesSelfCare" component={BrowseServicesSelfCare} />
+		<Screen name="BrowseServicesPublic" component={BrowseServicesPublic} />
 		<Screen name="BrowseEntertainment" component={BrowseEntertainment} />
+		<Screen name="BrowseEntertainmentActivities" component={BrowseEntertainmentActivities} />
+		<Screen name="BrowseEntertainmentEat" component={BrowseEntertainmentEat} />
+		<Screen name="BrowseEntertainmentEvents" component={BrowseEntertainmentEvents} />
 		<Screen name="BrowseShopping" component={BrowseShopping} />
+		<Screen name="BrowseShoppingFashion" component={BrowseShoppingFashion} />
+		<Screen name="BrowseShoppingGroceries" component={BrowseShoppingGroceries} />
+		<Screen name="BrowseShoppingHome" component={BrowseShoppingHome} />
 		<Screen name="BrowseSearch" component={BrowseSearch} />
 		<Screen name="BrowseViewBus" component={BrowseViewBus} />
 		<Screen name="BrowseBusReviews" component={BrowseBusReviews} />

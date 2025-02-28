@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DbUtils from "../../../../../services/DbUtils";
 import { cancelSubscription } from "../../../../../services/api_helper";
 import MainStyles from "../../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../components/TopNavBack";
 import { Linking, SafeAreaView, ScrollView, View, Image, Alert } from "react-native";
 import { Layout, Text } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
@@ -131,7 +131,7 @@ const CancelAppleSub = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <TopNavArrowTitle title="Back" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+            <TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView style={{ flex: 1 }}>
 				<Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
 					<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>

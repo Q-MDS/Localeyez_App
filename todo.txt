@@ -308,3 +308,16 @@ shopper > account > procomg plan > free
 TODO 27022025
 Paywallpoints
 - Shopper > Profile > Pricing Plan > Subscribe button
+
+
+FINAL REVIEW CHECKLIST
+√. Browse - do categories/icons
+2. Need to change bundleId back to what it was
+3. Need to check all metadata on new AppId
+4. Setup products the same as old app id
+5. Review revenueCat - products and perhaps app will have changed because of new bundle id
+6. Copy backend stuff to webserver
+7. Update database on webserver
+8. Create test flight
+9. Test on real device - subs process
+10. Check and submit for review

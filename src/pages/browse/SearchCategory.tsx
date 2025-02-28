@@ -173,7 +173,8 @@ const SearchCategory = (props:any) =>
 											<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
 												<View style={styles.listIcon}>
 													{/* <Image source={require('../../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
-													<Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+													{/* <Image source={{ uri: promotion.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+													<Image source={ promotion.display_image ? { uri: promotion.display_image } : require('../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
 												</View>
 												<View style={styles.listContent}>
 													<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{promotion.promo_title} </Text>
@@ -197,7 +198,8 @@ const SearchCategory = (props:any) =>
 								<TouchableOpacity key={index} onPress={() => handeleViewEvent(event)} style={{ width: '100%' }}>
 									<View key={index} style={[styles.listContainer, { backgroundColor: index % 2 === 0 ? '#f9f8fd' : 'white' }]}>
 										<View style={styles.listIcon}>
-											<Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} />
+											{/* <Image source={{ uri: event.display_image }} style={{ width: 62, height: 62, borderRadius: 32 }} /> */}
+											<Image source={ event.display_image ? { uri: event.display_image } : require('../../assets/images/pic_holder.png')} style={{ width: 62, height: 62, borderRadius: 32 }} />
 										</View>
 										<View style={styles.listContent}>
 											<Text style={[MainStyles.title_a18, { textAlign: 'left' }]}>{event.event_title} </Text>

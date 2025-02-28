@@ -20,23 +20,24 @@ const SubCharity = (props) =>
 
 	const handleSearchOldAge = () => 
 	{
-		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Community", category: "community", categoryItem: "Children"});
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Community", category: "community", categoryItem: "Old Age Pensioners"});
 	}
 
 	const handleSearchProjects = () => 
 	{
-		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Community", category: "community", categoryItem: "Children"});
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Community", category: "community", categoryItem: "Community Projects"});
 	}
 
 	const handleSearchConservation = () => 
 	{
 		// Search results
 		console.log('Search Conservation');
+		props.navigation.navigate('CatSearch', {searchType: 2, searchSector: "Community", category: "community", categoryItem: "Conservation"});
 	}
 
   	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <TopNavBack title={`Back: Travel`} alignment="start" navigation={props.navigation} pops={1} />
+        <TopNavBack title={`Back: Community`} alignment="start" navigation={props.navigation} pops={1} />
             <ScrollView>
                 <Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 25, paddingEnd: 25, paddingBottom: 25, backgroundColor: '#fff'}]}>
 

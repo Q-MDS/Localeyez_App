@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import Purchases from 'react-native-purchases';
 import DbUtils from "../../../../../services/DbUtils";
 import { cancelSubscription } from "../../../../../services/api_helper";
 import MainStyles from "../../../../../assets/styles/MainStyles";
-import { TopNavArrowTitle } from "../../../../../components/TopNavArrowTitle";
+import { TopNavBack } from "../../../../../components/TopNavBack";
 import { Linking, SafeAreaView, ScrollView, View, Image, Alert } from "react-native";
 import { Layout, Text, Icon, Card } from "@ui-kitten/components";
 import { ButtonPrimary } from "../../../../../components/ButtonPrimary";
@@ -13,8 +14,9 @@ const CancelAppleSubDo = (props) =>
 	const [token, setToken] = useState('');
 	const [shopperId, setShopperId] = useState(0);
 	const [isCancelled, setIsCancelled] = useState(false);
-	const [stepOne, setStepOne] = useState(true);
+	const [stepOne, setStepOne] = useState(false);
 	const [stepTwo, setStepTwo] = useState(true);
+	const [subscribed, setSubscribed] = useState(0);
 
 	const getToken = async () => 
 	{
@@ -30,12 +32,22 @@ const CancelAppleSubDo = (props) =>
 		setShopperId(JSON.parse(id));
 	}
 
+	const getProfile = async () => 
+	{
+		const profile = await DbUtils.getItem('shopper_profile');
+
+		const profileData = JSON.parse(profile);
+
+		setSubscribed(profileData.subscribed);
+	}
+
 	useEffect(() => 
 	{
 		const fetchData = async () => 
 		{
 			await getToken();
 			await getShopperId();
+			await getProfile();
 		};
 
 		fetchData();
@@ -63,12 +75,18 @@ const CancelAppleSubDo = (props) =>
 			const params = { shopper_id: shopperId };
             const response = await cancelSubscription(token, params);
 			const status = response.status;
+			const profile = response.shopper_profile;
+
 			console.log('Subscription cancelled:', response);
-			// if (status)
-			// {
-			// 	await updProfile('verified', "0");
-			// 	await updProfile('subscribed', "0");
-			// }
+			if (status)
+			{
+				DbUtils.setItem('shopper_profile', JSON.stringify(profile));
+				
+				await DbUtils.setItem('subscribed', '0');
+				setSubscribed(0);
+
+				await deleteSubscription();
+			}
         } 
 		catch (error) 
 		{
@@ -76,6 +94,36 @@ const CancelAppleSubDo = (props) =>
             // Handle error, possibly show an alert to the user
         }
     };
+
+	const deleteSubscription = async () => 
+	{
+		const activeSubscriptions = await getCustomerInfo();
+
+		if (activeSubscriptions.length > 0) 
+		{
+			// Cancel subscription
+			await Purchases.cancelSubscription(activeSubscriptions[0]);
+			console.log('Subscription cancelled');
+		}
+		else 
+		{
+			console.log('No active subscriptions');
+		}
+	}
+
+	const getCustomerInfo = async () => 
+	{
+		try 
+		{
+			const customerInfo = await Purchases.getCustomerInfo();
+			return customerInfo.activeSubscriptions;
+		} 
+		catch (error) 
+		{
+			console.error('Failed to fetch customer info:', error);
+			return null;
+		}
+	}
 
     const handleCancel = () => 
     {
@@ -103,9 +151,10 @@ const CancelAppleSubDo = (props) =>
 
     const handleGoBack= () => 
     {
-		if (!stepOne && stepTwo)
+		if (subscribed == 1)
 		{
-			props.navigation.navigate('CancelAppleSub');
+			// props.navigation.navigate('CancelAppleSub');
+			props.navigation.goBack();
 		} 
 		else 
 		{
@@ -115,7 +164,7 @@ const CancelAppleSubDo = (props) =>
 				[
 					{
 						text: 'Ok',
-						onPress: () => props.navigation.navigate('CancelAppleSub'),
+						onPress: () => props.navigation.navigate('LoginUser'),
 						style: 'cancel',
 					},
 				],
@@ -151,38 +200,37 @@ const CancelAppleSubDo = (props) =>
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <TopNavArrowTitle title="Back" alignment="start" navigation={props.navigation} goBackTo="ShopperAccHome" />
+            {/* <TopNavBack title={`Back`} alignment="start" navigation={props.navigation} pops={1} /> */}
             <ScrollView style={{ flex: 1 }}>
-				<Layout style={[MainStyles.layout_container, { alignItems: 'center' } ]}>
+				<Layout style={[MainStyles.layout_container, { alignItems: 'center', paddingTop: 0 } ]}>
 					<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
 						<Image source={require('../../../../../assets/images/localeyez_logo_p.png')} style={{ objectFit: 'contain' }} />
 					</View>
 					<View style={{ flexDirection: 'column', alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 20, paddingEnd: 20 }}>
 						<Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 15, marginBottom: 20, width: '100%', textAlign: 'center' }}>To cancel your subscription is a 2 step process:</Text>
-						<Card>
+						<Card style={{ width: '100%' }}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', columnGap: 10, marginTop: 10 }} >
 								<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'bold' }]}>Step 1:</Text>
-								{stepOne 
-								?
-								<Icon name="close-circle-outline" fill="#A36060" style={{ width: 24, height: 24 }} />
-								:
-								<Icon name="checkmark-circle-2" fill="#5BC795" style={{ width: 24, height: 24 }} />
-								}
 							</View>
 							<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'normal', marginTop: 10 }]}>Tap on Cancel Subscription to update your Localeyez subscription status.</Text>
-							<ButtonPrimary name="Cancel Subscription" width="100%" marginTop={20} onpress={handleCancel} />
+							{subscribed == 0 ? 
+							(
+								<View style={{ width: '100%', marginTop: 15, borderColor: '#612bc1', paddingVertical: 10, borderWidth: 1, borderRadius: 5 }}>
+									<Text style={{ fonstSize: 16, textAlign: 'center' }}>Subscription not active</Text>
+								</View>
+							)
+							: 
+							(
+								<ButtonPrimary name="Cancel Subscription" width="100%" marginTop={20} onpress={handleCancel} />
+							)}
+							
 						</Card>
 						<View style={{ marginTop: 15 }} />
-						<Card>
+						<Card style={{ width: '100% '}}>
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', columnGap: 10, marginTop: 10 }} >
 								<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'bold' }]}>Step 2:</Text>
-								{stepTwo?
-								<Icon name="close-circle-outline" fill="#A36060" style={{ width: 24, height: 24 }} />
-								:
-								<Icon name="checkmark-circle-2" fill="#5BC795" status="success" style={{ width: 24, height: 24 }} />
-								}
 							</View>
-							<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'normal', marginTop: 10 }]}>You need to cancel the subscription in the App Store. Tap on Manage Subscriptions to go to the App Store</Text>
+							<Text style={[MainStyles.title_a14, { textAlign: 'left', fontWeight: 'normal', marginTop: 10 }]}>To cancel your subscription, please visit the App Store. Tap "Manage Subscriptions" to proceed.</Text>
 							<ButtonPrimary name="Manage Subscriptions" width="100%" marginTop={20} onpress={handleManageSubscriptions} />
 						</Card>
 						<ButtonSecondary name="Go Back" width="100%" marginTop={20} onpress={handleGoBack} />
