@@ -132,26 +132,17 @@ const Paywall = (props) =>
 					setManagementURL(management_url);
 
 					// Updated server set subscribed = 1 in app_users and shopper_master
-					await subscribeUser(purchaseInfo);
+					await subscribeUser(purchaseInfo, management_url);
 
 					// Update async subscribed
 					DbUtils.setItem('subscribed', '1');
-
-					// Update profile in async
-
-
-					
-					// await setProfileSubScribed(1);
-					// Send profile to server
-					// const getProfile = await fetchProfile();
 
 					// Update profile on server
 					// const data = {remote_id: remoteId, profile: getProfile};
 					// const sendProfileResult = await sendProfile(data);
 
-					// await setWeekData();
 
-					// setShowModal(true);
+					setShowModal(true);
 				}
 				else 
 				{
@@ -210,13 +201,13 @@ const Paywall = (props) =>
 
 	}
 
-	const subscribeUser = async (purchaseInfo) => 
+	const subscribeUser = async (purchaseInfo, managementUrl) => 
 	{
 		try 
 		{
 			const pi = JSON.stringify(purchaseInfo);
 			
-			const data = {token: 'b1o2o3yaa', shopper_id: shopperId, purchase_info: pi};
+			const data = {token: 'b1o2o3yaa', shopper_id: shopperId, purchase_info: pi, management_url: managementUrl};
 			const res = await subscribe(data);
 			console.log('RESPONSE REGISTER: ', res);
 			if (res.status)
@@ -305,7 +296,7 @@ const Paywall = (props) =>
 	{
 		setShowModal(!showModal);
 
-		props.navigation.navigate('MainScreen');
+		props.navigation.navigate('LoginUser');
 	}
 
 	const handleRetry = () => 
@@ -409,20 +400,20 @@ const Paywall = (props) =>
 					}}>
 						<Card disabled={true} style={{ flexGrow: 1, width: '100%', borderRadius: 20 }}>
 							<View style={{ width: '100%', paddingTop: 30, paddingBottom: 30 }}>
-							<Text style={[ MainStyles.h1, MainStyles.textSerif, MainStyles.mb_2]}>Subscription Successful</Text>
-								<Text style={[MainStyles.h3, MainStyles.w_100, { marginBottom: 20 }]}>Thank you for subscribing</Text>
+								<Text style={{ fontSize: 28, textAlign: 'center', color: '#612bc1' }}>Subscription Successful</Text>
+								<Text style={{ fontSize: 18, width: '100%', textAlign: 'center', marginBottom: 20 }}>Thank you for subscribing</Text>
 								{Platform.OS === 'ios' ?
 								(
 									<View>
-										<Text style={[MainStyles.h5]}>Please visit: {managementURL} to manage your subscription.</Text>
-										<Text style={[MainStyles.h5]}>Link is available under Profile Management</Text>
+										<Text style={{ fontSize: 13, textAlign: 'center', marginBottom: 15 }}>Please visit: {managementURL} to manage your subscription.</Text>
+										<Text style={{ fontSize: 13, textAlign: 'center' }}>View pricing plan under profile management for the link.</Text>
 									</View>
 								):(
 								<></>
 								)}
 								
-								<TouchableOpacity style={[MainStyles.button_primary, MainStyles.mt_2]} onPress={ handleLetsStart }>
-									<Text style={MainStyles.buttonText}>Let's Start</Text>
+								<TouchableOpacity style={styles.button} onPress={ handleLetsStart }>
+									<Text style={{ fontSize: 18, color: '#fff' }}>Ok</Text>
 								</TouchableOpacity>
 							</View>
 						</Card>

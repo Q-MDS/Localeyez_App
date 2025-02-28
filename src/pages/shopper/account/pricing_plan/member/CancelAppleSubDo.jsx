@@ -63,11 +63,12 @@ const CancelAppleSubDo = (props) =>
 			const params = { shopper_id: shopperId };
             const response = await cancelSubscription(token, params);
 			const status = response.status;
-			console.log('Subscription cancelled:', status);
-			if (status)
-			{
-				await updProfile('verified', "0");
-			}
+			console.log('Subscription cancelled:', response);
+			// if (status)
+			// {
+			// 	await updProfile('verified', "0");
+			// 	await updProfile('subscribed', "0");
+			// }
         } 
 		catch (error) 
 		{
@@ -81,7 +82,7 @@ const CancelAppleSubDo = (props) =>
         // props.navigation.navigate('ShopperAccPlanMemCancel');
 		Alert.alert(
 			'Cancel Subscription', // Alert Title
-			'If you canceled your subscription on App Store the process is complete. If you changed your mind please contact support to restore your subscription status.', // Alert Message
+			'If you cancelled your subscription on App Store the process is complete. If you changed your mind please contact support to restore your subscription status.', // Alert Message
 			[
 				{
 					text: 'Cancel',

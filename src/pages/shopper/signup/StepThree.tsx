@@ -61,6 +61,7 @@ const StepThree = (props:any) =>
 				const token = res.token;
 				
 				updProfile('remote_id', remoteId);
+				updProfile('subscribed', 0);
 				fetchShopperProfile();
 				console.log('Signup completed successfully', remoteId);
 

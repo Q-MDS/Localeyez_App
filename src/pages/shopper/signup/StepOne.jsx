@@ -94,6 +94,7 @@ const StepOne = (props) =>
             geo_range: '',
 			verified: '0',
 			profile_pic: '',
+			subscribed: 0
         }
 		let profileDataString = JSON.stringify(profileData);
 		await DbUtils.setItem('shopper_profile', profileDataString);

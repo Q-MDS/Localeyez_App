@@ -138,7 +138,7 @@ const CancelAppleSub = (props) =>
 						<Image source={require('../../../../../assets/images/localeyez_logo_p.png')} style={{ objectFit: 'contain' }} />
 					</View>
 					<View style={{ flexDirection: 'column', flex: 1, alignItems: 'space-between', justifyContent: 'center', width: '100%', paddingStart: 20, paddingEnd: 20 }}>
-						<Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 25, width: '100%', textAlign: 'center' }}>Are you sure you want to cancel your subscription?</Text>
+						<Text category="h5" status="primary" style={{ fontWeight: 'bold', marginTop: 25, width: '100%', textAlign: 'center' }}>Are you sure you want to cancel your subscription ?</Text>
 						<Text category="p1" status="basic" style={{ marginTop: 15, width: '100%', textAlign: 'center' }}>If you cancel the subscription, you will loose access to amazing discounts from businesses around you.</Text>
 						<View style={{ marginTop: 50 }} />
 						<ButtonPrimary name="Cancel Subscription" width="100%" onpress={handleCancel} />
