@@ -117,6 +117,7 @@ const Login = (props: any) =>
 					const businessHours = businessProfile.business_hours;
 					
 					const businessSectors = res.business_sectors;
+					console.log('Business sectors:', businessSectors);
 					
 					const promotions = res.promotions;
 					const events = res.events;
@@ -142,7 +143,8 @@ const Login = (props: any) =>
 					let jsonBusinessProfile = JSON.stringify(businessProfile);
 					await DbUtils.setItem('business_profile', jsonBusinessProfile);
 	
-					await DbUtils.setItem('business_sectors', businessSectors);
+					let jsonBusinessSectors = JSON.stringify(businessSectors);
+					await DbUtils.setItem('business_sectors', jsonBusinessSectors);
 		
 					let jsonPromotions = JSON.stringify(promotions);
 					await DbUtils.setItem('promotions', jsonPromotions);

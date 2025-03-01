@@ -46,15 +46,23 @@ export const TopNavBrowseDashboard = (props) =>
 		);
 	}
 
+	const handleBack = () => 
+	{
+		props.navigation.goBack();
+	}
+
+    const BackIcon = (props) => ( <Icon {...props} name='arrow-back-outline' fill='#220622' style={{ width: 32, height: 32, }} /> );
     const NotiIcon = (props) => ( <Icon {...props} name='bell-outline' fill='#220622' style={{ width: 32, height: 32, }} /> );
     const AccountIcon = (props) => ( <Icon {...props} name='person' fill='#220622' style={{ width: 32, height: 32, }} /> );
 
+    const BackAction = () => ( <TopNavigationAction icon={BackIcon} onPress={handleBack} /> );
     const NotiAction = () => ( <TopNavigationAction icon={NotiIcon} onPress={handleMsgNotification} /> );
     const AccountAction = () => ( <TopNavigationAction icon={AccountIcon} onPress={handleMsgAccount} /> );
 
     return (
+		<>
         <TopNavigation
-        title={(evaProps) => <Layout style={{ flexDirection: 'row' }}><Text {...evaProps} style={{color: '#131141', fontSize: 20}}>Browse Businesses</Text></Layout>}
+        title={(evaProps) => <Layout style={{ flexDirection: 'row', alignItems: 'center' }}><BackAction/><Text {...evaProps} style={{color: '#131141', fontSize: 20}}>Browse Businesses</Text></Layout>}
         alignment="start"
         style={{ paddingStart: 20 }}
         accessoryRight={
@@ -63,5 +71,6 @@ export const TopNavBrowseDashboard = (props) =>
             <AccountAction />
         </Layout>}
         />
+		</>
     );
 };

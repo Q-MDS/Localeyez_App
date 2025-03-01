@@ -121,7 +121,8 @@ const Home = (props) =>
 	{
 		if (searchString === '') 
 		{
-			setShowTooltip(true);
+			// setShowTooltip(true);
+			alert("Search field cannot be empty");
 			return;
 		} 
 		else 

@@ -33,7 +33,7 @@ export const BotNavShopper = (props) =>
                 navigation.navigate('Search', { searchFor: '' });
                 break;
             case 2:
-                navigation.navigate('ShopperReviewList');
+                navigation.navigate('BookingsList');
                 break;
             case 3:
                 navigation.navigate('ShopperReviewList');

@@ -66,7 +66,8 @@ const Edit = (props) =>
 			
 			if (sectorArray !== null)
 			{
-				setSectors(sectorArray);
+				// setSectors(sectorArray);
+				setSectors(JSON.parse(sectorArray));
 				setIsReady(true);
 			}
         });

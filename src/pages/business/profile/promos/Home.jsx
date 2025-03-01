@@ -64,34 +64,38 @@ const Home = (props) =>
 
 	const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('business_profile')
-		.then((profile) => 
-        {
-			const record = JSON.parse(profile);
-			dispatch(
+        const profile = await DbUtils.getItem('business_profile');
+		const record = JSON.parse(profile);
+		console.log('Record: ', record);
+		dispatch(
+		{
+			type: 'BUSINESS_PROFILE',
+			payload: 
 			{
-				type: 'BUSINESS_PROFILE',
-				payload: 
-				{
-					displayImage: record.display_image,
-					profilePic: record.profile_pic,
-					companyName: record.company_name,
-					businessBio: record.business_bio,
-					contactNumber: record.contact_number,
-					addressOne: record.loc_add_one,
-					addressTwo: record.loc_add_two,
-					city: record.loc_city,
-					province: record.loc_province,
-					zipCode: record.loc_zip_code,
-					xUrl: record.sm_x,
-					instagramUrl: record.sm_inst,
-					facebookUrl: record.sm_fb,
-					linkedinUrl: record.sm_linkedin,
-					wwwUrl: record.sm_www,
-					businessHours: JSON.parse(record.business_hours),
-				},
-			});
+				displayImage: record.display_image,
+				profilePic: record.profile_pic,
+				companyName: record.company_name,
+				businessBio: record.business_bio,
+				contactNumber: record.contact_number,
+				addressOne: record.loc_add_one,
+				addressTwo: record.loc_add_two,
+				city: record.loc_city,
+				province: record.loc_province,
+				zipCode: record.loc_zip_code,
+				xUrl: record.sm_x,
+				instagramUrl: record.sm_inst,
+				facebookUrl: record.sm_fb,
+				linkedinUrl: record.sm_linkedin,
+				wwwUrl: record.sm_www,
+				businessHours: JSON.parse(record.business_hours),
+			},
 		});
+
+
+		// .then((profile) => 
+        // {
+			
+		// });
     }
 
 	const getPromotions = async () => 

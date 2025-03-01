@@ -165,6 +165,7 @@ import CancelAppleSub from './pages/shopper/account/pricing_plan/member/CancelAp
 import CancelAppleSubDo from './pages/shopper/account/pricing_plan/member/CancelAppleSubDo.jsx';
 import Bookings from './pages/business/calendar/Bookings.jsx';
 import MakeBooking from './pages/shopper/calendar/Bookings.jsx'; 
+import BookingsList from './pages/shopper/calendar/BookingsList.jsx';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -334,6 +335,7 @@ const HomeNavigator = () => (
 		<Screen name="CancelAppleSubDo" component={CancelAppleSubDo} />
 		<Screen name="Bookings" component={Bookings} />
 		<Screen name="MakeBooking" component={MakeBooking} />
+		<Screen name="BookingsList" component={BookingsList} />
 	</Navigator>
 );
 

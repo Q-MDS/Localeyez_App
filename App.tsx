@@ -23,7 +23,7 @@ const App = () => {
 
         // Configure RevenueCat with the appropriate API key based on the platform
         if (Platform.OS === 'ios') {
-            Purchases.configure({ apiKey: 'appl_ajvVftRGvImKwtvknCgToWoRIcI' });
+            Purchases.configure({ apiKey: 'appl_toMhnBNXWObpzWaZlXBFpyQanME' });
         } else if (Platform.OS === 'android') {
             Purchases.configure({ apiKey: '<revenuecat_project_google_api_key>' });
         }

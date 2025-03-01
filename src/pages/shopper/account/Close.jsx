@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DbUtils from '../../../services/DbUtils';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { closeShopperAccount } from '../../../services/api_helper';
-import { SafeAreaView, View, Image } from 'react-native';
+import { Platform, SafeAreaView, View, Image } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
@@ -40,30 +40,31 @@ const Close = (props) =>
 
 	const clearAsyncStorage = async () => 
 	{
-		await DbUtils.clear()
-		.then(() =>
-		{
-			props.navigation.navigate('LoginUser');
-		});
+		await DbUtils.clear();
+		props.navigation.navigate('OnboardingStart');
 	}
 	
     const handleDelete = async () => 
     {
-		const data = 
-		{
-			shopper_id: shopperId,
-		}
+		const data = { shopper_id: shopperId }
 
 		try 
 		{
-			await closeShopperAccount(token, data)
-			.then((res) =>
+			const res = await closeShopperAccount(token, data);
+			if (res.status)
 			{
-				// Clear aync storage
 				clearAsyncStorage();
 
-				console.log('Shopper profile updated: ', res);
-			});
+				if (Platform.OS === 'ios')
+				{
+					// Do revenueCat subscription delete
+				}
+				else 
+				{
+					// CP: Is it possible to cancel a Stripe subscription from react native
+					// Delete Stripe subscription from server
+				}
+			}
 		}
 		catch (error)
 		{

@@ -55,6 +55,7 @@ const StepFour = (props) =>
 			setIsLoading(true);
 
 			const apiData = {business_profile: businessProfile, business_sectors: businessSectors};
+			console.log('API Data: ', apiData);
 			const res = await register(apiData);
 
 			if (res.status)
@@ -75,8 +76,9 @@ const StepFour = (props) =>
 					topOffset: 30,
 					bottomOffset: 40,
 				});
-
-				props.navigation.navigate('BusProfProHome');
+				setIsLoading(false);
+				
+				props.navigation.navigate('BusinessDashboard');
 			} 
 			else 
 			{
@@ -93,8 +95,6 @@ const StepFour = (props) =>
 					bottomOffset: 40,
 				});
 			}
-
-			setIsLoading(false);
 		}
 		catch(error)
 		{

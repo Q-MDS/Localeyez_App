@@ -312,12 +312,35 @@ Paywallpoints
 
 FINAL REVIEW CHECKLIST
 √. Browse - do categories/icons
-2. Need to change bundleId back to what it was
-3. Need to check all metadata on new AppId
-4. Setup products the same as old app id
-5. Review revenueCat - products and perhaps app will have changed because of new bundle id
-6. Copy backend stuff to webserver
-7. Update database on webserver
-8. Create test flight
-9. Test on real device - subs process
-10. Check and submit for review
+√. Need to change bundleId back to what it was
+√. Need to check all metadata on new AppId
+√. Setup products the same as old app id
+√. Review revenueCat - products and perhaps app will have changed because of new bundle id
+√. Copy backend stuff to webserver
+√. Update database on webserver
+8. Test subscription on iPhone 7
+9. Create test flight
+10. Test on real device - subs process
+11. Check and submit for review
+
+// scenario where login sends string and after signup it is a JSON object
+
+
+
+A-Z Test 01-03-2025
+
+Shopper
+1. CREATE: Calnedar icon should be for a list of the users bookings - I dont think the page has been created: Just a list for now - can do a confirm thingy later
+   - Created a blank page for this: BookingsList
+2. Close account
+   - Will need to check for a subscription and delete if found
+   - Added Platform = ios to handle Apple and Stripe sub cancel
+3. Profile -> Signout - make less promenant   
+
+Business
+1. Signup, step 2 - cant edit the opn and close times
+2. Profile -> Signout - make less promenant
+3. Bus hours and sectors are WHACK
+   - Bus hours are being saved as stingified twice
+   - Sectors hot showing selected and crashes when trying to manage - FIXED but do a run-down check (complete signup, go to edit profile, edit sectors... logout, login, goto profile... sectors etc)
+   - looks like bus hours edit didn't save to server - nope

@@ -48,15 +48,15 @@ const StepTwo = (props) =>
     const [isLoading, setIsLoading] = useState(true);
 	const [errors, setErrors] = useState({ contactNumber: '', company: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
 	
-	// const businessHours = [
-	// 	{ day: 'Mon', open: '08:00', close: '17:00' },
-	// 	{ day: 'Tue', open: '08:00', close: '17:00' },
-	// 	{ day: 'Wed', open: '08:00', close: '17:00' },
-	// 	{ day: 'Thu', open: '08:00', close: '17:00' },
-	// 	{ day: 'Fri', open: '08:00', close: '17:00' },
-	// 	{ day: 'Sat', open: '09:00', close: '14:00' },
-	// 	{ day: 'Sun', open: 'Closed', close: 'Closed' },
-	// ];
+	const businessHours = [
+		{ day: 'Mon', open: '08:00', close: '17:00' },
+		{ day: 'Tue', open: '08:00', close: '17:00' },
+		{ day: 'Wed', open: '08:00', close: '17:00' },
+		{ day: 'Thu', open: '08:00', close: '17:00' },
+		{ day: 'Fri', open: '08:00', close: '17:00' },
+		{ day: 'Sat', open: '09:00', close: '14:00' },
+		{ day: 'Sun', open: 'Closed', close: 'Closed' },
+	];
 	const [hours, setHours] = useState([]);
 	const handleTimeChange = (day, timeType, value) => 
 	{
@@ -157,7 +157,7 @@ const StepTwo = (props) =>
         await updProfile('sm_fb', state.facebookUrl);
         await updProfile('sm_linkedin', state.linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);
-        await updProfile('business_hours', state.businessHours);
+        await updProfile('business_hours', JSON.stringify(state.businessHours));
         
         props.navigation.navigate('SignupBusinessStepThree');
     }
