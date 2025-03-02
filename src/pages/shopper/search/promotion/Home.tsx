@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer} from 'react';
+import api from '../../../../services/api';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../../components/TopNavBack';
 import { SafeAreaView, TouchableOpacity, ScrollView, View, Image, Linking  } from 'react-native';
@@ -22,9 +23,9 @@ const Home = (props: any) =>
 
 	const handleShare = async () => 
 	{
-		console.log('Got to share');
+		const baseUrl = api.getUri();
+		const url = baseUrl + `/share/init/p/${promotion.id}`;
 
-		const url = `http://192.168.1.28/localeyez_backend/share/init/p/${promotion.id}`;
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
 

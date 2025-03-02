@@ -178,6 +178,24 @@ const Home = (props) =>
 		return formattedDate;
 	}
 
+	const openUrl = async (url) => {
+		try {
+			// Validate the URL
+			const supported = await Linking.canOpenURL(url);
+	
+			if (supported) {
+				// Open the URL
+				await Linking.openURL(url);
+			} else {
+				alert(`Don't know how to open this URL: ${url}`);
+			}
+		} catch (error) {
+			// Handle any errors
+			// console.error('An error occurred', error);
+			alert('Invalid URL', error.message);
+		}
+	};
+
 	if (isLoading) 
 	{
 		return (
@@ -213,8 +231,8 @@ const Home = (props) =>
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 5, paddingBottom: 10, paddingEnd: 15, columnGap: 5, width: '100%' }} >
 						<View style={{ position: 'relative', height: 30, flex: 1 }}>
 							<View style={{ position: 'absolute', left: 20, top: -60, borderColor: '#000', borderWidth: 0, borderRadius: 60, backgroundColor: 'transparent'}} >
-								{state.profile_pic 
-								? <Image source={{ uri: state.profile_pic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
+								{state.profilePic 
+								? <Image source={{ uri: state.profilePic }} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1  }} /> 
 								: <Image source={require('../../../../assets/images/pic_holder.png')} style={{ width: 96, height: 96, borderRadius: 48, borderColor: 'black', borderWidth: 1 }} /> 
 								}
 							</View>
@@ -222,7 +240,7 @@ const Home = (props) =>
 						<View  style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end', columnGap: 15}}>
 						{state.xUrl ? 
 						(
-							<TouchableOpacity onPress={() => Linking.openURL(state.xUrl)}>
+							<TouchableOpacity onPress={() => openUrl(state.xUrl)}>
 								<Image source={require('../../../../assets/images/x_logo.png')} style={{ width: 30, height: 30 }} />
 							</TouchableOpacity>
 
@@ -232,7 +250,7 @@ const Home = (props) =>
 						}
 						{state.instagramUrl ? 
 						(
-							<TouchableOpacity onPress={() => Linking.openURL(state.instagramUrl)}>
+							<TouchableOpacity onPress={() => openUrl(state.instagramUrl)}>
 								<Image source={require('../../../../assets/images/insta_logo.png')} style={{ width: 28, height: 28 }} />
 							</TouchableOpacity>
 
@@ -242,7 +260,7 @@ const Home = (props) =>
 						}
 						{state.facebookUrl ? 
 						(
-							<TouchableOpacity onPress={() => Linking.openURL(state.facebookUrl)}>
+							<TouchableOpacity onPress={() => openUrl(state.facebookUrl)}>
 								<Image source={require('../../../../assets/images/fb_logo.png')} style={{ width: 32, height: 32 }} />
 							</TouchableOpacity>
 
@@ -252,7 +270,7 @@ const Home = (props) =>
 							}
 						{state.linkedinUrl ? 
 						(
-							<TouchableOpacity onPress={() => Linking.openURL(state.linkedinUrl)}>
+							<TouchableOpacity onPress={() => openUrl(state.linkedinUrl)}>
 								<Image source={require('../../../../assets/images/link_logo.png')} style={{ width: 28, height: 28 }} />
 							</TouchableOpacity>
 						) : (
@@ -261,7 +279,7 @@ const Home = (props) =>
 						}
 						{state.wwwUrl ? 
 						(
-							<TouchableOpacity onPress={() => Linking.openURL(state.wwwUrl)}>
+							<TouchableOpacity onPress={() => openUrl(state.wwwUrl)}>
 								<Image source={require('../../../../assets/images/www_logo.png')} style={{ width: 30, height: 30 }} />
 							</TouchableOpacity>
 						) : (
@@ -355,11 +373,11 @@ const Home = (props) =>
 									</View>
 									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
 										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Off Price:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.sale_item_op === "" || record.sale_item_op == null ? "-" : record.sale_item_op}</Text>
 									</View>
 									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
 										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.sale_item_mp === "" || record.sale_item_mp == null ? "-" : record.sale_item_mp}</Text>
 									</View>
 									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
 										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Start Date:</Text>

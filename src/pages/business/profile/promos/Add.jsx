@@ -186,7 +186,7 @@ const Add = (props) =>
             created: new Date().toLocaleDateString()
         }];
         let stringified = JSON.stringify(promotionData);
-
+		console.log('PPPPOOOOOOPPPPP: ', promotionData);
 		// Send to server
 		let insertId = 0;
 		try 

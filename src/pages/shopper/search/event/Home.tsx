@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../../../../services/api';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, View, Image, Share, Linking  } from 'react-native';
@@ -20,9 +21,9 @@ const Home = (props: any) =>
 	const endSplit = endDate.split('T');
 
 	useEffect(() => 
-		{
-			setBusinessId(event.business_id);
-		}, []);
+	{
+		setBusinessId(event.business_id);
+	}, []);
 
 	const handleBusProfile = () => 
 	{
@@ -31,9 +32,9 @@ const Home = (props: any) =>
 
 	const handleShare = async () => 
 	{
-		console.log('Got to share');
+		const baseUrl = api.getUri();
+		const url = baseUrl + `/share/init/e/${event.id}`;
 
-		const url = `http://192.168.1.28/localeyez_backend/share/init/e/${event.id}`;
         Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 
 

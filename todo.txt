@@ -325,7 +325,7 @@ FINAL REVIEW CHECKLIST
 
 // scenario where login sends string and after signup it is a JSON object
 
-
+http://192.168.1.91/localeyez_backend/share/init/p/1
 
 A-Z Test 01-03-2025
 
@@ -335,12 +335,15 @@ Shopper
 2. Close account
    - Will need to check for a subscription and delete if found
    - Added Platform = ios to handle Apple and Stripe sub cancel
-3. Profile -> Signout - make less promenant   
+3. Profile -> Signout - make less promenant  
+4. When writing a review - check the starts thing out 
+5. Make a booking main form is whack
 
 Business
 1. Signup, step 2 - cant edit the opn and close times
 2. Profile -> Signout - make less promenant
-3. Bus hours and sectors are WHACK
-   - Bus hours are being saved as stingified twice
-   - Sectors hot showing selected and crashes when trying to manage - FIXED but do a run-down check (complete signup, go to edit profile, edit sectors... logout, login, goto profile... sectors etc)
-   - looks like bus hours edit didn't save to server - nope
+√. Bus hours and sectors are WHACK
+   √ Bus hours are being saved as stingified twice
+   √ Sectors hot showing selected and crashes when trying to manage - FIXED but do a run-down check (complete signup, go to edit profile, edit sectors... logout, login, goto profile... sectors etc)
+   √ looks like bus hours edit didn't save to server - nope
+√. Social media links: handle a foul link

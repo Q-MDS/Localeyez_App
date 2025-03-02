@@ -500,7 +500,7 @@ const Edit = (props) =>
 				<Card style={{ marginBottom: 10 }}>
 					<View style={{ width: '100%' }} >
 						{/* <InputLabel label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} status="basic" placeholder="Write product price" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} /> */}
-						<InputLabelNumpad label="Price" name="promoPrice" value={state.price} onChange={handleInputChange} placeholder="Write product price" status="basic" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} />
+						<InputLabelNumpad label="Price" name="promoPrice" value={state.promoPrice} onChange={handleInputChange} placeholder="Write product price" status="basic" bg={errors.price ? '#ffe6e6' : '#f2f2f2'} />
 						{errors.price && <Text style={[styles.error]}>{errors.price}</Text>}
 					</View>
 					<View style={{ marginTop: 5 }} />

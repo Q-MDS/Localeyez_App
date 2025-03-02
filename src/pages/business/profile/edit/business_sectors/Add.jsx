@@ -147,8 +147,8 @@ const Add = (props) =>
 			
 			if (sectorArray !== null)
 			{
-				// setSectors(sectorArray);
-				setSectors(JSON.parse(sectorArray));
+				setSectors(sectorArray);
+				// setSectors(JSON.parse(sectorArray));
 				setReady(true);
 			}
 			console.log('Done: Get Sectors!');

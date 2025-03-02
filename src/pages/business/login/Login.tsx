@@ -117,7 +117,6 @@ const Login = (props: any) =>
 					const businessHours = businessProfile.business_hours;
 					
 					const businessSectors = res.business_sectors;
-					console.log('Business sectors:', businessSectors);
 					
 					const promotions = res.promotions;
 					const events = res.events;

@@ -15,7 +15,7 @@ export const DateSelect = (props) =>
 		name={props.name}
 		onSelect={newValue => props.onChange(props.name, newValue)}
 		controlStyle={{paddingStart: 0, marginStart: 0, backgroundColor: props.bg, borderWidth: 0, borderRadius: 5, width: '100%'}}
-		status='basic'
+		status='primary'
       />
 
         </Layout>
@@ -24,6 +24,6 @@ export const DateSelect = (props) =>
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        width: '100%',
     },
 });

@@ -141,9 +141,7 @@ const Home = (props) =>
         .then((getSectors) => 
         {
 			const sectorArray = JSON.parse(getSectors);
-			console.log('BBB1:', sectorArray);
-			// const jsonSectors = JSON.parse(sectorArray);
-			// console.log('BBB2:', jsonSectors);...
+			
 			if (sectorArray !== null)
 			{
 				console.log('Poop 2:', sectorArray);

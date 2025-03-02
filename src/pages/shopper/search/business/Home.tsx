@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer} from 'react';
 import DbUtils from '../../../../services/DbUtils';
+import api from '../../../../services/api';
 import { getBusinessPromotions } from '../../../../services/api_search';
 import { getBusinessEvents } from '../../../../services/api_search';
 import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
@@ -191,20 +192,23 @@ const Home = (props: any) =>
 	}
 
 	const handlePromotionShare = (promotionId: number) => 
-		{
-			const url = `http://192.168.1.28/localeyez_backend/share/init/p/${promotionId}`;
-			Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
-		}
+	{
+		const baseUrl = api.getUri();
+		const url = baseUrl + `/share/init/p/${promotionId}`;
+		
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	}
 
 	const handeleViewEvent = (record: any) => 
 	{
-		console.log('ASDASDASDASDASDSD');
 		props.navigation.navigate('SearchEventView', { event: record });
 	}
 
 	const handleEventShare = (eventId: number) => 
 	{
-		const url = `http://192.168.1.28/localeyez_backend/share/init/e/${eventId}`;
+		const baseUrl = api.getUri();
+		const url = baseUrl + `/share/init/e/${eventId}`;
+		
         Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	}
 
