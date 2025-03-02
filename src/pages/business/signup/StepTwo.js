@@ -103,6 +103,8 @@ const StepTwo = (props) =>
 				},
 			});
 			
+			setHours(businessHours);
+
             setIsLoading(false);
         });
     }
@@ -157,7 +159,7 @@ const StepTwo = (props) =>
         await updProfile('sm_fb', state.facebookUrl);
         await updProfile('sm_linkedin', state.linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);
-        await updProfile('business_hours', JSON.stringify(state.businessHours));
+        await updProfile('business_hours', JSON.stringify(hours));
         
         props.navigation.navigate('SignupBusinessStepThree');
     }
@@ -268,7 +270,7 @@ const StepTwo = (props) =>
 					<Card style={{ marginBottom: 10 }}>
 						<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', marginTop: 0, marginBottom: 15 }}>Business Hours</Text>
 						<View>
-						{state.businessHours.map(({ day, open, close }) => (
+						{hours.map(({ day, open, close }) => (
 							<View key={day}>
 								<View 
 									style={{ 

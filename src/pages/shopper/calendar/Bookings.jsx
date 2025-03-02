@@ -154,17 +154,17 @@ const Bookings = ({navigation, route}) =>
 	}
 
 	if (isLoading) 
-		{
-			return (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<ActivityIndicator size="large" color="#0000ff" />
-				</View>
-			);
-		}
+	{
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size="large" color="#0000ff" />
+			</View>
+		);
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-			<TopNavBack title="Back: Search Results" alignment="start" navigation={navigation} pops={1} />
+			<TopNavBack title="Back" alignment="start" navigation={navigation} pops={1} />
 			<ScrollView>
 			<Layout style={[MainStyles.layout_container, { paddingTop: 0, paddingStart: 15, paddingEnd: 15, backgroundColor: '#fff'}]}>
 					{/* Page title */}

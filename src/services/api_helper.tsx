@@ -322,3 +322,13 @@ export const addBooking = async (data: any) =>
 	return response.data;	
 }
 
+export const getShopperBookings = async (data: any) => 
+{
+	const response = await api.post('/api/get_shopper_bookings/', data, 
+	{
+		// headers: { Authorization: `Bearer ${token}` },
+	});
+
+	return response.data;	
+}
+

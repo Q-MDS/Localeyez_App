@@ -307,8 +307,8 @@ const Home = (props) =>
 				<Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%', marginTop: 25 }} >
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
 					<View style={{ marginTop: 15 }} />
-					<ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
-					{/* <ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} /> */}
+					{/* <ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} /> */}
+					<ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} />
 				</Layout>
 			</Layout>
 			</ScrollView>

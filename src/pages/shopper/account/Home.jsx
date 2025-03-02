@@ -13,6 +13,7 @@ import { Layout, Text, Avatar, Divider, Icon } from "@ui-kitten/components";
 import { IconText } from "../../../components/IconText";
 import { ButtonPrimary } from "../../../components/ButtonPrimary";
 import { ButtonSecondary } from "../../../components/ButtonSecondary";
+import { ButtonText } from "../../../components/ButtonText";
 
 const initialState = { 
 	email: null,
@@ -334,7 +335,7 @@ const Home = (props) =>
 				<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
 					<View style={{ marginTop: 15 }} />
-					<ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} />
+					<ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} />
 				</Layout>
 			</Layout>
 			</ScrollView>
