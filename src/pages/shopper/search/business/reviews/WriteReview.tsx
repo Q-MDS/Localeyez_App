@@ -2,12 +2,12 @@ import React, { useState, useEffect, useReducer } from 'react';
 import MainStyles from '../../../../../assets/styles/MainStyles';
 import DbUtils from '../../../../../services/DbUtils';
 import { newReview } from '../../../../../services/api_search';
-import { Rating } from 'react-native-ratings';
 import { SafeAreaView, ScrollView, StyleSheet, View, Image} from 'react-native';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { Layout, Text } from '@ui-kitten/components';
 import { ButtonPrimary } from '../../../../../components/ButtonPrimary';
 import { InputMultiline } from '../../../../../components/InputMultiline';
+import StarRating from 'react-native-star-rating-widget';
 
 const initialState = {
 	businessId: null,
@@ -76,6 +76,10 @@ const WriteReview = (props:any) =>
 		fetchData();
 	}, []);
 
+	const handleRatingCompleted = (rating: number) => 
+	{
+		setStarCount(rating);
+	};
 
 	const handleSubmitReview = async () => 
 	{
@@ -150,18 +154,18 @@ const WriteReview = (props:any) =>
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
 			<TopNavBack title="Back: View reviews" alignment="start" navigation={props.navigation} pops={1} />
 			<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9f8fd', paddingStart: 20, paddingTop: 20, paddingBottom: 20, borderTopColor: '#DEDDE7', borderTopWidth: 1, borderBottomColor: '#DEDDE7', borderBottomWidth: 1 }}>
-				{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32 }} /> : null}	
+				{businessImage ? <Image source={{ uri: String(businessImage) }} style={{ width: 64, height: 64, borderRadius: 32, marginEnd: 10 }} /> : null}	
 				<Text category='h5' status="primary" >{`${businessName}`}</Text>
 			</View>
 			<ScrollView>
 				<Layout style={{ flex: 1, marginTop: 20, paddingStart: 20, paddingEnd: 20, marginBottom: 20 }}>
 					<Text style={[MainStyles.title_a16, MainStyles.textBold, { marginBottom: 15 }]} >Rate the service</Text>
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-						<Rating
-						type='star'
-						ratingCount={5}
-						imageSize={30}
-						onFinishRating={setStarCount}
+						<StarRating
+							rating={starCount}
+							onChange={setStarCount}
+							starSize={30}
+							maxStars={5}
 						/>
 					</View>
 					<View style={{ marginTop: 25 }} />

@@ -330,14 +330,14 @@ http://192.168.1.91/localeyez_backend/share/init/p/1
 A-Z Test 01-03-2025
 
 Shopper
-1. CREATE: Calnedar icon should be for a list of the users bookings - I dont think the page has been created: Just a list for now - can do a confirm thingy later
-   - Created a blank page for this: BookingsList
+√. CREATE: Calnedar icon should be for a list of the users bookings - I dont think the page has been created: Just a list for now - can do a confirm thingy later
+   √ Created a blank page for this: BookingsList
 2. Close account
    - Will need to check for a subscription and delete if found
    - Added Platform = ios to handle Apple and Stripe sub cancel
-3. Profile -> Signout - make less promenant  
-4. When writing a review - check the starts thing out 
-5. Make a booking main form is whack
+√. Profile -> Signout - make less promenant  
+4. When writing a review - check the stars thing out 
+√. Make a booking main form is whack
 
 Business
 1. Signup, step 2 - cant edit the opn and close times

@@ -129,7 +129,7 @@ const Home = (props) =>
 					position: 'bottom',
 					text1: 'There was an error fetching your profile data.',
 					text2: 'Please try again.',
-					visibilityTime: 4000,
+					visibilityTime: 2000,
 					autoHide: true,
 					topOffset: 30,
 					bottomOffset: 40,
