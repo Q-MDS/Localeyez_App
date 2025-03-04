@@ -123,12 +123,12 @@ const Paywall = (props) =>
 			setLoading(true);
 			try 
 			{
-				// QQQ const purchaseInfo = await Purchases.purchasePackage(selectedProduct);
-				const purchaseInfo = {message: 'Purchase successful', customerInfo: {managementURL: 'https://apple.com/something'}};
+				const purchaseInfo = await Purchases.purchasePackage(selectedProduct);
+				// const purchaseInfo = {message: 'Purchase successful', customerInfo: {managementURL: 'https://apple.com/something'}};
 				if (purchaseInfo)
 				{
-					// QQQ const management_url = purchaseInfo.customerInfo.managementURL;
-					const management_url = 'https://apple.com/something';
+					const management_url = purchaseInfo.customerInfo.managementURL;
+					// const management_url = 'https://apple.com/something';
 					setManagementURL(management_url);
 
 					// Updated server set subscribed = 1 in app_users and shopper_master
