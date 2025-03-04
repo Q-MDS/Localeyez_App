@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import Purchases from 'react-native-purchases';
 import { useFocusEffect } from '@react-navigation/native';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
@@ -9,7 +10,7 @@ import { InputLabelEmail } from '../../../components/InputLabelEmail';
 import { InputLabelPassword } from '../../../components/InputLabelPassword';
 import { Checkbox } from '../../../components/Checkbox';
 import { ButtonPrimary } from '../../../components/ButtonPrimary';
-import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaView, ScrollView, View, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Layout, Text, Card } from '@ui-kitten/components';
 import LogoLand from '../../../assets/images/LogoLand';
 
@@ -37,6 +38,9 @@ const Login = (props) =>
 	const [errors, setErrors] = useState({ userName: '', password: '' });
 	const [remember, setRemember] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [subscribed, setSubscribed] = useState(0);
+	const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+	const [profile, setProfile] = useState(null);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -49,34 +53,66 @@ const Login = (props) =>
 
 	const getProfile = async () => 
 	{
-		const profile = await DbUtils.getItem('shopper_profile')
-        .then((profile) => 
-        {
-			if (profile === null)
+		const profile = await DbUtils.getItem('shopper_profile');
+        // .then((profile) => 
+        // {
+		const profileData = JSON.parse(profile);
+		setProfile(profile);
+
+		setSubscribed(profileData.subscribed);
+
+		if (profile === null)
+		{
+			dispatch(
 			{
-				dispatch(
+				type: 'SHOPPER_LOGIN',
+				payload: 
 				{
-					type: 'SHOPPER_LOGIN',
-					payload: 
-					{
-						credOne: '',
-						credTwo: '',
-					},
-				});
-			} 
-			else 
+					credOne: '',
+					credTwo: '',
+				},
+			});
+		} 
+		else 
+		{
+			dispatch(
 			{
-				dispatch(
+				type: 'SHOPPER_LOGIN',
+				payload: 
 				{
-					type: 'SHOPPER_LOGIN',
-					payload: 
-					{
-						credOne: JSON.parse(profile).email,
-						credTwo: '',
-					},
-				});
-			}
-        });
+					credOne: JSON.parse(profile).email,
+					credTwo: '',
+				},
+			});
+		}
+        // });
+	}
+
+	const getCustomerInfo = async () => 
+	{
+		try 
+		{
+			const customerInfo = await Purchases.getCustomerInfo();
+			console.log('Customer info:', customerInfo);
+			return customerInfo.activeSubscriptions;
+		} 
+		catch (error) 
+		{
+			console.error('Failed to fetch customer info:', error);
+			return null;
+		}
+	}
+
+	const simpleAlert = (title, message) => 
+	{
+		Alert.alert(
+			title,
+			message,
+			[
+				{ text: 'OK' },
+			],
+			{ cancelable: false },
+		);
 	}
 
 	useFocusEffect(React.useCallback(() => 
@@ -90,8 +126,42 @@ const Login = (props) =>
 		getProfile();
 	}, []));
 
+	// useEffect(() => 
+	// {
+	// 	getProfile();
+
+	// 	const fetchSubscriptionStatus = async () => 
+	// 	{
+	// 		const status = await getCustomerInfo();
+	// 		console.log(': ', status.length);
+	// 		setIsLoading(false);
+	// 		ZZZZZZZZsetSubscriptionStatus(status);
+	// 	};
+
+	// 	if (subscribed != 9)
+	// 	{
+	// 		console.log('Login Subscribed is: ', subscribed);
+	// 		if (subscribed == 1)
+	// 		{
+	// 			console.log('Got HERE !!!');
+	// 			setIsLoading(true);
+	// 			fetchSubscriptionStatus();
+	// 		}
+	// 	}
+	// }, [subscribed]);
+
+
+	const fetchSubscriptionStatus = async () => 
+	{
+		const status = await getCustomerInfo();
+		console.log(': ', status.length);
+		setIsLoading(false);
+		setSubscriptionStatus(status.length);
+	};
+
     const handleLogin = async () => 
     {
+		await fetchSubscriptionStatus();
         await DbUtils.clear();
 		setIsLoading(true);
 
@@ -152,7 +222,34 @@ const Login = (props) =>
 				}
 
 				setIsLoading(false);
-				props.navigation.navigate('ShopperHome');
+
+				if (subscribed == 1)
+				{
+					console.log('XXXXX Subscription status: ', subscriptionStatus, subscribed);
+					if (subscriptionStatus === null || subscriptionStatus === undefined || subscriptionStatus === 0)
+					{
+						simpleAlert('Subscription Status Error', '\nPlease check your subscription status. You may need to resubscribe. \n\nWhen you tap OK, you will be logged in as a Free user.');
+						console.log('Update profile and server');
+						DbUtils.setItem('subscribed', '0');
+						if (profile !== null)
+						{
+							profile.subscribed = 0;
+							DbUtils.setItem('shopper_profile', JSON.stringify(profile));
+						}
+						return;
+					} 
+					else 
+					{
+						console.log('SUBSCRIPTION IS OK: GOTO HOME');
+						
+					}
+				}
+				else 
+				{
+					console.log('DONT APPLT TO THIS DUDE');
+					
+					props.navigation.navigate('ShopperHome');
+				}
 			} 
 			else if (credType === '0' || credType === '2')
 			{
@@ -336,7 +433,7 @@ const Login = (props) =>
 						</Card>
 						<ButtonPrimary name="Login" onpress={validateForm}/>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 40 }} >
-							<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
+							<Text style={{ fontSize: 15, color: '#000000' }}>{subscribed}Don't have an account? &nbsp;</Text>
 							<TouchableOpacity onPress={handleSignup} accessibilityLabel='Tap to signup' >
 								<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Sign up</Text>
 							</TouchableOpacity>

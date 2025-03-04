@@ -307,7 +307,7 @@ const Paywall = (props) =>
 	const handleErrorClose = () =>	
 	{
 		setShowErrorModal(!showErrorModal);
-		props.navigation.navigate('ChoosePlan');
+		props.navigation.goBack();
 	}
 
 	const handlePrivacy = () => 
@@ -444,23 +444,22 @@ const Paywall = (props) =>
 					}}>
 						<Card disabled={true} style={{ flexGrow: 1, width: '100%', borderRadius: 20 }}>
 							<View style={{ width: '100%', paddingTop: 50, paddingBottom: 50 }}>
-							<Text style={[ MainStyles.h1, MainStyles.textSerif, MainStyles.mb_2]}>Subscription Failed</Text>
-								<Text style={[MainStyles.h3, MainStyles.w_100, { marginBottom: 20 }]}>Something went wrong !</Text>
-								<Text style={[MainStyles.h4, MainStyles.w_100, { marginBottom: 20 }]}>{error}</Text>
+							<Text style={{ fontSize: 28, textAlign: 'center', color: '#612bc1' }}>Subscription Error</Text>
+								<Text style={{ fontSize: 18, width: '100%', textAlign: 'center', marginBottom: 10 }}>Something went wrong!</Text>
+								<Text style={[MainStyles.h4, MainStyles.w_100, { marginBottom: 10 }]}>{error}</Text>
 								{Platform.OS === 'ios' ?
 								(
-									<View>
-										<Text style={[MainStyles.h5]}>Tap on RETRY to close this message and try again else click on CLOSE to return to the select Free or Coaching options page.</Text>
-										{/* <Text style={[MainStyles.h5]}>Link is available under Profile Management</Text> */}
+									<View style={{ marginBottom: 20}}>
+										<Text style={{ fontSize: 14, textAlign: 'center' }}>Tap on RETRY to close this message and try again else click on CLOSE to return to the select Free or Coaching options page.</Text>
 									</View>
 								):(
 								<></>
 								)}
-								<TouchableOpacity style={[MainStyles.button_primary, MainStyles.mt_2]} onPress={ handleRetry }>
-									<Text style={MainStyles.buttonText}>Retry</Text>
+								<TouchableOpacity style={styles.button} onPress={ handleRetry }>
+									<Text style={{ fontSize: 18, color: '#fff' }}>Retry</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={[MainStyles.button_primary, MainStyles.mt_2]} onPress={ handleErrorClose }>
-									<Text style={MainStyles.buttonText}>Close</Text>
+								<TouchableOpacity style={styles.button} onPress={ handleErrorClose }>
+									<Text style={{ fontSize: 18, color: '#fff' }}>Cancel</Text>
 								</TouchableOpacity>
 							</View>
 						</Card>
