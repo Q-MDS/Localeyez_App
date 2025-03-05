@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import Purchases from 'react-native-purchases';
+import { cancelSubscription } from '../../../services/api_helper';
 import { useFocusEffect } from '@react-navigation/native';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
@@ -54,38 +55,39 @@ const Login = (props) =>
 	const getProfile = async () => 
 	{
 		const profile = await DbUtils.getItem('shopper_profile');
-        // .then((profile) => 
-        // {
-		const profileData = JSON.parse(profile);
-		setProfile(profile);
-
-		setSubscribed(profileData.subscribed);
-
-		if (profile === null)
+        
+		if(profile !== null)
 		{
-			dispatch(
+			const profileData = JSON.parse(profile);
+			setProfile(profile);
+
+			setSubscribed(profileData.subscribed);
+
+			if (profile === null)
 			{
-				type: 'SHOPPER_LOGIN',
-				payload: 
+				dispatch(
 				{
-					credOne: '',
-					credTwo: '',
-				},
-			});
-		} 
-		else 
-		{
-			dispatch(
+					type: 'SHOPPER_LOGIN',
+					payload: 
+					{
+						credOne: '',
+						credTwo: '',
+					},
+				});
+			} 
+			else 
 			{
-				type: 'SHOPPER_LOGIN',
-				payload: 
+				dispatch(
 				{
-					credOne: JSON.parse(profile).email,
-					credTwo: '',
-				},
-			});
+					type: 'SHOPPER_LOGIN',
+					payload: 
+					{
+						credOne: JSON.parse(profile).email,
+						credTwo: '',
+					},
+				});
+			}
 		}
-        // });
 	}
 
 	const getCustomerInfo = async () => 
@@ -93,7 +95,7 @@ const Login = (props) =>
 		try 
 		{
 			const customerInfo = await Purchases.getCustomerInfo();
-			console.log('Customer info:', customerInfo);
+			
 			return customerInfo.activeSubscriptions;
 		} 
 		catch (error) 
@@ -126,43 +128,18 @@ const Login = (props) =>
 		getProfile();
 	}, []));
 
-	// useEffect(() => 
-	// {
-	// 	getProfile();
-
-	// 	const fetchSubscriptionStatus = async () => 
-	// 	{
-	// 		const status = await getCustomerInfo();
-	// 		console.log(': ', status.length);
-	// 		setIsLoading(false);
-	// 		ZZZZZZZZsetSubscriptionStatus(status);
-	// 	};
-
-	// 	if (subscribed != 9)
-	// 	{
-	// 		console.log('Login Subscribed is: ', subscribed);
-	// 		if (subscribed == 1)
-	// 		{
-	// 			console.log('Got HERE !!!');
-	// 			setIsLoading(true);
-	// 			fetchSubscriptionStatus();
-	// 		}
-	// 	}
-	// }, [subscribed]);
-
-
 	const fetchSubscriptionStatus = async () => 
 	{
 		const status = await getCustomerInfo();
-		console.log(': ', status.length);
-		setIsLoading(false);
+		
 		setSubscriptionStatus(status.length);
+		setIsLoading(false);
 	};
 
     const handleLogin = async () => 
     {
 		await fetchSubscriptionStatus();
-        await DbUtils.clear();
+        
 		setIsLoading(true);
 
 		// Auth on server
@@ -172,6 +149,8 @@ const Login = (props) =>
 
 		if (status)
 		{
+			await DbUtils.clear();
+
 			if (credType === '1')
 			{
 				const shopperId = res.shopper_id;
@@ -180,9 +159,9 @@ const Login = (props) =>
 				const shopperProfile = res.shopper_profile;
 				const shopperSectors = res.shopper_sectors;
 
-				console.log('Login 1:', token);
-				console.log('Login 2:', shopperProfile);
-				console.log('Subscribed:', subscribed);
+				// console.log('Login 1:', token);
+				// console.log('Login 2:', shopperProfile);
+				// console.log('Subscribed:', subscribed);
 
 				Toast.show({
 					type: 'success',
@@ -222,26 +201,30 @@ const Login = (props) =>
 				}
 
 				setIsLoading(false);
-
+				
+				console.log('Subscription status: ', subscriptionStatus, subscribed);
+				
 				if (subscribed == 1)
 				{
-					console.log('XXXXX Subscription status: ', subscriptionStatus, subscribed);
 					if (subscriptionStatus === null || subscriptionStatus === undefined || subscriptionStatus === 0)
 					{
 						simpleAlert('Subscription Status Error', '\nPlease check your subscription status. You may need to resubscribe. \n\nWhen you tap OK, you will be logged in as a Free user.');
-						console.log('Update profile and server');
+						
+						const params = { shopper_id: shopperId };
+						await cancelSubscription(token, params);
+						
 						DbUtils.setItem('subscribed', '0');
 						if (profile !== null)
 						{
 							profile.subscribed = 0;
 							DbUtils.setItem('shopper_profile', JSON.stringify(profile));
 						}
-						return;
+						props.navigation.navigate('ShopperHome');
 					} 
 					else 
 					{
 						console.log('SUBSCRIPTION IS OK: GOTO HOME');
-						
+						props.navigation.navigate('ShopperHome');
 					}
 				}
 				else 
@@ -433,7 +416,7 @@ const Login = (props) =>
 						</Card>
 						<ButtonPrimary name="Login" onpress={validateForm}/>
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 40 }} >
-							<Text style={{ fontSize: 15, color: '#000000' }}>{subscribed}Don't have an account? &nbsp;</Text>
+							<Text style={{ fontSize: 15, color: '#000000' }}>Don't have an account? &nbsp;</Text>
 							<TouchableOpacity onPress={handleSignup} accessibilityLabel='Tap to signup' >
 								<Text status="primary" style={{ fontSize: 15, fontWeight: 'bold', textDecorationLine: 'underline' }}>Sign up</Text>
 							</TouchableOpacity>

@@ -216,7 +216,7 @@ const CancelAppleSubDo = (props) =>
 							{subscribed == 0 ? 
 							(
 								<View style={{ width: '100%', marginTop: 15, borderColor: '#612bc1', paddingVertical: 10, borderWidth: 1, borderRadius: 5 }}>
-									<Text style={{ fonstSize: 16, textAlign: 'center' }}>Subscription not active</Text>
+									<Text style={{ fontSize: 16, textAlign: 'center' }}>Subscription not active</Text>
 								</View>
 							)
 							: 

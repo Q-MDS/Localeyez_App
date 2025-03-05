@@ -112,7 +112,7 @@ const Paywall = (props) =>
 	const handlePurchase = async () => 
 	{
 		const selectedIdentifier = selectedProduct.product.identifier;
-
+console.log('booo: ', currentSubscriptions);
 		if (selectedIdentifier == currentSubscriptions)
 		{
 			alert('You are already subscribed to this plan');
@@ -232,57 +232,6 @@ const Paywall = (props) =>
 		finally 
 		{
 			
-		}
-	}
-
-	const setProfileSubScribed = (subscribed) => 
-	{
-		// Set subscribed to 0
-		DbProfile.signupSetSubscribed(subscribed)
-		.then((result) => 
-		{
-			// const result = value as number;
-			if (result == 1)
-			{
-				console.log('Subscribed has been updated');
-			}
-			else 
-			{
-				console.log('Set subscribed failed');
-			}
-		})
-		.catch((error) => 
-		{
-			console.error('Failed to update profile:', error);
-		});
-	}
-
-	const fetchProfile = async () => 
-	{
-		const res = await DbProfile.getProfile();
-		console.log('Profile: ', res);
-		return JSON.stringify(res);
-	}
-
-	const setWeekData = async () => 
-	{
-		const year = DateUtils.getCurrentYear();
-		const week = DateUtils.getCurrentWeekNumber();
-		const day = DateUtils.getCurrentDayOfWeek();
-
-		ds.setYearNum(year);
-		ds.setWeekNum(week);
-		ds.setDayNum(day);
-		const weekData = await DbWeeks.getRecord(year, week);
-		console.log('YEar: ', year, 'Week: ', week, 'Day: ', day);
-		console.log('AAA: ', weekData);
-		if (weekData.rows.length > 0)
-		{
-			ds.setWeekInfo(JSON.stringify(weekData.rows.item(0)));
-		} 
-		else 
-		{
-			ds.setWeekInfo('none');
 		}
 	}
 
