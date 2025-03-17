@@ -347,3 +347,55 @@ Business
    √ Sectors hot showing selected and crashes when trying to manage - FIXED but do a run-down check (complete signup, go to edit profile, edit sectors... logout, login, goto profile... sectors etc)
    √ looks like bus hours edit didn't save to server - nope
 √. Social media links: handle a foul link
+
+Review Changes 14-03-25
+
+General app notes:
+------------------
+[√] Can we rearrange the home page icons to be in order : Shopping, Entertainment, Services, Health and Wellness, Travel, Porperty, Education and Employment, Community.
+    [√] Browse
+    [√] Shopper
+[-] Under shopping can we add Agriculture to Hardware and electrical ie: Agriculture, Hardware and Electrical
+    - Main array
+    - Signup - shopper
+    - Signup - business
+    - Edit/manage shopper profile
+    - Edit/manage business profile
+[-] Under Property can we add a note under the icons to say “For building, search Services”
+
+Browse businesses;
+------------------
+[-] Under “read more about the benefits of signin up’ the notifications section can just state’ “Notifications personally tailored to your interests” and add “Option for paid membership subscription with further discounts and benefits on offer”
+[?] When you click the profile person, search function, review, support or notifications toggle, it should offer a sign up now to set up a profile link option?
+
+Business Sign up:
+-----------------
+[√] The check box on business sign up should read “Are you a local business?”
+[√] When I opened my Business page that I set up, the page is reading” 33 Bookings” when I have only just set it up, will this page also show other diagnostics and statistics such as how many views and links to web/social media/location the business has had over the app, so they can quantify the apps value to them, you said that all of these could be tracked except phone calls. It is showing 0 views, but I have viewed it from the user page I set up. They need to be able to see this in order to decide whether to stay on the app when it starts charging as discussed.
+[-] When we work on the pricing plan, we will need to offer option for more than one branch and each separate branch should have its own page details, how is this possible?
+[-] The logo and banner images are still glitching and swopped around, not a seamless experience for loading pictures in the right place. ie: The picture I load for Logo is coming up as the banner picture and vice versa and then not able to correct it.
+    - Works fine for me!!!
+    - Where do you see the display pic and where do you see the banner pic???
+[-] When I tried to open the calendar, the whole screen went blank, but seems to be coming up now
+[-] When I click on my Instagram or facebook links on my busness profile page, it just comes up with a pop up saying invalid url, should this not take me to the relevant page?
+    [-] Show that e.g. https://www.facebook.com/ is pre-appended. Perhaps show the full url below and user just adds in handle. Warn if url is in twice
+[-] Everytime I close the app it logs me out, it should stay signed in for ease of use.
+    [-] We need to still do a login, similar to the remember me.
+[√] I feel the business sign in should open onto its profile page, rather than a review page
+[-] When you open the address of the business, it just opens maps, not the actual address in maps, not sure if this is because it’s a random address ive used for my business page or it will always do this. What id discussed with maps is that it should open to the businesses address, so users can seamlessly find directions without then having to manually enter the address again.  Can we add a location pin for address or event set up? Or can we discuss how this is set up to work.
+[-] When you go to bookings calendar it must auto fetch bookings from the server.
+    - this must update the profile or datapool so that the new amount og bookings shows on the dashboard page
+
+User sign up:
+-------------
+[-] On the Home page can we have the Localeyez Logo and slogan at top, then “Hello, Name” and the notifications and profile picture (not person image) with notifications and profile written eg: see Facebook and then also add a toggle button at the bottom where they can easily change their area range. (Confirm the app picks up when the user is in a new location?
+[-] I think the bottom toggle buttons should say what they are underneath ie: Home, Search, Diary, Reviews, Support eg: see facebook
+[-] (Where are support admin contact emails sent?)
+[-] Businesses actual address to open in maps as above.
+[-] Remember me on sign in should keep the person logged in and open to their home page
+[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
+[-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
+[-] I tried to run a search on my user page for a business under the category that I set my business page up as and nothing came up , not sure if random address issue again?
+[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
+[-] Search function, why two search/next pages for businesses to come up?
+[-] Instead of the “find what you’re looking for function on homepage

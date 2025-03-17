@@ -309,7 +309,7 @@ const StepTwo = (props) =>
 					</Card>
 
 					<Card style={{ marginBottom: 10 }}>
-						<Label title="Are a small & local business?" textalign="left" mb={5} status="basic" fontweight="bold" />
+						<Label title="Are you a local business?" textalign="left" mb={5} status="basic" fontweight="bold" />
 						<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
 							<Toggle
 								checked={state.isLocal}

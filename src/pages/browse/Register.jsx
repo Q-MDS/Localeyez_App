@@ -22,7 +22,7 @@ const Register = (props) =>
 				<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
 					<Image source={require('../../assets/images/localeyez_logo.png')} style={{ objectFit: 'contain' }} />
 				</View>
-				<Text style={[MainStyles.title_a20, {marginBottom:25}]}>Signup as a user and get the following added benefits:</Text>
+				<Text style={[MainStyles.title_a20, {marginTop: 20, marginBottom:25}]}>Signup as a user and get the following added benefits:</Text>
 				<Card style={{marginBottom:10}}>
 					<Text style={MainStyles.title_a14}>Advanced search facility</Text>
 				</Card>
@@ -39,7 +39,7 @@ const Register = (props) =>
 					<Text style={MainStyles.title_a14}>Standard account management options</Text>
 				</Card>
 					{/* <View style={{ marginBottom: 50 }}> */}
-					<ButtonPrimary name="Register" width="100%" marginTop={15} onpress={handleRegister} />
+					<ButtonPrimary name="Signup" width="100%" marginTop={15} onpress={handleRegister} />
 				{/* </View> */}
 				<View>
 				<TouchableOpacity style={{ width: '100%' }} onPress={handleClose}>

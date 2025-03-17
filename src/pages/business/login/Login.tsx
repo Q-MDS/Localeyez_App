@@ -165,7 +165,8 @@ const Login = (props: any) =>
 					}
 		
 					setIsLoading(false);
-					props.navigation.navigate('BusinessDashboard');
+					// props.navigation.navigate('BusinessDashboard');
+					props.navigation.navigate('BusProfProHome');
 				}
 				else if (credType === '2')
 				{

@@ -122,7 +122,7 @@ const BusinessDashboard = (props) =>
 							<Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold', paddingTop: 20 }]} status="primary">Total number of views:</Text>
 							<Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">{totViews}</Text>
 							<Text style={[MainStyles.title_a16, { textAlign: 'center', fontWeight: 'bold', marginTop: 20 }]} status="primary">Bookings:</Text>
-							<Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">33</Text>
+							<Text style={[{ fontSize: totViews > 1000 ? 65 : 100, textAlign: 'center', fontWeight: 'bold' }]} status="primary">{totBookings}</Text>
                     </Card>
 					<View style={{ flex: 1 }} />
 					<View>

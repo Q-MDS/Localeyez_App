@@ -63,6 +63,36 @@ const Home = (props) =>
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fafafa', paddingStart: 20, paddingEnd: 20}]}>
                     <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
 						<ScrollView style={{ width: '100%' }}>
+                        
+
+                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',  width: '100%', flex: 1, marginBottom: 10 }}>
+                                <View style={{ flex: 1 }}>
+                                <TouchableOpacity onPress={gotoCatShopping} > 
+                                    <Image source={require('../../assets/images/cat_shopping.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
+                                </TouchableOpacity>
+                                </View>
+                            <View style={{ width: 10 }} />
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity onPress={gotoCatEntertainment} > 
+                                    <Image source={require('../../assets/images/cat_entertainment.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
+                                </TouchableOpacity>
+                            </View>
+                        </Layout>
+
+                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',  width: '100%', flex: 1, marginBottom: 10 }}>
+                                <View style={{ flex: 1 }}>
+                                    <TouchableOpacity onPress={gotoCatServices} > 
+                                        <Image source={require('../../assets/images/cat_services.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
+                                    </TouchableOpacity>
+                                </View>
+                            <View style={{ width: 10 }} />
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity onPress={gotoCatHealth} > 
+                                    <Image source={require('../../assets/images/cat_health.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down' }} />
+                                </TouchableOpacity>
+                            </View>
+                        </Layout>
+
                         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',  width: '100%', flex: 1, marginBottom: 10 }}>
                                 <View style={{ flex: 1 }}>
                                     <TouchableOpacity onPress={gotoCatTravel} >   
@@ -77,44 +107,16 @@ const Home = (props) =>
                             </View>
                         </Layout>
 
-                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
+                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',  width: '100%', flex: 1, marginBottom: 10 }}>
+                                <View style={{ flex: 1 }}>
+                                    <TouchableOpacity onPress={gotoCatEducation} > 
+                                        <Image source={require('../../assets/images/cat_education.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
+                                    </TouchableOpacity>
+                                </View>
+                            <View style={{ width: 10 }} />
                             <View style={{ flex: 1 }}>
                                 <TouchableOpacity onPress={gotoCatCommunity} > 
                                     <Image source={require('../../assets/images/cat_community.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ width: 10 }} />
-                            <View style={{ flex: 1 }}>
-                                <TouchableOpacity onPress={gotoCatEducation} > 
-                                    <Image source={require('../../assets/images/cat_education.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
-                                </TouchableOpacity>
-                            </View>
-                        </Layout>
-                        
-                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1, marginBottom: 10 }}>
-                            <View style={{ flex: 1 }}>
-                                <TouchableOpacity onPress={gotoCatHealth} > 
-                                    <Image source={require('../../assets/images/cat_health.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down' }} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ width: 10 }} />
-                            <View style={{ flex: 1 }}>
-                                <TouchableOpacity onPress={gotoCatShopping} > 
-                                    <Image source={require('../../assets/images/cat_shopping.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
-                                </TouchableOpacity>
-                            </View>
-                        </Layout>
-                        
-                        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1, marginBottom: 0 }}>
-                            <View style={{ flex: 1 }}>
-                                <TouchableOpacity onPress={gotoCatEntertainment} > 
-                                    <Image source={require('../../assets/images/cat_entertainment.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ width: 10 }} />
-                            <View style={{ flex: 1 }}>
-                                <TouchableOpacity onPress={gotoCatServices} > 
-                                    <Image source={require('../../assets/images/cat_services.png')} style={{ borderRadius: 10, width: '100%', objectFit: 'scale-down'  }} />
                                 </TouchableOpacity>
                             </View>
                         </Layout>
