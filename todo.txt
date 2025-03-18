@@ -14,6 +14,7 @@ Colors T: #E6E6E6 10% black
 Colors T: #CCCCCC 20% black
 Lines: d6d6d6
 image border: #ccc
+20% Base Color: #E7DFF6
 
 Make own font file: https://icomoon.io/app/#/select/font
 
@@ -388,14 +389,36 @@ Business Sign up:
 
 User sign up:
 -------------
-[-] On the Home page can we have the Localeyez Logo and slogan at top, then “Hello, Name” and the notifications and profile picture (not person image) with notifications and profile written eg: see Facebook and then also add a toggle button at the bottom where they can easily change their area range. (Confirm the app picks up when the user is in a new location?
-[-] I think the bottom toggle buttons should say what they are underneath ie: Home, Search, Diary, Reviews, Support eg: see facebook
-[-] (Where are support admin contact emails sent?)
+[!] On the Home page can we have the Localeyez Logo and slogan at top, then “Hello, Name” and the notifications and profile picture (not person image) with notifications and profile written eg: see Facebook and then also add a toggle button at the bottom where they can easily change their area range. (Confirm the app picks up when the user is in a new location?
+    [√] Logo and slogan at the top
+    [-] add a toggle button at the bottom where they can easily change their area range. 
+    [-] Confirm the app picks up when the user is in a new location?
+[√] I think the bottom toggle buttons should say what they are underneath ie: Home, Search, Diary, Reviews, Support eg: see facebook
+[√] (Where are support admin contact emails sent?)
 [-] Businesses actual address to open in maps as above.
 [-] Remember me on sign in should keep the person logged in and open to their home page
-[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
-[-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
 [-] I tried to run a search on my user page for a business under the category that I set my business page up as and nothing came up , not sure if random address issue again?
-[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
 [-] Search function, why two search/next pages for businesses to come up?
 [-] Instead of the “find what you’re looking for function on homepage
+[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
+[-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
+[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
+
+To Add an item to the shopping Sectors
+ - worked on these files
+   - FIRST StEP: Add to sector.data.js
+   - shopper > StepOne: Add the new item to the blank shoppingSecotrs array
+   - shopper > SetupTwo: Add into the list -> Checkbox or list -> ADD to save record object
+   - shopper > account > interests > home.jsx: Update const fullDesc
+   - shopper > account > interests > add.jsx: Do the same changes as StepTwo
+- At this point the default/blank sectors array has been created in StepOne
+- Using sectors.data.json (new item was aded here as well) is displayed in sStepTwo
+- If user finished registration the new shopping sectors with the new item is saved to the users profile
+- If the user view sector array displays right, if they add or edit the local sectors array is updated and the server
+Next steps:
+- BUSINESS: Do the same to business sectors
+- SEARCH: Will need coding in the items category >>> BROWSE and SHOPPER
+- SEARCH: Will need to update the Api
+- API : Also check full in and out
+
+To Check: If an old user (before new item) logs in and then go to edit interest is the new item there, can the select it and all saves ok?

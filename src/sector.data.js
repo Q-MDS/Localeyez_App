@@ -40,6 +40,10 @@ export const sectorData =
 				]
 			},
 			{
+				name: "Agriculture",
+				items: []
+			},
+			{
 				name: "Hardware & Electrical",
 				items: []
 			},

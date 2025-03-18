@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image } from 'react-native-svg';
-import { Icon, TopNavigation, TopNavigationAction, Layout, Text } from '@ui-kitten/components';
+import {View, Image} from 'react-native';
+import { Icon, TopNavigation, TopNavigationAction, Layout, Text, Card } from '@ui-kitten/components';
 
 export const TopNavShpDashboard = (props) => 
 {
@@ -21,6 +21,13 @@ export const TopNavShpDashboard = (props) =>
     const AccountAction = () => ( <TopNavigationAction icon={AccountIcon} onPress={gotoAccount} /> );
 
     return (
+        <>
+        <Card style={{ backgroundColor: '#E7DFF6', marginBottom: 0 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={require('../assets/images/icon_logo.png')} />
+                <Text style={{ color: '#220622', marginLeft: 10, fontSize: 19 }}>Stay in the know, live in the now.</Text>
+            </View>
+        </Card>
         <TopNavigation
         title={(evaProps) => <Layout style={{ flexDirection: 'row' }}><Text {...evaProps} style={{color: '#131141', fontSize: 20}}>Hello, </Text><Text {...evaProps} style={{color: '#220622', fontSize: 20, fontWeight: 'bold'}}>{props.title}</Text></Layout>}
         alignment="start"
@@ -31,5 +38,6 @@ export const TopNavShpDashboard = (props) =>
             <AccountAction />
         </Layout>}
         />
+        </>
     );
 };

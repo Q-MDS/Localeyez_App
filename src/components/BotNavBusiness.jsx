@@ -49,11 +49,11 @@ export const BotNavBusiness = (props) =>
             indicatorStyle={{ backgroundColor: '#612bc1' }}
             onSelect={navigateToScreen}
         >
-            <BottomNavigationTab  icon={IconOne} />
-            <BottomNavigationTab icon={IconTwo} />
-            <BottomNavigationTab  icon={IconFive} />
-            <BottomNavigationTab icon={IconThree} />
-            <BottomNavigationTab icon={IconFour} />
+            <BottomNavigationTab  icon={IconOne} title={"Home"} />
+            <BottomNavigationTab icon={IconTwo} title={"Profile"} />
+            <BottomNavigationTab  icon={IconFive} title={"Bookings"} />
+            <BottomNavigationTab icon={IconThree} title={"Reviews"} />
+            <BottomNavigationTab icon={IconFour} title={"Support"} />
         </BottomNavigation>
     );
 };

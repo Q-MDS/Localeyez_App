@@ -80,6 +80,7 @@ const Add = (props) =>
 	const [fashion, setFashion] = useState([]);
 	const [home, setHome] = useState([]);
 	const [groceries, setGroceries] = useState([]);
+	const [agriculture, setAgriculture] = useState(false); // 1803
 	const [shoppingOpt1, setShoppingOpt1] = useState(false);
 	const [shoppingOpt2, setShoppingOpt2] = useState(false);
 	const [shoppingOpt3, setShoppingOpt3] = useState(false);
@@ -178,6 +179,7 @@ const Add = (props) =>
 			setFashion(shopper_sectors.fashion);
 			setHome(shopper_sectors.home);
 			setGroceries(shopper_sectors.groceries);
+			setAgriculture(shopper_sectors.agriculture); // 1803
 			setShoppingOpt1(shopper_sectors.shoppingOpt1);
 			setShoppingOpt2(shopper_sectors.shoppingOpt2);
 			setShoppingOpt3(shopper_sectors.shoppingOpt3);
@@ -400,6 +402,7 @@ const Add = (props) =>
 			shoppingOpt1: shoppingOpt1,
 			shoppingOpt2: shoppingOpt2,
 			shoppingOpt3: shoppingOpt3,
+			agriculture: agriculture, // 1803
 			titleTravel: "Travel",
 			accomodation:accomodation,
 			transport: transport,
@@ -495,9 +498,10 @@ const Add = (props) =>
 								<CheckboxList title={shoppingLabels[0]} data={fashion} onCheckboxChange={handleFashionChange} />
 								<CheckboxList title={shoppingLabels[1]} data={home} onCheckboxChange={handleHomeChange} />
 								<CheckboxList title={shoppingLabels[2]} data={groceries} onCheckboxChange={handleGroceriesChange} />
-								<Checkbox label={shoppingLabels[3]} checked={shoppingOpt1} onChange={setShoppingOpt1} mt={15} mb={10} />
-								<Checkbox label={shoppingLabels[4]} checked={shoppingOpt2} onChange={setShoppingOpt2} mb={10} />
-								<Checkbox label={shoppingLabels[5]} checked={shoppingOpt3} onChange={setShoppingOpt3}  mb={10} />
+								<Checkbox label={shoppingLabels[3]} checked={agriculture} onChange={setAgriculture}  mt={15} mb={10} />
+								<Checkbox label={shoppingLabels[4]} checked={shoppingOpt1} onChange={setShoppingOpt1} mb={10} />
+								<Checkbox label={shoppingLabels[5]} checked={shoppingOpt2} onChange={setShoppingOpt2} mb={10} />
+								<Checkbox label={shoppingLabels[6]} checked={shoppingOpt3} onChange={setShoppingOpt3}  mb={10} />
 							</View>
 						)}
                     </Card>

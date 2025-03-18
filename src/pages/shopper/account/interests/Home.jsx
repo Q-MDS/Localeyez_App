@@ -99,6 +99,7 @@ const Home = (props) =>
 		shoppingOpt1: "Hardware & Electrical",
 		shoppingOpt2: "Stationary & Gifts",
 		shoppingOpt3: "Children",
+		agriculture: "Agriculture",
 		travelOpt1: "Travel Agents",
 		healthOpt1: "Health Stores & Pharmacies",
 		healthOpt2: "Hospitals & Trauma Centres",

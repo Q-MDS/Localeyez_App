@@ -125,6 +125,7 @@ const StepOne = (props) =>
 			shoppingOpt1: false,
 			shoppingOpt2: false,
 			shoppingOpt3: false,
+			agriculture: false,
 			accomodation:[
 				{label: "Hotels", value: false},
 				{label: "Guest Lodges", value: false},
