@@ -78,7 +78,7 @@ const StepFour = (props) =>
 				});
 				setIsLoading(false);
 				
-				props.navigation.navigate('BusinessDashboard');
+				props.navigation.navigate('BusProfProHome');
 			} 
 			else 
 			{

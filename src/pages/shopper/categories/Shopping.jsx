@@ -33,6 +33,11 @@ const Shopping = (props) =>
 			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "groceries", categoryItem: "groceries"});
 			return;
 		}
+		else if (category === "Agriculture")
+		{
+			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "agriculture", categoryItem: "agriculture"});
+			return;
+		}
 		else if (category === "Hardware & Electrical")
 		{
 			props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "shoppingOpt1", categoryItem: "shoppingOpt1"});

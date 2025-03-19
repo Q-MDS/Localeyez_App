@@ -50,6 +50,7 @@ const Home = (props) =>
 						<CatButtonMed bgColor="#FCD5E1" btnImage={require('../../../../assets/sectors/property/legal.png')} btnText="Legal (Property Law Firms)" onPress={handelSearchLegal} />
 					</Layout>
 
+					<Text>For building, search Services : Home</Text>
 
                 </Layout>
             </ScrollView>

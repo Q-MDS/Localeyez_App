@@ -152,7 +152,7 @@ const StepTwo = (props) =>
 		if (ready)
 		{
 			const shopper_sectors = sectors;
-console.log('Sectors: ', shopper_sectors);
+
 			//if (shopper_sectors.fashion.some(item => item.value) || shopper_sectors.home.some(item => item.value) || shopper_sectors.groceries.some(item => item.value) || shopper_sectors.shoppingOpt1 || shopper_sectors.shoppingOpt2 || shopper_sectors.shoppingOpt3) { setShoppingCollapsed(true) } else { setShoppingCollapsed(false) }
 			setFashion(shopper_sectors.fashion);
 			setHome(shopper_sectors.home);

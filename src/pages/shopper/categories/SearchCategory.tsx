@@ -41,6 +41,7 @@ const SearchCategory = (props:any) =>
 		
 		setShopperId(parsedId);
 	}
+	
 	useEffect(() => 
 	{
 		setSearchSector(props.route.params.searchSector);

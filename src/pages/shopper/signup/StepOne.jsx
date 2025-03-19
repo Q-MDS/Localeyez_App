@@ -98,6 +98,7 @@ const StepOne = (props) =>
         }
 		let profileDataString = JSON.stringify(profileData);
 		await DbUtils.setItem('shopper_profile', profileDataString);
+		await DbUtile.setItem('shopper_logged_in', '0');
 
 		const profileSectors = 
 		{

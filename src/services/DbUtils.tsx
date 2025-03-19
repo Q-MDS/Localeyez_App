@@ -21,7 +21,7 @@ const DbUtils =
             const value = await AsyncStorage.getItem(key);
         
             return value;
-        } 
+        }   
         catch (error) 
         {
             console.error(error);

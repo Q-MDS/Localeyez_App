@@ -204,8 +204,9 @@ const Home = (props) =>
 		}
 	}
 
-    const handleLogout = () => 
+    const handleLogout = async () => 
     {
+		await DbUtils.setItem('shopper_logged_in', '0');
         props.navigation.navigate('LoginUser');
     }
 

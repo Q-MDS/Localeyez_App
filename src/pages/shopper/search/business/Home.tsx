@@ -140,7 +140,7 @@ const Home = (props: any) =>
 				wwwUrl: business.sm_www,
 				businessHours: JSON.parse(business.business_hours),
 				gpsLat: business.loc_latitude,
-				apdLng: business.loc_longitude,
+				gpsLng: business.loc_longitude,
 				bookingsEnabled: business.bookings_enabled,
 				bookingsmax: business.bookings_max
 			},
@@ -238,8 +238,9 @@ const Home = (props: any) =>
 	const openMap = (latitude: number, longitude: number) => 
 	{
 		// -26.14752740498222, 28.079103084261373
-		// const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-		const url = `https://www.google.com/maps?q=${-26.14752740498222},${28.079103084261373}`;
+		const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+		console.log('GPS: ', latitude, longitude);
+		// const url = `https://www.google.com/maps?q=${-26.14752740498222},${28.079103084261373}`;
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
 

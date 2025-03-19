@@ -23,6 +23,12 @@ const Home = (props) =>
 		props.navigation.navigate('BrowseShoppingGroceries');
 	}
 
+	const handelSearchAgriculture = () =>
+	{
+		console.log('Search Agriculture');
+		props.navigation.navigate('CatSearch', {searchType: 1, searchSector: "Shopping", category: "agriculture", categoryItem: "agriculture"});
+	}
+
 	const handelSearchHardware = () =>
 	{
 		console.log('Search Hardware & Electrical');
@@ -59,11 +65,15 @@ const Home = (props) =>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/groceries.png')} btnText="Groceries" onPress={handelGotoGroceries} />
-						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/hardware.png')} btnText="Hardware & Electrical" onPress={handelSearchHardware} />
+						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/hardware.png')} btnText="Agriculture" onPress={handelSearchAgriculture} />
 					</Layout>
 
 					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
+						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/hardware.png')} btnText="Hardware & Electrical" onPress={handelSearchHardware} />
 						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/stationary.png')} btnText="Stationary & Gifts" onPress={handelSearchStationary} />
+					</Layout>
+
+					<Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 25, flex: 1, columnGap: 25, width: '100%' }}>
 						<CatButtonSml bgColor="#EDC9F9" btnImage={require('../../../assets/sectors/shopping/children.png')} btnText="Children" onPress={handelSearchChildren} />
 					</Layout>
 

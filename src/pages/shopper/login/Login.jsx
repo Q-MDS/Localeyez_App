@@ -20,6 +20,7 @@ const initialState = {
 	// credTwo: "1",
 	credOne: "",
 	credTwo: "",
+	loggedIn: 0
 };
 
 function reducer(state, action) 
@@ -59,6 +60,7 @@ const Login = (props) =>
 		if(profile !== null)
 		{
 			const profileData = JSON.parse(profile);
+			console.log('Profile:', profileData);
 			setProfile(profile);
 
 			setSubscribed(profileData.subscribed);
@@ -72,6 +74,7 @@ const Login = (props) =>
 					{
 						credOne: '',
 						credTwo: '',
+						loggedIn: 0
 					},
 				});
 			} 
@@ -121,11 +124,30 @@ const Login = (props) =>
 	{
 		const loginCheck = async() =>
 		{
-			checkRememberedLogin();
+			const getCredOne = await DbUtils.getItem('shopper_cred_one');
+			const getCredTwo = await DbUtils.getItem('shopper_cred_two');
+			const getLoggedIn = await DbUtils.getItem('shopper_logged_in');
+			console.log('getLoggedIn sad:',getLoggedIn, getCredOne, getCredTwo);
+			if (getLoggedIn == 1)
+			{
+				if (getCredOne !== null && getCredTwo !== null)
+				{
+					console.log('GOT HERE');
+					state.credOne = getCredOne;
+					state.credTwo = getCredTwo;
+
+					handleLogin();
+				}
+			}
+			else
+			{
+				// Do nothing
+				getProfile();
+			}
+			// checkRememberedLogin();
 		}
 		loginCheck();
-
-		getProfile();
+		
 	}, []));
 
 	const fetchSubscriptionStatus = async () => 
@@ -153,11 +175,18 @@ const Login = (props) =>
 
 			if (credType === '1')
 			{
+				console.log('FARTFART: ', state.credOne, state.credTwo);
+				await DbUtils.setItem('shopper_logged_in', '1');
+				await DbUtils.setItem('shopper_cred_one', state.credOne);
+				await DbUtils.setItem('shopper_cred_two', state.credTwo);
+
 				const shopperId = res.shopper_id;
 				const token = res.token;
 				const subscribed = res.subscribed;
 				const shopperProfile = res.shopper_profile;
 				const shopperSectors = res.shopper_sectors;
+				const getCredOne = state.credOne;
+				const getCredTwo = state.credTwo;
 
 				// console.log('Login 1:', token);
 				// console.log('Login 2:', shopperProfile);
@@ -167,7 +196,7 @@ const Login = (props) =>
 					type: 'success',
 					position: 'bottom',
 					text1: 'Login accepted',
-					text2: 'Going to the business dashboard',
+					text2: 'Going to the user home page',
 					visibilityTime: 1000,
 					autoHide: true,
 					topOffset: 30,
@@ -176,6 +205,8 @@ const Login = (props) =>
 				
 				let jsonShopperId = JSON.stringify(shopperId);
 				await DbUtils.setItem('shopper_id', jsonShopperId);
+
+				await DbUtils.setItem('remshp_cred_one', getCredOne);
 				
 				let jsonSubscribed = JSON.stringify(subscribed);
 				await DbUtils.setItem('subscribed', jsonSubscribed);
