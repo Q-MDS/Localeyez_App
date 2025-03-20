@@ -376,14 +376,19 @@ Business Sign up:
 [√] When I opened my Business page that I set up, the page is reading” 33 Bookings” when I have only just set it up, will this page also show other diagnostics and statistics such as how many views and links to web/social media/location the business has had over the app, so they can quantify the apps value to them, you said that all of these could be tracked except phone calls. It is showing 0 views, but I have viewed it from the user page I set up. They need to be able to see this in order to decide whether to stay on the app when it starts charging as discussed.
 [√] I feel the business sign in should open onto its profile page, rather than a review page
 [√] After signup goto profile page
+[√] Everytime I close the app it logs me out, it should stay signed in for ease of use.
+    [√] We need to still do a login, similar to the remember me.
 [-] The logo and banner images are still glitching and swopped around, not a seamless experience for loading pictures in the right place. ie: The picture I load for Logo is coming up as the banner picture and vice versa and then not able to correct it.
     - Works fine for me!!!
     - Where do you see the display pic and where do you see the banner pic???
-[-] When I click on my Instagram or facebook links on my busness profile page, it just comes up with a pop up saying invalid url, should this not take me to the relevant page?
-    [-] Show that e.g. https://www.facebook.com/ is pre-appended. Perhaps show the full url below and user just adds in handle. Warn if url is in twice
-[-] Everytime I close the app it logs me out, it should stay signed in for ease of use.
-    [-] We need to still do a login, similar to the remember me.
-[-] When you open the address of the business, it just opens maps, not the actual address in maps, not sure if this is because it’s a random address ive used for my business page or it will always do this. What id discussed with maps is that it should open to the businesses address, so users can seamlessly find directions without then having to manually enter the address again.  Can we add a location pin for address or event set up? Or can we discuss how this is set up to work.
+[√] When I click on my Instagram or facebook links on my busness profile page, it just comes up with a pop up saying invalid url, should this not take me to the relevant page?
+    [√] Show that e.g. https://www.facebook.com/ is pre-appended. Perhaps show the full url below and user just adds in handle. Warn if url is in twice
+    [√] In the signup, pre-append the to the inputs
+    [√] In bus profile setup add a test button/facility
+[-] When you open the address of the business, it just opens maps, not the actual address in maps, not sure if this is because it’s a random address ive used for my business page or it will always do this. 
+    [-] What id discussed with maps is that it should open to the businesses address, so users can seamlessly find directions without then having to manually enter the address again.  
+    [-] Can we add a location pin for address or event set up? Or can we discuss how this is set up to work.
+    [-] Need to make a util to check and set the gps co-ords
 [-] When you go to bookings calendar it must auto fetch bookings from the server.
     - this must update the profile or datapool so that the new amount og bookings shows on the dashboard page
 [!] When we work on the pricing plan, we will need to offer option for more than one branch and each separate branch should have its own page details, how is this possible?
@@ -391,16 +396,16 @@ Business Sign up:
 
 User sign up:
 -------------
-[!] On the Home page can we have the Localeyez Logo and slogan at top, then “Hello, Name” and the notifications and profile picture (not person image) with notifications and profile written eg: see Facebook and then also add a toggle button at the bottom where they can easily change their area range. (Confirm the app picks up when the user is in a new location?
+[√] On the Home page can we have the Localeyez Logo and slogan at top, then “Hello, Name” and the notifications and profile picture (not person image) with notifications and profile written eg: see Facebook
     [√] Logo and slogan at the top
-    [-] add a toggle button at the bottom where they can easily change their area range. 
-    [-] Confirm the app picks up when the user is in a new location?
+[-] add a toggle button at the bottom where they can easily change their area range. 
+[-] Confirm the app picks up when the user is in a new location?
 [√] I think the bottom toggle buttons should say what they are underneath ie: Home, Search, Diary, Reviews, Support eg: see facebook
 [√] (Where are support admin contact emails sent?)
 [√] Businesses actual address to open in maps as above.
-    [-] Need to make a util to check and set the gps co-ords
 [√] Remember me on sign in should keep the person logged in and open to their home page
 [-] I tried to run a search on my user page for a business under the category that I set my business page up as and nothing came up , not sure if random address issue again?
+    [-] ASK: Did she search fpr part of the name?
 [-] Search function, why two search/next pages for businesses to come up?
 [-] Instead of the “find what you’re looking for function on homepage
 [-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
@@ -437,4 +442,5 @@ Next steps:
 To Check: If an old user (before new item) logs in and then go to edit interest is the new item there, can the select it and all saves ok?
 
 19-03-2025
-- Do autologin for businesses
+√ Do autologin for businesses
+- Social media kakkas - bus only

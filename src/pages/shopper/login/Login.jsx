@@ -175,7 +175,6 @@ const Login = (props) =>
 
 			if (credType === '1')
 			{
-				console.log('FARTFART: ', state.credOne, state.credTwo);
 				await DbUtils.setItem('shopper_logged_in', '1');
 				await DbUtils.setItem('shopper_cred_one', state.credOne);
 				await DbUtils.setItem('shopper_cred_two', state.credTwo);

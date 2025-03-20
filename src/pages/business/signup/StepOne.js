@@ -110,6 +110,7 @@ const StepOne = (props) =>
         }
         let stringified = JSON.stringify(profileData);
         await DbUtils.setItem('business_profile', stringified);
+		await DbUtils.setItem('business_logged_in', '0');
 
 		const profileSectors = 
 		{

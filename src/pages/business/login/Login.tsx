@@ -87,7 +87,28 @@ const Login = (props: any) =>
 	{
 		const loginCheck = async() =>
 		{
-			checkRememberedLogin();
+			const getCredOne = await DbUtils.getItem('business_cred_one');
+			const getCredTwo = await DbUtils.getItem('business_cred_two');
+			const getLoggedIn = await DbUtils.getItem('business_logged_in');
+
+			if (getLoggedIn === '1')
+				{
+					if (getCredOne !== null && getCredTwo !== null)
+					{
+						console.log('GOT HERE');
+						state.credOne = getCredOne;
+						state.credTwo = getCredTwo;
+	
+						handleLogin();
+					}
+				}
+				else
+				{
+					// Do nothing
+					getProfile();
+				}
+
+			// checkRememberedLogin();
 		}
 		loginCheck();
 		
@@ -110,6 +131,10 @@ const Login = (props: any) =>
 			{
 				if (credType === '0')
 				{
+					await DbUtils.setItem('business_logged_in', '1');
+					await DbUtils.setItem('business_cred_one', state.credOne);
+					await DbUtils.setItem('business_cred_two', state.credTwo);
+
 					const businessId = res.business_id;
 					const token = res.token;
 					const businessProfile = res.business_profile;

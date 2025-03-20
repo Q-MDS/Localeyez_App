@@ -199,9 +199,10 @@ const Home = (props) =>
 		}
 	}
 
-    const handleLogout = () => 
+    const handleLogout = async () => 
     {
-		forgetMe();
+		// forgetMe();
+		await DbUtils.setItem('business_logged_in', '0');
         props.navigation.navigate('LoginBusiness');
     }
 

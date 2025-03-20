@@ -145,6 +145,35 @@ const StepTwo = (props) =>
 
     const handleNext = async () => 
     {
+		const getXUrl = state.xUrl ? state.xUrl : '';
+		let xUrl = '';
+		if (getXUrl.trim().length > 0)
+		{
+			const formattedHandle = getXUrl.startsWith('@') ? getXUrl.slice(1) : getXUrl;
+    		xUrl = `https://x.com/${formattedHandle}`;
+		} 
+		const getInstaUrl = state.instagramUrl ? state.instagramUrl : '';
+		let instagramUrl = '';
+		if (getInstaUrl.trim().length > 0)
+		{
+			const formattedHandle = getInstaUrl.startsWith('@') ? getInstaUrl.slice(1) : getInstaUrl;
+			instagramUrl = `https://www.instagram.com/${formattedHandle}`;
+		}
+		const getFbUrl = state.facebookUrl ? state.facebookUrl : '';
+		let facebookUrl = '';
+		if (getFbUrl.trim().length > 0)
+		{
+			const formattedHandle = getFbUrl.startsWith('@') ? getFbUrl.slice(1) : getFbUrl;
+			facebookUrl = `https://www.facebook.com/${formattedHandle}`;
+		}
+		const getLinkedinUrl = state.linkedinUrl ? state.linkedinUrl : '';
+		let linkedinUrl = '';
+		if (getLinkedinUrl.trim().length > 0)
+		{
+			const formattedHandle = getLinkedinUrl.startsWith('@') ? getLinkedinUrl.slice(1) : getLinkedinUrl;
+			linkedinUrl = `https://www.linkedin.com/${formattedHandle}`;
+		}
+
         await updProfile('contact_number', state.contactNumber);
         await updProfile('company_name', state.companyName);
         await updProfile('loc_add_one', state.addressOne);
@@ -154,10 +183,10 @@ const StepTwo = (props) =>
         await updProfile('loc_zip_code', state.zipCode);
         await updProfile('business_bio', state.businessBio);
         await updProfile('is_local', state.isLocal);
-        await updProfile('sm_x', state.xUrl);
-        await updProfile('sm_inst', state.instagramUrl);
-        await updProfile('sm_fb', state.facebookUrl);
-        await updProfile('sm_linkedin', state.linkedinUrl);
+        await updProfile('sm_x', xUrl);
+        await updProfile('sm_inst', instagramUrl);
+        await updProfile('sm_fb', facebookUrl);
+        await updProfile('sm_linkedin', linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);
         await updProfile('business_hours', JSON.stringify(hours));
         
@@ -323,30 +352,34 @@ const StepTwo = (props) =>
 					<Card style={{ marginBottom: 20 }}>
 						<Label title="Connect Your Social Media (optional)" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
 						
-						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%', columnGap: 10, marginTop: 10, marginBottom: 5 }} >
 							<Image source={require('../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+							<Text style={{ color: '#000', fontSize: 14, marginTop: 0, marginBottom: 0 }}>Only enter your X username.</Text>
 						</View>
-						<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X URL here" bg='#f2f2f2' />
+						<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} marginTop={60} status="basic" placeholder="Write X username here" bg='#f2f2f2' />
 						
-						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%', columnGap: 10, marginTop: 10, marginBottom: 5 }} >
 							<Image source={require('../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+							<Text style={{ color: '#000', fontSize: 14, marginTop: 0, marginBottom: 0 }}>Only enter your Instagram username.</Text>
 						</View>
-						<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram URL here" bg='#f2f2f2' />
+						<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} status="basic" placeholder="Write Instagram username here" bg='#f2f2f2' />
 						
-						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', columnGap: 10, width: '100%', marginTop: 10, marginBottom: 5 }} >
 							<Image source={require('../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+							<Text style={{ color: '#000', fontSize: 14, marginTop: 0, marginBottom: 0 }}>Only enter your Facebook username.</Text>
 						</View>
-						<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook URL here" bg='#f2f2f2' />
+						<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} status="basic" placeholder="Write Facebook username here" bg='#f2f2f2' />
 
-						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', columnGap: 10, width: '100%', marginTop: 10, marginBottom: 5 }} >
 							<Image source={require('../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+							<Text style={{ color: '#000', fontSize: 14, marginTop: 0, marginBottom: 0 }}>Only enter your Linkedin username.</Text>
 						</View>
-						<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin URL here" bg='#f2f2f2' />
+						<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} status="basic" placeholder="Write Linkedin username here" bg='#f2f2f2' />
 
 						<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
 							<Image source={require('../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
 						</View>
-						<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write Website URL here" bg='#f2f2f2' />
+						<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write full website URL here" bg='#f2f2f2' />
 					</Card>
                     <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
                 </Layout>

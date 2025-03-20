@@ -10,7 +10,7 @@ import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput } from 'react-native';
+import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput, Button } from 'react-native';
 import { Layout, Text, Card, Divider, Toggle } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
@@ -512,6 +512,21 @@ const Edit = (props) =>
 		setHours(updatedHours);
 	};
 
+	const handleTestUrl = (url) => 
+	{
+		if (url) 
+		{
+			Linking.openURL(url).catch(() => 
+			{
+				Alert.alert('Error', 'Failed to open the URL.');
+		  	});
+		} 
+		else 
+		{
+		  Alert.alert('No URL', 'Please provide a valid URL to test.');
+		}
+	};
+
 	if (isLoading) 
 	{
 		return (
@@ -687,28 +702,44 @@ const Edit = (props) =>
 						{/* Social media */}
 						<Card style={{ marginBottom: 20 }}>
 							<Label title="Connect Your Social Media (optional)" textalign="left" mb={5} status="basic" fontsize={14} fontweight="bold" />
-							<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }} >
+							<Text style={{ color: '#00000080', fontSize: 14, marginBottom: 20 }}>Use the "Test URL" button to verify the links</Text>
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }} >
 								<Image source={require('../../../../../assets/images/x_logo.png')} style={{ width: 36, height: 36 }} />
+								<TouchableOpacity style={{ borderColor: '#612bc1', borderWidth: 1, borderRadius: 5, padding: 3 }} onPress={() => handleTestUrl(state.xUrl)}>
+									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
+								</TouchableOpacity>
 							</View>
 							<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" status="basic" bg='#f2f2f2'  />
 
-							<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
+								<TouchableOpacity style={{ borderColor: '#612bc1', borderWidth: 1, borderRadius: 5, padding: 3 }} onPress={() => handleTestUrl(state.instagramUrl)}>
+									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
+								</TouchableOpacity>
 							</View>
 							<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" bg='#f2f2f2'  />
 
-							<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
+								<TouchableOpacity style={{ borderColor: '#612bc1', borderWidth: 1, borderRadius: 5, padding: 3 }} onPress={() => handleTestUrl(state.facebookUrl)}>
+									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
+								</TouchableOpacity>
 							</View>
 							<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" bg='#f2f2f2'  />
 
-							<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
+								<TouchableOpacity style={{ borderColor: '#612bc1', borderWidth: 1, borderRadius: 5, padding: 3 }} onPress={() => handleTestUrl(state.linkedinUrl)}>
+									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
+								</TouchableOpacity>
 							</View>
 							<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" bg='#f2f2f2'  />
 
-							<View style={{ flexDirection: 'row', justifyContent: 'flex-start', width: '100%', marginTop: 10, marginBottom: 5 }} >
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
+								<TouchableOpacity style={{ borderColor: '#612bc1', borderWidth: 1, borderRadius: 5, padding: 3 }} onPress={() => handleTestUrl(state.wwwUrl)}>
+									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
+								</TouchableOpacity>
 							</View>
 							<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" bg='#f2f2f2'  />
 						</Card>
