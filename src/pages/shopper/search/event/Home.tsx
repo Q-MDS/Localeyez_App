@@ -5,11 +5,11 @@ import { TopNavBack } from '../../../../components/TopNavBack';
 import { SafeAreaView, ScrollView, View, Image, Share, Linking  } from 'react-native';
 import { Layout, Text, Divider, Card } from '@ui-kitten/components';
 import { BotNavShopper } from '../../../../components/BotNavShopper';
-import { IconText } from '../../../../components/IconText';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
 import { Label } from '../../../../components/Label';
 import IconShare from '../../../../assets/images/IconShare';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import IconMap from '../../../../assets/images/IconMap';
 
 const Home = (props: any) => 
 {
@@ -56,6 +56,16 @@ const Home = (props: any) =>
         // }
     };
 
+	const openMap = (addressOne: string, addressTwo: string, city: string, province: string, zipcode: string) => 
+	{
+		const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://www.google.com/maps?q=${encodedAddress}`;
+		console.log('GPS: ', encodedAddress);
+		
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	};
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         	<TopNavBack title={`Back: Events List`} alignment="start" navigation={props.navigation} pops={1} />
@@ -83,25 +93,40 @@ const Home = (props: any) =>
 							<View style={{ marginTop: 5 }} />
 							<Text style={[MainStyles.title_a14]}>{event.event_desc}</Text>
 						</Card>
-						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginTop: 0, marginBottom: 10 }}>
-							<Label title="Event Start & End Dates" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
-								<Text style={[MainStyles.title_a14]}>Starts</Text>
-								<Text style={[MainStyles.title_a16]}>{`${startSplit[0]} at ${event.start_time}`}</Text>
+
+						<Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', color: '#612bc1', marginTop: 20, marginBottom: 10 }}>Event Start & End Dates</Text>
+						<View style={{ width: '100%', flexDirection: 'column',  marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+							<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Starts</Text>
+							<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${startSplit[0]} at ${event.start_time}`}</Text>
+						</View>
+						<View style={{ width: '100%', flexDirection: 'column',  marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+							<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Ends</Text>
+							<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${endSplit[0]} at ${event.end_time}`}</Text>
+						</View>
+
+						<Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left', color: '#612bc1', marginTop: 20, marginBottom: 10 }}>Location</Text>
+						<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+								<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Where</Text>
+								<View style={{ flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+									<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${event.loc_add_one || '-'}`}</Text>
+									<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${event.loc_add_two || '-'}`}</Text>
+									<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${event.loc_city || '-'}`}</Text>
+									<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${event.loc_province || '-'}`}</Text>
+									<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${event.loc_zip_code || '-'}`}</Text>
+								</View>
 							</View>
-							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingStart: 0 }}>
-								<Text style={[MainStyles.title_a14]}>Ends</Text>
-								<Text style={[MainStyles.title_a16]}>{`${endSplit[0]} at ${event.end_time}`}</Text>
-							</View>
-						</Card>
-						<Card style={{ backgroundColor: 'white', borderRadius: 10, marginBottom: 20 }}>
-							<Label title="Location" textalign="left" mb={5} status="basic" fontsize={16} fontweight='bold' />
-							<Text style={[MainStyles.title_a14]}>{event.loc_add_one === null || event.loc_add_one === "" ? "-" : event.loc_add_one}</Text>
-							<Text style={[MainStyles.title_a14]}>{event.loc_add_two === null || event.loc_add_two === "" ? "-" : event.loc_add_two}</Text>
-							<Text style={[MainStyles.title_a14]}>{event.loc_city === null || event.loc_city === "" ? "-" : event.loc_city}</Text>
-							<Text style={[MainStyles.title_a14]}>{event.loc_province === null || event.loc_province === "" ? "-" : event.loc_province}</Text>
-							<Text style={[MainStyles.title_a14]}>{event.loc_zip_code === null || event.loc_zip_code === "" ? "-" : event.loc_zip_code}</Text>
-						</Card>
+							{event.loc_add_one !== null && event.loc_add_one !== "" ? 
+							(
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginBottom: 20 }} onPress={() => openMap(event.loc_add_one, event.loc_add_two, event.loc_city, event.loc_province, event.loc_zip_code)}>
+									<IconMap />
+									<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+								</TouchableOpacity>
+							) : (
+								<View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginBottom: 20, opacity: 0.3 }}>
+									<IconMap />
+									<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+								</View>
+							)}
 						<ButtonPrimary name="View business profile" width="100%" onpress={handleBusProfile}/>
             		</ScrollView>
 				</Layout>

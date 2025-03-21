@@ -74,20 +74,20 @@ const BusinessDashboard = (props) =>
 				const apiData = {business_id: businessId};
 				try
 				{
-					await getTotViews(token, JSON.stringify(apiData))
-					.then((res) => 
+					const res = await getTotViews(token, JSON.stringify(apiData))
+					// .then((res) => 
+					// {
+					if (res.status)
 					{
-						if (res.status)
-						{
-							setTotViews(res.data);
-							setTotBookings(res.bookings);
-						} 
-						else 
-						{
-							setTotViews('0');
-							setTotBookings('0');
-						}
-					});
+						setTotViews(res.data);
+						setTotBookings(res.bookings);
+					} 
+					else 
+					{
+						setTotViews('0');
+						setTotBookings('0');
+					}
+					// });
 				}
 				catch(error)
 				{

@@ -142,10 +142,10 @@ const Home = (props) =>
 			try
 			{
 				setIsLoading(true);
-
-				await shopperSearch(token, apiData)
-				.then((res) => 
-				{
+console.log('apidata: ', apiData);
+				const res = await shopperSearch(token, apiData);
+				// .then((res) => 
+				// {
 					if (res.status)
 					{
 						setBusinesses(res.businesses);
@@ -171,7 +171,7 @@ const Home = (props) =>
 						console.log('Search failed P: ', res.promotions);
 						console.log('Search failed E: ', res.events);
 					}
-				});
+				// });
 			} 
 			catch (error)
 			{

@@ -10,6 +10,7 @@ import TextOne from '../../../../components/TextOne';
 import { BotNavBusiness } from '../../../../components/BotNavBusiness';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ButtonPrimary } from '../../../../components/ButtonPrimary';
+import IconMap from '../../../../assets/images/IconMap';
 
 const initialState = {
 	displayImage: null,
@@ -66,7 +67,7 @@ const Home = (props) =>
     {
         const profile = await DbUtils.getItem('business_profile');
 		const record = JSON.parse(profile);
-		console.log('Record: ', record);
+		
 		dispatch(
 		{
 			type: 'BUSINESS_PROFILE',
@@ -196,6 +197,16 @@ const Home = (props) =>
 		}
 	};
 
+	const openMap = (addressOne, addressTwo, city, province, zipcode) => 
+	{
+		const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://www.google.com/maps?q=${encodedAddress}`;
+		console.log('GPS: ', encodedAddress);
+		
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	};
+
 	if (isLoading) 
 	{
 		return (
@@ -304,7 +315,7 @@ const Home = (props) =>
 							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
 							<IconText title={state.contactNumber === "" ? 'No number available' : 'b'} iconname="phone-call-outline" fontsize={14} width={20} status="basic" />
 							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
-							<IconText title={`${!rating ? "0" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
+							<IconText title={`${!rating ? "No reviews" : rating} Rating`} iconname="star-outline" fontsize={14} width={20} status="basic" />
 							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
 						</Card>
 
@@ -364,28 +375,28 @@ const Home = (props) =>
 								<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#00000080', fontStyle: 'italic' }]}>{record.promo_caption}</Text>
 								<Text style={[MainStyles.title_a14, {marginTop: 5, color: '#000' }]}>{record.promo_desc}</Text>
 
-								<View style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', justifyContent: 'center', marginTop: 10}} >
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+								<View style={{ flexDirection: 'column', alignItems: 'center', width: '100%', justifyContent: 'flex-start', marginTop: 10}} >
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
 										{/* <Icon fill='#612BC1' name="pricetags-outline" width={18} height={18} /> */}
 										{/* <Text style={[MainStyles.title_a14, { marginStart: 5, textAlign: 'left' }]}>{record.sale_item_mp}</Text> */}
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Promotional Price:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.promo_price}</Text>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Promotional Price</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.promo_price}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Off Price:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.sale_item_op === "" || record.sale_item_op == null ? "-" : record.sale_item_op}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Sale Off Price</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.sale_item_op === "" || record.sale_item_op == null ? "-" : record.sale_item_op}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.sale_item_mp === "" || record.sale_item_mp == null ? "-" : record.sale_item_mp}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.sale_item_mp === "" || record.sale_item_mp == null ? "-" : record.sale_item_mp}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Start Date:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.start_date}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Start Date</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.start_date}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>End Date:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.end_date}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>End Date</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.end_date}</Text>
 									</View>
 								</View>
 							</Card>
@@ -419,23 +430,27 @@ const Home = (props) =>
 
 									<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#612bc1', fontWeight: 'bold' }]}>{state.companyName}</Text>
 
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Starts:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.start_date)} - {record.start_time}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginTop: 15, marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Starts</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{formatDate(record.start_date)} at {record.start_time}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Ends:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.end_date)} - {record.end_time}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+									<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Ends</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{formatDate(record.end_date)} at {record.end_time}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1', height: '100%' }]}>Where:</Text>
-										<View style={{ flexDirection: 'column', alignItems: 'flex-end', flex: 1 }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_one || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_two || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_city || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 600, textAlign: 'left', color: '#612bc1' }]}>Where</Text>
+										<View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_add_one || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_add_two || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_city || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_province || '-'}`}</Text>
 										</View>
 									</View>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 0 }} onPress={() => openMap(state.addressOne, state.addressTwo, state.city, state.province, state.zipCode)}>
+										<IconMap />
+										<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+									</TouchableOpacity>
 								</Card>
 							</View>
 						))}

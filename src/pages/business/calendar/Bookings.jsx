@@ -51,6 +51,8 @@ const Bookings = () =>
 
 	useEffect(() => 
 	{
+		setIsLoading(true);
+
 		const fetchData = async () => 
 		{
 			await getToken();
@@ -69,28 +71,25 @@ const Bookings = () =>
 			const bId = profile.id;
 			const data = {business_id: profile.id};
 			
-			// setBusinessId(JSON.parse(bId));
+			const res = await getBusBookings(data);
+			
+			setBookings(res.records);
 
-			await getBusBookings(data)
-			.then((res) => 
+			if (res.records.length > 0)
 			{
-				setBookings(res.records);
+				setListMsg("Upcoming bookings list")
+			} 
+			else 
+			{
+				setListMsg("No bookings");
+			}
 
-				if (bookings.length > 0)
-				{
-					setListMsg("Upcoming bookings list")
-				} 
-				else 
-				{
-					setListMsg("No bookings");
-				}
-
-				setIsLoading(false);
-			});
+			setIsLoading(false);
 		}
 		if (ready)
 		{
 			console.log('SSSHHHIIITTT');
+			setIsLoading(true);
 			fetchSettings();
 		}
 	}, [ready]);
@@ -101,33 +100,31 @@ const Bookings = () =>
 		{
 			const data = {business_id: profile.id};
 			
-			await getBusBookings(data)
-			.then((res) => 
+			const res = await getBusBookings(data)
+		
+			setBookings(res.records);
+
+			if (res.records.length > 0)
 			{
-				console.log('RES: ', res);
-				setBookings(res.records);
+				setListMsg("Upcoming bookings list")
+			} 
+			else 
+			{
+				setListMsg("No bookings");
+			}
 
-				if (bookings.length > 0)
-				{
-					setListMsg("Upcoming bookings list")
-				} 
-				else 
-				{
-					setListMsg("No bookings");
-				}
-
-				setIsLoading(false);
-			});
+			setIsLoading(false);
 		};
 		if (ready)
 		{
 			setIsLoading(true);
+			setSelectedDate('');
 			fetchData();
-
 		}
 	}, [refresh, ready]));
 
-	useEffect(() => {
+	useEffect(() => 
+	{
 		// Extract unique dates from bookings
 		const dates = [...new Set(bookings.map(item => item.booking_date))];
 		console.log('Dates: ', dates);
@@ -141,40 +138,32 @@ const Bookings = () =>
 	const renderItem = ({ item }) => (
 		<Card style={{marginBottom: 5}}>
 			<View>
-				<View style={styles.list_row}>
-					<View style={{flexDirection: 'column', width: '60%'}}>
-						<Text style={styles.list_title}>Name</Text>
+				{/* <View style={styles.list_row}> */}
+					<View style={{flexDirection: 'row', width: '100%'}}>
+						<Text style={styles.list_title}>Name:</Text>
 						<Text style={styles.list_data}>{item.shopper_name == '' ? '-' : item.shopper_name}</Text>
 					</View>
-					<View style={{flexDirection: 'column', width: '40%'}}>
-						<Text style={styles.list_title}>Sent</Text>
-						<Text style={styles.list_data}>{item.booking_add_date == 0 ? '-' : convertTimestampToDateTime(item.booking_add_date)}</Text>
-					</View>
-				
+				{/* </View> */}
+				<View style={{flexDirection: 'row', width: '100%'}}>
+					<Text style={styles.list_title}>Sent:</Text>
+					<Text style={styles.list_data}>{item.booking_add_date == 0 ? '-' : convertTimestampToDateTime(item.booking_add_date)}</Text>
 				</View>
-				<View style={styles.list_row}>
-					<View style={{flexDirection: 'column', width: '60%'}}>
-						<Text style={styles.list_title}>Email</Text>
-						<Text style={styles.list_data}>{item.shopper_email == '' || item.shopper_email == null ? '-' : item.shopper_email}</Text>
-					</View>
-					<View style={{flexDirection: 'column', width: '40%'}}>
-						<Text style={styles.list_title}>Contact Number</Text>
-						<Text style={styles.list_data}>{item.shopper_number == '' ? '-' : item.shopper_number}</Text>
-					</View>
+				<View style={{flexDirection: 'row', width: '100%'}}>
+					<Text style={styles.list_title}>Email:</Text>
+					<Text style={styles.list_data}>{item.shopper_email == '' || item.shopper_email == null ? '-' : item.shopper_email}</Text>
 				</View>
-				<View style={styles.list_row}>
-					<View style={{flexDirection: 'column', width: '60%'}}>
-						<Text style={styles.list_title}>Date Requested</Text>
-						<Text style={styles.list_data}>{item.booking_for_date == 0 ? '-' : convertTimestampToDateTime(item.booking_for_date)}</Text>
-					</View>
-					<View style={{flexDirection: 'column', width: '40%'}}>
-						<Text style={styles.list_title}>&nbsp;</Text>
-						<Text style={styles.list_data}>&nbsp;</Text>
-					</View>
+				<View style={{flexDirection: 'row', width: '100%'}}>
+					<Text style={styles.list_title}>Contact Number:</Text>
+					<Text style={styles.list_data}>{item.shopper_number == '' ? '-' : item.shopper_number}</Text>
 				</View>
+				<View style={{flexDirection: 'row', width: '100%'}}>
+					<Text style={styles.list_title}>Date Requested:</Text>
+					<Text style={styles.list_data}>{item.booking_for_date == 0 ? '-' : convertTimestampToDateTime(item.booking_for_date)}</Text>
+				</View>
+
 				<View style={styles.list_row}>
 					<View style={{flexDirection: 'column', width: '100%'}}>
-						<Text style={styles.list_title}>Message</Text>
+						<Text style={[styles.list_title, {marginBottom: 5}]}>Message:</Text>
 						<Text style={styles.list_data}>{item.booking_msg == '' ? '-' : item.booking_msg}</Text>
 					</View>
 				</View>
@@ -245,6 +234,8 @@ const styles = StyleSheet.create({
 	list_title: {
 		fontSize: 12,
 		fontWeight: 'bold',
+		width: 115,
+		color: '#612bc1'
 	},
 	list_data: {
 		fontSize: 14,

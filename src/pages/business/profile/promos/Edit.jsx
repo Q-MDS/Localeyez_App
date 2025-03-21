@@ -7,7 +7,7 @@ import { delPromoPic } from '../../../../services/api_helper';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { Linking, SafeAreaView, ScrollView, View, Image, TouchableOpacity, BackHandler, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import { Layout, Text, Card, Divider } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { InputLabel } from '../../../../components/InputLabel';
@@ -20,7 +20,7 @@ import DropdownSingle from '../../../../components/DropdownSingle';
 import { InputOnly } from '../../../../components/InputOnly';
 import { Label } from '../../../../components/Label';
 import { InputZip } from '../../../../components/InputZip';
-import { ButtonText } from '../../../../components/ButtonText';
+import IconMap from '../../../../assets/images/IconMap';
 
 const sectors = [
 	{ label: 'Shopping', value: 'Shopping' }, 
@@ -432,6 +432,16 @@ const Edit = (props) =>
 		return () => backHandler.remove();
 	}, []);
 
+	const openMap = (addressOne, addressTwo, city, province, zipcode) => 
+	{
+		const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://www.google.com/maps?q=${encodedAddress}`;
+		console.log('GPS: ', encodedAddress);
+		
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	};
+
 	if (isUploading) 
     {
         return (
@@ -533,6 +543,11 @@ const Edit = (props) =>
 					<InputOnly name="promoLocProvince" value={state.promoLocProvince} onChange={handleInputChange}placeholder="Province" bg="#f2f2f2"  />
 					<View style={{ marginTop: 5 }} />
 					<InputZip name="promoLocZipCode" value={state.promoLocZipCode} onChange={handleInputChange} placeholder="ZIP Code" bg="#f2f2f2"  />
+					<View style={{ marginTop: 5 }} />
+					<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 10 }} onPress={() => openMap(state.promoLocAdd1, state.promoLocAdd2, state.promoLocCity, state.promoLocProvince, state.promoLocZipCode)}>
+						<IconMap />
+						<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+					</TouchableOpacity>
 				</Card>
                 <ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
         </ScrollView>

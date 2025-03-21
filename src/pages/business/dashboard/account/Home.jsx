@@ -206,6 +206,11 @@ const Home = (props) =>
         props.navigation.navigate('LoginBusiness');
     }
 
+	const handleExit = () =>
+	{
+		props.navigation.navigate('OnboardingStart');
+	}
+
 	const forgetMe = async () =>
 	{
 		try
@@ -306,6 +311,8 @@ const Home = (props) =>
 				<Divider style={{ height: 1, backgroundColor: '#DEDDE7', width: '100%', marginTop: 25 }} />
 				<View style={{ flex: 1 }} />
 				<Layout style={{ flexDirection: 'column', justifyContent: 'center', flex: 1, width: '100%', marginTop: 25 }} >
+					<ButtonPrimary name="Exit" width="100%" onpress={handleExit} />
+					<View style={{ marginTop: 15 }} />
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
 					<View style={{ marginTop: 15 }} />
 					{/* <ButtonSecondary name="Close Account" width="100%" onpress={handleCloseAccount} /> */}

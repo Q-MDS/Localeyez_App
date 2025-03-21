@@ -7,7 +7,7 @@ import { delEventPic } from '../../../../services/api_helper';
 import Toast from 'react-native-toast-message';
 import MainStyles from '../../../../assets/styles/MainStyles';
 import { TopNavBackTitleIcon } from '../../../../components/TopNavBackTitleIcon';
-import { SafeAreaView, ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { Linking, SafeAreaView, ScrollView, View, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import { Layout, Text, Card, Divider } from '@ui-kitten/components';
 import DividerTop from '../../../../components/DividerTop';
 import { InputLabel } from '../../../../components/InputLabel';
@@ -18,6 +18,7 @@ import DropdownSingle from '../../../../components/DropdownSingle';
 import { InputOnly } from '../../../../components/InputOnly';
 import { Label } from '../../../../components/Label';
 import { InputZip } from '../../../../components/InputZip';
+import IconMap from '../../../../assets/images/IconMap';
 
 const initialState = {
 	sector: null,
@@ -424,6 +425,16 @@ const Edit = (props) =>
 		await DbUtils.setItem('events', JSON.stringify(updatedData));
 	}
 
+			const openMap = (addressOne, addressTwo, city, province, zipcode) => 
+			{
+				const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+				const encodedAddress = encodeURIComponent(address);
+				const url = `https://www.google.com/maps?q=${encodedAddress}`;
+				console.log('GPS: ', encodedAddress);
+				
+				Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+			};
+
 	if (isUploading) 
 	{
 		return (
@@ -531,6 +542,11 @@ const Edit = (props) =>
                     <InputOnly name="province" value={state.province} onChange={handleInputChange}  placeholder="Province" bg="#f2f2f2"  />
                     <View style={{ marginTop: 5 }} />
                     <InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange}  placeholder="Zip code" bg="#f2f2f2"  />
+                    <View style={{ marginTop: 5 }} />
+					<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 10 }} onPress={() => openMap(state.addressOne, state.addressTwo, state.city, state.province, state.zipCode)}>
+						<IconMap />
+						<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+					</TouchableOpacity>
 				</Card>
 				<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
             </ScrollView>

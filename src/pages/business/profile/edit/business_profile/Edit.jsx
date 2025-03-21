@@ -20,6 +20,7 @@ import { InputPhoneNumber } from '../../../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../../../components/InputOnly';
 import { InputZip } from '../../../../../components/InputZip';
 import { InputNumpad } from '../../../../../components/InputNumpad';
+import IconMap from '../../../../../assets/images/IconMap';
 import Toast from 'react-native-toast-message';
 
 const initialState = {
@@ -312,6 +313,35 @@ const Edit = (props) =>
 
     const handleSubmit = async () => 
     {
+		const getXUrl = state.xUrl ? state.xUrl : '';
+		let xUrl = '';
+		if (getXUrl.trim().length > 0)
+		{
+			const formattedHandle = getXUrl.startsWith('@') ? getXUrl.slice(1) : getXUrl;
+    		xUrl = `https://x.com/${formattedHandle}`;
+		} 
+		const getInstaUrl = state.instagramUrl ? state.instagramUrl : '';
+		let instagramUrl = '';
+		if (getInstaUrl.trim().length > 0)
+		{
+			const formattedHandle = getInstaUrl.startsWith('@') ? getInstaUrl.slice(1) : getInstaUrl;
+			instagramUrl = `https://www.instagram.com/${formattedHandle}`;
+		}
+		const getFbUrl = state.facebookUrl ? state.facebookUrl : '';
+		let facebookUrl = '';
+		if (getFbUrl.trim().length > 0)
+		{
+			const formattedHandle = getFbUrl.startsWith('@') ? getFbUrl.slice(1) : getFbUrl;
+			facebookUrl = `https://www.facebook.com/${formattedHandle}`;
+		}
+		const getLinkedinUrl = state.linkedinUrl ? state.linkedinUrl : '';
+		let linkedinUrl = '';
+		if (getLinkedinUrl.trim().length > 0)
+		{
+			const formattedHandle = getLinkedinUrl.startsWith('@') ? getLinkedinUrl.slice(1) : getLinkedinUrl;
+			linkedinUrl = `https://www.linkedin.com/${formattedHandle}`;
+		}
+
 		await updProfile('company_name', state.companyName);
 		await updProfile('contact_number', state.contactNumber);
 		await updProfile('loc_add_one', state.addressOne);
@@ -320,10 +350,10 @@ const Edit = (props) =>
 		await updProfile('loc_province', state.province);
 		await updProfile('loc_zip_code', state.zipCode);
 		await updProfile('business_bio', state.businessBio);
-		await updProfile('sm_x', state.xUrl);
-		await updProfile('sm_inst', state.instagramUrl);
-		await updProfile('sm_fb', state.facebookUrl);
-		await updProfile('sm_linkedin', state.linkedinUrl);
+		await updProfile('sm_x', xUrl);
+		await updProfile('sm_inst', instagramUrl);
+		await updProfile('sm_fb', facebookUrl);
+		await updProfile('sm_linkedin', linkedinUrl);
 		await updProfile('sm_www', state.wwwUrl);
 		await updProfile('business_hours', JSON.stringify(hours));
 		await updProfile('bookings_max', state.bookingsMax);
@@ -527,6 +557,16 @@ const Edit = (props) =>
 		}
 	};
 
+	const openMap = (addressOne, addressTwo, city, province, zipcode) => 
+	{
+		const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://www.google.com/maps?q=${encodedAddress}`;
+		console.log('GPS: ', encodedAddress);
+		
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	};
+
 	if (isLoading) 
 	{
 		return (
@@ -618,7 +658,15 @@ const Edit = (props) =>
 								<InputOnly name="province" value={state.province} onChange={handleInputChange} placeholder="Province" mt={5} bg={errors.province ? '#ffe6e6' : '#f2f2f2'} />
 								{/* {errors.province && <Text style={styles.error}>{errors.province}</Text>} */}
 							</View>
-							<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={errors.email ? '#ffe6e6' : '#f2f2f2'} />
+							<View>
+								<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={ '#f2f2f2'} />
+							</View>
+							<View>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 10 }} onPress={() => openMap(state.addressOne, state.addressTwo, state.city, state.province, state.zipCode)}>
+								<IconMap />
+									<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+								</TouchableOpacity>
+							</View>
 						</Card>
 						{/* Contact number */}
 						<Card style={{ marginBottom: 10 }}>
@@ -709,7 +757,7 @@ const Edit = (props) =>
 									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
 								</TouchableOpacity>
 							</View>
-							<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X URL here" status="basic" bg='#f2f2f2'  />
+							<InputOnly name="xUrl" value={state.xUrl} onChange={handleInputChange} placeholder="Write X username here" status="basic" bg='#f2f2f2'  />
 
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/insta_logo.png')} style={{ width: 32, height: 32 }} />
@@ -717,7 +765,7 @@ const Edit = (props) =>
 									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
 								</TouchableOpacity>
 							</View>
-							<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram URL here" bg='#f2f2f2'  />
+							<InputOnly name="instagramUrl" value={state.instagramUrl} onChange={handleInputChange} placeholder="Write Instagram username here" bg='#f2f2f2'  />
 
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/fb_logo.png')} style={{ width: 38, height: 38 }} />
@@ -725,7 +773,7 @@ const Edit = (props) =>
 									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
 								</TouchableOpacity>
 							</View>
-							<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook URL here" bg='#f2f2f2'  />
+							<InputOnly name="facebookUrl" value={state.facebookUrl} onChange={handleInputChange} placeholder="Write Facebook username here" bg='#f2f2f2'  />
 
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/link_logo.png')} style={{ width: 32, height: 32 }} />
@@ -733,7 +781,7 @@ const Edit = (props) =>
 									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
 								</TouchableOpacity>
 							</View>
-							<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin URL here" bg='#f2f2f2'  />
+							<InputOnly name="linkedinUrl" value={state.linkedinUrl} onChange={handleInputChange} placeholder="Write Linkedin username here" bg='#f2f2f2'  />
 
 							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: 10, marginBottom: 5 }} >
 								<Image source={require('../../../../../assets/images/www_logo.png')} style={{ width: 32, height: 32 }} />
@@ -741,7 +789,7 @@ const Edit = (props) =>
 									<Text style={{ color: '#000', fontSize: 14 }}>Test URL</Text>
 								</TouchableOpacity>
 							</View>
-							<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} handleInputChange="Write Website URL here" bg='#f2f2f2'  />
+							<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} placeholder="Enter full website address" handleInputChange="Write Website username here" bg='#f2f2f2'  />
 						</Card>
 						<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm}/>
 					</Layout>

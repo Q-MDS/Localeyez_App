@@ -210,6 +210,11 @@ const Home = (props) =>
         props.navigation.navigate('LoginUser');
     }
 
+	const handleExit = () =>
+	{
+		props.navigation.navigate('OnboardingStart');
+	}
+
     const handleCloseAccount = () => 
     {
         props.navigation.navigate('ShopperAccClose');
@@ -334,6 +339,8 @@ const Home = (props) =>
 
 				<View style={{ flex: 1, marginTop: 25 }} />
 				<Layout style={{ flexDirection: 'column', justifyContent: 'flex-end', flex: 1, width: '100%' }} >
+					<ButtonPrimary name="Exit" width="100%" onpress={handleExit} />
+					<View style={{ marginTop: 15 }} />
 					<ButtonPrimary name="Sign Out" width="100%" onpress={handleLogout} />
 					<View style={{ marginTop: 15 }} />
 					<ButtonText name="Close Account" width="100%" onpress={handleCloseAccount} />

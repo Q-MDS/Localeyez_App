@@ -235,12 +235,22 @@ const Home = (props: any) =>
 		return currentTime >= todayHours.open && currentTime <= todayHours.close;
 	};
 
-	const openMap = (latitude: number, longitude: number) => 
+	const openMapCoOrds = (latitude: number, longitude: number) => 
 	{
 		// -26.14752740498222, 28.079103084261373
 		const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
 		console.log('GPS: ', latitude, longitude);
 		// const url = `https://www.google.com/maps?q=${-26.14752740498222},${28.079103084261373}`;
+		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+	};
+
+	const openMap = (addressOne: string, addressTwo: string, city: string, province: string, zipcode: string) => 
+	{
+		const address = `${addressOne}, ${addressTwo}, ${city}, ${province}, ${zipcode}`;
+		const encodedAddress = encodeURIComponent(address);
+		const url = `https://www.google.com/maps?q=${encodedAddress}`;
+		console.log('GPS: ', encodedAddress);
+		
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
 
@@ -316,7 +326,7 @@ const Home = (props: any) =>
 							<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#612bc1', width: '100%', marginBottom: 10 }}>Business Details</Text>
 							<IconText title={`${state.addressOne ? state.addressOne : '-'}\n${state.addressTwo ? state.addressTwo : '-'}\n${state.city ? state.city : '-'}\n${state.province ? state.province : '-'}\n${state.zipCode ? state.zipCode : '-'}`} iconname="compass-outline" fontsize={14} width={24} status="basic" />
 							<Divider style={{ marginTop: 5, marginBottom: 5 }}/>
-							<TouchableOpacity  onPress={() => openMap(state.gpsLat, state.gpsLng)} >
+							<TouchableOpacity  onPress={() => openMap(state.addressOne, state.addressTwo, state.city, state.province, state.zipCode)} >
 								<View style={{ flexDirection: 'row', alignItems: 'center' }} >
 									<IconMap />
 									<Text style={[ MainStyles.title_a14, { paddingStart: 6, fontWeight: 'bold', color: '#612bc1'} ]} >View Map</Text>
@@ -406,25 +416,26 @@ const Home = (props: any) =>
 									<Text style={[MainStyles.title_a14, {marginTop: 5, color: '#000' }]}>{record.promo_desc}</Text>
 
 									<View style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', justifyContent: 'center', marginTop: 10}} >
-										<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Promotional Price:</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.promo_price}</Text>
+
+										<View style={{ width: '100%', flexDirection: 'column', marginTop: 15, marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+											<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Promotional Price</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.promo_price}</Text>
 										</View>
-										<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Off Price:</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+										<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+											<Text style={[MainStyles.title_a13, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Sale Off Price:</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1, textDecorationLine: 'line-through' }}>{record.sale_item_op === "" ? "-" : "999"}</Text>
 										</View>
-										<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price:</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1, textDecorationLine: 'line-through' }]}>{record.sale_item_op === "" ? "-" : "999"}</Text>
+										<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+											<Text style={[MainStyles.title_a13, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Sale Marked Down Price:</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1, textDecorationLine: 'line-through' }}>{record.sale_item_op === "" ? "-" : "999"}</Text>
 										</View>
-										<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Start Date:</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.start_date}</Text>
+										<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+											<Text style={[MainStyles.title_a13, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Start Date:</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.start_date}</Text>
 										</View>
-										<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>End Date:</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{record.end_date}</Text>
+										<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+											<Text style={[MainStyles.title_a13, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>End Date:</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{record.end_date}</Text>
 										</View>
 									</View>
 									<TouchableOpacity onPress={() => handlePromotionShare(record.id)}>
@@ -445,7 +456,7 @@ const Home = (props: any) =>
 							<TextOne title="No events listed" status="basic" />
 						</Layout>
 						)}
-						{events && events.map((record: { id: number, display_image: any; event_title: string; event_caption: string; event_desc: string, start_date: string | number | Date; start_time: string, end_date: string, end_time: string, loc_add_one: any; loc_add_two: any; loc_city: any; loc_province: string }, index: React.Key | null | undefined) => 
+						{events && events.map((record: { id: number, display_image: any; event_title: string; event_caption: string; event_desc: string, start_date: string | number | Date; start_time: string, end_date: string, end_time: string, loc_add_one: any; loc_add_two: any; loc_city: any; loc_province: string; loc_zip_code: string }, index: React.Key | null | undefined) => 
 						(
 							<View key={index} style={{ paddingStart: 20, paddingEnd: 20, width: '100%' }}>
 								<Card style={{ marginBottom: 15, backgroundColor: '#ffffff' }}>
@@ -463,28 +474,33 @@ const Home = (props: any) =>
 
 									<Text style={[MainStyles.title_a16, {marginTop: 5, color: '#612bc1', fontWeight: 'bold' }]}>{state.companyName}</Text>
 
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Starts:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.start_date)} - {record.start_time}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginTop: 15, marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Starts</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{formatDate(record.start_date)} at {record.start_time}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1' }]}>Ends:</Text>
-										<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{formatDate(record.end_date)} - {record.end_time}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Ends</Text>
+										<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{formatDate(record.end_date)} at {record.end_time}</Text>
 									</View>
-									<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#612bc1', height: '100%' }]}>Where:</Text>
-										<View style={{ flexDirection: 'column', alignItems: 'flex-end', flex: 1 }}>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_one || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_add_two || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_city || '-'}`}</Text>
-											<Text style={[MainStyles.title_a13, { textAlign: 'right', flex: 1 }]}>{`${record.loc_province || '-'}`}</Text>
+									<View style={{ width: '100%', flexDirection: 'column', marginBottom: 10, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 5 }}>
+										<Text style={[MainStyles.title_a13, MainStyles.mb_1, { fontWeight: 'bold', textAlign: 'left', color: '#612bc1' }]}>Where</Text>
+										<View style={{ flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_add_one || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_add_two || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_city || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_province || '-'}`}</Text>
+											<Text style={{ fontSize: 15, textAlign: 'left', flex: 1 }}>{`${record.loc_zip_code || '-'}`}</Text>
 										</View>
 									</View>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 0 }} onPress={() => openMap(record.loc_add_one, record.loc_add_two, record.loc_city, record.loc_province, record.loc_zip_code)}>
+										<IconMap />
+										<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
+									</TouchableOpacity>
 									<TouchableOpacity onPress={() => handleEventShare(record.id)}>
-									<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 10, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
-										<IconShare />
-										<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
-									</View>
+										<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: 110, borderRadius: 8, marginTop: 20, padding: 8, paddingStart: 15, paddingEnd: 15, backgroundColor: '#612bc1' }}>
+											<IconShare />
+											<Text style={[MainStyles.title_a13, { textAlign: 'left', color: '#FFFFFF' }]}>SHARE</Text>
+										</View>
 									</TouchableOpacity>
 								</Card>
 							</View>

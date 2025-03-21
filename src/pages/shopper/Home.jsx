@@ -81,8 +81,8 @@ const Home = (props) =>
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <TopNavShpDashboard title={shopperName} navigation={props.navigation}  />
                 <Layout style={[MainStyles.layout_container, {backgroundColor: '#fafafa', paddingTop: 0, paddingStart: 20, paddingEnd: 20}]}>
-                    <InputSearch value={searchFor} setValue={setSearchFor} onpress={handleSearch} placeholder="Find what you're looking for..." />
-                    <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 20}}>
+                    {/* <InputSearch value={searchFor} setValue={setSearchFor} onpress={handleSearch} placeholder="Find what you're looking for..." /> */}
+                    <Layout style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 0}}>
 				        <ScrollView style={{ width: '100%' }}>
 
                             <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 5, flex: 1 }}>
