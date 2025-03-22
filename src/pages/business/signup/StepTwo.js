@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import DbUtils from '../../../services/DbUtils'; 
+import MapView, { Marker } from 'react-native-maps';
+import axios from 'axios';
 import CustomIcon from '../../../components/CustomIcon';
 import MainStyles from '../../../assets/styles/MainStyles';
 import { TopNavBack } from '../../../components/TopNavBack';
@@ -7,10 +9,11 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { InputLabel } from '../../../components/InputLabel';
 import { InputMultiline } from '../../../components/InputMultiline';
 import { Label } from '../../../components/Label';
-import { SafeAreaView, ScrollView, View, ActivityIndicator, Image, StyleSheet, TextInput, Alert } from 'react-native';
+import { SafeAreaView, ScrollView, View, ActivityIndicator, TouchableOpacity, Image, StyleSheet, TextInput, Alert, Switch } from 'react-native';
 import { Layout, Card, Toggle, Text, Divider } from '@ui-kitten/components';
 import { InputPhoneNumber } from '../../../components/InputPhoneNumber';
 import { InputOnly } from '../../../components/InputOnly';
+import { ButtonSecondary } from '../../../components/ButtonSecondary';
 
 const initialState = {
 	email: null,
@@ -28,7 +31,9 @@ const initialState = {
 	linkedinUrl: null,
 	wwwUrl: null,
 	isLocal: null,
-	businessHours: null
+	businessHours: null, 
+	gpsLatitude: null, 
+	gpsLongitude: null
 };
 
 function reducer(state, action) 
@@ -47,6 +52,9 @@ const StepTwo = (props) =>
 	const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(true);
 	const [errors, setErrors] = useState({ contactNumber: '', company: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
+	const [isGeoLocationEnabled, setGeoLocationEnabled] = useState(false);
+	// const [gpsCoords, setGpsCoords] = useState(null);
+	const [gpsCoords, setGpsCoords] = useState(null);
 	
 	const businessHours = [
 		{ day: 'Mon', open: '08:00', close: '17:00' },
@@ -58,6 +66,7 @@ const StepTwo = (props) =>
 		{ day: 'Sun', open: 'Closed', close: 'Closed' },
 	];
 	const [hours, setHours] = useState([]);
+	
 	const handleTimeChange = (day, timeType, value) => 
 	{
 		const updatedHours = hours.map(hour => 
@@ -87,11 +96,16 @@ const StepTwo = (props) =>
 				{
 					contactNumber: JSON.parse(profile).contact_number,
 					companyName: JSON.parse(profile).company_name,
-					addressOne: JSON.parse(profile).loc_add_one,
-					addressTwo: JSON.parse(profile).loc_add_two,
-					city: JSON.parse(profile).loc_city,
-					province: JSON.parse(profile).loc_province,
-					zipCode: JSON.parse(profile).loc_zip_code,
+					// addressOne: JSON.parse(profile).loc_add_one,
+					addressOne: '15 Scott Street',
+					// addressTwo: JSON.parse(profile).loc_add_two,
+					addressTwo: 'Waverley',
+					// city: JSON.parse(profile).loc_city,
+					city: 'Johannesburg',
+					// province: JSON.parse(profile).loc_province,
+					province: 'Gauteng',
+					// zipCode: JSON.parse(profile).loc_zip_code,
+					zipCode: '2001',
 					isLocal: JSON.parse(profile).is_local,
 					businessBio: JSON.parse(profile).business_bio,
 					xUrl: JSON.parse(profile).sm_x,
@@ -99,7 +113,9 @@ const StepTwo = (props) =>
 					facebookUrl: JSON.parse(profile).sm_fb,
 					linkedinUrl: JSON.parse(profile).sm_linkedin,
 					wwwUrl: JSON.parse(profile).sm_www,
-					businessHours: JSON.parse(profile).business_hours
+					businessHours: JSON.parse(profile).business_hours,
+					gpsLatitude: '0.0',
+					gpsLongitude: '0.0'
 				},
 			});
 			
@@ -118,6 +134,70 @@ const StepTwo = (props) =>
       
         await DbUtils.setItem('business_profile', JSON.stringify(profileData));
     };
+
+	const toggleGeoLocation = () => 
+	{
+		setGeoLocationEnabled((previousState) => !previousState);
+		if (!isGeoLocationEnabled)
+		{
+			setGpsCoords(null);
+		}	
+	};
+
+	// const getGpsCoordinates = async () => 
+	// {
+	// 	const address = `${state.addressOne}, ${state.city}, ${state.province}, ${state.zipCode}`;
+	// 	const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your API key
+	// 	const encodedAddress = encodeURIComponent(address);
+	// 	const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+	
+	// 	try {
+	// 	  setLoading(true);
+	// 	  const response = await axios.get(url);
+	// 	  if (response.data.status === 'OK') {
+	// 		const location = response.data.results[0].geometry.location;
+	// 		setGpsCoords({ latitude: location.lat, longitude: location.lng });
+	// 		Alert.alert('Success', 'GPS coordinates acquired successfully!');
+	// 	  } else {
+	// 		Alert.alert('Error', 'Unable to get GPS coordinates. Please check the address.');
+	// 	  }
+	// 	} catch (error) {
+	// 	  Alert.alert('Error', 'Something went wrong while fetching GPS coordinates.');
+	// 	} finally {
+	// 	  setLoading(false);
+	// 	}
+	//   };
+
+	const getGpsCoordinates = async (address) => 
+	{
+		try 
+		{
+			console.log('Fetching GPS coordinates for address:', address);
+			const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+				params: {
+					q: address,
+					format: 'json',
+					addressdetails: 1,
+					limit: 1,
+				},
+				headers: {
+					'User-Agent': 'Localeyez/1.0 (quintin@moderndaystrategy.com)',
+				},
+			});
+	
+			if (response.data && response.data.length > 0) {
+				const { lat, lon } = response.data[0];
+				state.gpsLatitude = lat;
+				state.gpsLongitude = lon;
+				return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+			} else {
+				throw new Error('No results found for the given address.');
+			}
+		} catch (error) {
+			console.error('Error fetching GPS coordinates:', error.message);
+			return null;
+		}
+	};
 
     // const updProfileLocation = async (key, subKey, newValue) => 
     // {
@@ -161,7 +241,7 @@ const StepTwo = (props) =>
 		}
 		const getFbUrl = state.facebookUrl ? state.facebookUrl : '';
 		let facebookUrl = '';
-		if (getFbUrl.trim().length > 0)
+		if (getFbUrl.trim().length > 0)	
 		{
 			const formattedHandle = getFbUrl.startsWith('@') ? getFbUrl.slice(1) : getFbUrl;
 			facebookUrl = `https://www.facebook.com/${formattedHandle}`;
@@ -189,9 +269,54 @@ const StepTwo = (props) =>
         await updProfile('sm_linkedin', linkedinUrl);
         await updProfile('sm_www', state.wwwUrl);
         await updProfile('business_hours', JSON.stringify(hours));
+		await updProfile('gps_lat', state.gpsLatitude);
+		await updProfile('gps_lng', state.gpsLongitude);
         
         props.navigation.navigate('SignupBusinessStepThree');
     }
+
+	const handleGetGps = async () =>
+	{
+		const address = `${state.addressOne}+${state.addressTwo}+${state.city}+${state.province}`;
+		const formattedAddress = address.replace(/ /g, '+');
+		
+		const gpsCoords = await getGpsCoordinates(formattedAddress);
+
+		if (gpsCoords) 
+		{
+			setGpsCoords(gpsCoords);
+			state.gpsLatitude = gpsCoords.latitude;
+			state.gpsLongitude = gpsCoords.longitude;
+			console.log('State:', state);
+			console.log('GPS Coordinates:', gpsCoords);
+		} 
+		else 
+		{
+			Alert.alert('Error', 'Unable to fetch GPS coordinates. Please check the address and try again.');
+		}
+	}
+
+	const handleAccept = () => 
+	{
+		console.log('Accept');
+	}
+
+	const handleRetry = () => 
+	{
+		Alert.alert(
+			"Retry",
+			"Please check that the address you entered is correct and then tap on GET GPS again. If you would like to set this up later, turn off \"Enable Geo-location\".",
+			[
+				{
+				text: "Ok",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				}
+			]
+		);
+		setGpsCoords(null);
+		console.log('Accept');
+	}
 
 	const validateForm = () => 
 	{
@@ -279,6 +404,55 @@ const StepTwo = (props) =>
 						<View style={{ marginTop: 5 }} />
 							<InputOnly placeholder="ZIP Code" name="zipCode" value={state.zipCode} onChange={handleInputChange} bg='#f2f2f2' />
 					</Card>
+
+					<Card style={{ marginBottom: 10 }}>
+						<Label title="Enable geo-location" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+						<Text style={{ color: '#000', fontSize: 11, marginTop: 0, marginBottom: 0 }}>- If you enable geo-location you will be prompted to get and accept the gps co-ordinates for your business address.</Text>
+						<Text style={{ color: '#000', fontSize: 11, marginTop: 0, marginBottom: 0 }}>- If you disable geo-location your business will not be displayed in the results if a user has selected a <Text style={{ fontSize: 11, fontWeight: 'bold' }}>search radius</Text> however your business will be displayed if a user has selected a category search e.g. Shopping | Clothing</Text>
+						
+						<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 15 }}>
+							<Text style={{ color: '#000', fontSize: 14, marginRight: 10 }}>Enable Geo-location:</Text>
+							<Switch
+							value={isGeoLocationEnabled}
+							onValueChange={toggleGeoLocation}
+							trackColor={{ false: '#767577', true: '#ccc' }}
+							thumbColor={isGeoLocationEnabled ? '#612bc1' : '#f4f3f4'}
+							/>
+						</View>
+
+						{isGeoLocationEnabled && (
+							<>
+						<Text style={{ color: '#000', fontSize: 13, marginTop: 15, marginBottom: 15 }}>Tap on "Get GPS co-ordinates" to get the gps co-ordinates of the address you entered above.</Text>
+						<ButtonPrimary name="Get GPS co-ordinates" width="100%" onpress={handleGetGps}/>
+						{gpsCoords && (
+							<View style={{ marginTop: 10 }}>
+								<Text style={{ color: '#000', fontSize: 14, marginBottom: 10 }}>Map Preview:</Text>
+								<MapView
+									style={{ height: 300, width: '100%' }}
+									initialRegion={{
+									latitude: gpsCoords.latitude,
+									longitude: gpsCoords.longitude,
+									latitudeDelta: 0.01,
+									longitudeDelta: 0.01,
+									}}
+									>
+									<Marker coordinate={gpsCoords} title="Business Location" />
+								</MapView>
+
+								<View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', columnGap: 10, marginTop: 10 }}>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#612bc1', borderRadius: 30 }} onPress={handleAccept}>
+										<Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Accept</Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#EFE7FD', borderRadius: 30 }} onPress={handleRetry}>
+										<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', borderRadius: 30 }}>Retry</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						)}
+						</>
+					)}
+					</Card>
+
 
 					<Card style={{ marginBottom: 10 }}>
 						<View>
@@ -381,6 +555,8 @@ const StepTwo = (props) =>
 						</View>
 						<InputOnly name="wwwUrl" value={state.wwwUrl} onChange={handleInputChange} status="basic" placeholder="Write full website URL here" bg='#f2f2f2' />
 					</Card>
+
+
                     <ButtonPrimary name="Next" width="100%" onpress={validateForm}/>
                 </Layout>
             </ScrollView>

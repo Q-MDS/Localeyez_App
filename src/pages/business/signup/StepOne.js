@@ -107,6 +107,8 @@ const StepOne = (props) =>
 			banner_image: '',
 			profile_pic: '',
 			business_hours: businessHours,
+			gps_lat: '',
+			gps_lng: ''
         }
         let stringified = JSON.stringify(profileData);
         await DbUtils.setItem('business_profile', stringified);

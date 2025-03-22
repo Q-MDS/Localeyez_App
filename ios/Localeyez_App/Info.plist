@@ -36,11 +36,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Enable camera permission needed in order to take pictures for events or promotions if needed</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location in order to find businesses within the geo range you have selected</string>
+	<string>We need your location in order to find businesses within a geo range</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location in order to find businesses within the geo range you have selected</string>
+	<string>We need your location in order to find businesses within a geo range</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location in order to find businesses within the geo range you have selected</string>
+	<string>We need your location in order to find businesses within a geo range</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This is used so that the user can select a photo for their business display and banner image. Or to add a picture to a promotion or event they create.</string>
 	<key>UILaunchStoryboardName</key>
