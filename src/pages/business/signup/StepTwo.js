@@ -114,8 +114,8 @@ const StepTwo = (props) =>
 					linkedinUrl: JSON.parse(profile).sm_linkedin,
 					wwwUrl: JSON.parse(profile).sm_www,
 					businessHours: JSON.parse(profile).business_hours,
-					gpsLatitude: '0.0',
-					gpsLongitude: '0.0'
+					gpsLatitude: '',
+					gpsLongitude: ''
 				},
 			});
 			
@@ -296,9 +296,22 @@ const StepTwo = (props) =>
 		}
 	}
 
-	const handleAccept = () => 
+	const handleAccept = async () => 
 	{
-		console.log('Accept');
+		await updProfile('gps_lat', state.gpsLatitude);
+		await updProfile('gps_lng', state.gpsLongitude);
+
+		Alert.alert(
+			"Success",
+			"GPS coordinates have been saved successfully!",
+			[
+				{
+				text: "Ok",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				}
+			]
+		);
 	}
 
 	const handleRetry = () => 
@@ -315,7 +328,6 @@ const StepTwo = (props) =>
 			]
 		);
 		setGpsCoords(null);
-		console.log('Accept');
 	}
 
 	const validateForm = () => 
@@ -422,35 +434,35 @@ const StepTwo = (props) =>
 
 						{isGeoLocationEnabled && (
 							<>
-						<Text style={{ color: '#000', fontSize: 13, marginTop: 15, marginBottom: 15 }}>Tap on "Get GPS co-ordinates" to get the gps co-ordinates of the address you entered above.</Text>
-						<ButtonPrimary name="Get GPS co-ordinates" width="100%" onpress={handleGetGps}/>
-						{gpsCoords && (
-							<View style={{ marginTop: 10 }}>
-								<Text style={{ color: '#000', fontSize: 14, marginBottom: 10 }}>Map Preview:</Text>
-								<MapView
-									style={{ height: 300, width: '100%' }}
-									initialRegion={{
-									latitude: gpsCoords.latitude,
-									longitude: gpsCoords.longitude,
-									latitudeDelta: 0.01,
-									longitudeDelta: 0.01,
-									}}
-									>
-									<Marker coordinate={gpsCoords} title="Business Location" />
-								</MapView>
+							<Text style={{ color: '#000', fontSize: 13, marginTop: 15, marginBottom: 15 }}>Tap on "Get GPS co-ordinates" to get the gps co-ordinates of the address you entered above.</Text>
+							<ButtonPrimary name="Get GPS co-ordinates" width="100%" onpress={handleGetGps}/>
+							{gpsCoords && (
+								<View style={{ marginTop: 10 }}>
+									<Text style={{ color: '#000', fontSize: 14, marginBottom: 10 }}>Map Preview:</Text>
+									<MapView
+										style={{ height: 300, width: '100%' }}
+										initialRegion={{
+										latitude: gpsCoords.latitude,
+										longitude: gpsCoords.longitude,
+										latitudeDelta: 0.01,
+										longitudeDelta: 0.01,
+										}}
+										>
+										<Marker coordinate={gpsCoords} title="Business Location" />
+									</MapView>
 
-								<View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', columnGap: 10, marginTop: 10 }}>
-									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#612bc1', borderRadius: 30 }} onPress={handleAccept}>
-										<Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Accept</Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#EFE7FD', borderRadius: 30 }} onPress={handleRetry}>
-										<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', borderRadius: 30 }}>Retry</Text>
-									</TouchableOpacity>
+									<View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', columnGap: 10, marginTop: 10 }}>
+										<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#612bc1', borderRadius: 30 }} onPress={handleAccept}>
+											<Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Accept</Text>
+										</TouchableOpacity>
+										<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#EFE7FD', borderRadius: 30 }} onPress={handleRetry}>
+											<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold', borderRadius: 30 }}>Retry</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
-							</View>
+							)}
+							</>
 						)}
-						</>
-					)}
 					</Card>
 
 

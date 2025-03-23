@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import axios from 'axios';
+import MapView, { Marker } from 'react-native-maps';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useFocusEffect } from '@react-navigation/native';
 import DbUtils from '../../../../../services/DbUtils';
@@ -10,7 +12,7 @@ import MainStyles from '../../../../../assets/styles/MainStyles';
 import { updBusinessProfile } from '../../../../../services/api_helper';
 import { TopNavBack } from '../../../../../components/TopNavBack';
 import { TabsBusProf } from '../../../../../components/TabsBusProf';
-import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput, Button } from 'react-native';
+import { Linking, SafeAreaView, ScrollView, TouchableOpacity, View, Image, StyleSheet, Alert, ActivityIndicator, TextInput, Switch } from 'react-native';
 import { Layout, Text, Card, Divider, Toggle } from '@ui-kitten/components';
 import { InputLabel } from '../../../../../components/InputLabel';
 import { InputMultiline } from '../../../../../components/InputMultiline';
@@ -21,6 +23,7 @@ import { InputOnly } from '../../../../../components/InputOnly';
 import { InputZip } from '../../../../../components/InputZip';
 import { InputNumpad } from '../../../../../components/InputNumpad';
 import IconMap from '../../../../../assets/images/IconMap';
+import IconGeo from '../../../../../assets/images/IconGeo';
 import Toast from 'react-native-toast-message';
 
 const initialState = {
@@ -45,6 +48,8 @@ const initialState = {
 	businessHours: null,
 	bookingsEnabled: null,
 	bookingsMax: null,
+	gpsLat: null,
+	gpsLng: null
 };
 
 function reducer(state, action) 
@@ -68,8 +73,9 @@ const Edit = (props) =>
 	const [errors, setErrors] = useState({ contactNumber: '', companyName: '', addressOne: '', addressTwo: '', city: '', province: '', businessBio: '' });
 	const [isLoading, setIsLoading] = useState(true);
 	const [hours, setHours] = useState([]);
-	// const [checked, setChecked] = useState(false);
-	// const [max, setMax] = useState('2'); dd
+	const [showGeoSetup, setShowGeoSetup] = useState(false);
+	const [isGeoLocationEnabled, setGeoLocationEnabled] = useState(false);
+	const [gpsCoords, setGpsCoords] = useState(null);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -82,40 +88,48 @@ const Edit = (props) =>
 
 	const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('business_profile')
-		.then((profile) => 
-        {
-			const record = JSON.parse(profile);
-			dispatch(
+        const profile = await DbUtils.getItem('business_profile');
+		
+		// .then((profile) => 
+        // {
+		const record = JSON.parse(profile);
+		dispatch(
+		{
+			type: 'EDIT_BUS_PROFILE',
+			payload: 
 			{
-				type: 'EDIT_BUS_PROFILE',
-				payload: 
-				{
-					businessId: record.id,
-					displayImage: record.display_image,
-					bannerImage: record.banner_image,
-					email: record.email,
-					contactNumber: record.contact_number,
-					companyName: record.company_name,
-					addressOne: record.loc_add_one,
-					addressTwo: record.loc_add_two,
-					city: record.loc_city,
-					province: record.loc_province,
-					zipCode: record.loc_zip_code,
-					businessBio: record.business_bio,
-					xUrl: record.sm_x,
-					instagramUrl: record.sm_inst,
-					facebookUrl: record.sm_fb,
-					linkedinUrl: record.sm_linkedin,
-					wwwUrl: record.sm_www,
-					isLocal: record.is_local,
-					businessHours: JSON.parse(record.business_hours),
-					bookingsEnabled: record.bookings_enabled == 1 ? true : false,
-					bookingsMax: record.bookings_max
-				},
-			});
-			setHours(JSON.parse(record.business_hours));
-        });
+				businessId: record.id,
+				displayImage: record.display_image,
+				bannerImage: record.banner_image,
+				email: record.email,
+				contactNumber: record.contact_number,
+				companyName: record.company_name,
+				addressOne: record.loc_add_one,
+				addressTwo: record.loc_add_two,
+				city: record.loc_city,
+				province: record.loc_province,
+				zipCode: record.loc_zip_code,
+				businessBio: record.business_bio,
+				xUrl: record.sm_x,
+				instagramUrl: record.sm_inst,
+				facebookUrl: record.sm_fb,
+				linkedinUrl: record.sm_linkedin,
+				wwwUrl: record.sm_www,
+				isLocal: record.is_local,
+				businessHours: JSON.parse(record.business_hours),
+				bookingsEnabled: record.bookings_enabled == 1 ? true : false,
+				bookingsMax: record.bookings_max,
+				gpsLat: record.loc_latitude,
+				gpsLng: record.loc_longitude
+			},
+		});
+		setHours(JSON.parse(record.business_hours));
+        // });
+		if (record.loc_latitude && record.loc_longitude)
+		{
+			setGpsCoords({latitude: record.loc_latitude, longitude: record.loc_longitude});
+			setGeoLocationEnabled(true);
+		}
     }
 
 	const getBusniessId = async () => 
@@ -258,7 +272,7 @@ const Edit = (props) =>
 
 			setIsLoading(false);
 		};
-
+console.log('StateL ', state);
 		fetchProfile();
 	}, []);
 
@@ -358,6 +372,8 @@ const Edit = (props) =>
 		await updProfile('business_hours', JSON.stringify(hours));
 		await updProfile('bookings_max', state.bookingsMax);
 		await updProfile('bookings_enabled', state.bookingsEnabled);
+		await updProfile('gps_lat', state.gpsLatitude);
+		await updProfile('gps_lng', state.gpsLongitude);
 		// await updProfile('display_image', state.displayImage);
 		// await updProfile('banner_image', state.bannerImage);
 
@@ -382,6 +398,8 @@ const Edit = (props) =>
 			business_hours: JSON.stringify(hours),
 			bookings_max: state.bookingsMax,
 			bookings_enabled: state.bookingsEnabled,
+			gps_lat: state.gpsLat,
+			gps_lng: state.gpsLng
 		}
 
 		try 
@@ -567,6 +585,119 @@ const Edit = (props) =>
 		Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
 	};
 
+	const getGpsCoordinates = async (address) => 
+	{
+		try 
+		{
+			console.log('Fetching GPS coordinates for address:', address);
+			const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+				params: {
+					q: address,
+					format: 'json',
+					addressdetails: 1,
+					limit: 1,
+				},
+				headers: {
+					'User-Agent': 'Localeyez/1.0 (quintin@moderndaystrategy.com)',
+				},
+			});
+	
+			if (response.data && response.data.length > 0) {
+				const { lat, lon } = response.data[0];
+				state.gpsLat = lat;
+				state.gpsLng = lon;
+				
+				return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+			} else {
+				throw new Error('No results found for the given address.');
+			}
+		} catch (error) {
+			console.error('Error fetching GPS coordinates:', error.message);
+			return null;
+		}
+	};
+
+	const handleShowGeoSetup = () => 
+	{
+		setShowGeoSetup(!showGeoSetup);
+	}
+
+	const handleGetGps = async () => 
+	{
+		const address = `${state.addressOne}+${state.addressTwo}+${state.city}+${state.province}`;
+		const formattedAddress = address.replace(/ /g, '+');
+		console.log('Address: ', formattedAddress);
+		const gpsCoords = await getGpsCoordinates(formattedAddress);
+
+		if (gpsCoords) 
+		{
+			setGpsCoords(gpsCoords);
+			console.log('GPS Coordinates XXXX:', gpsCoords);
+			handleInputChange('gpsLat', gpsCoords.latitude);
+			handleInputChange('gpsLng', gpsCoords.longitude);
+			//state.gpsLat = gpsCoords.latitude;
+			//state.gpsLng = gpsCoords.longitude;
+			console.log('State:', state);
+			console.log('GPS Coordinates:', gpsCoords);
+		} 
+		else 
+		{
+			Alert.alert('Error', 'Unable to fetch GPS coordinates. Please check the address and try again.');
+		}
+	}
+
+	const handleAccept = () => 
+	{
+		console.log('GPSCORDS: ', gpsCoords);
+
+		// Alert.alert(
+		// 	"Success",
+		// 	"GPS coordinates have been saved successfully!",
+		// 	[
+		// 		{
+		// 		text: "Ok",
+		// 		onPress: () => console.log("Accept Pressed"),
+		// 		style: "cancel"
+		// 		}
+		// 	]
+		// );
+
+		// state.zipCode = '4444';
+		// handleInputChange('zipcode', '9999');
+		// handleInputChange('gpsLat', gpsCoords.latitude);
+		// handleInputChange('gpsLng', gpsCoords.longitude);
+		state.gpsLat = gpsCoords.latitude;
+		state.gpsLng = gpsCoords.longitude;
+		console.log('State accept: ', state);
+	}
+
+	const handleRetry = () => 
+	{
+		Alert.alert(
+			"Retry",
+			"Please check that the address you entered is correct and then tap on GET GPS again. If you would like to set this up later, turn off \"Enable Geo-location\".",
+			[
+				{
+				text: "Ok",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel"
+				}
+			]
+		);
+		setGpsCoords(null);
+	}
+
+	const toggleGeoLocation = () => 
+	{
+		setGeoLocationEnabled((previousState) => !previousState);
+		if (isGeoLocationEnabled)
+		{
+			state.gpsLat = null;
+			state.gpsLng = null;
+			setGpsCoords(null);
+		}	
+	};
+
 	if (isLoading) 
 	{
 		return (
@@ -661,12 +792,68 @@ const Edit = (props) =>
 							<View>
 								<InputZip name="zipCode" value={state.zipCode} onChange={handleInputChange} placeholder="Zip Code" mt={5} bg={ '#f2f2f2'} />
 							</View>
-							<View>
+							<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+
 								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 10 }} onPress={() => openMap(state.addressOne, state.addressTwo, state.city, state.province, state.zipCode)}>
-								<IconMap />
+									<IconMap />
 									<Text style={{ color: '#000', fontSize: 14 }}>View on map</Text>
 								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', columnGap: 5, marginTop: 10 }} onPress={handleShowGeoSetup}>
+									<IconGeo />
+									<Text style={{ color: '#000', fontSize: 14 }}>Geo location setup</Text>
+								</TouchableOpacity>
 							</View>
+							{showGeoSetup && 
+								<>
+								<View style={{ height: 1, backgroundColor: '#ccc', marginTop: 10 }} ></View>
+								<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 15 }}>
+									<Text style={{ color: '#000', fontSize: 14, marginRight: 10 }}>Enable Geo-location:</Text>
+									<Switch
+									value={isGeoLocationEnabled}
+									onValueChange={toggleGeoLocation}
+									trackColor={{ false: '#767577', true: '#ccc' }}
+									thumbColor={isGeoLocationEnabled ? '#612bc1' : '#f4f3f4'}
+									/>
+								</View>
+								<View style={{ marginTop: 10 }}>
+									<Label title="GPS Co-ordinates" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+									<InputOnly name="gpsLat" value={state.gpsLat} onChange={handleInputChange} placeholder="GPS Latitude" bg={'#f2f2f2'} />
+									<InputOnly name="gpsLng" value={state.gpsLng} onChange={handleInputChange} placeholder="GPS Longitude" mt={5} bg={'#f2f2f2'} />
+								</View>
+								{isGeoLocationEnabled && (
+									<>
+									<Text style={{ color: '#000', fontSize: 13, marginTop: 15, marginBottom: 15 }}>Tap on "Get GPS co-ordinates" to get the gps co-ordinates of the address you entered above.</Text>
+									<ButtonPrimary name="Get GPS co-ordinates" width="100%" onpress={handleGetGps}/>
+									{gpsCoords && (
+										<View style={{ marginTop: 10 }}>
+											<Text style={{ color: '#000', fontSize: 14, marginBottom: 10 }}>Map Preview:</Text>
+											<MapView
+												style={{ height: 300, width: '100%' }}
+												initialRegion={{
+												latitude: gpsCoords.latitude,
+												longitude: gpsCoords.longitude,
+												latitudeDelta: 0.01,
+												longitudeDelta: 0.01,
+												}}
+												>
+												<Marker coordinate={gpsCoords} title="Business Location" />
+											</MapView>
+
+											<View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', columnGap: 10, marginTop: 10 }}>
+												<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#612bc1', borderRadius: 30 }} onPress={handleAccept}>
+													<Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Accept</Text>
+												</TouchableOpacity>
+												<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flex: 1, height: 60, backgroundColor: '#EFE7FD', borderRadius: 30 }} onPress={handleRetry}>
+													<Text style={{ color: '#612bc1', fontSize: 14, fontWeight: 'bold' }}>Retry</Text>
+												</TouchableOpacity>
+											</View>
+										</View>
+									)}
+									</>
+								)}
+								</>
+								
+							}
 						</Card>
 						{/* Contact number */}
 						<Card style={{ marginBottom: 10 }}>
