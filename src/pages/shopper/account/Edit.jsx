@@ -18,6 +18,7 @@ const initialState = {
 	firstName: null,
 	lastName: null,
 	contactNumber: null,
+	canGetLoc: null
 };
 
 function reducer(state, action) 
@@ -32,6 +33,7 @@ function reducer(state, action)
 }
 
 const radius = [ { label: '5km radius', value: '5' }, { label: '10km radius', value: '10' }, { label: '15km radius', value: '15' }, { label: '20km radius', value: '20' }, { label: '25km radius', value: '25' }, { label: '30km radius', value: '30' }, { label: '35km radius', value: '35' }, { label: '40km radius', value: '40' }, { label: '45km radius', value: '45' }, { label: '50km radius', value: '50' }];
+const allow = [ { label: 'Allow', value: 2 }, { label: 'Deny', value: 1 } ];
 
 const Edit = (props) => 
 {
@@ -79,22 +81,23 @@ const Edit = (props) =>
 
     const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('shopper_profile')
-        .then((profile) => 
-        {
-			dispatch(
+        const profile = await DbUtils.getItem('shopper_profile');
+        // .then((profile) => 
+        // {
+		dispatch(
+		{
+			type: 'EDIT_PROFILE',
+			payload: 
 			{
-				type: 'EDIT_PROFILE',
-				payload: 
-				{
-					email: JSON.parse(profile).email,
-					firstName: JSON.parse(profile).first_name,
-					lastName: JSON.parse(profile).last_name,
-					contactNumber: JSON.parse(profile).contact_number,
-					geoRange: JSON.parse(profile).geo_range
-				},
-			});
-        });
+				email: JSON.parse(profile).email,
+				firstName: JSON.parse(profile).first_name,
+				lastName: JSON.parse(profile).last_name,
+				contactNumber: JSON.parse(profile).contact_number,
+				geoRange: JSON.parse(profile).geo_range,
+				canGetLoc: JSON.parse(profile).can_get_loc
+			},
+		});
+        // });
     }
 
     const updProfile = async (key, newValue) => 
@@ -113,9 +116,11 @@ const Edit = (props) =>
 		{
 			try 
 			{
-				getProfile();
+				await getProfile();
 
 				setIsReady(false);
+
+				console.log('STATEEEEEE: ', state);
 			} 
 			catch (error) 
 			{
@@ -146,6 +151,7 @@ const Edit = (props) =>
         await updProfile('last_name', state.lastName);
         await updProfile('contact_number', state.contactNumber);
         await updProfile('geo_range', state.geoRange);
+        await updProfile('can_get_loc', state.canGetLoc);
 
 		// Send changes to server.
 		const data = {
@@ -257,6 +263,11 @@ const Edit = (props) =>
 							<View style={{ width: '100%', height: 70 }} >
 								<DropdownSingle name="geoRange" data={radius} value={state.geoRange} onChange={handleInputChange} />
 							</View>
+							<Label title="Get current location ?" textalign="left" mb={5} status="basic" fontsize={14} fontweight='bold' />
+							<View style={{ width: '100%', height: 70 }} >
+								<DropdownSingle name="canGetLoc" data={allow} value={state.canGetLoc} onChange={handleInputChange} />
+							</View>
+
 						</Card>
 						<ButtonPrimary name="Submit Changes" width="100%" onpress={validateForm} />
 					</ScrollView>

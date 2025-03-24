@@ -26,6 +26,7 @@ const initialState = {
 	startDate: '',
 	endDate: '',
 	sector: '',
+	canGetLoc: 0
 };
 
 function reducer(state, action) 
@@ -85,36 +86,32 @@ const Home = (props) =>
 
 	const getProfile = async () => 
     {
-        const profile = await DbUtils.getItem('shopper_profile')
-		.then((profile) => 
-        {
-			dispatch(
+        const profile = await DbUtils.getItem('shopper_profile');
+		console.log('MMMMMM Profile: ', profile);
+		// .then((profile) => 
+        // {
+		dispatch(
+		{
+			type: 'SEARCH_HOME',
+			payload: 
 			{
-				type: 'SEARCH_HOME',
-				payload: 
-				{
-					shopperId: JSON.parse(profile).id,
-					location: JSON.parse(profile).geo_range,
-				},
-			});
+				shopperId: JSON.parse(profile).id,
+				location: JSON.parse(profile).geo_range,
+				canGetLoc: JSON.parse(profile).can_get_loc
+			},
 		});
+		// });
     }
 
-	const fetchCanGetLoc = async () => 
+	const updProfile = async (key, newValue) => 
 	{
-		const canGetLoc = await DbUtils.getItem('can_get_loc');
-		if (canGetLoc === null) 
-		{
-			await DbUtils.setItem('can_get_loc', '0');
-			setCanGetLoc(false);
-		} 
-		else 
-		{
-			setCanGetLoc(JSON.parse(canGetLoc));
-		}
+		const profileDataString = await DbUtils.getItem('shopper_profile');
+		const profileData = JSON.parse(profileDataString);
 		
-		setCanGetLoc(JSON.parse(canGetLoc));
-	}
+		profileData[key] = newValue;
+		
+		await DbUtils.setItem('shopper_profile', JSON.stringify(profileData));
+	};
 
 	useEffect(() => 
 	{
@@ -124,7 +121,6 @@ const Home = (props) =>
 		{
 			await getToken();
 			await getProfile()
-			await fetchCanGetLoc();
 		};
 
 		fetchData();
@@ -146,11 +142,25 @@ const Home = (props) =>
 		} 
 		else 
 		{
-			if (canGetLoc == 0) 
+			if (state.canGetLoc == 0) 
 			{
 				setShowAskGetLoc(true);
-				// getCurrentPosition();
+				return;
+				
+			} 
+			else if (state.canGetLoc == 1)
+			{
+				state.location = '';
 			}
+			else 
+			{
+				setIsLoading(true);
+
+				await getCurrentPosition();
+				setIsLoading(false);
+				console.log('Booyaa GPS Lat: ', state.gpsLat, state.gpsLng);
+			}
+
 
 			Keyboard.dismiss();
 			const apiData = {
@@ -241,21 +251,6 @@ const Home = (props) =>
 		setShowCategory(false);
 	}
 	
-	// useEffect(() => 
-	// {
-	// 	if (showTooltip) 
-	// 	{
-	// 		const timer = setTimeout(() => { setShowTooltip(false); }, 1000);
-
-	// 		return () => clearTimeout(timer);
-	// 	}
-	// }, [showTooltip]);
-	  
-	// const handleCloseTooltip = () => 
-	// {
-	// 	setShowTooltip(false);
-	// }
-
 	const handeleViewBusiness = (business) => 
 	{
 		props.navigation.navigate('SearchBusinessView', { business: business });
@@ -321,19 +316,43 @@ const Home = (props) =>
 		}
 	};
 
-	const getCurrentPosition = () => 
+	const getCurrentPosition = async () => 
 	{
 		Geolocation.getCurrentPosition(position => 
 		{
 			const { latitude, longitude } = position.coords;
 			setGpsLat(latitude);
+			state.gpsLat = latitude;
 			setGpsLng(longitude);
+			state.gpsLng = longitude;
 			console.log(latitude, longitude);
 		},
 		  error => console.log(error.message),
 		  { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
 		);
 	};
+
+	const handleGetLocAccept = async () => 
+	{
+		console.log('Accepted');
+		await updProfile('can_get_loc', 2);
+		state.canGetLoc = 2;
+		state.location = 10;
+		console.log('STATE ACCCEPT: ', state);
+		setShowAskGetLoc(false);
+	}
+
+	const handleGetLocDeny = async () => 
+	{
+		console.log('Deny');
+		await updProfile('can_get_loc', 1);
+		await updProfile('geo_range', '');
+		// handleInputChange("canGetLoc", 1);
+		state.canGetLoc = 1;
+		state.location = '';
+		console.log('STATE DENY: ', state);
+		setShowAskGetLoc(false);
+	}
 
 	if (isLoading) 
 	{
@@ -476,20 +495,13 @@ const Home = (props) =>
 						<Text style={[MainStyles.title_a14, { marginTop: 20}]}>Change Geo-Location Radius</Text>
 						<DropdownSingle name="location" data={radius} value={state.location} onChange={handleInputChange} />
 
-						<Text style={[MainStyles.title_a14]}>Current position</Text>
-						<TouchableOpacity onPress={getCurrentPosition}>
-							<Text style={[MainStyles.title_a16, { marginTop: 10, color: '#612bc1' }]}>Click here to get your current position</Text>
-						</TouchableOpacity>
-						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 5 }]}>Latitude: {gpsLat}</Text>
-						<Text style={[MainStyles.title_a14, { marginBottom: 10 }]}>Longitude: {gpsLng}</Text>
+						<ButtonPrimary name="Set" width="100%" marginTop={10} onpress={handleSetLocation}/>
 
-						<Text style={[MainStyles.title_a14, { marginTop: 10, marginBottom: 10 }]}>Please note these co-ordinates are not stored and are only used to fetch results within the selected radius</Text>
-
-						<TouchableOpacity onPress={clearLocation} >
-							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 20, marginBottom: 0 }}>Clear</Text>
+						<TouchableOpacity style={{ marginTop:20, marginBottom: 20 }} onPress={clearLocation} >
+							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 10, marginBottom: 0 }}>Clear</Text>
 						</TouchableOpacity>
 
-						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetLocation}/>
+						
 					</Card>
 				</Modal>
 
@@ -515,11 +527,13 @@ const Home = (props) =>
 						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>Please select a [To Date]:</Text>
 						<DateSelect name="endDate" value={state.endDate} onChange={handleInputChange} />
 
-						<TouchableOpacity onPress={clearDateRange} >
-							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 20, marginBottom: 0 }}>Clear</Text>
+						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetDateRange}/>
+
+						<TouchableOpacity style={{ marginTop:20, marginBottom: 20 }} onPress={clearDateRange} >
+							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 10, marginBottom: 0 }}>Clear</Text>
 						</TouchableOpacity>
 
-						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetDateRange}/>
+						
 					</Card>
 				</Modal>
 
@@ -543,11 +557,13 @@ const Home = (props) =>
 						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>Select a business sector/category</Text>
 						<DropdownSingle name="sector" data={sectorList} value={state.sector} onChange={handleInputChange} />
 
-						<TouchableOpacity onPress={clearSector} >
-							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 20, marginBottom: 0 }}>Clear</Text>
+						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetCategory}/>
+
+						<TouchableOpacity style={{ marginTop:20, marginBottom: 20 }} onPress={clearSector} >
+							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 10, marginBottom: 0 }}>Clear</Text>
 						</TouchableOpacity>
 
-						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetCategory}/>
+						
 					</Card>
 				</Modal>
 				{/* Popup to ask user for permission to get location */}
@@ -560,21 +576,23 @@ const Home = (props) =>
 					<Card disabled={true} style={{ flexGrow: 1, width: '100%', borderRadius: 20 }}>
 						<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0 }}>
 							<TouchableOpacity onPress={() => setShowAskGetLoc(false)} style={{ width: '90%' }}>
-								<Text style={[MainStyles.title_a16]} >Category</Text>
+								<Text style={[MainStyles.title_a16]} >Get current location</Text>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={() => setShowAskGetLoc(false)} >
 								<Icon name="close-outline" width={24} height={24} color="#8F9BB3" opacity={0.3} />
 							</TouchableOpacity>
 						</View>
 						<View style={{ width: '100%', height: 1, backgroundColor: '#DEDDE7', marginTop: 10 }} />
-						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>Select a business sector/category</Text>
-						<DropdownSingle name="sector" data={sectorList} value={state.sector} onChange={handleInputChange} />
+						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>In order to find businesses within the geo range you have selected, your current location is required. </Text>
+						<Text style={[MainStyles.title_a14, { marginTop: 10, marginBottom: 10 }]}>Click "Accept" to allow this or "Deny" if you prefer not to. The aquired gps co-ordinates are not stored or shared and are only used as part of the search criteria.</Text>
+						<Text style={[MainStyles.title_a14, { marginTop: 10, marginBottom: 10 }]}>You can change this setting in your profile settings.</Text>
 
-						<TouchableOpacity onPress={clearSector} >
-							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 20, marginBottom: 0 }}>Clear</Text>
+						<ButtonPrimary name="Accept" width="100%" marginTop={25} onpress={handleGetLocAccept}/>
+
+						<TouchableOpacity style={{ marginTop:20, marginBottom: 20 }} onPress={handleGetLocDeny} >
+							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 10, marginBottom: 0 }}>Deny</Text>
 						</TouchableOpacity>
 
-						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetCategory}/>
 					</Card>
 				</Modal>
 			</Layout>

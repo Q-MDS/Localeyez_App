@@ -509,3 +509,11 @@ https://nominatim.openstreetmap.org/search?15%20Scott%20Street%2C%20Waverley%2C%
    - when creating in signup make = 0, if 0 then show, user accepts set to 1, user declines set geo range to null.
    - if user changes geo-range, popup must show again
    - set in signup, will need to add to server
+
+   NEXT STEPS 25032025 AM
+   1. Edit profile - not saving to server
+   2. Test changing canGetLoc in edit profile on search page
+   3. Check and fix PHP search code
+   4. Start on other finsl snags
+
+   5. LAO - Need to get into the Apple Store
