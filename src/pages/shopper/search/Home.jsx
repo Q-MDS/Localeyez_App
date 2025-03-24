@@ -55,10 +55,12 @@ const Home = (props) =>
 	const [numPromotions, setNumPromotions] = useState(0);
 	const [events, setEvents] = useState([]);
 	const [numEvents, setNumEvents] = useState(0);
-	const [showTooltip, setShowTooltip] = useState(true);
+	// const [showTooltip, setShowTooltip] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
-	const [gpsLat, setGpsLat] = useState('0.0');
-	const [gpsLng, setGpsLng] = useState('0.0');
+	const [canGetLoc, setCanGetLoc] = useState(false);
+	const [gpsLat, setGpsLat] = useState('');
+	const [gpsLng, setGpsLng] = useState('');
+	const [showAskGetLoc, setShowAskGetLoc] = useState(false);
 
 	function handleInputChange(name, newValue) 
 	{
@@ -98,6 +100,22 @@ const Home = (props) =>
 		});
     }
 
+	const fetchCanGetLoc = async () => 
+	{
+		const canGetLoc = await DbUtils.getItem('can_get_loc');
+		if (canGetLoc === null) 
+		{
+			await DbUtils.setItem('can_get_loc', '0');
+			setCanGetLoc(false);
+		} 
+		else 
+		{
+			setCanGetLoc(JSON.parse(canGetLoc));
+		}
+		
+		setCanGetLoc(JSON.parse(canGetLoc));
+	}
+
 	useEffect(() => 
 	{
 		const searchFor = props.route.params.searchFor ? props.route.params.searchFor : '';
@@ -105,7 +123,8 @@ const Home = (props) =>
 		const fetchData = async () => 
 		{
 			await getToken();
-			await getProfile();
+			await getProfile()
+			await fetchCanGetLoc();
 		};
 
 		fetchData();
@@ -127,6 +146,12 @@ const Home = (props) =>
 		} 
 		else 
 		{
+			if (canGetLoc == 0) 
+			{
+				setShowAskGetLoc(true);
+				// getCurrentPosition();
+			}
+
 			Keyboard.dismiss();
 			const apiData = {
 				"shopper_id": state.shopperId,
@@ -142,7 +167,7 @@ const Home = (props) =>
 			try
 			{
 				setIsLoading(true);
-console.log('apidata: ', apiData);
+
 				const res = await shopperSearch(token, apiData);
 				// .then((res) => 
 				// {
@@ -216,20 +241,20 @@ console.log('apidata: ', apiData);
 		setShowCategory(false);
 	}
 	
-	useEffect(() => 
-	{
-		if (showTooltip) 
-		{
-			const timer = setTimeout(() => { setShowTooltip(false); }, 1000);
+	// useEffect(() => 
+	// {
+	// 	if (showTooltip) 
+	// 	{
+	// 		const timer = setTimeout(() => { setShowTooltip(false); }, 1000);
 
-			return () => clearTimeout(timer);
-		}
-	}, [showTooltip]);
+	// 		return () => clearTimeout(timer);
+	// 	}
+	// }, [showTooltip]);
 	  
-	const handleCloseTooltip = () => 
-	{
-		setShowTooltip(false);
-	}
+	// const handleCloseTooltip = () => 
+	// {
+	// 	setShowTooltip(false);
+	// }
 
 	const handeleViewBusiness = (business) => 
 	{
@@ -350,11 +375,11 @@ console.log('apidata: ', apiData);
 					</View>
 				</View>
 
-				{showTooltip && (
+				{/* {showTooltip && (
 				<View style={styles.tooltip}>
 					<Text style={{ color: 'white' }} onPress={handleCloseTooltip}>Search field cannot be empty</Text>
 				</View>
-				)}
+				)} */}
 
 				{/* Tab: Businesses */}
 				<TabView selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex: 1, width: '100%', marginTop: 20 }} >
@@ -511,6 +536,33 @@ console.log('apidata: ', apiData);
 								<Text style={[MainStyles.title_a16]} >Category</Text>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={() => setShowCategory(false)} >
+								<Icon name="close-outline" width={24} height={24} color="#8F9BB3" opacity={0.3} />
+							</TouchableOpacity>
+						</View>
+						<View style={{ width: '100%', height: 1, backgroundColor: '#DEDDE7', marginTop: 10 }} />
+						<Text style={[MainStyles.title_a14, { marginTop: 20, marginBottom: 10 }]}>Select a business sector/category</Text>
+						<DropdownSingle name="sector" data={sectorList} value={state.sector} onChange={handleInputChange} />
+
+						<TouchableOpacity onPress={clearSector} >
+							<Text category="p1" status="primary" style={{ width: '100%', textAlign: 'center', marginTop: 20, marginBottom: 0 }}>Clear</Text>
+						</TouchableOpacity>
+
+						<ButtonPrimary name="Set" width="100%" marginTop={25} onpress={handleSetCategory}/>
+					</Card>
+				</Modal>
+				{/* Popup to ask user for permission to get location */}
+				<Modal
+					visible={showAskGetLoc}
+					backdropStyle={styles.backdrop}
+					onBackdropPress={() => setShowAskGetLoc(false)}
+					style={{ width: '90%' }}
+					>
+					<Card disabled={true} style={{ flexGrow: 1, width: '100%', borderRadius: 20 }}>
+						<View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 0 }}>
+							<TouchableOpacity onPress={() => setShowAskGetLoc(false)} style={{ width: '90%' }}>
+								<Text style={[MainStyles.title_a16]} >Category</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => setShowAskGetLoc(false)} >
 								<Icon name="close-outline" width={24} height={24} color="#8F9BB3" opacity={0.3} />
 							</TouchableOpacity>
 						</View>

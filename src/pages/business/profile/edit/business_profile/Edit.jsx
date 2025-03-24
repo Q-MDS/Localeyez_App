@@ -372,8 +372,8 @@ console.log('StateL ', state);
 		await updProfile('business_hours', JSON.stringify(hours));
 		await updProfile('bookings_max', state.bookingsMax);
 		await updProfile('bookings_enabled', state.bookingsEnabled);
-		await updProfile('gps_lat', state.gpsLatitude);
-		await updProfile('gps_lng', state.gpsLongitude);
+		await updProfile('loc_latitude', state.gpsLat);
+		await updProfile('loc_longitude', state.gpsLng);
 		// await updProfile('display_image', state.displayImage);
 		// await updProfile('banner_image', state.bannerImage);
 

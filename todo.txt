@@ -420,16 +420,19 @@ User sign up:
         - no results caused by 10km radius thingy
 [√] Search function, why two search/next pages for businesses to come up?
     [√] Remove hide search box
+[√?] Instead of the “find what you’re looking for function on homepage
 
-
-
-
-[-] Search :: Is getting old results !!!
-[-] Instead of the “find what you’re looking for function on homepage
-[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
+[-] Shopper: If on search page and the user has geo-range as one of the criteria when user ta[s on search we need to get the current location - show message first. Maybe have an acknowledge checkbox so shows once
+    [-] Confirm the app picks up when the user is in a new location?
 [-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
-[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
 [-] When I search for shopping > clothes and I get a result there is no counter for number of promo or events
+[-] Search :: Is getting old results !!! Events & Promotions...
+
+
+
+
+[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
+[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
 [√] Fix events listing
     [√] Maybe put Starts on 1 line and data on the next etc
     [√] Date and time use "at" between date and time and not a dash
@@ -441,7 +444,7 @@ User sign up:
 [√] Add view on map to Search > Bus > Event ::: Events (is it the same screen)
 [√] Add an option to goto login option screen
 
-[-] Confirm the app picks up when the user is in a new location?
+
 
 [-] With maputil on businesses, we might need to ensure that we have gps coords in order for geo-location shit to work
 
@@ -500,3 +503,9 @@ BACKEND: Disable the code that gets the co-ords and save the passed in co-ords
 
 
 https://nominatim.openstreetmap.org/search?15%20Scott%20Street%2C%20Waverley%2C%20Johannesburg%2C%20Gauteng%2C%202192
+
+1. Get current location everytime you do a search if radius is set
+2. Have async item: acceptGetGps
+   - when creating in signup make = 0, if 0 then show, user accepts set to 1, user declines set geo range to null.
+   - if user changes geo-range, popup must show again
+   - set in signup, will need to add to server
