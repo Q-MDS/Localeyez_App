@@ -358,6 +358,7 @@ const Home = (props) =>
 					{promotions && promotions.length === 0 && (
 						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
 						<TextOne title="No promotions listed" status="basic" />
+						<ButtonPrimary name="Add Promotion" marginTop={15} onpress={handleAddPromo} />
 					</Layout>
 					)}
 					{promotions && promotions.map((record, index) => (

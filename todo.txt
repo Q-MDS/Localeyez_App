@@ -425,15 +425,17 @@ User sign up:
 [√] Shopper: If on search page and the user has geo-range as one of the criteria when user ta[s on search we need to get the current location - show message first. Maybe have an acknowledge checkbox so shows once
     [√] Confirm the app picks up when the user is in a new location?
 [√] When I search for shopping > clothes and I get a result there is no counter for number of promo or events
-[-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
-[-] Search :: Is getting old results !!! Events & Promotions...
-    [-] On backend PHP - on search when getting promo and events pass in $today as well as the id
-
-
-
-
-[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
-[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
+[√] Search :: Is getting old results !!! Events & Promotions...
+    [√] On backend PHP - on search when getting promo and events pass in $today as well as the id
+[√] Add promotion SERVER - get GPS co-ords from business_master    
+[√] Add events SERVER - get GPS co-ords from business_master
+    [√] Test add promo
+    [√] Test add event 
+    [√] Test edit promo
+    [√] Test edit event
+[√] Business profile: promos - only current - dont show old promos
+[√] Business profile: events - only current - dont show old events
+[√] Business profile: If no promos must show add promo button
 [√] Fix events listing
     [√] Maybe put Starts on 1 line and data on the next etc
     [√] Date and time use "at" between date and time and not a dash
@@ -445,9 +447,10 @@ User sign up:
 [√] Add view on map to Search > Bus > Event ::: Events (is it the same screen)
 [√] Add an option to goto login option screen
 
+[-] Share event seems to just open a blank web page on localeyez.net saying “check this event out:6” ?
+[-] Can the fake businesses be taken off before we start to launch the app and get business signed up?
+[-] Can a user with a personal and business page with the same email address seamlessly swith between their profiles?
 
-
-[-] With maputil on businesses, we might need to ensure that we have gps coords in order for geo-location shit to work
 
 
 To Add an item to the shopping Sectors

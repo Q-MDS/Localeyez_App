@@ -222,6 +222,7 @@ const Edit = (props) =>
 
 		const eventData = [{
 			updateId: remoteId,
+			business_id: businessId,
 			sector: state.sector,
 			display_image: state.displayImage,
 			event_title: state.title,
