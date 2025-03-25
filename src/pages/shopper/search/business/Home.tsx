@@ -65,7 +65,9 @@ const Home = (props: any) =>
 	const [business, setBusiness] = useState<any>(props.route.params.business);
 	const [gotPromotions, setGotPromotions] = useState(false);
 	const [promotions, setPromotions] = useState<any>([]);
+	const [numPromotions, setNumPromotions] = useState(0);
 	const [gotEvents, setGotEvents] = useState(false);
+	const [numEvents, setNumEvents] = useState(0);
 	const [events, setEvents] = useState<any>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -89,6 +91,7 @@ const Home = (props: any) =>
 		if (status)
 		{
 			setPromotions(res.promotions);
+			setNumPromotions(res.promotions.length);
 			setGotPromotions(true);
 		} 
 		else 
@@ -107,6 +110,7 @@ const Home = (props: any) =>
 		if (status)
 		{
 			setEvents(res.events);
+			setNumEvents(res.events.length);
 			setGotEvents(true);
 		} 
 		else 
@@ -393,7 +397,7 @@ const Home = (props: any) =>
 				selectedIndex={selectedIndex}
 				onSelect={index => setSelectedIndex(index)}
 				>
-				<Tab title='Promotions'>			
+				<Tab title={`Promotions [${numPromotions}]`}>		
 					<Layout style={[styles.tabContainer, {marginTop: 20}]}>
 						{promotions && promotions.length === 0 && (
 						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >
@@ -449,7 +453,7 @@ const Home = (props: any) =>
 						))}
 					</Layout>
 					</Tab>
-				<Tab title='Events'>
+				<Tab title={`Events [${numEvents}]`}>
 					<Layout style={[styles.tabContainer, {marginTop: 20}]}>
 						{events && events.length === 0 && (
 						<Layout style={{ alignItems: 'center',backgroundColor: 'white', borderRadius: 10, width: '100%', paddingTop: 30, paddingBottom: 30 }} >

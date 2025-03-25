@@ -177,7 +177,7 @@ console.log('Business length: ', businesses.length);
 												<Image source={promotion.display_image ? { uri: promotion.display_image }  : require('../../../assets/images/pic_holder.png') } style={{ width: 62, height: 62, borderRadius: 32 }} />
 											</View>
 											<View style={styles.listContent}>
-												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{promotion.promo_title} </Text>
+												<Text style={[MainStyles.title_a15, { textAlign: 'left', fontWeight: 'bold', color: '#612bc1' }]}>{promotion.promo_title}</Text>
 												<Text style={[MainStyles.title_a13, { textAlign: 'left' }]}>{promotion.promo_desc} </Text>
 											</View>
 										</View>

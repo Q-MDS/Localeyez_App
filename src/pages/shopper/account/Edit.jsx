@@ -94,7 +94,7 @@ const Edit = (props) =>
 				lastName: JSON.parse(profile).last_name,
 				contactNumber: JSON.parse(profile).contact_number,
 				geoRange: JSON.parse(profile).geo_range,
-				canGetLoc: JSON.parse(profile).can_get_loc
+				canGetLoc: parseInt(JSON.parse(profile).can_get_loc)
 			},
 		});
         // });
@@ -120,7 +120,7 @@ const Edit = (props) =>
 
 				setIsReady(false);
 
-				console.log('STATEEEEEE: ', state);
+				console.log('STATEEEEEE222: ', state);
 			} 
 			catch (error) 
 			{
@@ -160,7 +160,8 @@ const Edit = (props) =>
 			first_name: state.firstName,
 			last_name: state.lastName,
 			contact_number: state.contactNumber,
-			geo_range: state.geoRange
+			geo_range: state.geoRange,
+			can_get_loc: state.canGetLoc
 		}
 		const res = await updShopperProfile(token, data);
 		const status = res.status;

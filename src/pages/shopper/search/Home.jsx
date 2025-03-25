@@ -157,63 +157,61 @@ const Home = (props) =>
 				setIsLoading(true);
 
 				await getCurrentPosition();
-				setIsLoading(false);
-				console.log('Booyaa GPS Lat: ', state.gpsLat, state.gpsLng);
-			}
-
-
-			Keyboard.dismiss();
-			const apiData = {
-				"shopper_id": state.shopperId,
-				"search_string": searchString,
-				"location": state.location,
-				"gps_lat": gpsLat,
-				"gps_lng": gpsLng,
-				"start_date": state.startDate,
-				"end_date": state.endDate,
-				"sector": state.sector
-			};
-			
-			try
-			{
+				// console.log('Booyaa GPS Lat: ', state.gpsLat, state.gpsLng);
+				
+				Keyboard.dismiss();
+				const apiData = {
+					"shopper_id": state.shopperId,
+					"search_string": searchString,
+					"location": state.location,
+					"gps_lat": state.gpsLat,
+					"gps_lng": state.gpsLng,
+					"start_date": state.startDate,
+					"end_date": state.endDate,
+					"sector": state.sector
+				};
+				
 				setIsLoading(true);
 
-				const res = await shopperSearch(token, apiData);
-				// .then((res) => 
-				// {
-					if (res.status)
-					{
-						setBusinesses(res.businesses);
-						console.log('ELKELK: ', res.businesses, res.businesses.length);
-						setNumBusinesses(res.businesses.length);
-						setPromotions(res.promotions);
-						setNumPromotions(res.promotions.length);
-						setEvents(res.events);
-						setNumEvents(res.events.length);
-						console.log('res.bus', res.businesses.length);
-						console.log('res.promotions', res.promotions.length);
-						console.log('res.events', res.events.length);
-					} 
-					else 
-					{
-						setBusinesses([]);
-						setNumBusinesses(0);
-						setPromotions([]);
-						setNumPromotions(0);
-						setEvents([]);
-						setNumEvents(0);
-						console.log('Search failed B: ', res.businesses);
-						console.log('Search failed P: ', res.promotions);
-						console.log('Search failed E: ', res.events);
-					}
-				// });
-			} 
-			catch (error)
-			{
-				console.log('Search failed: ', error);
-			}
+				try
+				{
+					const res = await shopperSearch(token, apiData);
+					// .then((res) => 
+					// {
+						if (res.status)
+						{
+							setBusinesses(res.businesses);
+							console.log('ELKELK: ', res.businesses, res.businesses.length);
+							setNumBusinesses(res.businesses.length);
+							setPromotions(res.promotions);
+							setNumPromotions(res.promotions.length);
+							setEvents(res.events);
+							setNumEvents(res.events.length);
+							console.log('res.bus', res.businesses.length);
+							console.log('res.promotions', res.promotions.length);
+							console.log('res.events', res.events.length);
+						} 
+						else 
+						{
+							setBusinesses([]);
+							setNumBusinesses(0);
+							setPromotions([]);
+							setNumPromotions(0);
+							setEvents([]);
+							setNumEvents(0);
+							console.log('Search failed B: ', res.businesses);
+							console.log('Search failed P: ', res.promotions);
+							console.log('Search failed E: ', res.events);
+						}
+					// });
+				} 
+				catch (error)
+				{
+					console.log('Search failed: ', error);
+				}
 
-			setIsLoading(false);
+				setIsLoading(false);
+			}
 		}
 	}
 
