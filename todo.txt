@@ -521,3 +521,7 @@ https://nominatim.openstreetmap.org/search?15%20Scott%20Street%2C%20Waverley%2C%
    4. Start on other final snags
 
    5. LAO - Need to get into the Apple Store
+
+   SNAGLIST 20-2025
+   
+   1. Usr > Search > Shopping >>> Got timeout exceeded (cou;d be because of api change)
