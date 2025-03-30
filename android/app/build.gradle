@@ -83,6 +83,10 @@ android {
         versionCode 9
         versionName "1.8"
     }
+	compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 	// IAP
 	// flavorDimensions "store"
     // productFlavors {
@@ -129,6 +133,8 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
+	implementation 'com.google.android.gms:play-services-maps:18.1.0' // Ensure compatibility
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 	// IAP
 	// amazonImplementation project(path: ':react-native-iap', configuration: 'amazonDebugApiElements')
     // playImplementation project(path: ':react-native-iap', configuration: 'playDebugApiElements')
