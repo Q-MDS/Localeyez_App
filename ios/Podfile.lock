@@ -901,7 +901,7 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - react-native-maps (1.20.1):
+  - react-native-maps (1.13.2):
     - React-Core
   - react-native-safe-area-context (4.9.0):
     - React-Core
@@ -1399,7 +1399,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 585252087d4820b4cd8f2cf80068f6e8f5b72413
   react-native-geolocation: 52795f4d0d1e40a42b020e6063bfaa0c33c8ed6d
   react-native-image-picker: 16b817ac5df3f835fc9d187349e7d9ce8836a260
-  react-native-maps: 9febd31278b35cd21e4fad2cf6fa708993be5dab
+  react-native-maps: 2b5653ba48c4e4ab3ff3d92b44f1fd38fdc888bd
   react-native-safe-area-context: 435f4c13ac75ceed6135382ee77d57d1a5b5b2d6
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
   React-NativeModulesApple: 541d64309a3037060cc416db5c8a63ee5884048e
